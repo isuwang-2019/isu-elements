@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  
+  <title>h2-button demo</title>
+  
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../node_modules/@polymer/iron-icons/iron-icons.js';
+    import '../../node_modules/@polymer/paper-styles/color.js';
+    import '../../h2-button'
+  </script>
+  
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
+    
+    $_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+    </style>
+  </custom-style>`;
+    
+    document.body.appendChild($_documentContainer.content);
+  </script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>Basic h2-button demo</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          h2-button {
+            margin: 10px;
+          }
+          
+          #btn2 {
+            --h2-button: {
+              background: #000;
+            };
+          }
+        </style>
+      </custom-style>
+      
+      <h2-button>Enable</h2-button>
+      <h2-button id="btn" disabled>Disabled</h2-button>
+      <h2-button id="btn1" type="danger">Click</h2-button>
+      <h2-button type="fresh">Click</h2-button>
+      <h2-button type="warning">
+        <iron-icon icon="check"></iron-icon>
+        Link
+      </h2-button>
+      <h2-button size="small">Button</h2-button>
+      <h2-button id="btn2">Button</h2-button>
+      <h2-button size="large">Button</h2-button>
+      <script>
+        const clickHandler = e => alert(e.target.type);
+        btn.onclick = btn1.onclick = btn2.onclick = clickHandler;
+      </script>
+    </template>
+
+  </demo-snippet>
+</div>
+</body>
+</html>

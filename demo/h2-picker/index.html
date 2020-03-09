@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>h2-picker demo</title>
+
+  <script type="text/javascript" src="../../utils/mock_setup.js"></script>
+
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../h2-picker';
+    if (!window.location.href.endsWith("?mock=mockData.js")) {
+      window.location.href = window.location.href + "?mock=mockData.js";
+    }
+  </script>
+
+<script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+
+      #picker6 {
+        --h2-picker-input-width: 170px;
+        --h2-picker-tags-box-width: 180px;
+      }
+
+      h2-picker {
+        margin-bottom: 10px;
+      }
+
+    </style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>支持单选、多选、输入关键字过滤下拉选项</h3>
+  <demo-snippet>
+    <template>
+      <h2-picker id="picker" label="单选" mode="text" text="99" attr-for-value="id" placeholder="请选择"></h2-picker>
+      <h2-picker id="picker1" label="多选" value="1,2,3,4" attr-for-value="id" multi placeholder="请选择" picker-meta='[{"field": "label", "label": "选项"}, {"field": "business", "label": "业务范围"}]'></h2-picker>
+      <script>
+        const items = [
+          {"id": 1, "label": "天猫", "business": "塑料", "tags": ["ksw", "sl"]},
+          {"id": 2, "label": "阿里巴巴", "business": "电商", "tags": ["albb", "ds"]},
+          {"id": 3, "label": "腾讯", "business": "游戏", "tags": ["tx", "yx"]},
+          {"id": 4, "label": "京东", "business": "电商", "tags": ["jd", "ds"]}
+        ];
+
+        const productPickerMeta = [{field: 'category', label: '分类'}, {field: 'designation', label: '牌号'}, {field: 'manufacturerName', label: '生产商'}, {field: 'originCountry', label: '产地'}];
+        const products = [
+          {
+            "id": 1,
+            "category": "PE",
+            "designation": "I26A50UA",
+            "manufacturerId": 1375,
+            "manufacturerName": "印度信诚",
+            "originCountry": "CN"
+          },
+          {
+            "id": 2,
+            "category": "PP",
+            "designation": "S003G",
+            "manufacturerId": 1937,
+            "manufacturerName": "云天化",
+            "originCountry": "CN"
+          },
+          {
+            "id": 3,
+            "category": "PP",
+            "designation": "EPS30R-B",
+            "manufacturerId": 173,
+            "manufacturerName": "延长榆能化",
+            "originCountry": "CN"
+          },
+          {
+            "id": 4,
+            "category": "PP",
+            "designation": "T4401",
+            "manufacturerId": 21,
+            "manufacturerName": "茂名石化",
+            "originCountry": "CN"
+          },
+          {
+            "id": 5,
+            "category": "PE",
+            "designation": "5502A",
+            "manufacturerId": 90,
+            "manufacturerName": "中海壳牌",
+            "originCountry": "CN"
+          }
+        ];
+        picker.attrForLabel = ({category, designation, manufacturerName}) => `${category} | ${designation} | ${manufacturerName}`;
+        picker.shortcutKey = ' ';
+        picker.pickerMeta = productPickerMeta;
+        picker.items = products;
+
+        picker1.attrForLabel = "label";
+        picker1.shortcutKey = ' ';
+        picker1.items = items;
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>支持只读、必填、快捷键属性</h3>
+  <demo-snippet>
+    <template>
+      <h2-picker id="picker3" label="公司" value="1,2,3" attr-for-value="id" multi readonly></h2-picker>
+      <h2-picker id="picker4" label="公司" value="1,2,3" attr-for-value="id" multi required enable-hotkey></h2-picker>
+      <script>
+        const pickerMeta = [{field: 'label', label: '选项'}, {field: 'business', label: '业务范围'}];
+        picker3.pickerMeta = pickerMeta;
+        picker3.items = items;
+        
+        picker4.pickerMeta = pickerMeta;
+        picker4.items = items;
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>修改组件大小</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          #picker5 {
+            width: 250px;
+            height: 70px;
+            line-height: 70px;
+          }
+        </style>
+      </custom-style>
+      <h2-picker id="picker5" label="公司" multi="" attr-for-value="id" value="1,2,3,4,5"></h2-picker>
+      <script>
+        picker5.pickerMeta = pickerMeta;
+        picker5.items = items;
+
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>支持自定义模糊搜索的字段（默认为对所有字段做搜索缓存）</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          #picker6,
+          #picker7 {
+            width: 350px;
+            --h2-label: {
+              width: 120px;
+            }
+          }
+        </style>
+      </custom-style>
+      <h2-picker id="picker6" label="默认" attr-for-value="id"></h2-picker>
+      <h2-picker id="picker7" label="自定义搜索字段" attr-for-value="id"></h2-picker>
+      <script>
+        picker6.pickerMeta = pickerMeta;
+        picker6.items = items;
+
+        picker7.pickerMeta = pickerMeta;
+        picker7.fieldsForIndex = ["business"];
+        picker7.items = items;
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>自定义初始数据源</h3>
+  <demo-snippet>
+    <template>
+      <h2-picker id="picker8" src="/init.do" label="公司" attr-for-value="id"></h2-picker>
+      <script>
+        picker8.pickerMeta = pickerMeta;
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>通过接口搜索数据</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          #picker9 {
+            height: 70px;
+            line-height: 70px;
+          }
+        </style>
+      </custom-style>
+      <h2-picker id="picker9" label="公司" src="/init.do" multi="" attr-for-value="id"></h2-picker>
+      <script>
+        picker9.pickerMeta = pickerMeta;
+        picker9.keywordSearchSrc = JSON.stringify({pageRequest: {limit: "10", start: 0}});
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>键盘快捷键操作</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          #picker10 {
+            height: 70px;
+            line-height: 70px;
+          }
+        </style>
+      </custom-style>
+      <h2-picker id="picker10" label="公司"
+                 src="/api/listProduct"
+                 attr-for-value="id"
+                 keyword-path="request.keyword"
+                 result-path="success.result"
+                 fetch-param='{"request": {"pageRequest": {"limit": 10, "start": 0}}}'>
+      </h2-picker>
+      <p>
+      </p><ul>
+        <li>下拉选择框打开是，键盘UP, DOWN键 切换选项</li>
+        <li>Space 或 Enter 选择选项</li>
+        <li>光标闪烁，且下拉框收起时，DOWN键 可以重新打开下拉框</li>
+        <li>没有输入内容时，Backspace 可删除选中项</li>
+      </ul>
+      <p></p>
+      <script>
+        picker10.pickerMeta = productPickerMeta;
+        picker10.attrForLabel = ({category, designation, manufacturerName}) => `${category} | ${designation} | ${manufacturerName}`;
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+</body>
+</html>

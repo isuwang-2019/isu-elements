@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>h2-image-view demo</title>
+  
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../h2-image-view.js';
+  </script>
+
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+
+      h2-image-view {
+        margin-bottom: 20px;
+      }
+    </style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>Basic h2-image-view demo</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          .seagreen-viewer {
+            --h2-image-upload-button: {
+              background-color: seagreen;
+            }
+          }
+        </style>
+      </custom-style>
+      <h2-image-view src="https://d1.awsstatic.com/product-marketing/Elastic%20Beanstalk/ElasticBeanstalk_Benefit_Productivity.5cd0e6aedfa2e3b2c05ed7f5faeb0fd215c9742b.png"></h2-image-view>
+      <h2-image-view class="seagreen-viewer" src="https://gaopin-preview.bj.bcebos.com/133102233382.jpg@!420"></h2-image-view>
+    </template>
+  </demo-snippet>
+</div>
+</body>
+</html>
