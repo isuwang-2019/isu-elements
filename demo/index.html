@@ -31,6 +31,9 @@
     import '../h2-table';
     import '../h2-textarea';
     import '../h2-tip';
+    import '../h2-form.js';
+    import '../h2-cascading.js'
+    import '../h2-edit-table.js'
   </script>
 
   <script type="module">
@@ -124,16 +127,22 @@
             </template>
           </h2-table-column>
         </h2-table>
-        <h2-textarea label="备注" value="readonly" layout-colspan="2" class="text-box"></h2-textarea>
-        <h2-textarea label="备注" value="disabled" disabled layout-colspan="2" class="text-box"></h2-textarea>
+        <h2-textarea label="备注" value="readonly" layout-colspan="2" layout-rowspan="6" class="text-box"></h2-textarea>
         <h2-textarea label="备注" value="disabled" disabled layout-colspan="2" class="text-box"></h2-textarea>
         <h2-button id="btn1" onclick="tip.open();" size="large">Success</h2-button>
         <h2-button id="btn2" onclick="tip2.open(2000);" size="large">Warn</h2-button>
         <h2-button id="btn3" onclick="tip3.open(5000);" size="large">Error</h2-button>
+        <h2-cascading id="cascading" label="层叠"></h2-cascading>
+
+        <h2-edit-table label="可修改表格"></h2-edit-table>
       </h2-grid-layout>
       <h2-dialog id="dialog" stop-auto-dismiss>
         <div>
           Put your Content here inside an element which with
+        </div>
+        <div>
+          <h2-button id="btn4" dialog-dismiss size="large">关闭</h2-button>
+          <h2-button id="btn5" size="large">确定</h2-button>
         </div>
       </h2-dialog>
       <h2-tip type="success" message="新建成功" id="tip" duration="5000"></h2-tip>
@@ -141,6 +150,25 @@
       <h2-tip type="error" message="出错了：这是一条出错的提示消息, 这是一条出错的提示消息" id="tip3"></h2-tip>
 
       <script>
+        cascading.treeItems = [[
+          {label: "测试1", value: "1",children: [
+              {label: "测试1", value: "1", children: [
+                  {label: "测试1", value: "1"},
+                  {label: "测试2", value: "2"},
+                  {label: "测试3", value: "3"}
+                ]},
+              {label: "测试2", value: "2"},
+              {label: "测试3", value: "3"}
+            ]},
+          {label: "测试2", value: "2",children: [
+              {label: "测试1", value: "1"},
+              {label: "测试2", value: "2"},
+              {label: "测试3", value: "3"}
+            ]},
+          {label: "测试3", value: "3"}
+        ]
+
+        ]
         btnGrp.items = [
           {label: "测试1", value: "1"},
           {label: "测试2", value: "2"},
@@ -153,6 +181,10 @@
           {label: '其它', value: 3}
         ];
         btn.onclick = () => dialog.open();
+
+        btn4.onclick = () => {
+        }
+
         radio2.items = [{id: 1, name: "张三"}, {id: 2, name: "李四水电费"}, {id: 3, name: "王五"}];
         const items11 = [
           {"label": "梅西", "value": 1},

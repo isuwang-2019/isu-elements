@@ -198,7 +198,9 @@ class H2Cascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
               <template is="dom-repeat" items="[[tree]]">
                 <div class$="view-item [[__setViewClass(item.__select)]]" on-click="__viewItemClick">
                   [[getValueByKey(item, attrForLabel)]]
-                  <iron-icon class="chevron-iron" icon="icons:chevron-right"></iron-icon>
+                  <template is="dom-if" if="[[item.children]]">
+                    <iron-icon class="chevron-iron" icon="icons:chevron-right"></iron-icon>
+                  </template>
                 </div>
               </template>
             </div>

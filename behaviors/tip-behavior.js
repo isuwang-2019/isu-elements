@@ -1,3 +1,5 @@
+import '../h2-tip.js'
+
 /**
  * @polymerBehavior
  */
