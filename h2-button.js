@@ -42,7 +42,7 @@ class H2Button extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
     return {
       type: {
         type: String,
-        value: 'primary',
+        value: 'default',
         reflectToAttribute: true
       },
       size: {
@@ -73,8 +73,8 @@ class H2Button extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
         padding: 5px 10px;
         width: 100%;
         height: 100%;
-        color: #fff;
-        background: var(--h2-ui-bg);
+        /*color: #fff;*/
+        /*background: var(--h2-ui-bg);*/
         margin: 0;
         font-weight: normal;
         text-align: center;
@@ -93,6 +93,17 @@ class H2Button extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
       :host([disabled]) .btn {
         background: #aeaeae !important;
         cursor: not-allowed;
+        color: #fff;
+      }
+      
+      :host([round]) .btn {
+        border-radius: 20px;
+        padding: 12px;
+      }
+      
+      :host([circle]) .btn {
+        border-radius: 50%;
+        padding: 12px;
       }
       
       :host(:hover) .btn {
@@ -101,14 +112,26 @@ class H2Button extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
       
       :host([type=danger]) .btn {
         background: var(--h2-ui-red);
+        color: #fff;
+      }
+      
+      :host([type=default]) .btn {
+        border: 1px solid lightgray;
+      }
+      
+      :host([type=primary]) .btn {
+        background: var(--h2-ui-bg);
+        color: #fff;
       }
       
      :host([type=warning]) .btn {
         background: var(--h2-ui-orange);
+        color: #fff;
       }
       
-      :host([type=fresh]) .btn {
+      :host([type=success]) .btn {
         background: var(--h2-ui-green);
+        color: #fff;
       }
       
      :host([size=small]) {

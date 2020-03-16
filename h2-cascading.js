@@ -24,191 +24,201 @@ import './behaviors/h2-elements-shared-styles.js';
 class H2Cascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`
-    <style include="h2-elements-shared-styles">
-      :host {
-        font-family: var(--h2-ui-font-family), sans-serif;
-        font-size: var(--h2-ui-font-size);
-        display: flex;
-        height: 34px;
-        line-height: 34px;
-        min-width: 200px;
-      }
+      <style include="h2-elements-shared-styles">
+        :host {
+          font-family: var(--h2-ui-font-family), sans-serif;
+          font-size: var(--h2-ui-font-size);
+          display: flex;
+          height: 34px;
+          line-height: 34px;
+          min-width: 200px;
+        }
+        
+        .cascading__container {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          line-height: inherit;
+          min-width: 200px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          padding: 2px 5px;
+          position: relative;
+          cursor: pointer;
+        }
+        
+        :host([readonly]) .cascading__container {
+          pointer-events: none;
+          opacity: 0.5;
+          z-index: 10;
+          cursor: no-drop;
+        }
+        
+        #placeholder[hidden] {
+          display: none;
+        }
+  
+        #placeholder {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          color: #999;
+          opacity: 1;
+          padding: 0 6px;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        
+        #targetDialog {
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: inherit;
+        }
+        
+        :host([opened]) .caret {
+          transform: rotate(180deg);
+          transition: transform .2s ease-in-out;
+        }
+        
+        .caret {
+          transition: transform .2s ease-in-out;
+          color: var(--h2-ui-color_skyblue);
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 34px;
+          line-height: 34px;
+        }
+        
+        #boxDialog {
+          position: absolute!important;
+          height: 206px;
+          margin: 0;
+          max-width: initial!important;
+        }
+        
+        .dialog-container {
+          margin: 0;
+          padding: 0;
+          display: flex;
+        }
+        
+        .view-container {
+          flex: 1;
+          height: 206px;
+          min-width: 160px;
+          margin: 0;
+          padding: 8px 0;
+          box-sizing: border-box;
+          border-right: 1px solid #ccc;
+          background: #fff;
+          @apply --h2-view-container;
+        }
+        
+        .view-container:last-of-type {
+          border-right: none;
+        }
+        
+        .view-list {
+          height: 190px;
+          overflow-y: auto;
+        }
+        .view-item {
+          position: relative;
+          padding: 0 12px;
+          height: 30px;
+          line-height: 30px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        .view-item:hover, .view-item-active {
+          color: var(--h2-ui-color_skyblue);
+          font-weight: bold;
+        }
+        .chevron-iron {
+          position: absolute;
+          right: 0;
+          height: 30px;
+          line-height: 30px;
+        }
+        :host([required]) .cascading__container::before {
+          content: "*";
+          color: red;
+          position: absolute;
+          left: -10px;
+          line-height: inherit;
+        }
+        
+        :host([data-invalid]) .cascading__container {
+          border-color: var(--h2-ui-color_pink);
+        }
+        
+        .icon-clear {
+          position: absolute;
+          right: 5px;
+          width: 12px;
+          height: 12px;
+          line-height: 34px;
+          border: 1px solid #ccc;
+          border-radius: 50%;
+          color: #ccc;
+          display: none;
+        }
+        
+        .cascading__container:hover .icon-clear {
+          display: inline-block;
+        }
+        .cascading__container:hover .caret {
+          display: none;
+        }
+      </style>
       
-      .cascading__container {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        line-height: inherit;
-        min-width: 200px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 2px 5px;
-        position: relative;
-        cursor: pointer;
-      }
+      <template is="dom-if" if="[[ toBoolean(label) ]]">
+        <div class="h2-label">[[label]]</div>
+      </template>
       
-      :host([readonly]) .cascading__container {
-        pointer-events: none;
-        opacity: 0.5;
-        z-index: 10;
-        cursor: no-drop;
-      }
-      
-      #placeholder[hidden] {
-        display: none;
-      }
-
-      #placeholder {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        color: #999;
-        opacity: 1;
-        padding: 0 6px;
-        overflow: hidden;
-        white-space: nowrap;
-      }
-      
-      #targetDialog {
-        position: absolute;
-        bottom: -5px;
-        left: 0;
-        width: inherit;
-      }
-      
-      :host([opened]) .caret {
-        transform: rotate(180deg);
-        transition: transform .2s ease-in-out;
-      }
-      
-      .caret {
-        transition: transform .2s ease-in-out;
-        color: var(--h2-ui-color_skyblue);
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 34px;
-        line-height: 34px;
-      }
-      
-      #boxDialog {
-        position: absolute!important;
-        height: 206px;
-        margin: 0;
-        max-width: initial!important;
-      }
-      
-      .dialog-container {
-        margin: 0;
-        padding: 0;
-        display: flex;
-      }
-      
-      .view-container {
-        flex: 1;
-        height: 206px;
-        min-width: 160px;
-        margin: 0;
-        padding: 8px 0;
-        box-sizing: border-box;
-        border-right: 1px solid #ccc;
-        background: #fff;
-        @apply --h2-view-container;
-      }
-      
-      .view-container:last-of-type {
-        border-right: none;
-      }
-      
-      .view-list {
-        height: 190px;
-        overflow-y: auto;
-      }
-      .view-item {
-        position: relative;
-        padding: 0 12px;
-        height: 30px;
-        line-height: 30px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-      }
-      .view-item:hover, .view-item-active {
-        color: var(--h2-ui-color_skyblue);
-        font-weight: bold;
-      }
-      .chevron-iron {
-        position: absolute;
-        right: 0;
-        height: 30px;
-        line-height: 30px;
-      }
-      :host([required]) .cascading__container::before {
-        content: "*";
-        color: red;
-        position: absolute;
-        left: -10px;
-        line-height: inherit;
-      }
-      
-      :host([data-invalid]) .cascading__container {
-        border-color: var(--h2-ui-color_pink);
-      }
-      
-      .icon-clear {
-        position: absolute;
-        right: 5px;
-        width: 12px;
-        height: 12px;
-        line-height: 34px;
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        color: #ccc;
-        display: none;
-      }
-      
-      .cascading__container:hover .icon-clear {
-        display: inline-block;
-      }
-      .cascading__container:hover .caret {
-        display: none;
-      }
-    </style>
-    
-    <template is="dom-if" if="[[ toBoolean(label) ]]">
-      <div class="h2-label">[[label]]</div>
-    </template>
-    
-    <div class="cascading__container" on-click="_onInputClick">
-      <div id="placeholder">[[placeholder]]</div>
-      <div class="box-value">[[valueLabel]]</div>
-      <iron-icon class="caret" icon="icons:expand-more"></iron-icon>
-      <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
-      <div id="targetDialog">
+      <div class="cascading__container" on-click="_onInputClick">
+        <div id="placeholder">[[placeholder]]</div>
+        <div class="box-value">[[showLabel]]</div>
+        <iron-icon class="caret" icon="icons:expand-more"></iron-icon>
+        <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
+        <div id="targetDialog">
+        </div>
       </div>
-    </div>
-    
-    <paper-dialog id="boxDialog" no-overlap horizontal-align="auto" vertical-align="auto" on-iron-overlay-closed="__cancelClick">
-      <div class="dialog-container">
-        <template is="dom-repeat" items="{{treeItems}}" as="tree" index-as="treeIndex">
-          <div class="view-container">
-            <div class="view-list">
-              <template is="dom-repeat" items="[[tree]]">
-                <div class$="view-item [[__setViewClass(item.__select)]]" on-click="__viewItemClick">
-                  [[getValueByKey(item, attrForLabel)]]
-                  <template is="dom-if" if="[[item.children]]">
-                    <iron-icon class="chevron-iron" icon="icons:chevron-right"></iron-icon>
+      
+      <paper-dialog id="boxDialog" no-overlap horizontal-align="auto" vertical-align="auto" on-iron-overlay-closed="__cancelClick">
+        <div class="dialog-container">
+          <template is="dom-repeat" items="{{treeItems}}" as="tree" index-as="treeIndex">
+            <div class="view-container">
+              <div class="view-list">
+                <template is="dom-repeat" items="[[tree]]">
+                  <template is="dom-if" if="[[__isHover(expandTrigger)]]">
+                    <div class$="view-item [[__setViewClass(item.__select)]]" on-mouseover="__viewItemClick">
+                      [[getValueByKey(item, attrForLabel)]]
+                      <template is="dom-if" if="[[item.children]]">
+                        <iron-icon class="chevron-iron" icon="icons:chevron-right"></iron-icon>
+                      </template>
+                    </div>
                   </template>
-                </div>
-              </template>
+                  <template is="dom-if" if="[[!__isHover(expandTrigger)]]">
+                    <div class$="view-item [[__setViewClass(item.__select)]]" on-click="__viewItemClick">
+                      [[getValueByKey(item, attrForLabel)]]
+                      <template is="dom-if" if="[[item.children]]">
+                        <iron-icon class="chevron-iron" icon="icons:chevron-right"></iron-icon>
+                      </template>
+                    </div>
+                  </template>
+                </template>
+              </div>
             </div>
-          </div>
-        </template>
-      </div>
-    </paper-dialog>
-`;
+          </template>
+        </div>
+      </paper-dialog>
+    `;
   }
 
   static get properties() {
@@ -283,6 +293,27 @@ class H2Cascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       readonly: {
         type: Boolean,
         value: false
+      },
+      /**
+       * 次级菜单的展开方式(click/hover)
+       * */
+      expandTrigger: {
+        type: String,
+        value: 'click'
+      },
+      /**
+       * 输入框中是否显示选中值的完整路径, 如果为false则显示最后一层路径
+       * */
+      showAllLevels: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * 显示在输入框中的值
+       * */
+      showLabel: {
+        type: String,
+        notify: true
       }
     };
   }
@@ -294,7 +325,7 @@ class H2Cascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
   __valueChanged(value) {
     !this.validate() ? this.setAttribute("data-invalid", "") : this.removeAttribute("data-invalid");
     if (this.treeItems && this.treeItems.length && !this.lazy && value) {
-      let treeItems = [].concat(this.treeItems), selectedValues = [];
+      let treeItems = [].concat(this.treeItems), selectedValues = []
       value.forEach((item, index) => {
         const findIndex = treeItems[index].findIndex(itm => itm[this.attrForValue] === item);
         treeItems[index][findIndex].__select = true;
@@ -304,7 +335,9 @@ class H2Cascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.set('selectedValues', selectedValues);
       this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator));
       this.set('treeItems', treeItems);
-      this.$.placeholder.hidden = this.valueLabel;
+      let lastLevelValue = (selectedValues.length > 0 && selectedValues[selectedValues.length-1][this.attrForLabel]) || ''
+      this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
+      this.$.placeholder.hidden = lastLevelValue
     }
   }
 
@@ -321,7 +354,9 @@ class H2Cascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.set('selectedValues', selectedValues);
       this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator));
       this.set('treeItems', treeItems);
-      this.$.placeholder.hidden = this.valueLabel;
+      let lastLevelValue = selectedValues.length && selectedValues[selectedValues.length-1][this.attrForLabel]
+      this.$.placeholder.hidden = lastLevelValue
+      this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
     }
   }
 
@@ -355,7 +390,9 @@ class H2Cascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.set('value', selectedValues.map(itm => itm[this.attrForValue]));
     }
     this.set('treeItems', treeItems);
-    this.$.placeholder.hidden = this.valueLabel;
+    let lastLevelValue = selectedValues.length && selectedValues[selectedValues.length-1][this.attrForLabel]
+    this.$.placeholder.hidden = lastLevelValue
+    this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
   }
 
   close() {
@@ -364,8 +401,22 @@ class H2Cascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   clear(e) {
     e.stopPropagation();
+    let treeItems = [].concat(this.treeItems)
+    const chosedStrs = this.valueLabel.split(this.separator)
+    if (chosedStrs) {
+      chosedStrs.forEach((str, index)=> {
+        const findIndex = treeItems[index].findIndex(item=> item[this.attrForLabel] === str)
+        delete treeItems[index][findIndex].__select
+      })
+    }
+    // 解决清空选项之后层级表里面还有选中的选项的样式的问题
+    Array.prototype.forEach.call(this.root.querySelectorAll('.view-item'), function (item) {
+      item.classList.remove('view-item-active')
+    })
     this.set('value', []);
     this.set('valueLabel', null);
+    this.set('treeItems', treeItems);
+
   }
 
   /**
@@ -374,6 +425,10 @@ class H2Cascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   validate() {
     return this.required ? this.value && this.value.length : true;
+  }
+
+  __isHover(expandTrigger) {
+    return expandTrigger === 'hover'
   }
 
   static get is() {

@@ -72,21 +72,36 @@ class H2GridLayout extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get properties() {
     return {
+      /**
+       * 列数量
+       * */
       columns: {
         type: Number,
         value: 4
       },
+      /**
+       * 列间隔
+       * */
       columnGap: {
         type: Number,
         value: 20
       },
+      /**
+       * 行间隔
+       * */
       rowGap: {
         type: Number,
         value: 20
       },
+      /**
+       * 部分定宽
+       * */
       templateColumns: {
         type: String
       },
+      /**
+       * 是否可折叠
+       * */
       accordion: {
         type: Boolean
       },

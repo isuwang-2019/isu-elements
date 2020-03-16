@@ -49,6 +49,18 @@
           #btn2 {
             --h2-button: {
               background: #000;
+              color: white
+            };
+          }
+          #btn3 {
+            --h2-button: {
+              width: 80px;
+            };
+          }
+          #btn4 {
+            --h2-button: {
+              width: 40px;
+              height: 40px;
             };
           }
         </style>
@@ -56,15 +68,18 @@
       
       <h2-button>Enable</h2-button>
       <h2-button id="btn" disabled>Disabled</h2-button>
-      <h2-button id="btn1" type="danger">Click</h2-button>
-      <h2-button type="fresh">Click</h2-button>
+      <h2-button id="btn1" type="danger">danger</h2-button>
+      <h2-button type="success">success</h2-button>
+      <h2-button type="primary">primary</h2-button>
       <h2-button type="warning">
         <iron-icon icon="check"></iron-icon>
-        Link
+        warning
       </h2-button>
-      <h2-button size="small">Button</h2-button>
-      <h2-button id="btn2">Button</h2-button>
-      <h2-button size="large">Button</h2-button>
+      <h2-button size="small">small</h2-button>
+      <h2-button id="btn2">自定义</h2-button>
+      <h2-button size="large">large</h2-button>
+      <h2-button id="btn3" round>圆形按钮</h2-button>
+      <h2-button id="btn4" circle><iron-icon icon="check"></iron-icon></h2-button>
       <script>
         const clickHandler = e => alert(e.target.type);
         btn.onclick = btn1.onclick = btn2.onclick = clickHandler;

@@ -77,6 +77,14 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         flex: 1;
       }
       
+      :host([divided]) .trigger__label::after {
+        width: 2px;
+        border-right: 1px solid lightgray;
+        content: '|';
+        color: transparent;
+        float: right;
+      }
+      
       /*下拉列表*/
       :host .dropdown-menu {
         position: fixed;
@@ -105,8 +113,10 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
 
       .item, ::slotted(*) {
+        display: block;
         cursor: pointer;
-        line-height: 30px;
+        margin: 0px;
+        line-height: 20px;
         white-space: nowrap;
         font-size: 0.9em;
         text-align: center;
@@ -128,17 +138,42 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         transition: transform .2s ease-in-out
       }
       
+      :host([size=small]) {
+        width: 90px;
+        height: 30px;
+      }
+      
+      :host([size=medium]) {
+        width: 120px;
+        height: 35px;
+      }
+     
+     :host([size=large]) {
+        width: 150px;
+        height: 40px;
+     }
+     
+     :host([disabled]) {
+        cursor: not-allowed;
+        color: #fff;
+      }
+     .item([disabled]) {
+       background: #aeaeae !important;
+       cursor: not-allowed;
+       color: #fff;
+     }
+      
     </style>
     
-    <h2-button class="trigger" on-mouseover="toggle" on-mouseout="close">
+    <h2-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]">
       <div class="trigger__label">[[ label ]]</div>
       <iron-icon class="trigger__icon" icon="icons:expand-more"></iron-icon>
     </h2-button>
-
-    <iron-collapse id="collapse" on-mouseover="toggle" on-mouseout="close" class="dropdown-menu" opened="[[ opened ]]" on-click="_onButtonDropdownClick">
+    
+    <iron-collapse id="collapse" on-mouseover="toggle" on-mouseout="close" disabled="[[disabled]]" class="dropdown-menu" opened="[[ opened ]]" on-click="_onButtonDropdownClick">
       <div class="container">
-       <template is="dom-repeat" items="[[ items ]]">
-         <div class="item" bind-item="[[ item ]]">[[ getValueByKey(item, attrForLabel, 'Unknown') ]]</div>
+       <template is="dom-repeat" items="[[ items ]]" filter="_hasPermission">
+         <paper-button class="item" bind-item="[[ item ]]" disabled="[[item.disabled]]">[[ getValueByKey(item, attrForLabel, 'Unknown') ]]</paper-button>
        </template>
        <slot id="itemSlot"></slot>
       </div>
@@ -148,6 +183,14 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
   
   static get properties() {
     return {
+      /**
+       * Size of the action group button.options:small/medium/large.Default option:medium
+       * */
+      size: {
+        type: String,
+        value: 'medium',
+        reflectToAttribute: true
+      },
       /**
        * Label of the action group.
        */
@@ -187,6 +230,17 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       onItemClick: {
         type: Object
+      },
+      disabled: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * The items will hide when user clicks one item
+       * */
+      hideOnClick: {
+        type: Boolean,
+        value: false
       }
     };
   }
@@ -220,19 +274,22 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * Toggle the group.
    */
   toggle(e) {
-    const {top, left} = this.getElemPos(this);
-    const collapseHeight = (this.items || []).length * 30 + 2;
-    const totalHeight = top + collapseHeight;
-    let _top;
-    if(totalHeight > document.documentElement.clientHeight) {
-      _top = top - collapseHeight - 4;
-    } else {
-      _top = top + this.clientHeight;
+    if (!this.disabled) {
+      const {top, left} = this.getElemPos(this);
+      const collapseHeight = (this.items || []).length * 30 + 2;
+      const totalHeight = top + collapseHeight;
+      let _top;
+      if(totalHeight > document.documentElement.clientHeight) {
+        _top = top - collapseHeight - 4;
+      } else {
+        _top = top + this.clientHeight;
+      }
+      this.$.collapse.style.top = _top + 'px';
+      this.$.collapse.style.left = left + 'px';
+      this.$.collapse.style.width = this.clientWidth + 'px';
+      this.opened = !this.opened;
     }
-    this.$.collapse.style.top = _top + 'px';
-    this.$.collapse.style.left = left + 'px';
-    this.$.collapse.style.width = this.clientWidth + 'px';
-    this.opened = !this.opened;
+
   }
   
   getElemPos(obj) {
@@ -243,7 +300,19 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _onButtonDropdownClick(e) {
     const target = e.target,
       bindItem = e.target.bindItem || e.target.getAttribute('bind-item');
+
+    if (this.hideOnClick) {
+      this.opened = false;
+    }
     this.dispatchEvent(new CustomEvent('item-click', {detail: {target, bindItem}}));
+  }
+
+  /**
+   * 是否有权限
+   * */
+  _hasPermission(item) {
+    const permission = 'permission' in item
+    return !permission || (permission && item['permission'])
   }
 }
 

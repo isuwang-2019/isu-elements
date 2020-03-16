@@ -30,9 +30,9 @@ $_documentContainer.innerHTML = `<custom-style>
         }
       }
 
-      h2-button-group {
-        width: 180px;
-      }
+      /*h2-button-group {*/
+        /*width: 180px;*/
+      /*}*/
 
     </style>
   </custom-style>`;
@@ -45,9 +45,36 @@ document.body.appendChild($_documentContainer.content);
   <h3>Basic h2-button-group demo</h3>
   <demo-snippet>
     <template>
+      <h2-button-group id="btnGrpSmall" label="测试小" size="small"></h2-button-group>
+      <script>
+        btnGrpSmall.items = [
+          {label: "测试1", value: "1"},
+          {label: "测试2", value: "2"},
+          {label: "测试3", value: "3"}
+        ]
+      </script>
+
       <h2-button-group id="btnGrp" label="测试"></h2-button-group>
       <script>
         btnGrp.items = [
+          {label: "测试1", value: "1"},
+          {label: "测试2", value: "2", disabled: true},
+          {label: "测试3", value: "3"}
+        ]
+      </script>
+
+      <h2-button-group id="btnGrpLarge" label="测试大" size="large" divided></h2-button-group>
+      <script>
+        btnGrpLarge.items = [
+          {label: "测试1", value: "1", permission: true},
+          {label: "测试2", value: "2", permission: false},
+          {label: "测试3", value: "3"}
+        ]
+      </script>
+
+      <h2-button-group id="btnGrpDisable" label="测试禁用" disabled></h2-button-group>
+      <script>
+        btnGrpDisable.items = [
           {label: "测试1", value: "1"},
           {label: "测试2", value: "2"},
           {label: "测试3", value: "3"}
@@ -59,7 +86,7 @@ document.body.appendChild($_documentContainer.content);
   <h3>Bind click handler</h3>
   <demo-snippet>
     <template>
-      <h2-button-group id="btnGrp2" label="测试" attr-for-label="name"></h2-button-group>
+      <h2-button-group id="btnGrp2" label="测试" attr-for-label="name" hide-on-click></h2-button-group>
       <script>
         btnGrp2.items = [
           {name: "测试1", value: "1"},
