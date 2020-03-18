@@ -87,6 +87,15 @@ class H2ImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerE
           @apply --h2-image-upload-buttons;
         };
       }
+      
+       .toolbar h2-button.h2-button-view {
+        height: 26px;
+        width: 72px;
+        --h2-button: {
+          background-color: #5cb85c;
+          @apply --h2-image-upload-button;
+        }
+      }
 
       #viewer-dialog {
         display: flex;
@@ -133,6 +142,16 @@ class H2ImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerE
       :host(:not([data-has-src])) #img__container {
         cursor: default;
       }
+      :host([size=small]) #inner-container {
+        width: var(--h2-image-upload-width, 100px);
+        height: var(--h2-image-upload-height, 128px);
+      }
+       
+      :host([size=large]) #inner-container {
+        width: var(--h2-image-upload-width, 170px);
+        height: var(--h2-image-upload-height, 218px);
+      }
+      
       
     </style>
 
@@ -147,9 +166,14 @@ class H2ImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerE
         </div>
 
         <div class="toolbar">
-          <h2-button title="点击选择文件" on-click="_triggerChooseFile">选择</h2-button>
-          <h2-button id="cancel-btn" type="warning" on-click="cancelSelection">取消</h2-button>
+          <template is="dom-if" if="[[__isEdit(type)]]">
+            <h2-button title="点击选择文件" on-click="_triggerChooseFile">选择</h2-button>
+            <h2-button id="cancel-btn" type="warning" on-click="cancelSelection">取消</h2-button>
+          </template>
           <input type="file" on-change="_chooseFile" id="file-chooser" accept$="[[accept]]">
+          <template is="dom-if" if="[[!__isEdit(type)]]">
+            <h2-button class="h2-button-view" on-click="openViewZoom">查看大图</h2-button>
+          </template>
         </div>
         <div class="mask"></div>
       </div>
@@ -224,6 +248,13 @@ class H2ImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerE
       accept: {
         type: String,
         value: 'image/gif, image/jpeg, image/png'
+      },
+      /**
+       * 模式：edit/view
+       * */
+      type: {
+        type: String,
+        value: 'edit'
       }
     };
   }
@@ -261,7 +292,9 @@ class H2ImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerE
     ele.addEventListener('paste', dragHandler, false);
   }
   
-  
+  __isEdit(type) {
+    return type === 'edit'
+  }
   __srcChanged(src) {
     const style = this.$["img__container"].style;
     const viewerStyle = this.$['viewer-img'].style;

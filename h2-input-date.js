@@ -332,6 +332,8 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <template is="dom-if" if="[[ isOneOf(type, 'datetime') ]]">
           <div class="box-datetime">
             <h2-select class="datetime" placeholder="选择日期时间" items="[[startDateTimeList]]" value="{{value}}"></h2-select>
+            <h2-select class="datetime" placeholder="选择日期时间" items="[[startDateTimeList]]" value="{{value}}"></h2-select>
+            <h2-select class="datetime" placeholder="选择日期时间" items="[[startDateTimeList]]" value="{{value}}"></h2-select>
           </div>
         </template>
         <div class="date-header">

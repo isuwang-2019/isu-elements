@@ -72,13 +72,21 @@ class H2CheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
         --paper-checkbox-checked-color: var(--h2-ui-color_skyblue);
       }
       
+      :host([border]) .checkbox-item {
+        border: 1px solid lightgray;
+        padding: 7px 13px;
+        border-radius: 4px;
+      }
       
+      :host([border]) .checkbox-item[checked] {
+        border: 1px solid var(--h2-ui-color_skyblue);
+      }
       
     </style>
     <div class="h2-label">[[label]]</div>
     <div id="checkbox-container">
       <template is="dom-repeat" items="[[ _items ]]">
-        <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
+        <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
           [[ getValueByKey(item, attrForLabel) ]]
         </paper-checkbox>
       </template>
@@ -156,6 +164,18 @@ class H2CheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
       required: {
         type: Boolean,
         value: false
+      },
+      /**
+       * 可选项目数量的限制，最少可选
+       * */
+      min: {
+        type: Number
+      },
+      /**
+       * 可选项目数量的限制，最多可选
+       * */
+      max: {
+        type: Number
       }
     };
   }
@@ -172,8 +192,25 @@ class H2CheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
   
   __computedInnerItems(items = [], value = "") {
     const values = this.__parseValues(value);
-    return items.map(item =>
-      Object.assign({}, item, {checked: values.some(val => val === item[this.attrForValue] + '')}));
+    const selectValues = value.split(',')
+    const _items = items.map(item =>
+      Object.assign({}, item, {checked: values.some(val => val === item[this.attrForValue] + '')}))
+    if (this.min) {
+      if (selectValues.length <= this.min && selectValues.length > 0) {
+        _items.forEach(item => {
+          if (!!item.checked) item.disabled = true
+        })
+      }
+    }
+    if (this.max) {
+      if (selectValues.length >= this.max) {
+        _items.forEach(item => {
+          if (!item.checked) item.disabled = true
+        })
+      }
+    }
+    this.set('_items', _items)
+    return _items;
   }
   
   __checkedChangeHandler() {
@@ -186,6 +223,7 @@ class H2CheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
    */
   __valueChanged(value = "", items = []) {
     const values = this.__parseValues(value);
+
     this.selectedValues = items.filter(item => values.some(val => val === item[this.attrForValue] + ''));
   }
   

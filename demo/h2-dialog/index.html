@@ -50,7 +50,7 @@ document.body.appendChild($_documentContainer.content);
           --h2-dialog-height: 80px;
         }
       </style>
-      <h2-dialog id="dialog" stop-auto-dismiss>
+      <h2-dialog id="dialog" stop-auto-dismiss top="12" left="30">
         <div>
           Put your Content here inside an element which with
         </div>
@@ -88,6 +88,34 @@ document.body.appendChild($_documentContainer.content);
         btn1.onclick = () => dialog1.open();
       </script>
     
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>打开弹框时禁止body滚动</h3>
+  <demo-snippet>
+    <template>
+      <style is="custom-style">
+        div[slot=container] {
+          font-size: 20px;
+        }
+
+        #dialog1 {
+          --h2-dialog-width: 400px;
+          --h2-dialog-height: 100px;
+        }
+      </style>
+      <h2-dialog id="dialogLock" stop-auto-dismiss no-cancel-on-outside-click lock-scroll>
+        <div>
+          Put your Content here inside an element which with
+        </div>
+      </h2-dialog>
+      <button id="lockScroll">Click to open the Dialog</button>
+      <script>
+        lockScroll.onclick = () => dialogLock.open();
+      </script>
+
     </template>
   </demo-snippet>
 </div>

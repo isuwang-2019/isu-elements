@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <link rel="stylesheet" href="/utils/jedate/skin/jedate.css">
+  <link rel="stylesheet" href="/utils/jedate/skin/jeDate-test.css">
+  <title>h2-input-date demo</title>
+  
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../h2-input-jedate'
+  </script>
+  
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
+    
+    $_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+
+      h2-input-date {
+        margin-bottom: 10px;
+      }
+    </style>
+  </custom-style>`;
+    
+    document.body.appendChild($_documentContainer.content);
+  </script>
+</head>
+<body>
+<h3>基本用法</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style is="custom-style">
+          .input-date {
+            --h2-label: {
+              width: 120px;
+            }
+          }
+          .multi {
+            width: 340px;
+          }
+        </style>
+      </custom-style>
+      <h2-input-jedate class="input-date multi" label="年选择" format="YYYY" placeholder="YYYY" required></h2-input-jedate>
+      <h2-input-jedate class="input-date multi" label="年月选择" format="YYYY-MM" placeholder="YYYY-MM"></h2-input-jedate>
+      <h2-input-jedate class="input-date multi" label="年月日选择" format="MM-DD-YYYY" placeholder="MM-DD-YYYY"></h2-input-jedate>
+      <h2-input-jedate class="input-date multi" label="年月日时分秒选择" festival min="1900-01-01" max="2099-12-31"
+                       format="YYYY-MM-DD hh:mm:ss" placeholder="YYYY-MM-DD hh:mm:ss"></h2-input-jedate>
+      <h2-input-jedate class="input-date multi" label="时分秒选择" format="hh:mm:ss"
+                       min="01:02:08" max="15:25:35" placeholder="hh:mm:ss"></h2-input-jedate>
+    </template>
+  </demo-snippet>
+
+<h3>英文语言</h3>
+<demo-snippet>
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        .input-date {
+          --h2-label: {
+            width: 120px;
+          }
+        }
+        .multi {
+          width: 340px;
+        }
+      </style>
+    </custom-style>
+    <h2-input-jedate class="input-date multi" label="年月日选择" format="YYYY-MM-DD" placeholder="YYYY-MM-DD" language="en"></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" label="年月日时分秒" format="YYYY-MM-DD hh:mm:ss" placeholder="YYYY-MM-DD hh:mm:ss" language="en"></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" label="时分秒选择" format="hh:mm:ss" placeholder="hh:mm:ss" language="en"></h2-input-jedate>
+
+  </template>
+</demo-snippet>
+
+<h3>自定义主题色</h3>
+<demo-snippet>
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        .input-date {
+          --h2-label: {
+            width: 120px;
+          }
+        }
+        .multi {
+          width: 340px;
+        }
+      </style>
+    </custom-style>
+    <h2-input-jedate class="input-date multi" id="testBlue" label="蓝色主题" format="YYYY-MM-DD hh:mm:ss" theme
+                     placeholder="YYYY-MM-DD hh:mm:ss"></h2-input-jedate>
+    <script>
+      testBlue.theme = {bgcolor:'#00A1CB',pnColor:'#00CCFF'}
+    </script>
+    <h2-input-jedate class="input-date multi" id="testYellow" label="黄色主题" format="YYYY-MM-DD hh:mm:ss" placeholder="YYYY-MM-DD hh:mm:ss"></h2-input-jedate>
+    <script>
+      testYellow.theme = {bgcolor:"#CBA900",pnColor:"#FCCD00"}
+    </script>
+    <h2-input-jedate class="input-date multi" id="testRed" label="红色主题" format="YYYY-MM-DD hh:mm:ss" placeholder="YYYY-MM-DD hh:mm:ss"></h2-input-jedate>
+    <script>
+      testRed.theme = {bgcolor:"#D91600",pnColor:"#FF6653"}
+    </script>
+  </template>
+</demo-snippet>
+
+<h3>区域范围选择</h3>
+<demo-snippet>
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        .input-date {
+          --h2-label: {
+            width: 120px;
+          }
+        }
+        .multi {
+          width: 340px;
+        }
+      </style>
+    </custom-style>
+    <h2-input-jedate class="input-date multi" label="年范围选择" format="YYYY" placeholder="YYYY" range=" ~ "></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" label="年月范围选择" format="YYYY-MM" placeholder="YYYY-MM" range=" To "></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" label="日范围选择" format="YYYY-MM-DD" placeholder="YYYY-MM-DD" range=" 至 "></h2-input-jedate>
+  </template>
+</demo-snippet>
+
+<h3>区域范围双面板选择</h3>
+<demo-snippet>
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        .input-date {
+          --h2-label: {
+            width: 120px;
+          }
+        }
+        .multi {
+          width: 340px;
+        }
+      </style>
+    </custom-style>
+    <h2-input-jedate class="input-date multi" id="multiPane1" label="年范围选择" format="YYYY" placeholder="YYYY" range=" ~ " multi-pane="false"></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" id="multiPane2" label="年月范围选择" format="YYYY-MM" placeholder="YYYY-MM" range=" To " ></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" id="multiPane3" label="日范围选择" format="YYYY-MM-DD" placeholder="YYYY-MM-DD" range=" 至 " ></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" id="multiPane4" label="日时分秒范围选择" format="YYYY-MM-DD hh:mm:ss" placeholder="YYYY-MM-DD hh:mm:ss" range=" ~ "></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" id="multiPane5" label="时分秒范围选择" format="hh:mm:ss" placeholder="hh:mm:ss" range=" To "></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" id="multiPane6" label="时分范围选择" format="hh:mm" placeholder="hh:mm" range=" 至 "></h2-input-jedate>
+    <script>
+      multiPane1.multiPane = false
+      multiPane2.multiPane = false
+      multiPane3.multiPane = false
+      multiPane4.multiPane = false
+      multiPane5.multiPane = false
+      multiPane6.multiPane = false
+    </script>
+  </template>
+</demo-snippet>
+
+<h3>自定义格式选择</h3>
+<demo-snippet>
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        .input-date {
+          --h2-label: {
+            width: 120px;
+          }
+        }
+        .multi {
+          width: 340px;
+        }
+      </style>
+    </custom-style>
+    <h2-input-jedate class="input-date multi" label="自定义格式" format="YYYY年MM月DD日" placeholder="YYYY年MM月DD日"></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" label="自定义格式" format="MM-DD-YYYY" placeholder="MM-DD-YYYY"></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" label="自定义格式" format="DD/MM/YYYY" placeholder="DD/MM/YYYY"></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" id="multiPane7" label="自定义格式（双面板）" format="DD/MM/YYYY" placeholder="DD/MM/YYYY" range=" 至 " multi-pane="false"></h2-input-jedate>
+    <script>
+      multiPane7.multiPane = false
+    </script>
+  </template>
+</demo-snippet>
+
+<h3>其它功能展示选择</h3>
+<demo-snippet>
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        .input-date {
+          --h2-label: {
+            width: 120px;
+          }
+        }
+        .multi {
+          width: 340px;
+        }
+      </style>
+    </custom-style>
+    <h2-input-jedate class="input-date multi" label="默认初始赋值" format="YYYY-MM-DD" placeholder="YYYY年MM月DD日" isinit-val></h2-input-jedate>
+    <h2-input-jedate class="input-date multi" label="只读" format="YYYY年MM月DD日" placeholder="YYYY年MM月DD日" bind-data="1517760000000" readonly></h2-input-jedate>
+  </template>
+</demo-snippet>
+
+</body>
+</html>

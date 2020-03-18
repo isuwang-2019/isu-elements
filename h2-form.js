@@ -30,8 +30,8 @@ import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 
 import {BaseBehavior} from "./behaviors/base-behavior";
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-
 import './h2-fetch.js';
+import schema from 'async-validator';
 
 /**
  * @customElement
@@ -41,42 +41,42 @@ import './h2-fetch.js';
 class H2Form extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`
-    <style>
-      :host {
-        display: block;
-        font-family: var(--h2-ui-font-family), sans-serif;
-        font-size: var(--h2-ui-font-size);
-      }
-
-      #title {
-        @apply --h2-form-title;
-      }
-
-      .container {
-        display: grid;
-        grid-template-columns: 45% 45%;
-        grid-column-gap: 10px;
-        grid-row-gap: 10px;
-        @apply --h2-form;
-      }
-
-      .btns {
-        margin: 20px;
-        display: flex;
-        justify-content: flex-end;
-        @apply --h2-form-button;
-      }
-    </style>
-    <h2 id="title">[[title]]</h2>
-
-    <div class="container">
-      <slot id="form-fields"></slot>
-    </div>
-    <div class="btns">
-      <slot name="form-btn"></slot>
-    </div>
-    <h2-fetch id="fetch" handle-response-as="[[handleResponseAs]]"></h2-fetch>
-`;
+      <style>
+        :host {
+          display: block;
+          font-family: var(--h2-ui-font-family), sans-serif;
+          font-size: var(--h2-ui-font-size);
+        }
+  
+        #title {
+          @apply --h2-form-title;
+        }
+  
+        .container {
+          display: grid;
+          grid-template-columns: 45% 45%;
+          grid-column-gap: 10px;
+          grid-row-gap: 10px;
+          @apply --h2-form;
+        }
+  
+        .btns {
+          margin: 20px;
+          display: flex;
+          justify-content: flex-end;
+          @apply --h2-form-button;
+        }
+      </style>
+      <h2 id="title">[[title]]</h2>
+  
+      <div class="container">
+        <slot id="form-fields"></slot>
+      </div>
+      <div class="btns">
+        <slot name="form-btn"></slot>
+      </div>
+      <h2-fetch id="fetch" handle-response-as="[[handleResponseAs]]"></h2-fetch>
+  `;
   }
 
   static get properties() {
@@ -121,12 +121,26 @@ class H2Form extends mixinBehaviors([BaseBehavior], PolymerElement) {
       novalidate: {
         type: Boolean,
         value: false
+      },
+      /**
+       * 校验规则
+       */
+      rule: {
+        type: Object
       }
     };
   }
 
+  static get observers() {
+    return ['_ruleChanged(rule)']
+  }
+
   static get is() {
     return "h2-form";
+  }
+  _ruleChanged(rule) {
+    const validator = new schema(rule)
+    // validator.validate()
   }
 
   connectedCallback() {

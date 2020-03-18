@@ -176,12 +176,40 @@ class H2Dialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       opened: {
         type: Boolean,
         reflectToAttribute: true
+      },
+      /**
+       * 距顶端的距离
+       * */
+      top: {
+        type: Number
+      },
+      /**
+       * 距左边的距离
+       * */
+      left: {
+        type: Number
+      },
+      /**
+       * 是否在 Dialog 出现时将 body 滚动锁定
+       * */
+      lockScroll: {
+        type: Boolean,
+        value: false
       }
     };
   }
 
+  static get observers() {
+    return ['_positionChanged(top, left)']
+  }
+
   static get is() {
     return "h2-dialog";
+  }
+
+  _positionChanged(top, left) {
+    if (top) this.$.dialog.style.top = `${top}px`
+    if (left) this.$.dialog.style.left = `${left}px`
   }
 
   connectedCallback() {
@@ -224,6 +252,7 @@ class H2Dialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
   open() {
     this.style.display = 'flex';
     this.$.dialog.open();
+    if (this.lockScroll ) document.body.style['overflow-y'] = 'hidden'
   }
 
   /**
@@ -232,6 +261,7 @@ class H2Dialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
   close() {
     this.style.display = 'none';
     this.$.dialog.close();
+    if (this.lockScroll) document.body.style['overflow-y'] = 'auto'
   }
 
   openedChanged({detail: {value}}) {
