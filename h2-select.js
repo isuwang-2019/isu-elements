@@ -130,6 +130,7 @@ class H2Select extends mixinBehaviors([BaseBehavior], PolymerElement) {
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
+        @apply --h2-select-tag-name;
       }
 
       .tag-deleter {

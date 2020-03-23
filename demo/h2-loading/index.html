@@ -11,6 +11,9 @@
     import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet';
     import '../../h2-loading';
+    import '../../h2-button';
+    import '../../h2-table';
+    import '../../h2-table-column';
   </script>
   <!---->
 </head>
@@ -19,7 +22,174 @@
   <h3>Basic h2-loading demo</h3>
   <demo-snippet>
     <template>
-      <h2-loading opened></h2-loading>
+      <h2-button id="btn">自定义背景</h2-button>
+      <h2-loading id="loading" background="rgba(0, 0, 0, 0.8)"></h2-loading>
+      <script>
+        var clickHandler = e => {
+          loading.opened = true
+          setTimeout(e=> {
+            loading.opened = false
+          }, 2000)
+        };
+        btn.onclick = clickHandler;
+      </script>
+
+      <h2-button id="btn2">默认</h2-button>
+      <h2-loading id="loading2"></h2-loading>
+      <script>
+        var clickHandler = e => {
+          loading2.opened = true
+          setTimeout(e=> {
+            loading2.opened = false
+          }, 2000)
+        };
+        btn2.onclick = clickHandler;
+      </script>
+
+      <h2-button id="btn3">加载文字</h2-button>
+      <h2-loading id="loading3" text="加载中..."></h2-loading>
+      <script>
+        var clickHandler = e => {
+          loading3.opened = true
+          setTimeout(e=> {
+            loading3.opened = false
+          }, 2000)
+        };
+        btn3.onclick = clickHandler;
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>Loading需要覆盖的DOM节点</h3>
+  <demo-snippet>
+    <template>
+      <style>
+        #table {
+          width: 300px;
+          position: relative;
+        }
+        h2-loading :host {
+          position: fixed;
+          top: 0;
+          left: 0;
+          background: white;
+          opacity: 0.7;
+          width: 100%;
+          height: 100%;
+          z-index: 9999;
+          display: flex;
+          /*position: absolute;*/
+        }
+        .loading-container {
+          width: 80px;
+          height: 80px;
+          margin: auto;
+          border-radius: 6px;
+          display: flex;
+          position: relative;
+        }
+
+        svg {
+          margin: auto;
+        }
+        svg path,
+        svg rect{
+          fill: var(--h2-ui-color_skyblue);
+        }
+
+        .span-text {
+          position: absolute;
+          bottom: 0px;
+          text-align: center;
+          display: inline-block;
+          width: 100%;
+          font-size: 12px;
+          font-family: 微软雅黑;
+          letter-spacing: 1px;
+          color: #61B3F4;
+        }
+      </style>
+      <h2-button id="btn4">局部加载</h2-button>
+      <h2-loading id="loading4" text="加载中..." background="rgba(0, 0, 0, 0.8)" target="h2-table" style="display: none"></h2-loading>
+      <h2-table id="table" tooltip>
+        <script>
+          var clickHandler = e => {
+            table.querySelector('h2-loading').opened = true
+            setTimeout(e=> {
+              table.querySelector('h2-loading').opened = false
+            }, 2000)
+          };
+          btn4.onclick = clickHandler;
+        </script>
+        <h2-table-column prop="sex" label="性别" width="100" type="expand"  model-as="user">
+          <template>
+            <style>
+              .ext-container {
+                display: flex;
+                width: 550px;
+              }
+              .ext-container > div {
+                width: 250px;
+              }
+            </style>
+            <div class="ext-container">
+              <div>姓名：[[user.name]]</div>
+              <div>sex: [[user.sex]]</div>
+              <div>phone: [[user.phone]]</div>
+            </div>
+          </template>
+        </h2-table-column>
+        <h2-table-column prop="name" label="名称" width="100" sortable></h2-table-column>
+        <h2-table-column prop="phone" label="电话号码" width="160" sortable default-value="--" cell-style="text-align: right;color:red;"></h2-table-column>
+        <h2-table-column prop="phone" label="操作" width="300" type="operate" model-as="user">
+          <template>
+            <template is="dom-if" if="[[ isEqual(user.name, 'Wahson') ]]">
+              <h2-button class="action-bar" on-click="view">[[global.lookup]]</h2-button>
+            </template>
+
+            <template is="dom-if" if="[[ user.modify ]]">
+              <h2-button class="action-bar" on-click="modify">[[global.modify]]</h2-button>
+            </template>
+
+            <template is="dom-if" if="[[ user.actions ]]">
+              <h2-button-group label="[[global.more]]">
+                <template is="dom-repeat" items="[[user.actions]]" as="action">
+                  <div on-click="more">[[action]]</div>
+                </template>
+              </h2-button-group>
+            </template>
+
+          </template>
+        </h2-table-column>
+      </h2-table>
+      <script>
+        table.view = ({model}) => {
+          console.log("view", model.user);
+        };
+
+        table.modify = ({model}) => {
+          console.log("modify", model.user);
+        };
+
+        table.more = (e) => {
+          console.log(e.model.action, e.model.parentModel.user);
+        };
+
+        table.global = {
+          lookup: "查看",
+          modify: "修改",
+          more: "更多"
+        };
+
+        table.data = [
+          {sex: '男', name: 'Wahson', phone: '12341111116', modify: true},
+          {sex: '女', name: 'Rose', actions:['more']},
+          {sex: '女', name: 'Lucy', phone: '12390'},
+          {sex: '男', name: 'James', phone: '12326'},
+          {sex: '男', name: 'Cat', phone: '12349'},
+          {sex: '男', name: 'Apple', phone: '1211111111345', modify: true, actions:['more', 'more1']}
+        ]
+      </script>
     </template>
   </demo-snippet>
 </div>

@@ -27,6 +27,7 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/iron-input';
 import '@polymer/iron-icon';
+import '@polymer/iron-icons';
 import '@polymer/iron-icons/social-icons';
 
 import {BaseBehavior} from "./behaviors/base-behavior";
@@ -177,7 +178,36 @@ class H2Input extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host([data-invalid]) #innerInput {
         border-color: var(--h2-ui-color_pink);
       }
-
+      .clear {
+        width: 12px;
+        padding: 0 5px;
+        z-index: 1;
+        position: absolute;
+        right: 5px;
+      }
+      .icon-clear {
+        width: 12px;
+        height: 12px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        color: #ccc;
+        display: none;
+      }
+      :host([clearable]) .input__container:hover .icon-clear {
+        display: inline-block;
+      }
+      :host .iron-input {
+        position: relative;
+      }
+      .icon-password {
+        width: 14px;
+        height: 14px;
+        color: #ccc;
+        display: none;
+      }
+       :host([show-password]) .input__container:hover .icon-password {
+        display: inline-block;
+      }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
        <div class="h2-label">[[label]]</div>
@@ -188,8 +218,25 @@ class H2Input extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <template is="dom-if" if="[[prefixUnit]]">
         <div class="prefix-unit input-unit">[[prefixUnit]]</div>
       </template>
-      <iron-input bind-value="{{value}}" id="input">
-        <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]" maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
+      <iron-input bind-value="{{value}}" id="input" class="iron-input">
+        <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]" rows$="[[rows]]"
+            maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
+        <div class="clear">
+          <template is="dom-if" if="[[ isExistTruthy(value) ]]">
+            <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
+          </template>
+        </div>
+        <div class="clear">
+          <template is="dom-if" if="[[ isExistTruthy(value) ]]">
+            <template is="dom-if" if="[[ togglePassword ]]">
+              <iron-icon class="icon-password" icon=icons:visibility on-click="showPassword"></iron-icon>
+            </template>
+            <template is="dom-if" if="[[ !togglePassword ]]">
+              <iron-icon class="icon-password" icon=icons:visibility-off on-click="showPassword"></iron-icon>
+            </template>
+          </template>
+         
+        </div>
       </iron-input>
       <template is="dom-if" if="[[suffixUnit]]">
         <div class="suffix-unit input-unit">[[suffixUnit]]</div>
@@ -317,6 +364,15 @@ class H2Input extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       prompt: {
         type: String
+      },
+
+      rows: {
+        type: Number
+      },
+
+      togglePassword: {
+        type: Boolean,
+        value: false
       }
     };
   }
@@ -376,6 +432,17 @@ class H2Input extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
     return valid;
   }
+
+  clear(e) {
+    e.stopPropagation();
+    this.value = '';
+  }
+
+  showPassword (e) {
+    this.togglePassword = !this.togglePassword
+    this.$.innerInput.type = this.togglePassword ? 'text' : 'password'
+  }
+
 }
 
 window.customElements.define(H2Input.is, H2Input);

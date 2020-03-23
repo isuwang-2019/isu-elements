@@ -106,6 +106,11 @@ class H2Pagination extends PolymerElement {
         --h2-select-tag-deleter: {
           display: none;
         }
+        
+        --h2-label: {
+           width: 100px;
+           font-size: 12px;
+        }
       }
       
       .page-count {
@@ -114,31 +119,67 @@ class H2Pagination extends PolymerElement {
         text-align: center;
       }
       
+      :host([size=small]) .pagination > *{
+        font-size: 12px;
+        padding: 0px;
+      }
+      :host([size=small]) li > div {
+        padding: 0 4px;
+      }
+      :host([size=small]) .size-selector {
+        width: 80px;
+        --h2-select-tag-name: {
+          font-size: 12px;
+        }
+      }
+      :host([size=mini]) .pagination > *{
+        font-size: 12px;
+        padding: 0px;
+      }
+      :host([size=mini]) li > div {
+        padding: 0 2px;
+      }
+      :host([size=mini]) .size-selector {
+        width: 78px;
+        --h2-select-tag-name: {
+          font-size: 12px;
+        }
+      }
+      :host([size=mini]) #inner-input {
+        width: 30px;
+      }
+      :host([size=mini]) iron-icon {
+        width: 20px;
+      }
     </style>
     <ul class="pagination">
       <li>
-        <div on-click="first" id="first"><iron-icon icon="icons:first-page"></iron-icon>第一页</div>
+        <div on-click="first" id="first"><iron-icon icon="icons:first-page"></iron-icon><template is="dom-if" if="[[!isMini(size)]]">第一页</template></div>
       </li>
       <li>
-        <div on-click="prev" id="prev"><iron-icon icon="icons:chevron-left"></iron-icon>上一页</div>
+        <div on-click="prev" id="prev"><iron-icon icon="icons:chevron-left"></iron-icon><template is="dom-if" if="[[!isMini(size)]]">上一页</template></div>
       </li>
-      <li>
-        <div on-click="next" id="next">下一页<iron-icon icon="icons:chevron-right"></iron-icon></div>
-      </li>
+     
       <li>
         <div>第 <input id="inner-input" value="{{ __pageIndex::input }}" type="number" maxlength="10" min="1">
-          页&nbsp;&nbsp;&nbsp;&nbsp;共 <div class="page-count">[[ totalPageSize ]]</div>页
+          页
         </div>
       </li>
-      <!--<li>-->
-        <!--<div on-click="last" id="last">最后一页</div>-->
-      <!--</li>-->
-      <li>
-        <div>共[[ total ]]条</div>
+       <li>
+        <div on-click="next" id="next"><template is="dom-if" if="[[!isMini(size)]]">下一页</template><iron-icon icon="icons:chevron-right"></iron-icon></div>
+      </li>
+       <li>
+        <div on-click="last" id="last"><template is="dom-if" if="[[!isMini(size)]]">最后一页</template><iron-icon icon="icons:last-page"></iron-icon></div>
       </li>
       <li>
-        <h2-select class="size-selector" value="{{ __limit }}" items="[[ __pageSize ]]"></h2-select>
+        <div>共 <div class="page-count">[[ totalPageSize ]]</div>页 [[ total ]] 条</div>
       </li>
+      <template is="dom-if" if="[[!hidePageSelect]]">
+        <li>
+          <h2-select class="size-selector" value="{{ __limit }}" items="[[ __pageSize ]]"></h2-select>
+        </li>
+      </template>
+      
     </ul>
 `;
   }
@@ -167,6 +208,20 @@ class H2Pagination extends PolymerElement {
         type: Number,
         value: 0
       },
+
+      size: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Total count.
+       * @type {boolean}
+       * @default false
+       */
+      hideOnSinglePage: {
+        type: Boolean,
+        value: false
+      },
       
       /**
        * Total page sizes
@@ -174,6 +229,14 @@ class H2Pagination extends PolymerElement {
       totalPageSize: {
         type: Number,
         computed: '_calTotalPageSize(total, limit)'
+      },
+
+      /**
+       * Whether or not show the page select items
+       */
+      hidePageSelect: {
+        type: Boolean,
+        value: false
       },
       
       pageSizes: {
@@ -210,9 +273,9 @@ class H2Pagination extends PolymerElement {
   static get observers() {
     return [
       '_pageIndexChanged(__pageIndex)',
-      '__limitChanged(__limit)'
+      '__limitChanged(__limit)',
+      '_totalChanged(total)'
       // '_pageStartChanged(start)',
-      // '_limitChanged(limit)'
     ];
   }
   
@@ -227,6 +290,12 @@ class H2Pagination extends PolymerElement {
       if (oldStart !== undefined) {
         this.dispatchEvent(new CustomEvent("start-changed", {detail: {value: start}}));
       }
+    }
+  }
+
+  _totalChanged(total) {
+    if (total <=1 && this.hideOnSinglePage) {
+      this.style.display = 'none'
     }
   }
   
@@ -289,7 +358,10 @@ class H2Pagination extends PolymerElement {
   last() {
     this.__pageIndex = this.totalPageSize;
   }
-  
+
+  isMini(size) {
+    return size === 'mini'
+  }
 }
 
 window.customElements.define(H2Pagination.is, H2Pagination);

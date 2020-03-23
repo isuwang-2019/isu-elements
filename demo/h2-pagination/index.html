@@ -70,5 +70,93 @@ document.body.appendChild($_documentContainer.content);
   </demo-snippet>
 </div>
 
+<div class="vertical-section-container centered">
+  <h3>不同尺寸</h3>
+  <demo-snippet>
+    <template>
+      <h3>size=normal</h3>
+      <h2-pagination id="pageNormal" total="5000" start="0" limit="20"></h2-pagination>
+      <script>
+        pageNormal.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        pageNormal.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+      <h3>size=small</h3>
+      <h2-pagination id="page2" total="5000" start="0" limit="20" size="small"></h2-pagination>
+      <script>
+        page2.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        page2.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+      <h3>size=mini</h3>
+      <h2-pagination id="page3" total="5000" start="0" limit="20" size="mini" hide-page-select></h2-pagination>
+      <script>
+        page2.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        page2.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>只有一页的时候是否隐藏</h3>
+  <demo-snippet>
+    <template>
+      <h3>不隐藏</h3>
+      <h2-pagination id="pageSingle1" total="1" start="0" limit="20"></h2-pagination>
+      <script>
+        pageNormal.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        pageNormal.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+      <h3>隐藏</h3>
+      <h2-pagination id="pageSingle2" total="1" start="0" limit="20" hide-on-single-page></h2-pagination>
+      <script>
+        pageSingle2.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        pageSingle2.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>是否显示条数选择</h3>
+  <demo-snippet>
+    <template>
+      <h2-pagination id="pageSelect" total="5000" start="0" limit="20" hide-page-select></h2-pagination>
+      <script>
+        pageSelect.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        pageSelect.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+    </template>
+  </demo-snippet>
+</div>
 </body>
 </html>

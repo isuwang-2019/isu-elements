@@ -21,249 +21,277 @@ import throttle from 'lodash-es/throttle';
 class H2Picker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`
-    <style include="h2-elements-shared-styles">
-      :host {
-        display: flex;
-        height: 32px;
-        line-height: 32px;
-        width: var(--h2-picker-width, 300px);
-        font-family: var(--h2-ui-font-family), sans-serif;
-        font-size: var(--h2-ui-font-size);
-        position: relative;
-        box-sizing: border-box;
-      }
-
-      .input-wrap {
-        flex: 1;
-        position: relative;
-        display: flex;
-      }
-
-      .input-container {
-        flex: 1;
-        display: flex;
-        width: 100%;
-      }
-
-      #keywordInput {
-        flex: 1;
-        min-width: 10px;
-        font-size: 14px;
-        height: 22px;
-        line-height: 22px;
-        padding: 0;
-        margin: 2px;
-
-        border: none;
-        outline: none;
-        @apply --h2-picker-input;
-      }
-
-      /*标签容器*/
-      .tags-input {
-        flex: 1;
-
-        display: flex;
-        flex-wrap: wrap;
-        align-content: flex-start;
-
-        background: #FFF;
-        padding: 2px;
-        overflow-y: auto;
-
-        border: 1px solid #CCC;
-        border-radius: 4px;
+      <style include="h2-elements-shared-styles">
+        :host {
+          display: flex;
+          height: 32px;
+          line-height: 32px;
+          width: var(--h2-picker-width, 300px);
+          font-family: var(--h2-ui-font-family), sans-serif;
+          font-size: var(--h2-ui-font-size);
+          position: relative;
+          box-sizing: border-box;
+        }
+  
+        .input-wrap {
+          flex: 1;
+          position: relative;
+          display: flex;
+        }
+  
+        .input-container {
+          flex: 1;
+          display: flex;
+          width: 100%;
+        }
+  
+        #keywordInput {
+          flex: 1;
+          min-width: 10px;
+          font-size: 14px;
+          height: 22px;
+          line-height: 22px;
+          padding: 0;
+          margin: 2px;
+  
+          border: none;
+          outline: none;
+          @apply --h2-picker-input;
+        }
+  
+        /*标签容器*/
+        .tags-input {
+          flex: 1;
+  
+          display: flex;
+          flex-wrap: wrap;
+          align-content: flex-start;
+  
+          background: #FFF;
+          padding: 2px;
+          overflow-y: auto;
+  
+          border: 1px solid #CCC;
+          border-radius: 4px;
+          position: relative;
+          
+        }
         
-      }
+        .tags-input::-webkit-scrollbar {
+          display: none;
+        }
+        
+        .tag {
+          color: #fff;
+          background: var(--h2-ui-bg);
+          border-radius: 4px;
+  
+          margin: 2px;
+          padding: 0 4px;
+          height: 22px;
+          line-height: 22px;
+          /*max-width: calc(var(--h2-picker-width)- 30px);*/
+  
+          display: flex;
+          font-size: 14px;
+          white-space: nowrap;
+          cursor: default;
+          @apply --h2-picker-tag;
+        }
+  
+        .tag-name {
+          flex: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+  
+        .tag-deleter {
+          margin-left: 6px;
+          width: 18px;
+          color: #fff;
+          cursor: pointer;
+          @apply --h2-select-tag-deleter;
+        }
+  
+        .tag-deleter:hover {
+          color: var(--h2-ui-red);
+        }
+  
+        #picker-collapse {
+          display: flex;
+          position: fixed;
+          /*top: 100%;*/
+          width: 100%;
+          margin-top: 1px;
+          border-radius: 4px;
+          font-size: 12px;
+          z-index: 100;
+          padding: 0;
+          background: white;
+          color: black;
+  
+          visibility: visible;
+          opacity: 1;
+          /*transition: all 150ms ease-in;*/
+  
+          @apply --h2-picker-dropdown;
+        }
+  
+        #picker-collapse[hidden] {
+          visibility: hidden;
+          height: 0;
+          opacity: 0;
+        }
+  
+        /*显示下拉面板*/
+        :host .show {
+          opacity: 1;
+          visibility: visible;
+        }
+  
+        .collapse-content__table {
+          width: 100%;
+          font-size: 12px;
+          background-color: #ffffff;
+          border-collapse: separate;
+          border-spacing: 0;
+          text-align: left;
+          border-radius: 4px;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        }
+  
+        .collapse-table__cell {
+          white-space: nowrap;
+          padding: 6px 10px;
+          line-height: 1.42857143;
+          border-bottom: 1px solid #ddd;
+        }
+  
+        th.collapse-table__cell {
+          padding-top: 12px;
+          font-size: 1.1em;
+        }
+  
+        tbody > tr:hover {
+          background: var(--h2-ui-bg);
+          color: #fff;
+          cursor: pointer;
+        }
+  
+        tr.candidate-item--focus {
+          background: var(--h2-ui-bg) !important;
+          color: #fff;
+        }
+  
+        .table-hotkey {
+          width: 40px;
+        }
+        
+        #placeholder[hidden] {
+          display: none;
+        }
+  
+        #placeholder {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          color: #999;
+          opacity: 1;
+          padding: 0 6px;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+  
+        :host([required]) .input-wrap::before {
+          content: "*";
+          color: red;
+          position: absolute;
+          left: -10px;
+          line-height: inherit;
+        }
+        
+        :host([data-invalid]) .tags-input {
+          border-color: var(--h2-ui-color_pink);
+        }
+        :host([show-all]) {
+          height: auto
+        }
+        
+        .clear {
+          width: 12px;
+          padding: 0 5px;
+          z-index: 1;
+          position: absolute;
+          right: 5px;
+        }
+        .icon-clear {
+          width: 12px;
+          height: 12px;
+          border: 1px solid #ccc;
+          border-radius: 50%;
+          color: #ccc;
+          display: none;
+        }
+        :host([clearable]) .input-wrap:hover .icon-clear {
+          display: inline-block;
+        }
+      </style>
+      <template is="dom-if" if="[[ toBoolean(label) ]]">
+         <div class="h2-label">[[label]]</div>
+      </template>
       
-      .tags-input::-webkit-scrollbar {
-        display: none;
-      }
-      
-      .tag {
-        color: #fff;
-        background: var(--h2-ui-bg);
-        border-radius: 4px;
-
-        margin: 2px;
-        padding: 0 4px;
-        height: 22px;
-        line-height: 22px;
-        /*max-width: calc(var(--h2-picker-width)- 30px);*/
-
-        display: flex;
-        font-size: 14px;
-        white-space: nowrap;
-        cursor: default;
-        @apply --h2-picker-tag;
-      }
-
-      .tag-name {
-        flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .tag-deleter {
-        margin-left: 6px;
-        width: 18px;
-        color: #fff;
-        cursor: pointer;
-        @apply --h2-select-tag-deleter;
-      }
-
-      .tag-deleter:hover {
-        color: var(--h2-ui-red);
-      }
-
-      #picker-collapse {
-        display: flex;
-        position: fixed;
-        /*top: 100%;*/
-        width: 100%;
-        margin-top: 1px;
-        border-radius: 4px;
-        font-size: 12px;
-        z-index: 100;
-        padding: 0;
-        background: white;
-        color: black;
-
-        visibility: visible;
-        opacity: 1;
-        /*transition: all 150ms ease-in;*/
-
-        @apply --h2-picker-dropdown;
-      }
-
-      #picker-collapse[hidden] {
-        visibility: hidden;
-        height: 0;
-        opacity: 0;
-      }
-
-      /*显示下拉面板*/
-      :host .show {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .collapse-content__table {
-        width: 100%;
-        font-size: 12px;
-        background-color: #ffffff;
-        border-collapse: separate;
-        border-spacing: 0;
-        text-align: left;
-        border-radius: 4px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-      }
-
-      .collapse-table__cell {
-        white-space: nowrap;
-        padding: 6px 10px;
-        line-height: 1.42857143;
-        border-bottom: 1px solid #ddd;
-      }
-
-      th.collapse-table__cell {
-        padding-top: 12px;
-        font-size: 1.1em;
-      }
-
-      tbody > tr:hover {
-        background: var(--h2-ui-bg);
-        color: #fff;
-        cursor: pointer;
-      }
-
-      tr.candidate-item--focus {
-        background: var(--h2-ui-bg) !important;
-        color: #fff;
-      }
-
-      .table-hotkey {
-        width: 40px;
-      }
-      
-      #placeholder[hidden] {
-        display: none;
-      }
-
-      #placeholder {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        color: #999;
-        opacity: 1;
-        padding: 0 6px;
-        overflow: hidden;
-        white-space: nowrap;
-      }
-
-      :host([required]) .input-wrap::before {
-        content: "*";
-        color: red;
-        position: absolute;
-        left: -10px;
-        line-height: inherit;
-      }
-      
-      :host([data-invalid]) .tags-input {
-        border-color: var(--h2-ui-color_pink);
-      }
-    </style>
-    <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div class="h2-label">[[label]]</div>
-    </template>
-    
-    <div class="input-wrap" id="select__container">
-      <div class="input-container">
-        <div class="tags-input" on-click="__openCollapse">
-          <div id="placeholder">[[placeholder]]</div>
-          <template is="dom-repeat" items="[[ selectedValues ]]">
-            <span class="tag">
-                <span class="tag-name" title="[[ getValueByKey(item, attrForLabel) ]]">
-                  [[ __calcTagName(item) ]]
-                </span>
-                <iron-icon class="tag-deleter" icon="icons:clear" data-args="[[ getValueByKey(item, attrForValue) ]]" on-click="_deleteTag"></iron-icon>
-            </span>
-          </template>
-          <input id="keywordInput" value="{{ _userInputKeyword::input }}" autocomplete="off" on-focus="__inputFocus">
-        </div> <!-- class=tags-input -->
-
-        <div class="mask"></div>
-      </div>
-
-      <div id="picker-collapse" hidden>
-        <table class="collapse-content__table">
-          <thead>
-          <tr>
-            <template is="dom-repeat" items="[[pickerMeta]]">
-              <th class="collapse-table__cell">[[item.label]]</th>
+      <div class="input-wrap" id="select__container">
+        <div class="input-container">
+          <div class="tags-input" on-click="__openCollapse">
+            <div id="placeholder">[[placeholder]]</div>
+            <template is="dom-repeat" items="[[ selectedValues ]]">
+              <span class="tag">
+                  <span class="tag-name" title="[[ getValueByKey(item, attrForLabel) ]]">
+                    [[ __calcTagName(item) ]]
+                  </span>
+                  <iron-icon class="tag-deleter" icon="icons:clear" data-args="[[ getValueByKey(item, attrForValue) ]]" on-click="_deleteTag"></iron-icon>
+              </span>
             </template>
-            <template is="dom-if" if="[[ enableHotkey ]]">
-              <th class="collapse-table__cell table-hotkey">快捷键</th>
-            </template>
-          </tr>
-          </thead>
-          <tbody>
-          <template is="dom-repeat" items="[[_displayItems]]" as="row">
-            <tr id="candidate-item__[[index]]" on-click="_selectCollapseItem">
-              <template is="dom-repeat" items="[[pickerMeta]]" as="col">
-                <td class="collapse-table__cell">[[ getValueByPath(row, col.field) ]]</td>
+            <input id="keywordInput" value="{{ _userInputKeyword::input }}" autocomplete="off" on-focus="__inputFocus">
+            <div class="clear">
+              <template is="dom-if" if="[[ isExistTruthy(_userInputKeyword) ]]">
+                <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
+              </template>
+            </div>
+          </div> <!-- class=tags-input -->
+  
+          <div class="mask"></div>
+        </div>
+  
+        <div id="picker-collapse" hidden>
+          <table class="collapse-content__table">
+            <thead>
+            <tr>
+              <template is="dom-repeat" items="[[pickerMeta]]">
+                <th class="collapse-table__cell">[[item.label]]</th>
               </template>
               <template is="dom-if" if="[[ enableHotkey ]]">
-                <td class="collapse-table__cell table-hotkey">[[_getHotKey(index)]]</td>
+                <th class="collapse-table__cell table-hotkey">快捷键</th>
               </template>
             </tr>
-          </template>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+            <template is="dom-repeat" items="[[_displayItems]]" as="row">
+              <tr id="candidate-item__[[index]]" on-click="_selectCollapseItem">
+                <template is="dom-repeat" items="[[pickerMeta]]" as="col">
+                  <td class="collapse-table__cell">[[ getValueByPath(row, col.field) ]]</td>
+                </template>
+                <template is="dom-if" if="[[ enableHotkey ]]">
+                  <td class="collapse-table__cell table-hotkey">[[_getHotKey(index)]]</td>
+                </template>
+              </tr>
+            </template>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
 `;
   }
   
@@ -802,6 +830,7 @@ class H2Picker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
   
   _selectCollapseItem(event) {
+    console.log(123)
     event.stopPropagation();
     this._selectItem(event.model.row);
   }
@@ -938,6 +967,11 @@ class H2Picker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     } else {
       return this.required ? (this.selectedValues && this.selectedValues.length > 0) : true;
     }
+  }
+
+  clear(e) {
+    e.stopPropagation();
+    this._userInputKeyword = '';
   }
 }
 
