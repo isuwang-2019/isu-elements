@@ -51,8 +51,11 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
           font-size: 18px;
         }
       }
+      .tip-icon {
+        @apply --h2-custom-tip;
+      }
       
-      :host #tip {
+      .tip {
         vertical-align: middle;
         box-sizing: border-box;
         font-size: 14px;
@@ -68,7 +71,7 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host([type=success]) #tip {
         color: #46d23a;
       }
-
+      
       :host([type=error]) #tip {
         color: var(--h2-ui-color_pink);
       }
@@ -81,14 +84,16 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       :host([type=success]) #dialog,
       :host([type=warn]) #dialog,
-      :host([type=error]) #dialog {
+      :host([type=error]) #dialog,
+      :host([type=custom]) #dialog{
         --h2-dialog-width: 400px;
-        --h2-dialog-height: 86px;
+        --h2-dialog-height: auto;
       }
       
       :host([type=success]) .tip-content,
       :host([type=warn]) .tip-content,
-      :host([type=error]) .tip-content {
+      :host([type=error]) .tip-content,
+      :host([type=custom]) .tip-content{
         padding: 5px 12px;
       }
       
@@ -101,10 +106,12 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host([type=success]) #operate-panel,
       :host([type=warn]) #operate-panel,
       :host([type=error]) #operate-panel,
+      :host([type=custom]) #operate-panel,
       :host([type=success]) #remark-input,
       :host([type=warn]) #remark-input,
       :host([type=error]) #remark-input,
-      :host([type=confirm]) #remark-input {
+      :host([type=confirm]) #remark-input,
+      :host([type=custom]) #remark-input {
         display: none;
       }
 
@@ -121,12 +128,15 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
         text-align: right;
         margin-top: 10px;
       }
+      :host([center]) #tip {
+        margin: auto;
+      }
     </style>
 
     <h2-dialog id="dialog" modal="[[ isOneOf(type, 'confirm', 'prompt') ]]" no-cancel-on-outside-click title="[[orElse(title, config.title)]]">
       
-      <div id="tip">
-          <template is="dom-if" if="[[ isEqual(type, 'success') ]]">
+      <div id="tip" class="tip">
+        <template is="dom-if" if="[[ isEqual(type, 'success') ]]">
             <iron-icon class="tip-icon" icon="icons:check-circle"></iron-icon>
           </template>
           <template is="dom-if" if="[[ isEqual(type, 'warn') ]]">
@@ -134,6 +144,9 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
           <template is="dom-if" if="[[ isEqual(type, 'error') ]]">
             <iron-icon class="tip-icon" icon="icons:cancel"></iron-icon>
+          </template>
+          <template is="dom-if" if="[[  isEqual(type, 'custom')  ]]">
+            <iron-icon class="tip-icon" icon$="[[ iconClass ]]"></iron-icon>
           </template>
           <div class="tip-content" id="messageContainer"></div>
       </div>
@@ -213,7 +226,11 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: function() {
           return {};
         }
-      }
+      },
+      /**
+       * 自定义图标的类名，会覆盖type
+       * */
+      iconClass: String
       
     };
   }

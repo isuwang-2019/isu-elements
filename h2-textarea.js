@@ -35,82 +35,84 @@ import {BaseBehavior} from "./behaviors/base-behavior";
 class H2Textarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
   static get template() {
     return html`
-    <style include="h2-elements-shared-styles">
-      :host {
-        display: flex;
-        flex-wrap: nowrap;
-        font-family: var(--h2-ui-font-family), sans-serif;
-        font-size: var(--h2-ui-font-size);
-        width: 400px;
-        height: 68px;
-        position: relative;
-        background: white;
-      }
-
-      #textarea-wrapper {
-        flex: 1;
-        display: flex;
-        position: relative;
-      }
-
-      #textarea {
-        flex: 1;
-
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 6px;
-        outline: none;
-        resize: none;
-        background: inherit;
-        color: inherit;
-        font-size: inherit;
-        font-family: inherit;
-        line-height: inherit;
-        text-align: inherit;
-
-        @apply --h2-textarea;
-      }
-
-      :host([data-invalid]) #textarea {
-        border-color: var(--h2-ui-color_pink);
-      }
-
-
-      textarea::-webkit-input-placeholder {
-        color: #999;
-        @apply --h2-textarea-placeholder;
-      }
-
-      textarea:-moz-placeholder {
-        color: #999;
-        @apply --h2-textarea-placeholder;
-      }
-
-      textarea::-moz-placeholder {
-        color: #999;
-        @apply --h2-textarea-placeholder;
-      }
-
-      textarea:-ms-input-placeholder {
-        color: #999;
-        @apply --h2-textarea-placeholder;
-      }
-
-    </style>
-    <template is="dom-if" if="[[ toBoolean(label) ]]">
-      <div class="h2-label">[[label]]</div>
-    </template>
-    
-    <div id="textarea-wrapper">
-      <textarea id="textarea" value="{{value::input}}" aria-label$="[[label]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]" inputmode$="[[inputmode]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" required$="[[required]]" disabled$="[[disabled]]" rows$="[[rows]]" minlength$="[[minlength]]" maxlength$="[[maxlength]]"></textarea>
-      <div class="mask"></div>
-    </div>
-    <div class="prompt-tip__container" data-prompt$="[[prompt]]">
-      <div class="prompt-tip">
-        <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
-        [[prompt]]
+      <style include="h2-elements-shared-styles">
+        :host {
+          display: flex;
+          flex-wrap: nowrap;
+          font-family: var(--h2-ui-font-family), sans-serif;
+          font-size: var(--h2-ui-font-size);
+          width: 400px;
+          height: 68px;
+          position: relative;
+          background: white;
+        }
+  
+        #textarea-wrapper {
+          flex: 1;
+          display: flex;
+          position: relative;
+        }
+  
+        #textarea {
+          flex: 1;
+  
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          padding: 6px;
+          outline: none;
+          resize: none;
+          background: inherit;
+          color: inherit;
+          font-size: inherit;
+          font-family: inherit;
+          line-height: inherit;
+          text-align: inherit;
+  
+          @apply --h2-textarea;
+        }
+  
+        :host([data-invalid]) #textarea {
+          border-color: var(--h2-ui-color_pink);
+        }
+  
+  
+        textarea::-webkit-input-placeholder {
+          color: #999;
+          @apply --h2-textarea-placeholder;
+        }
+  
+        textarea:-moz-placeholder {
+          color: #999;
+          @apply --h2-textarea-placeholder;
+        }
+  
+        textarea::-moz-placeholder {
+          color: #999;
+          @apply --h2-textarea-placeholder;
+        }
+  
+        textarea:-ms-input-placeholder {
+          color: #999;
+          @apply --h2-textarea-placeholder;
+        }
+  
+      </style>
+      <template is="dom-if" if="[[ toBoolean(label) ]]">
+        <div class="h2-label">[[label]]</div>
+      </template>
+      
+      <div id="textarea-wrapper">
+        <textarea id="textarea" value="{{value::input}}" aria-label$="[[label]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]"  cols$="[[cols]]"
+        inputmode$="[[inputmode]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" required$="[[required]]" disabled$="[[disabled]]" rows$="[[rows]]" 
+        minlength$="[[minlength]]" maxlength$="[[maxlength]]"></textarea>
+        <div class="mask"></div>
       </div>
-    </div>
+      <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+        <div class="prompt-tip">
+          <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+          [[prompt]]
+        </div>
+      </div>
 `;
   }
 
@@ -133,6 +135,13 @@ class H2Textarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
        * @default 1
        */
       rows: {
+        type: Number,
+        value: 1
+      },
+      /**
+       * Specifies the visible width of a text area
+       * */
+      cols: {
         type: Number,
         value: 1
       },

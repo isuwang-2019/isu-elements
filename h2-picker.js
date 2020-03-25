@@ -489,6 +489,10 @@ class H2Picker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
+      /**
+       * 多选限制选择的个数
+       */
+      multiLimit: Number,
       
       fetchParam: {
         type: Object
@@ -543,11 +547,11 @@ class H2Picker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     
     this.addEventListener("blur", e => {
       e.stopPropagation();
-      if (!this.value) this.text = this._userInputKeyword;
-      setTimeout(() => {
+      // if (!this.value) this.text = this._userInputKeyword;
+      setTimeout(() => { // 解决blur事件和click事件冲突的问题
         if (this.shadowRoot.activeElement && this.shadowRoot.activeElement.id === 'keywordInput') return;
         this.displayCollapse(false);
-      }, 100);
+      }, 200);
     });
     
     let parent = this.offsetParent;
@@ -631,7 +635,7 @@ class H2Picker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
     // 清空缓存插件的缓存
     this._cacheSearchUtil.resetCache();
-    
+
     items.forEach(item => this._cacheSearchUtil.addCacheItem(item, this._loadPinyinKeys(item, this.fieldsForIndex)));
   }
   
@@ -703,6 +707,7 @@ class H2Picker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const flatValues = [...(new Set(String(value).split(",")))];
       const selectedValues = this.selectedValues || [];
       const dirty = selectedValues.map(selected => selected[this.attrForValue]).join(',');
+      // this.set('_userInputKeyword', '')
       
       if (value && this.src && !this.multi) {
         let _selectedItem = this.items.filter(item => item[this.attrForValue] == value);
@@ -805,6 +810,8 @@ class H2Picker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
   
   __inputFocus() {
+    if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
+
     this.displayCollapse(true);
     this._switchFocusItemAt(0);
   }
@@ -830,9 +837,10 @@ class H2Picker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
   
   _selectCollapseItem(event) {
-    console.log(123)
     event.stopPropagation();
     this._selectItem(event.model.row);
+    this.displayCollapse(false)
+    this.blur();
   }
   
   /**

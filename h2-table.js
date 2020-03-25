@@ -26,7 +26,7 @@ import './h2-table-column'
 class H2Table extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`
-    <style include="h2-elements-shared-styles">
+      <style include="h2-elements-shared-styles">
       :host {
         font-family: var(--h2-ui-font-family), sans-serif;
         font-size: var(--h2-ui-font-size);
@@ -80,6 +80,14 @@ class H2Table extends mixinBehaviors([BaseBehavior], PolymerElement) {
         color: #606266;
         table-layout: fixed;
         border-collapse: separate;
+      }
+      
+      :host([stripe]) .table__row:nth-child(odd) > td, .table__summary {
+        background: #F8FCFF;
+      }
+      
+      :host([stripe]) .table__row:hover > td, .table__summary {
+        background: #ecf5ff;
       }
       
       .table__row:hover > td, .table__summary {
@@ -241,9 +249,9 @@ class H2Table extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
     </style>
     
-    <slot id="columnSlot"></slot>
+      <slot id="columnSlot"></slot>
     
-    <div class="h2-table">
+      <div class="h2-table">
       <div class="table_box">
         <div class="table__scroll__head" id="tableHeader">
         <div class="table__scroll__head__inner"></div>
@@ -570,23 +578,27 @@ class H2Table extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
     
     let cmpFn;
+    const cache = this.data.slice();
+    let isNum = cache.every(item => {
+      return typeof item[model.column.prop] === 'number'
+    })
+
     switch (direction) {
       case DESCENDING:
         cmpFn = field => {
-          return (a, b) => (b[field] || '').toString().localeCompare((a[field] || '').toString());
+          return isNum ? (a, b) => (b[field] || '') - (a[field] || '') : (a, b) => (b[field] || '').toString().localeCompare((a[field] || '').toString())
         };
         break;
       case ASCENDING:
         cmpFn = field => {
-          return (a, b) => (a[field] || '').toString().localeCompare((b[field] || '').toString());
+          return isNum ? (a, b) => (a[field] || '') - (b[field] || '') : (a, b) => (a[field] || '').toString().localeCompare((b[field] || '').toString())
         };
         break;
       default:
         cmpFn = () => undefined;
         break;
     }
-    
-    const cache = this.data.slice();
+
     cache.sort(cmpFn(model.column.prop));
     this.__tableData = cache;
   }

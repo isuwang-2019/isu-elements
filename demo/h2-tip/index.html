@@ -43,7 +43,17 @@ document.body.appendChild($_documentContainer.content);
   <h3>H2-tip success demo</h3>
   <demo-snippet>
     <template>
-      <h2-tip type="success" message="新建成功" id="tip" duration="5000"></h2-tip>
+      <custom-style>
+        <style>
+          #tipCustom {
+            --h2-custom-tip: {
+              color: purple;
+              background-color: red;
+            }
+          }
+        </style>
+      </custom-style>
+      <h2-tip type="success" message="新建成功" id="tip" duration="20000" center></h2-tip>
       <h2-button id="btn" onclick="tip.open();">Success</h2-button>
 
       <h2-tip type="warn" message="警告：warning,warning,warning,warning,warning,warning,warning" id="tip2"></h2-tip>
@@ -51,6 +61,9 @@ document.body.appendChild($_documentContainer.content);
 
       <h2-tip type="error" message="出错了：这是一条出错的提示消息, <br/>这是一条出错的提示消息" id="tip3"></h2-tip>
       <h2-button id="btn3" onclick="tip3.open(5000);">Error</h2-button>
+
+      <h2-tip  message="这是自定义的图标" type="custom" icon-class="icons:build" duration="100000" id="tipCustom"></h2-tip>
+      <h2-button id="btnCustom" onclick="tipCustom.open();">Custom</h2-button>
     </template>
   </demo-snippet>
 </div>

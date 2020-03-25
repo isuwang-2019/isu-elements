@@ -352,7 +352,6 @@
   </demo-snippet>
 </div>
 
-
 <div class="vertical-section-container centered">
   <h3>表尾合计</h3>
   <demo-snippet>
@@ -395,7 +394,6 @@
       </template>
   </demo-snippet>
 </div>
-
 
 <div class="vertical-section-container centered">
   <h3>同一列显示多个字段</h3>
@@ -547,6 +545,100 @@
         <h2-table-column prop="name" label="名称 / 性别" width="100" props="name, sex"></h2-table-column>
         <h2-table-column prop="phone" label="电话号码" width="200"></h2-table-column>
       </h2-table>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>斑马纹</h3>
+  <demo-snippet>
+    <template>
+      <style>
+        #table {
+          width: 100%;
+        }
+
+      </style>
+      <h2-table id="tableStriped" stripe>
+        <h2-table-column prop="sex" label="性别" width="100" type="expand"  model-as="user">
+          <template>
+            <style>
+              .ext-container {
+                display: flex;
+                width: 550px;
+              }
+              .ext-container > div {
+                width: 250px;
+              }
+            </style>
+            <div class="ext-container">
+              <div>姓名：[[user.name]]</div>
+              <div>sex: [[user.sex]]</div>
+              <div>phone: [[user.phone]]</div>
+            </div>
+          </template>
+        </h2-table-column>
+        <h2-table-column prop="name" label="名称" width="100" sortable></h2-table-column>
+        <h2-table-column prop="phone" label="电话号码" width="160" sortable default-value="--" cell-style="text-align: right;color:red;"></h2-table-column>
+        <h2-table-column prop="phone" label="操作" width="300" type="operate" model-as="user">
+          <template>
+            <template is="dom-if" if="[[ isEqual(user.name, 'Wahson') ]]">
+              <h2-button class="action-bar" on-click="view">[[global.lookup]]</h2-button>
+            </template>
+
+            <template is="dom-if" if="[[ user.modify ]]">
+              <h2-button class="action-bar" on-click="modify">[[global.modify]]</h2-button>
+            </template>
+
+            <template is="dom-if" if="[[ user.actions ]]">
+              <h2-button-group label="[[global.more]]">
+                <template is="dom-repeat" items="[[user.actions]]" as="action">
+                  <div on-click="more">[[action]]</div>
+                </template>
+              </h2-button-group>
+            </template>
+
+          </template>
+        </h2-table-column>
+      </h2-table>
+      <script>
+
+        tableStriped.view = ({model}) => {
+          console.log("view", model.user);
+        };
+
+        tableStriped.modify = ({model}) => {
+          console.log("modify", model.user);
+        };
+
+        tableStriped.more = (e) => {
+          console.log(e.model.action, e.model.parentModel.user);
+        };
+
+        tableStriped.global = {
+          lookup: "查看",
+          modify: "修改",
+          more: "更多"
+        };
+
+        tableStriped.data = [
+          {sex: '男', name: 'Wahson', phone: '12341111116', modify: true},
+          {sex: '女', name: 'Rose', actions:['more']},
+          {sex: '女', name: 'Lucy', phone: '12390'},
+          {sex: '男', name: 'James', phone: '12326'},
+          {sex: '男', name: 'Cat', phone: '12349'},
+          {sex: '男', name: 'Apple', phone: '1211111111345', modify: true, actions:['more', 'more1']}
+        ]
+
+        // tableStriped.data = [
+        //   {sex: '男', name: 2, phone: '12341111116', modify: true},
+        //   {sex: '女', name: 12, actions:['more']},
+        //   {sex: '女', name: 31, phone: '12390'},
+        //   {sex: '男', name: 4, phone: '12326'},
+        //   {sex: '男', name: 55, phone: '12349'},
+        //   {sex: '男', name: 3, phone: '1211111111345', modify: true, actions:['more', 'more1']}
+        // ]
+      </script>
     </template>
   </demo-snippet>
 </div>

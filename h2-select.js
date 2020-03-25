@@ -257,6 +257,10 @@ class H2Select extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host([data-invalid]) #select__container {
         border-color: var(--h2-ui-color_pink);
       }
+      
+      :host([show-all]) {
+        height: auto
+      }
     </style>
     
     <template is="dom-if" if="[[ toBoolean(label) ]]">
@@ -409,7 +413,11 @@ class H2Select extends mixinBehaviors([BaseBehavior], PolymerElement) {
       /*
       * 判断是否需要最后一个虚拟输入框的焦点
       * */
-      isFocus: Boolean
+      isFocus: Boolean,
+      /**
+       * 多选限制选择的个数
+       */
+      multiLimit: Number,
     };
   }
   
@@ -454,6 +462,7 @@ class H2Select extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * 点击事件
    */
   _onInputClick(e) {
+    if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
     this.refreshElemPos();
     const classList = e.target.classList;
     if (classList.contains('tag-deleter') || classList.contains('tag-cursor')) {
