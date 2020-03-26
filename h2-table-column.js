@@ -67,6 +67,9 @@ class H2TableColumn extends mixinBehaviors([Templatizer], PolymerElement) {
       },
       
       formatter: Function,
+      /**
+       * 样式，可以设定颜色，对齐方式等
+       * */
       cellStyle: String,
       defaultValue: String
     };
