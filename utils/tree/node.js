@@ -4,21 +4,17 @@ import { markNodeData, NODE_KEY, arrayFindIndex, objectAssign } from './util';
 export const getChildState = node => {
   let all = true;
   let none = true;
-  let allWithoutDisable = true;
   for (let i = 0, j = node.length; i < j; i++) {
     const n = node[i];
     if (n.checked !== true || n.indeterminate) {
       all = false;
-      if (!n.disabled) {
-        allWithoutDisable = false;
-      }
     }
     if (n.checked !== false || n.indeterminate) {
       none = false;
     }
   }
 
-  return { all, none, allWithoutDisable, half: !all && !none };
+  return { all, none, half: !all && !none };
 };
 
 const reInitChecked = function(node) {
@@ -71,6 +67,7 @@ export default class Node {
     this.expanded = false;
     this.parent = null;
     this.visible = true;
+
     this.isCurrent = false;
 
     for (let name in options) {
@@ -359,12 +356,12 @@ export default class Node {
     if (this.store.checkStrictly) return;
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
-      let { all, allWithoutDisable } = getChildState(this.childNodes);
+      let { all } = getChildState(this.childNodes);
 
-      if (!this.isLeaf && (!all && allWithoutDisable)) {
-        this.checked = false;
-        value = false;
-      }
+      // if (!this.isLeaf && (!all && allWithoutDisable)) {
+      //   this.checked = false;
+      //   value = false;
+      // }
 
       const handleDescendants = () => {
         if (deep) {

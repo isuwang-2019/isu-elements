@@ -32,42 +32,45 @@ class H2TreeNode extends PolymerElement {
     <div class="dht-tree-twig-one">
       <div class="dht-tree-node-content" style$="{{_getIndentStyle(level, indent)}}" on-click="showNode">
         <!--箭头-->
-        <template is="dom-if" if="[[child.children.length]]">
+        <template is="dom-if" if="[[node.childNodes.length]]">
           <iron-icon class="trigger__icon" icon="icons:arrow-drop-down" style$="{{_getRotateStyle(rotate)}}"></iron-icon>
         </template>
         <!--没有子元素的时候箭头用空span代替-->
-        <template is="dom-if" if="[[!child.children.length]]">
+        <template is="dom-if" if="[[!node.childNodes.length]]">
           <span class="black-span"></span>
         </template>
         <!--多选框-->
         <template is="dom-if" if="[[showCheckbox]]">
           <paper-checkbox 
             class="checkbox-item" 
-            checked="{{ child.checked }}" 
-            disabled="{{ child.disabled }}" 
+            checked="{{ checked }}" 
+            disabled="{{ node.disabled }}" 
             on-change="__checkedChangeHandler"
-            on-click="_checkedClickHandler" 
+            on-click="__checkedClickedHandler"
             value="[[ getValueByKey(item, attrForValue) ]]">
               [[ getValueByKey(item, attrForLabel) ]]
            </paper-checkbox>
         </template>
         <!--icon图标-->
-        <template is="dom-if" if="[[child.icon]]">
-          <span class="icon" class$="[[child.icon]]"></span>
+        <template is="dom-if" if="[[node.icon]]">
+          <span class="icon" class$="[[node.icon]]"></span>
         </template>
          <slot ></slot>
         <!--可自定义部分-->
-        <!--<node-content :node="child"></node-content>-->
-        <span>[[child.label]]</span>
-        <slot ></slot>
+        <!--<node-content :node="node"></node-content>-->
+        <span>[[node.label]]</span>
+        <slot></slot>
       </div>
       <!--<transition-group name="dht-tree-node">-->
-      <template is="dom-repeat" items="{{child.children}}" index-as="index">
+      <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
         <template is="dom-if" if="[[isShow]]">
           <h2-tree-node
             show-checkbox="[[showCheckbox]]"
             key="[[getNodeKey(item, index)]]"
-            child="[[item]]"
+            node="[[item]]" 
+            default-expand-all="[[defaultExpandAll]]"
+            checked="{{checked}}"
+            disabled="{{disabled}}"
             level="[[_getNextLevel(level)]]"
             data-location="[[_getDataLocation(index)]]"
             indent="[[indent]]"
@@ -94,6 +97,19 @@ class H2TreeNode extends PolymerElement {
         value: false
       },
       /**
+       * 手风琴模式，一次只展示一个
+       * */
+      accordion: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * 是否默认展开所有节点
+       * */
+      defaultExpandAll: {
+        type: Boolean
+      },
+      /**
        * 操作子元素关闭
        * */
       isShow: {
@@ -109,7 +125,18 @@ class H2TreeNode extends PolymerElement {
       },
       dataLocation: Array, // 数据定位，表示层级和数据位置
       level: Number, // 当前层级
-      child: Object // 子节点数据
+      node: {// 子节点数据
+        type: Object,
+        notify: true
+      },
+      checked: {
+        type: Boolean,
+        value: false
+      },
+      disabled: {
+        type: Boolean,
+        value: false
+      }
     }
   }
 
@@ -118,33 +145,45 @@ class H2TreeNode extends PolymerElement {
   }
 
   static get observers() {
-    return ['_checkedChanged(child.checked)']
+    return ['_defaultExpandAllChanged(defaultExpandAll)']
   }
+
   connectedCallback() {
     super.connectedCallback();
     const parent = this.parentNode.host || this.parentNode
-
+    this.set('disabled', this.node.disabled)
     if (parent.isTree) {
       this.tree = parent
     } else {
       this.tree = parent.parentNode.host.tree
     }
   }
-
+  _defaultExpandAllChanged(defaultExpandAll) {
+    this.isShow = true
+    this.rotate = 0
+  }
   _getNextLevel(level) {
     return level + 1
   }
 
   showNode () {
-    if (this.child.children.length <= 0) return false
-    //操作子元素方式开启关闭
+    if (this.node.childNodes.length <= 0) return false
+    const parent = this.parentNode.host || this.parentNode
     if (this.isShow) {
       this.isShow = false
       this.rotate = -90
-    } else {
-      this.isShow = true
-      this.rotate = 0
+      return
     }
+    //如果开启了手风琴模式，一次展示一个层级
+    if (this.accordion) {
+      parent.shadowRoot.querySelectorAll('h2-tree-node').forEach(el => {
+        el.isShow = false
+        el.rotate = -90
+      })
+    }
+    //操作子元素方式开启关闭
+    this.isShow = true
+    this.rotate = 0
   }
   _getDataLocation(index) {
     return [this.level + 1, index]
@@ -159,38 +198,53 @@ class H2TreeNode extends PolymerElement {
     return node.id ? node.id : index
   }
 
-  // getNodeKey(node) {
-  //   return getNodeKey(this.tree.nodeKey, node.data);
-  // }
-
-  _checkedClickHandler(e) {
-    e.stopPropagation()
+  handleClick() {
+    const store = this.tree.store;
+    store.setCurrentNode(this.node);
+    this.tree.$emit('current-change', store.currentNode ? store.currentNode.data : null, store.currentNode);
+    this.tree.currentNode = this;
+    if (this.tree.expandOnClickNode) {
+      this.handleExpandIconClick();
+    }
+    if (this.tree.checkOnClickNode && !this.node.disabled) {
+      this.handleCheckChange(null, {
+        target: { checked: !this.node.checked }
+      });
+    }
+    this.tree.$emit('node-click', this.node.data, this.node, this);
   }
 
 
   __checkedChangeHandler(e) {
-    // if (this.oldChecked !== checked && this.oldIndeterminate !== indeterminate) {
-    //   this.tree.$emit('check-change', this.node.data, checked, indeterminate);
-    // }
-    // this.oldChecked = checked;
-    // this.indeterminate = indeterminate;
-    if ( this.child.children.length > 0) {
-      this.child.children.forEach(item => {
-        item.checked = this.child.checked
-      })
+    e.stopPropagation()
+
+    this.node.setChecked(e.target.checked, !this.tree.checkStrictly);
+    this.set('node', this.node)
+    this.set('checked', this.node.checked)
+    this.__getParentChecked(this)
+
+    const store = this.tree.store
+    let param = {
+      checkedNodes: store.getCheckedNodes(),
+      checkedKeys: store.getCheckedKeys(),
+      halfCheckedNodes: store.getHalfCheckedNodes(),
+      halfCheckedKeys: store.getHalfCheckedKeys()
     }
-    // this.checked = !
-    console.log('checked', this.child.checked)
-    console.log('e', e)
+    this.dispatchEvent(new CustomEvent("check", {detail: {data: this.node.data, ...param}}));
   }
 
-  __checkedChange(children) {
-    if (children.length > 0) {
-      children.forEach(item => {
-        item.checked = this.child.checked
-        this.__checkedChange(item.children)
-      })
+  __getParentChecked(el) {
+    if (el.parentElement && el.level !== 0) {
+      const parentNode = el.parentElement.parentNode.host
+      if (parentNode.node.childNodes.every(item=> !item.checked )) {
+        parentNode.checked = false
+        this.__getParentChecked(parentNode)
+      }
     }
+  }
+
+  __checkedClickedHandler(e) {
+    e.stopPropagation()
   }
 
   getCheckedNodes(leafOnly = false, includeHalfChecked = false) {

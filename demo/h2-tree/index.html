@@ -45,7 +45,7 @@
         </style>
       </custom-style>
 
-      <h2-tree id="tree" show-checkbox>
+      <h2-tree id="tree" show-checkbox default-expand-all>
         <span slot-scope="{ node }" class="dhtceshi">{{ node.label }}</span>
         <template is="dom-if" if="showLevel1">
           showLevel1
@@ -59,7 +59,7 @@
       </h2-tree>
       <script>
         tree.data = [
-          { id: 2, label: '第2个', children: [] },
+          { id: 2, label: '第2个', disabled: true, children: [] },
           {
             id: 1,
             label: '第1个',
@@ -79,13 +79,13 @@
                     showLevel2:true,
                     children: [
                       { id: 1, label: '1', children: [] },
-                      { id: 2, label: '2', children: [] },
+                      { id: 2, label: '2', disabled: true, children: [] },
                       { id: 3, label: '3', children: [] },
                       { id: 4, label: '4', children: [] },
                       { id: 5, label: '5', children: [] }
                     ]
                   },
-                  { id: 2, label: '三级2第2个', children: [] },
+                  { id: 2, label: '三级2第2个', disabled: true, children: [] },
                   { id: 3, label: '三级3第3个', children: [] },
                   { id: 4, label: '三级4第4个', children: [] },
                   { id: 5, label: '三级5第5个', children: [] }
@@ -97,7 +97,9 @@
               { id: 5, label: '二级第5个', children: [] }
             ]
           },
-          { id: 3, label: '第3个', children: [] },
+          { id: 3, label: '第3个', children: [ {
+              id: 1,
+              label: '三级第1个'}] },
           { id: 4, label: '第4个', children: [] },
           { id: 5, label: '第5个', children: [] }
         ]
