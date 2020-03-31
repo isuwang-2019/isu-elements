@@ -44,8 +44,7 @@
         <style>
         </style>
       </custom-style>
-
-      <h2-tree id="tree" show-checkbox default-expand-all>
+      <h2-tree id="tree" show-radio require-query>
         <span slot-scope="{ node }" class="dhtceshi">{{ node.label }}</span>
         <template is="dom-if" if="showLevel1">
           showLevel1

@@ -59,7 +59,7 @@ let nodeIdSeed = 0;
 
 export default class Node {
   constructor(options) {
-    this.id = nodeIdSeed++;
+    this.nodeId = nodeIdSeed++;
     this.text = null;
     this.checked = false;
     this.indeterminate = false;
@@ -372,11 +372,11 @@ export default class Node {
             const isCheck = child.disabled ? child.checked : passValue;
             child.setChecked(isCheck, deep, true, passValue);
           }
-          const { half, all } = getChildState(childNodes);
-          if (!all) {
-            this.checked = all;
-            this.indeterminate = half;
-          }
+          // const { half, all } = getChildState(childNodes);
+          // if (!all) {
+          //   this.checked = all;
+          //   this.indeterminate = half;
+          // }
         }
       };
 

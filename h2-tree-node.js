@@ -2,10 +2,11 @@
 import {html, PolymerElement} from "@polymer/polymer";
 import './behaviors/h2-tree-shared-styles.js';
 import '@polymer/paper-checkbox';
+import '@polymer/paper-radio-button';
 /**
  * @customElement
  * @polymer
- * @demo demo/h2-button/index.html
+ * @demo demo/h2-tree/index.html
  */
 class H2TreeNode extends PolymerElement {
   
@@ -23,13 +24,14 @@ class H2TreeNode extends PolymerElement {
         height: 24px;
       }
       paper-checkbox {
-        --paper-checkbox-unchecked-color: #C0C4CC;
+        --paper-checkbox-unchecked-color: #B1B6BF;
       }
       .trigger__icon {
-        color: #C0C4CC;
+        color: #B1B6BF;
       }
     </style>
-    <div class="dht-tree-twig-one">
+    <template is="dom-if" if="{{node.visible}}">
+      <div class="dht-tree-twig-one">
       <div class="dht-tree-node-content" style$="{{_getIndentStyle(level, indent)}}" on-click="showNode">
         <!--箭头-->
         <template is="dom-if" if="[[node.childNodes.length]]">
@@ -51,13 +53,24 @@ class H2TreeNode extends PolymerElement {
               [[ getValueByKey(item, attrForLabel) ]]
            </paper-checkbox>
         </template>
+        <!--单选框-->
+        <template is="dom-if" if="[[showRadio]]">
+          <paper-radio-button
+            class="checkbox-item" name="radio"
+            checked="{{ checked }}" 
+            disabled="{{ node.disabled }}" 
+            on-change="__checkedRadioChangeHandler"
+            on-click="__checkedClickedHandler"
+            value="[[ getValueByKey(item, attrForValue) ]]">
+              [[ getValueByKey(item, attrForLabel) ]]
+           </paper-radio-button>
+        </template>
         <!--icon图标-->
         <template is="dom-if" if="[[node.icon]]">
           <span class="icon" class$="[[node.icon]]"></span>
         </template>
          <slot ></slot>
         <!--可自定义部分-->
-        <!--<node-content :node="node"></node-content>-->
         <span>[[node.label]]</span>
         <slot></slot>
       </div>
@@ -66,11 +79,12 @@ class H2TreeNode extends PolymerElement {
         <template is="dom-if" if="[[isShow]]">
           <h2-tree-node
             show-checkbox="[[showCheckbox]]"
+            show-radio="[[showRadio]]"
             key="[[getNodeKey(item, index)]]"
-            node="[[item]]" 
+            node="{{item}}" id="{{item.nodeId}}"
             default-expand-all="[[defaultExpandAll]]"
-            checked="{{checked}}"
-            disabled="{{disabled}}"
+            checked="{{item.checked}}"
+            disabled="{{item.disabled}}"
             level="[[_getNextLevel(level)]]"
             data-location="[[_getDataLocation(index)]]"
             indent="[[indent]]"
@@ -79,6 +93,8 @@ class H2TreeNode extends PolymerElement {
       </template>
       <!--</transition-group>-->
     </div>
+    </template>
+    
 `;
   }
 
@@ -93,6 +109,13 @@ class H2TreeNode extends PolymerElement {
        * 是否显示多选框
        * */
       showCheckbox: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * 是否显示单选框
+       * */
+      showRadio: {
         type: Boolean,
         value: false
       },
@@ -126,8 +149,9 @@ class H2TreeNode extends PolymerElement {
       dataLocation: Array, // 数据定位，表示层级和数据位置
       level: Number, // 当前层级
       node: {// 子节点数据
-        type: Object,
-        notify: true
+        type: Node,
+        notify: true,
+        reflectToAttribute: true
       },
       checked: {
         type: Boolean,
@@ -136,6 +160,13 @@ class H2TreeNode extends PolymerElement {
       disabled: {
         type: Boolean,
         value: false
+      },
+      visible: {
+        type: Boolean,
+        value: true
+      },
+      id: {
+        type: String
       }
     }
   }
@@ -145,7 +176,7 @@ class H2TreeNode extends PolymerElement {
   }
 
   static get observers() {
-    return ['_defaultExpandAllChanged(defaultExpandAll)']
+    return ['_defaultExpandAllChanged(defaultExpandAll)', '_visibleChanged(node.*)']
   }
 
   connectedCallback() {
@@ -158,12 +189,18 @@ class H2TreeNode extends PolymerElement {
       this.tree = parent.parentNode.host.tree
     }
   }
+  _visibleChanged(visible) {
+    console.log('node.*', visible)
+  }
   _defaultExpandAllChanged(defaultExpandAll) {
     this.isShow = true
     this.rotate = 0
   }
   _getNextLevel(level) {
     return level + 1
+  }
+  _getChecked(checked, disabled) {
+    return disabled ? false : checked
   }
 
   showNode () {
@@ -213,14 +250,30 @@ class H2TreeNode extends PolymerElement {
     }
     this.tree.$emit('node-click', this.node.data, this.node, this);
   }
+  __checkedRadioChangeHandler(e) {
+    e.stopPropagation()
+    const check = e.target.checked
 
+    const allPaperRadioButton = this.__getAllPaperRadioButton()
+    allPaperRadioButton.forEach(item => item.checked = false )
+    this.checked = check
+
+    const store = this.tree.store
+    let param = {
+      checkedNodes: store.getCheckedNodes(),
+      checkedKeys: store.getCheckedKeys(),
+      halfCheckedNodes: store.getHalfCheckedNodes(),
+      halfCheckedKeys: store.getHalfCheckedKeys()
+    }
+    this.dispatchEvent(new CustomEvent("check", {detail: {data: this.node.data, ...param}}));
+  }
 
   __checkedChangeHandler(e) {
     e.stopPropagation()
 
     this.node.setChecked(e.target.checked, !this.tree.checkStrictly);
     this.set('node', this.node)
-    this.set('checked', this.node.checked)
+    // this.set('checked', this.node.checked)
     this.__getParentChecked(this)
 
     const store = this.tree.store
@@ -231,6 +284,25 @@ class H2TreeNode extends PolymerElement {
       halfCheckedKeys: store.getHalfCheckedKeys()
     }
     this.dispatchEvent(new CustomEvent("check", {detail: {data: this.node.data, ...param}}));
+  }
+
+  __getAllPaperRadioButton() {
+    let allCustomElements = [];
+
+    const findAllPaperRadioButton = (nodes) =>{
+      for (let i = 0, el; el = nodes[i]; ++i) {
+        if (el.localName === 'paper-radio-button') {
+          allCustomElements.push(el);
+        }
+        // If the element has shadow DOM, dig deeper.
+        if (el.shadowRoot) {
+          findAllPaperRadioButton(el.shadowRoot.querySelectorAll('*'));
+        }
+      }
+    }
+
+    findAllPaperRadioButton(document.querySelectorAll('*'));
+    return allCustomElements
   }
 
   __getParentChecked(el) {
