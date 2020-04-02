@@ -23,10 +23,10 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
        
        </style>
         <template is="dom-if" if="[[requireQuery]]">
-          <h2-input type="text" value="{{keyword}}"></h2-input>
+          <h2-input type="text" value="{{searchWord}}"></h2-input>
         </template>
         <template is="dom-repeat" items="{{root.childNodes}}" index-as="index">
-          <h2-tree-node show-checkbox="{{showCheckbox}}" 
+          <h2-tree-node show-checkbox="{{showCheckbox}}" search-word="[[searchWord]]"
             accordion="[[accordion]]" level="1" id="{{item.nodeId}}"
             key="[[getNodeKey(item, index)]]" node="{{item}}"  
             default-expand-all="[[defaultExpandAll]]"
@@ -106,60 +106,15 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
         type: Node,
         notify: true,
         reflectToAttribute: true
+      },
+      searchWord: {
+        type: String
       }
     }
   }
 
   static get is() {
     return "h2-tree";
-  }
-
-  static get observers() {
-    return ['_keywordChanged(keyword)', '_rootChanged(root.childNodes.*)']
-  }
-
-  _keywordChanged(keyword) {
-    console.log('before', this.root)
-    const self = this
-
-    this.store.filter(keyword)
-    // this.set('store', {...this.store})
-    // while( th)
-    // // const treeNodes = this.__getAllTreeNode()
-    // //
-    // const getVisibleElement = function (node) {
-    //   if ( node.childNodes ) {
-    //     node.childNodes.forEach((item,index) => {
-    //       self.set(``)
-    //     })
-    //   }
-    // }
-
-
-
-    console.log('after', this.store.root)
-    console.log(this.root)
-  }
-  _rootChanged(root) {
-    console.log('root', root)
-  }
-  __getAllTreeNode() {
-    let allCustomElements = [];
-
-    const findAllPaperRadioButton = (nodes) =>{
-      for (let i = 0, el; el = nodes[i]; ++i) {
-        if (el.localName === 'h2-tree-node') {
-          allCustomElements.push(el);
-        }
-        // If the element has shadow DOM, dig deeper.
-        if (el.shadowRoot) {
-          findAllPaperRadioButton(el.shadowRoot.querySelectorAll('*'));
-        }
-      }
-    }
-
-    findAllPaperRadioButton(document.querySelectorAll('*'));
-    return allCustomElements
   }
 
   connectedCallback() {
@@ -181,16 +136,10 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
       defaultCheckedKeys: this.defaultCheckedKeys,
       defaultExpandedKeys: this.defaultExpandedKeys,
       autoExpandParent: this.autoExpandParent,
-      defaultExpandAll: this.defaultExpandAll,
-      filterNodeMethod: this.filterNodeMethod,
+      defaultExpandAll: this.defaultExpandAll
     });
-    console.log('this',this)
     this.set('store',  store)
     this.set('root',  store.root)
-  }
-  filterNodeMethod(value, data) {
-    if (!value) return true;
-    return data.label.indexOf(value) !== -1;
   }
 
   getNodeKey(node, index) {

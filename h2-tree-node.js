@@ -2,13 +2,15 @@
 import {html, PolymerElement} from "@polymer/polymer";
 import './behaviors/h2-tree-shared-styles.js';
 import '@polymer/paper-checkbox';
+import {BaseBehavior} from "./behaviors/base-behavior";
+import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/paper-radio-button';
 /**
  * @customElement
  * @polymer
  * @demo demo/h2-tree/index.html
  */
-class H2TreeNode extends PolymerElement {
+class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   
   constructor() {
     super();
@@ -80,6 +82,7 @@ class H2TreeNode extends PolymerElement {
           <h2-tree-node
             show-checkbox="[[showCheckbox]]"
             show-radio="[[showRadio]]"
+            search-word="[[searchWord]]"
             key="[[getNodeKey(item, index)]]"
             node="{{item}}" id="{{item.nodeId}}"
             default-expand-all="[[defaultExpandAll]]"
@@ -167,6 +170,9 @@ class H2TreeNode extends PolymerElement {
       },
       id: {
         type: String
+      },
+      searchWord: {
+        type: String
       }
     }
   }
@@ -176,7 +182,11 @@ class H2TreeNode extends PolymerElement {
   }
 
   static get observers() {
-    return ['_defaultExpandAllChanged(defaultExpandAll)', '_visibleChanged(node.*)']
+    return [
+      '_defaultExpandAllChanged(defaultExpandAll)',
+      '_searchWordChanged(searchWord)',
+      '_childNodesChanged(node.childNodes.*)'
+    ]
   }
 
   connectedCallback() {
@@ -185,13 +195,41 @@ class H2TreeNode extends PolymerElement {
     this.set('disabled', this.node.disabled)
     if (parent.isTree) {
       this.tree = parent
-    } else {
+    } else {``
       this.tree = parent.parentNode.host.tree
     }
   }
-  _visibleChanged(visible) {
-    console.log('node.*', visible)
+
+  _childNodesChanged (target) {
+    this._showNodeFilter()
   }
+
+  _searchWordChanged(searchWord) {
+    this._showNodeFilter()
+  }
+
+  _showNodeFilter () {
+    const self = this
+    const visible = self.filterNodeMethod(self.searchWord, self.node)
+    self.set('node.visible', visible)
+  }
+
+  filterNodeMethod(searchWord, node) {
+    if (!node) {
+      return false
+    }
+    if (!searchWord) {
+      return true
+    }
+    const self = this
+    const {data, childNodes} = node
+    const selfVisible = data.label.includes(searchWord)
+    const childVisilbe = childNodes.some(childNode => {
+      return self.filterNodeMethod(searchWord, childNode)
+    })
+    return selfVisible || childVisilbe
+  }
+
   _defaultExpandAllChanged(defaultExpandAll) {
     this.isShow = true
     this.rotate = 0

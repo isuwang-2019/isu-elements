@@ -218,7 +218,7 @@ class H2Input extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <template is="dom-if" if="[[prefixUnit]]">
         <div class="prefix-unit input-unit">[[prefixUnit]]</div>
       </template>
-      <iron-input bind-value="{{value}}" id="input" class="iron-input">
+      <iron-input bind-value="[[value]]" id="input" class="iron-input">
         <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]" rows$="[[rows]]"
             maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
         <div class="clear">
@@ -443,6 +443,25 @@ class H2Input extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$.innerInput.type = this.togglePassword ? 'text' : 'password'
   }
 
+  ready() {
+    super.ready()
+    const self = this
+    let cpLock = true
+    this.$.innerInput.addEventListener('compositionstart', function () {
+      cpLock = false
+    })
+    this.$.innerInput.addEventListener('compositionend', function () {
+      cpLock = true
+    })
+
+    this.$.innerInput.addEventListener('input', function () {
+      setTimeout(function(){
+        if(cpLock) {
+          self.value = self.$.input.value
+        }
+      },1)
+    })
+  }
 }
 
 window.customElements.define(H2Input.is, H2Input);
