@@ -349,19 +349,13 @@ export default class Node {
     this.isLeaf = false;
   }
 
-  setChecked(value, deep, recursion, passValue) {
+  setChecked({}) {
     this.indeterminate = value === 'half';
     this.checked = value === true;
 
     if (this.store.checkStrictly) return;
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
-      let { all } = getChildState(this.childNodes);
-
-      // if (!this.isLeaf && (!all && allWithoutDisable)) {
-      //   this.checked = false;
-      //   value = false;
-      // }
 
       const handleDescendants = () => {
         if (deep) {
@@ -372,11 +366,6 @@ export default class Node {
             const isCheck = child.disabled ? child.checked : passValue;
             child.setChecked(isCheck, deep, true, passValue);
           }
-          // const { half, all } = getChildState(childNodes);
-          // if (!all) {
-          //   this.checked = all;
-          //   this.indeterminate = half;
-          // }
         }
       };
 

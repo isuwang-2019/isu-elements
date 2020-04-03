@@ -25,8 +25,9 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
         <template is="dom-if" if="[[requireQuery]]">
           <h2-input type="text" value="{{searchWord}}"></h2-input>
         </template>
-        <template is="dom-repeat" items="{{root.childNodes}}" index-as="index">
+        <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
           <h2-tree-node show-checkbox="{{showCheckbox}}" search-word="[[searchWord]]"
+            is-checked="{{isChecked}}"
             accordion="[[accordion]]" level="1" id="{{item.nodeId}}"
             key="[[getNodeKey(item, index)]]" node="{{item}}"  
             default-expand-all="[[defaultExpandAll]]"
@@ -102,7 +103,7 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
       store: {
         type: TreeStore
       },
-      root: {
+      node: {
         type: Node,
         notify: true,
         reflectToAttribute: true
@@ -139,7 +140,7 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
       defaultExpandAll: this.defaultExpandAll
     });
     this.set('store',  store)
-    this.set('root',  store.root)
+    this.set('node',  store.root)
   }
 
   getNodeKey(node, index) {
