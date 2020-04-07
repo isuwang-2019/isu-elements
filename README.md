@@ -7,3 +7,8 @@ A series of container elements to quickly build web apps
 ```
 npm install --save h2-elements
 ```
+
+### To generate the API
+```
+polymer analyze -i ./all-imports.js > analysis.json
+```
