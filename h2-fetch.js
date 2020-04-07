@@ -1,4 +1,4 @@
-/*
+/**
 ### Usage 1:
 
 ```html
@@ -163,7 +163,7 @@ export class H2Fetch extends mixinBehaviors([BaseBehavior], PolymerElement) {
       "__responseChange(response)"
     ];
   }
-  
+
   constructor() {
     super();
     if ('AbortController' in window) {
@@ -172,7 +172,7 @@ export class H2Fetch extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.__signal = this.__controller.signal;
     }
   }
-  
+
   __getCorrectedRequest(request) {
     const req = Request.prototype.isPrototypeOf(request) ? request : new Request(request.url, request);
     //TODO set default value to req
@@ -200,7 +200,7 @@ export class H2Fetch extends mixinBehaviors([BaseBehavior], PolymerElement) {
       resClone.text().then(err => this.error = {content: err});
     }
   }
-  
+
   /**
    * Fetch you request, if window.__mockEnabled == true, you can get your mock response.
    * @param {Request|object} request
@@ -216,9 +216,9 @@ export class H2Fetch extends mixinBehaviors([BaseBehavior], PolymerElement) {
         return Promise.resolve(this.response);
       }
     }
-    
+
     option.loading && this.showLoading();
-    
+
     return window.fetch(collectedReq, {signal: this.__signal})
       .then(res => {
         this.response = res;
@@ -232,21 +232,21 @@ export class H2Fetch extends mixinBehaviors([BaseBehavior], PolymerElement) {
         option.loading && this.hideLoading();
       });
   }
-  
+
   /**
    * Abort your request.
    */
   abort() {
     this.__controller && this.__controller.abort();
   }
-  
+
   /**
    * Abort all pending requests.
    */
   abortAll() {
     // todo
   }
-  
+
   /**
    * @param reqArr
    */

@@ -1,25 +1,3 @@
-/*
-`h2-dialog`
-
-Example:
-```html
-<h2-dialog id="dialog">
-   Put your Content here inside an element which with [slot=container]
-</h2-dialog>
-<button id="btn" onclick="javascript:dialog.open();">Click to open the Dialog</button>
-```
-## Styling
-
-The following custom properties and mixins are available for styling:
-
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--h2-dialog-width` | Mixin applied to the width of dialog | 85%
-|`--h2-dialog-height` | Mixin applied to the height of dialog | 90%
-|`--h2-dialog-title` |  Mixin applied to the style of dialog title | {}
-
-
-*/
 import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/paper-dialog';
@@ -31,10 +9,29 @@ import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/h2-elements-shared-styles.js';
 
 /**
+ * `h2-dialog`
+ *
+ * Example:
+ * ```html
+ * <h2-dialog id="dialog">
+ * Put your Content here inside an element which with [slot=container]
+ * </h2-dialog>
+ * <button id="btn" onclick="javascript:dialog.open();">Click to open the Dialog</button>
+ * ```
+ * ## Styling
+ *
+ * The following custom properties and mixins are available for styling:
+ *
+ * |Custom property | Description | Default|
+ * |----------------|-------------|----------|
+ * |`--h2-dialog-width` | Mixin applied to the width of dialog | 85%
+ * |`--h2-dialog-height` | Mixin applied to the height of dialog | 90%
+ * |`--h2-dialog-title` |  Mixin applied to the style of dialog title | {}
  * @customElement
  * @polymer
  * @demo demo/h2-dialog/index.html
  */
+
 class H2Dialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`

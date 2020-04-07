@@ -1,4 +1,4 @@
-/*
+/**
 `h2-tip`
 
 Example:
@@ -158,11 +158,11 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </h2-dialog>
 `;
   }
-  
+
   static get is() {
     return "h2-tip";
   }
-  
+
   static get properties() {
     return {
       /**
@@ -198,7 +198,7 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       _cancelCallback: {
         type: Object
       },
-      
+
       /**
        * When `type` is `success`, `warn` or `error`, the tip will disappear after [duration] ms.
        * @type {number}
@@ -216,11 +216,11 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
-      
+
       title: String,
       width: String,
       height: String,
-  
+
       config: {
         type: Object,
         value: function() {
@@ -231,10 +231,10 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * 自定义图标的类名，会覆盖type
        * */
       iconClass: String
-      
+
     };
   }
-  
+
   static get observers() {
     return [
       '__sizeChanged(width, "width")',
@@ -242,13 +242,13 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '__messageChanged(message)'
     ];
   }
-  
+
   __sizeChanged(size, sizeAttr) {
     if(size) {
       this.$.dialog.updateStyles({["--h2-dialog-" + sizeAttr]: size});
     }
   }
-  
+
   __messageChanged(message) {
     this.$.messageContainer.innerHTML = message;
   }
@@ -259,7 +259,7 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.close();
     this.isFunction(this._cancelCallback) && this._cancelCallback();
   }
-  
+
   /**
    * Confirm handler
    */
@@ -268,7 +268,7 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
     const cbParam = this.type === 'prompt' ? {remark: this.remark} : null;
     this.isFunction(this._confirmCallback) && this._confirmCallback(cbParam);
   }
-  
+
   /**
    * Open the tip dialog.
    *
@@ -284,27 +284,27 @@ class H2Tip extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (args.length > 0 && typeof args[0] === 'function') {
       confirmCallback = args.shift();
     }
-    
+
     if (args.length > 0 && typeof args[0] === 'function') {
       cancelCallback = args.shift();
     }
-    
+
     if (args.length > 0 && (typeof args[0] === 'number' || typeof args[0] === 'string')) {
       duration = Number(args[0]);
     }
-    
+
     this._confirmCallback = confirmCallback;
     this._cancelCallback = cancelCallback;
-    
+
     this.$.dialog.open();
-    
+
     if (this.type !== 'confirm' && this.type !== 'prompt') {
       setTimeout(() => {
         this.close();
       }, duration);
     }
   }
-  
+
   /**
    * Hide the tip.
    */

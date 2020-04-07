@@ -1,7 +1,7 @@
-/*
+/**
 `h2-image-view`
 
-Example: 
+Example:
 ```html
 <h2-image-view src="https://test.com/test.jpg"></h2-image-view>
 ```
@@ -115,7 +115,7 @@ class H2ImageView extends PolymerElement {
     if (newValue) {
       const style = this.$["result-img"].style;
       const viewerStyle = this.$['viewer-img'].style;
-      
+
       style.background = `url(${newValue}) no-repeat center`;
       style.backgroundSize = "contain";
       viewerStyle.background = `url(${newValue}) no-repeat center`;

@@ -1,4 +1,4 @@
-/*
+/**
 `h2-pagination`
 
 Example:
@@ -183,11 +183,11 @@ class H2Pagination extends PolymerElement {
     </ul>
 `;
   }
-  
+
   static get is() {
     return "h2-pagination";
   }
-  
+
   static get properties() {
     return {
       /**
@@ -222,7 +222,7 @@ class H2Pagination extends PolymerElement {
         type: Boolean,
         value: false
       },
-      
+
       /**
        * Total page sizes
        */
@@ -238,38 +238,38 @@ class H2Pagination extends PolymerElement {
         type: Boolean,
         value: false
       },
-      
+
       pageSizes: {
         type: Array,
         value: function () {
           return [20, 40, 60];
         }
       },
-      
+
       __pageIndex: {
         type: Number,
       },
-      
+
       start: {
         type: Number,
         observer: '_pageStartChanged'
       },
-      
+
       __pageSize: {
         type: Array,
         computed: '__computedPageSize(pageSizes)'
       },
-      
+
       __limit: {
         type: String
       }
     };
   }
-  
+
   __computedPageSize(pageSizes = []) {
     return pageSizes.map(ps => ({value: ps, label: `${ps}条/页`}))
   }
-  
+
   static get observers() {
     return [
       '_pageIndexChanged(__pageIndex)',
@@ -278,14 +278,14 @@ class H2Pagination extends PolymerElement {
       // '_pageStartChanged(start)',
     ];
   }
-  
+
   _pageStartChanged(start, oldStart) {
     if(start >= 0) {
       const pageIndex = Math.floor(start / this.limit) + 1;
       if (pageIndex !== this.__pageIndex) {
         this.__pageIndex = pageIndex;
       }
-  
+
       // would not dispatch event when at initial phase
       if (oldStart !== undefined) {
         this.dispatchEvent(new CustomEvent("start-changed", {detail: {value: start}}));
@@ -298,11 +298,11 @@ class H2Pagination extends PolymerElement {
       this.style.display = 'none'
     }
   }
-  
+
   _pageIndexChanged() {
     this.start = (this.__pageIndex - 1) * this.limit;
   }
-  
+
   _limitChanged(limit, oldLimit) {
     const totalPage = Math.floor(this.total / limit) + 1;
     if (totalPage < this.__pageIndex) {
@@ -310,30 +310,30 @@ class H2Pagination extends PolymerElement {
     } else {
       this.start = (this.__pageIndex - 1) * limit || 0;
     }
-    
+
     // would not dispatch event when at initial phase
     if (oldLimit !== undefined) {
       this.dispatchEvent(new CustomEvent("limit-changed", {detail: {value: limit}}));
     }
-    
+
     this.__limit = limit.toString();
   }
-  
+
   __limitChanged(limit) {
     this.limit = parseInt(limit);
   }
-  
+
   _calTotalPageSize(total, limit) {
     return Math.ceil((total || 0) / limit);
   }
-  
+
   /**
    * Go to the first page.
    */
   first() {
     this.__pageIndex = 1;
   }
-  
+
   /**
    * Go to previous page.
    */
@@ -342,7 +342,7 @@ class H2Pagination extends PolymerElement {
       this.__pageIndex--;
     }
   }
-  
+
   /**
    * Go to next page.
    */
@@ -351,7 +351,7 @@ class H2Pagination extends PolymerElement {
       this.__pageIndex++;
     }
   }
-  
+
   /**
    * Go to the last page.
    */

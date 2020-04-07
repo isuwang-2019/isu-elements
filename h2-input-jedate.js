@@ -1,4 +1,4 @@
-/*
+/**
 `h2-input-date`
 
 Example:
@@ -96,7 +96,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
     
 `;
   }
-  
+
   static get properties() {
     return {
       /**
@@ -343,7 +343,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
   static get observers() {
     return ['_idChanged(id)', '_valueChanged(value)']
   }
-  
+
   static get is() {
     return "h2-input-jedate";
   }
