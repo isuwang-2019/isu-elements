@@ -1,4 +1,4 @@
-/*
+/**
 `h2-input-date`
 
 Example:
@@ -380,7 +380,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </paper-dialog>
 `;
   }
-  
+
   static get properties() {
     return {
       /**
@@ -493,11 +493,11 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     };
   }
-  
+
   static get is() {
     return "h2-input-date";
   }
-  
+
   static get observers() {
     return [
       '__refreshUIState(required)',
@@ -510,7 +510,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_minmaxChanged(min, max)'
     ];
   }
-  
+
   /**
    * @param value
    * @private
@@ -527,11 +527,11 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
     this.getDayList();
   }
-  
+
   _minmaxChanged() {
     this.__refreshUIState();
   }
-  
+
   __refreshUIState() {
     if (!this.validate()) {
       this.setAttribute("data-invalid", "");
@@ -539,7 +539,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.removeAttribute("data-invalid");
     }
   }
-  
+
   /**
    * @param time
    * @private
@@ -550,31 +550,31 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       return;
     }
     let value = this._getTimestampToDate(time);
-    
+
     if (this.type === 'datetime') this.getTimeList(value, 'start');
     this.set("value", value);
-    
+
   }
-  
+
   _getTimestampToDate(timestamp) {
     const date = new Date(timestamp);
     let value = this._getTimestampTo(timestamp);
     if (this.type.includes('time')) value += ` ${this.getTime(date)}`;
     return value;
   }
-  
+
   _getTimestampTo(timestamp) {
     const date = new Date(timestamp);
     return `${date.getFullYear()}-${this._preReplenish(date.getMonth() + 1, 2, "0")}-${this._preReplenish(date.getDate(), 2, "0")}`;
   }
-  
+
   _startDateChanged(startDate) {
     if (!startDate) return;
     this.getTimeList(startDate, 'start');
     let time = new Date(`${startDate}${this.type.includes('time') ? '' : ' 00:00:00'}`).getTime();
     this.set("startTimestamp", time);
   }
-  
+
   _endDateChanged(endDate) {
     this.__refreshUIState();
     if (!endDate) return;
@@ -583,7 +583,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.set("endTimestamp", time);
     this.getDayList();
   }
-  
+
   _startTimestampChanged(startTimestamp) {
     if (!startTimestamp) {
       this.set("startDate", undefined);
@@ -594,7 +594,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.type.includes('time')) value = this.startDateTimeList.find(item => item.timestamp >= startTimestamp).value;
     this.set('startDate', value);
   }
-  
+
   _endTimestampChanged(endTimestamp) {
     this.__refreshUIState();
     if (!endTimestamp) {
@@ -607,11 +607,11 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.set('endDate', value);
     if (this.type !== 'datetimeRange') this.$.dateBox.close();
   }
-  
+
   getTime(date) {
     return `${this._preReplenish(date.getHours(), 2, '0')}:${this._preReplenish(date.getMinutes(), 2, '0')}:${this._preReplenish(date.getSeconds(), 2, '0')}`
   }
-  
+
   getTimeList(date, type) {
     const endTimeArr = this.endTime.split(':');
     const listLength = !this.type.includes('time') ? 24 / (this.stepTime / 60) : Math.ceil((endTimeArr[0] * 60 + +endTimeArr[1] + (+endTimeArr[2] / 60)) / this.stepTime);
@@ -626,7 +626,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
     this.set(`${type}DateTimeList`, startDateTimeList);
   }
-  
+
   clear(e) {
     e.stopPropagation();
     if (this.rangeList.includes(this.type)) {
@@ -637,7 +637,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
     this.value = '';
   }
-  
+
   /*
   * 单个日期class控制
   * */
@@ -647,14 +647,14 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     classStr += this.endDate && item.position === 'end' ? ' select-end' : '';
     return classStr;
   }
-  
+
   optionalClass(item) {
     let str = item.currMonth ? 'item-day' : 'item-day currMonth';
     str += item.disabled ? ' disabled' : '';
     str += item.select && this.rangeList.includes(this.type) && this.startDate && this.endDate && item.position !== 'start' && item.position !== 'end' && item.position !== 'all' ? ' select-range' : '';
     return str;
   }
-  
+
   /**
    * 前置填充
    * @param {*} str
@@ -664,14 +664,14 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _preReplenish(str, totalLen = 0, replenisher = "") {
     return `${String(replenisher).repeat(Number(totalLen) - String(str).length)}${String(str)}`;
   }
-  
+
   /**
    * Set focus to input.
    */
   doFocus() {
     this.$.input.doFocus();
   }
-  
+
   openDialog() {
     this.$.dateBox.positionTarget = this.$.targetDate;
     const date = this.value && !this.rangeList.includes(this.type) ? new Date(this.value) : (this.startDate && this.endDate) && this.rangeList.includes(this.type) ? new Date(this.startDate) : this.min ? new Date(this.min) : this.max ? new Date(this.max) : new Date();
@@ -681,7 +681,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.getDayList();
     this.$.dateBox.open();
   }
-  
+
   yearOpen() {
     let yearList = [];
     const year = this.year;
@@ -691,7 +691,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.set('showDashboard', 'year');
     this.set('yearList', yearList);
   }
-  
+
   monthOpen() {
     this.set('showDashboard', 'month');
     if (this.min) {
@@ -702,7 +702,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
     this.set('yearList', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   }
-  
+
   getDayList() {
     const totalDays = new Date(this.year, this.month, 0).getDate();
     const min = 1 - (new Date(this.year, this.month - 1, 1).getDay() || 7);
@@ -726,9 +726,9 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         disabled: minTimestamp > obj.getTime() || maxTimestamp < obj.getTime()
       });
     }
-    
+
     this.set('dayList', days);
-    
+
     if (this.startDate && this.endDate && this.rangeList.includes(this.type)) {
       const dayList = this.dayList.slice();
       const startIndex = dayList.findIndex(val => val.select);
@@ -741,21 +741,21 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.set(`dayList.${endIndex}`, Object.assign({position: 'end'}, this.dayList[endIndex]));
     }
   }
-  
+
   yearMinus() {
     const min = this.min ? this.min.split('-')[0] : 1970;
     this.year > min && this.year--;
     if (this.showDashboard === 'year' && this.yearList[0] > this.year) this.yearOpen();
     if (!this.showDashboard) this.getDayList();
   }
-  
+
   yearAdd() {
     const max = this.max ? this.max.split('-')[0] : 9999;
     this.year < max && this.year++;
     if (this.showDashboard === 'year' && this.yearList[11] < this.year) this.yearOpen();
     if (!this.showDashboard) this.getDayList();
   }
-  
+
   optionalClassYM(item, year, month) {
     let str = 'item-y-m';
     if (this.min) {
@@ -769,7 +769,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     str += item === year || item === month ? ' select-item' : '';
     return str;
   }
-  
+
   monthMinus() {
     const min = this.min ? this.min.split('-')[1] : 0;
     if (this.month === 1) {
@@ -780,7 +780,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.getDayList();
     }
   }
-  
+
   monthAdd() {
     const max = this.max ? this.max.split('-')[1] : 13;
     if (this.month === 12) {
@@ -791,7 +791,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.getDayList();
     }
   }
-  
+
   selectDay({model: {item, index}}) {
     this.clearDate();
     if (!this.rangeList.includes(this.type)) {
@@ -801,16 +801,16 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.set(`dayList.${index}`, Object.assign({}, item, {select: true}));
     this.date = item.date;
     const month = item.currMonth ? this.month - 1 : item.date >= 24 ? this.month - 2 : this.month;
-  
+
     const transientDate = this._getTimestampTo(new Date(this.year, month, this.date));
     // const timestamp = new Date(this.year, month, this.date).getTime();
     this.setTimestamp(transientDate);
-    
+
     if (!this.rangeList.includes(this.type) && !item.currMonth) {
       item.date >= 24 ? this.monthMinus() : this.monthAdd();
     }
   }
-  
+
   clearDate() {
     if (this.rangeList.includes(this.type) && (this.startDate && this.endDate)) {
       this.set('startDate', undefined);
@@ -820,7 +820,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.getDayList();
     }
   }
-  
+
   selectYearOrMonth({model: {item}}) {
     this[this.showDashboard] = item;
     if (this.showDashboard === 'year') {
@@ -831,9 +831,9 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.showDashboard = '';
       this.getDayList();
     }
-    
+
   }
-  
+
   selectToday() {
     this.clearDate();
     const date = new Date();
@@ -847,7 +847,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     const transientDate = this._getTimestampTo(new Date(this.year, this.month - 1, this.date));
     this.setTimestamp(transientDate);
   }
-  
+
   // 赋值
   setTimestamp(date) {
     let timestamp;
@@ -876,7 +876,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     }
   }
-  
+
   /**
    * Validates the input element.
    *

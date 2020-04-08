@@ -1,4 +1,4 @@
-/*
+/**
 
 ```html
 
@@ -151,7 +151,7 @@ class H2EditTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
   add({model: {rowIndex}}) {
     this.splice('data', rowIndex + 1, 0, {})
   }
-  
+
   __appendTmplContent(targetSelector, model, rowIndex,  columnTag) {
     const parent = this.shadowRoot.querySelector(targetSelector);
     const {root} = columnTag.stampTemplate(model) || {};
@@ -160,21 +160,21 @@ class H2EditTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
       parent.appendChild(root);
     }
   }
-  
+
   computeContent(row, rowIndex, column, columnIndex) {
     if (column.tmpl && column.type === 'operate') {
-      
+
       setTimeout(() => {
         this.__appendTmplContent(`#row_${rowIndex}_column_${columnIndex}`, row, rowIndex, column);
       }, 0, this);
-      
+
       return null;
     }
-    
+
     if(column.props) {
       return column.props.split(",").map(p => this.getValueByKey(row, p.trim())).join(column.separator || ',');
     }
-    
+
     return this.getValueByKey(row, column.prop);
   }
 

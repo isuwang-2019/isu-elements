@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  
+  <title>h2-input demo</title>
+  
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../isu-input-number'
+  </script>
+  
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
+    
+    $_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+
+      h2-input {
+        margin-bottom: 10px;
+      }
+    </style>
+  </custom-style>`;
+    
+    document.body.appendChild($_documentContainer.content);
+  </script>
+</head>
+<body>
+  <h3>基础用法</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style is="custom-style">
+          .typed-input {
+            width: 350px;
+            --h2-label: {
+              width: 100px;
+            };
+          }
+          isu-input-number {
+            margin-bottom: 10px;
+          }
+        </style>
+      </custom-style>
+      <h4>Basic</h4>
+      <isu-input-number id="inputNumber"></isu-input-number>
+      <h4>步长，相关联label</h4>
+      <isu-input-number id="inputNumber2" step="0.01" label="数量"></isu-input-number>
+      <h4>最大输入值，最小输入值</h4>
+      <isu-input-number id="inputNumber3" min="0" max="10"></isu-input-number>
+      <h4>禁用</h4>
+      <isu-input-number id="inputNumber4" disabled></isu-input-number>
+      <h4>不要两个控制按钮</h4>
+      <isu-input-number id="inputNumber5" no-controls></isu-input-number>
+      <h4>精度为2</h4>
+      <isu-input-number id="inputNumber6" precision="2" step="0.1"></isu-input-number>
+      <h4>只能输入步长的倍数</h4>
+      <isu-input-number id="inputNumber6" step="2" step-strictly></isu-input-number>
+    </template>
+  </demo-snippet>
+</body>
+</html>

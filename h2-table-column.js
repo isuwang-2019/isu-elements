@@ -1,4 +1,4 @@
-/*
+/**
 
 ```html
 
@@ -21,51 +21,51 @@ class H2TableColumn extends mixinBehaviors([Templatizer], PolymerElement) {
   static get template() {
     return null;
   }
-  
+
   static get properties() {
     return {
       prop: {
         type: String
       },
-  
+
       props: String,
-  
+
       separator: String,
-      
+
       label: {
         type: String
       },
-      
+
       width: {
         type: Number
       },
-      
+
       fixed: {
         type: String,
       },
-      
+
       type: {
         type: String,
         value: 'view'
       },
-      
+
       tmpl: Object,
-      
+
       modelAs: {
         type: String,
         value: 'item'
       },
-      
+
       sortable: {
         type: Boolean,
         value: false
       },
-  
+
       frozen: {
         type: Boolean,
         value: false
       },
-      
+
       formatter: Function,
       /**
        * 样式，可以设定颜色，对齐方式等
@@ -74,15 +74,15 @@ class H2TableColumn extends mixinBehaviors([Templatizer], PolymerElement) {
       defaultValue: String
     };
   }
-  
+
   static get is() {
     return "h2-table-column";
   }
-  
+
   constructor() {
     super();
     this.tmpl = this._findTemplate().pop();
-    
+
     if (this.tmpl) {
       // hack for template.__dataHost
       this.tmpl.__dataHost = this.parentElement;
@@ -90,12 +90,12 @@ class H2TableColumn extends mixinBehaviors([Templatizer], PolymerElement) {
       this.templatize(this.tmpl);
     }
   }
-  
+
   _findTemplate() {
     return FlattenedNodesObserver.getFlattenedNodes(this)
       .filter(node => node.localName === 'template');
   }
-  
+
   stampTemplate(instanceProps, key = this.modelAs) {
     if(this.tmpl) return this.stamp({[key]: instanceProps, "global": this.tmpl.__dataHost.global});
     return null;

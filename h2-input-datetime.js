@@ -1,4 +1,4 @@
-/*
+/**
 `h2-input-datetime`
 
 Example:

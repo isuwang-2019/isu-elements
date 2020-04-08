@@ -1,44 +1,41 @@
-/*
-
-`h2-button-group`
-
-Example:
-```html
-<h2-button-group label="测试">
-  <div bind-item="1">测试1</div>
-  <div bind-item="2">测试2</div>
-  <div bind-item="3">测试3</div>
-</h2-button-group>
-
-
-<h2-button-group items="[[ items ]]" label="测试" attr-for-label="label"></h2-button-group>
-
-items = [
-    {label: "测试1", value: "1"},
-    {label: "测试2", value: "2"},
-    {label: "测试3", value: "3"}
-]
-
-```
-
-## Styling
-
-The following custom properties and mixins are available for styling:
-
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--h2-button-group-button` | Mixin applied to the group button | {}
-|`--h2-button-group-dropdown` | Mixin applied to the group dropdown | {}
-
-*/
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {BaseBehavior} from "./behaviors/base-behavior";
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/iron-collapse';
 import './behaviors/h2-elements-shared-styles';
 import './h2-button';
-
 /**
+ *
+ * `h2-button-group`
+ *
+ * Example:
+ * ```html
+ * <h2-button-group label="测试">
+ * <div bind-item="1">测试1</div>
+ * <div bind-item="2">测试2</div>
+ * <div bind-item="3">测试3</div>
+ * </h2-button-group>
+ *
+ *
+ * <h2-button-group items="[[ items ]]" label="测试" attr-for-label="label"></h2-button-group>
+ *
+ * items = [
+ * {label: "测试1", value: "1"},
+ * {label: "测试2", value: "2"},
+ * {label: "测试3", value: "3"}
+ * ]
+ *
+ * ```
+ *
+ * ## Styling
+ *
+ * The following custom properties and mixins are available for styling:
+ *
+ * |Custom property | Description | Default|
+ * |----------------|-------------|----------|
+ * |`--h2-button-group-button` | Mixin applied to the group button | {}
+ * |`--h2-button-group-dropdown` | Mixin applied to the group dropdown | {}
+ *
  * @customElement
  * @polymer
  * @demo demo/h2-button-group/index.html
@@ -180,7 +177,7 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </iron-collapse>
 `;
   }
-  
+
   static get properties() {
     return {
       /**
@@ -207,7 +204,7 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false,
         reflectToAttribute: true
       },
-      
+
       /**
        * The dropdown items.
        * @type Array
@@ -215,7 +212,7 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       items: {
         type: Array
       },
-      
+
       /**
        * Attribute name for label.
        * @type {string}
@@ -244,32 +241,32 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     };
   }
-  
+
   static get is() {
     return "h2-button-group";
   }
-  
+
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('scroll', e => {
       this.close();
     });
   }
-  
+
   /**
    * Expand the group.
    */
   open() {
     this.opened = true;
   }
-  
+
   /**
    * Collpase the group.
    */
   close() {
     this.opened = false;
   }
-  
+
   /**
    * Toggle the group.
    */
@@ -291,12 +288,12 @@ class H2ButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
 
   }
-  
+
   getElemPos(obj) {
     const {x, y} = obj.getBoundingClientRect();
     return {top: y + 2, left: x};
   }
-  
+
   _onButtonDropdownClick(e) {
     const target = e.target,
       bindItem = e.target.bindItem || e.target.getAttribute('bind-item');
