@@ -13,10 +13,6 @@ import Node from "./utils/tree/node";
  */
 class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
 
-  constructor() {
-    super();
-  }
-
   static get template() {
     return html`
        <style include="h2-tree-shared-styles">
@@ -149,10 +145,6 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
     ]
   }
 
-  static get is() {
-    return "h2-tree";
-  }
-
   _childNodesChanged(target) {
     const self = this
     self.addEventListener('check-button', (e) => {
@@ -202,4 +194,4 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
 
 }
 
-window.customElements.define(H2Tree.is, H2Tree);
+window.customElements.define('h2-tree', H2Tree);
