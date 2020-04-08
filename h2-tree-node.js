@@ -13,11 +13,6 @@ import Node from "./utils/tree/node";
  * @demo demo/h2-tree/index.html
  */
 class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  
-  constructor() {
-    super();
-    this.noink = true;
-  }
 
   static get template() {
     return html`
