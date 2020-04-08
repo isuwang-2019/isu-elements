@@ -22,18 +22,23 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
        <style include="h2-tree-shared-styles">
        
        </style>
-        <template is="dom-if" if="[[requireQuery]]">
+       <template is="dom-if" if="[[requireQuery]]">
           <h2-input type="text" value="{{searchWord}}"></h2-input>
         </template>
         <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
           <h2-tree-node show-checkbox="{{showCheckbox}}" search-word="[[searchWord]]"
-            is-checked="{{isChecked}}"
+            is-checked="{{isChecked}}" is-first="[[_isFirst(index)]]"
             accordion="[[accordion]]" level="1" id="{{item.nodeId}}"
             key="[[getNodeKey(item, index)]]" node="{{item}}"  
             default-expand-all="[[defaultExpandAll]]"
             show-radio="{{showRadio}}" indent="[[indent]]"
             data-location="[[_getDataLocation(index)]]" 
-          ></h2-tree-node>
+          >
+          <div slot="before-label">
+            <slot name="before-label">
+            </slot>
+          </div>
+          </h2-tree-node>
         </template>
 `;
   }
@@ -78,6 +83,13 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
         type: Boolean,
         value: false
       },
+      /**
+       * 需要返回的key的集合的指定字段
+       * */
+      key: {
+        type: String,
+        value: 'id'
+      },
       indent: {
         // 每一层缩进多少像素
         type: Number,
@@ -108,26 +120,58 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
         notify: true,
         reflectToAttribute: true
       },
+      /**
+       * 搜索条件
+       * */
       searchWord: {
         type: String
+      },
+      /**
+       * 选中的对象的集合
+       * */
+      bindItems: {
+        type: Array,
+        notify: true
+      },
+      /**
+       * 选中的对象的id的集合
+       * */
+      bindItemKeys: {
+        type: Array,
+        notify: true
       }
     }
+  }
+  static get observers() {
+    return [
+      '_childNodesChanged(node.childNodes.*)',
+      '_isFirst(isFirst)'
+    ]
   }
 
   static get is() {
     return "h2-tree";
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    //是否有子元素作为模板
-    // this.slot = !!
+  _childNodesChanged(target) {
+    const self = this
+    self.addEventListener('check-button', (e) => {
+      self.debounce('_setBindItemsChanged', self._setBindItemsChanged.bind(self, e), 200)
+    });
+  }
+
+  _setBindItemsChanged(e) {
+    this.set('bindItems', e.detail.checkedNodes)
+    this.set('bindItemKeys', e.detail.checkedKeys)
+    console.log(this.bindItems)
+    console.log(this.bindItemKeys)
   }
 
   ready() {
     super.ready()
     const store = new TreeStore({
       data: this.data,
+      key: this.key,
       lazy: this.lazy,
       props: this.props,
       load: this.load,
@@ -141,6 +185,11 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
     });
     this.set('store',  store)
     this.set('node',  store.root)
+  }
+
+
+  _isFirst(index) {
+    return index === 0
   }
 
   getNodeKey(node, index) {

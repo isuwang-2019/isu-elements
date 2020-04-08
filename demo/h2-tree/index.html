@@ -44,21 +44,28 @@
         <style>
         </style>
       </custom-style>
-      <h2-tree id="tree" show-checkbox require-query accordion>
-        <span slot-scope="{ node }" class="dhtceshi">{{ node.label }}</span>
-        <template is="dom-if" if="showLevel1">
-          showLevel1
-        </template>
-        <template is="dom-if" if="showLevel2">
-          showLevel2
-        </template>
-        <template is="dom-if" if="showLevel3">
-          showLevel3
-        </template>
+      <h2-tree id="tree" show-checkbox require-query>
+        <!--<span slot="before-label">I'm light DOM</span>-->
+        <span slot="before-label">hahha2</span>
+        <!--<template is="dom-if" if="showLevel1">-->
+          <!--showLevel1-->
+        <!--</template>-->
+        <!--<template is="dom-if" if="showLevel2">-->
+          <!--showLevel2-->
+        <!--</template>-->
+        <!--<template is="dom-if" if="showLevel3">-->
+          <!--showLevel3-->
+        <!--</template>-->
       </h2-tree>
       <script>
         tree.data = [
-          { id: 2, label: '第2个', disabled: true, children: [] },
+          { id: 2, label: '第2个', children: [
+              { id: 1, label: '二级第1个', children: [] },
+              { id: 2, label: '二级第2个', disabled: true, checked: true, children: [] },
+              { id: 3, label: '二级第3个', children: [] },
+              { id: 4, label: '二级第4个', children: [] },
+              { id: 5, label: '二级第5个', children: [] }
+            ] },
           {
             id: 1,
             label: '第1个',
