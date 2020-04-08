@@ -153,12 +153,6 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
     return "h2-tree";
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-
-    //是否有子元素作为模板
-    // this.slot = !!
-  }
   _childNodesChanged(target) {
     const self = this
     self.addEventListener('check-button', (e) => {
@@ -172,25 +166,6 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
     console.log(this.bindItems)
     console.log(this.bindItemKeys)
   }
-
-  // _notifyDataChanged(isChecked) {
-  //   const self = this
-  //   if(isChecked === undefined || isChecked === null) {
-  //     return
-  //   }
-  //
-  //   if(this.tree) {
-  //     const store = this.store
-  //     let param = {
-  //       checkedNodes: store.getCheckedNodes(),
-  //       checkedKeys: store.getCheckedKeys(),
-  //       halfCheckedNodes: store.getHalfCheckedNodes(),
-  //       halfCheckedKeys: store.getHalfCheckedKeys()
-  //     }
-  //     this.dispatchEvent(new CustomEvent("check", {detail: {data: this.node.data, ...param}}));
-  //   }
-  //
-  // }
 
   ready() {
     super.ready()

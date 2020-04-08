@@ -66,7 +66,6 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </template>
         <!--多选框-->
         <template is="dom-if" if="[[showCheckbox]]">
-         {{node.checked}}
           <paper-checkbox 
             class="checkbox-item half" 
             class$="[[getHalfClass(isIndeterminate)]]"
@@ -227,7 +226,6 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     } else {
       this.tree = parent.parentNode.host.tree
     }
-    // window.addEventListener('check', this._notifyDataChanged);
   }
 
   _isFirst(isFirst) {
@@ -342,7 +340,6 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       halfCheckedNodes: store.getHalfCheckedNodes(),
       halfCheckedKeys: store.getHalfCheckedKeys()
     }
-    // return {detail: {data: this.node.data, ...param}}
     this.dispatchEvent(new CustomEvent("check", {detail: {data: this.node.data, ...param}}));
   }
 
@@ -370,7 +367,6 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         halfCheckedNodes: store.getHalfCheckedNodes(),
         halfCheckedKeys: store.getHalfCheckedKeys()
       }
-      // return {detail: {data: this.node.data, ...param}}
       this.dispatchEvent(new CustomEvent("check-button", {detail: {data: this.node.data, ...param}, bubbles: true, composed: true}))
     }
 
