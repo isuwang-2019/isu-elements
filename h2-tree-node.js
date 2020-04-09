@@ -25,11 +25,12 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       paper-checkbox {
         --paper-checkbox-unchecked-color: #B1B6BF;
         position: relative;
+        @apply --paper-checkbox
       }
       paper-checkbox.half{
-        --paper-checkbox-unchecked-background-color: var(--primary-color);
-        --paper-checkbox-unchecked-color: var(--primary-color);
-        @apply --paper-checkbox-half
+        --paper-checkbox-unchecked-background-color: #3F51B5;
+        --paper-checkbox-unchecked-color: #3F51B5;
+       @apply --paper-checkbox-half-choose
       }
       paper-checkbox.half::after {
         content: '-';
@@ -42,6 +43,7 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         position: absolute;
         top: 8px;
         left: 4px;
+        @apply --paper-checkbox-half-after
         
       }
       .trigger__icon {
@@ -63,7 +65,7 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <template is="dom-if" if="[[showCheckbox]]">
           <paper-checkbox 
             class="checkbox-item half" 
-            class$="[[getHalfClass(isIndeterminate)]]"
+            class$="[[getHalfClass(node.indeterminate)]]"
             checked="{{ node.checked }}" 
             disabled="{{ node.disabled }}" 
             on-change="__checkedChangeHandler"
@@ -79,7 +81,7 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
             checked="{{ node.checked }}" 
             disabled="{{ node.disabled }}" 
             on-change="__checkedRadioChangeHandler"
-            on-click="__checkedClickedHandler"
+            on-click="__checkedRadioClickedHandler"
             value="[[ getValueByKey(item, attrForValue) ]]">
               [[ getValueByKey(item, attrForLabel) ]]
            </paper-radio-button>
@@ -97,7 +99,7 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
             show-checkbox="[[showCheckbox]]"
             show-radio="[[showRadio]]"
             is-checked="{{isChecked}}"
-            search-word="[[searchWord]]"
+            search-word="[[searchWord]]" is-show="{{isShow}}"
             key="[[getNodeKey(item, index)]]"
             node="{{item}}" id="{{item.nodeId}}"
             default-expand-all="[[defaultExpandAll]]"
@@ -156,7 +158,8 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * */
       isShow: {
         type: Boolean,
-        value: false
+        value: false,
+        observer: '__isShowChanged'
       },
       /**
        * 缩进
@@ -230,13 +233,14 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  getHalfClass(indeterminate) {
-    return indeterminate === true ? 'half' : ''
+  getHalfClass(isIndeterminate) {
+    return isIndeterminate === true ? 'half' : ''
   }
 
   _isIndeterminateChanged(isIndeterminate) {
     if (!this.node.disabled && isIndeterminate) {
       this.set('isIndeterminate', isIndeterminate)
+      this.set('node.indeterminate', isIndeterminate)
     }
   }
 
@@ -251,6 +255,22 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _searchWordChanged(searchWord) {
     this._showNodeFilter()
+  }
+
+  __isShowChanged(isShow) {
+    const self = this
+    // 这里是从父节点对下面的所有子孙节点手动添加监听，防止节点折叠的时候选择父节点，子孙节点选择错误的问题。后面需要再优化
+    if(isShow) {
+      const recursionNotifyNodeChecked = (prefixKey, curNode) => {
+        self.notifyPath(`${prefixKey}.childNodes.splices`)
+        self.notifyPath(`${prefixKey}.checked`)
+        const childNodes = curNode.childNodes
+        childNodes.forEach((node, index) => {
+          recursionNotifyNodeChecked(`${prefixKey}.childNodes.${index}`, node)
+        })
+      }
+      recursionNotifyNodeChecked('node', this.node)
+    }
   }
 
   _showNodeFilter () {
@@ -323,10 +343,11 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   __checkedRadioChangeHandler(e) {
     e.stopPropagation()
-
+    const isChecked = e.target.checked
     const allPaperRadioButton = this.__getAllPaperRadioButton()
     allPaperRadioButton.forEach(item => item.checked = false )
-    this.isChecked = e.target.checked
+    this.isChecked = isChecked
+    this.set('node.checked', isChecked)
 
     const store = this.tree.store
     let param = {
@@ -350,6 +371,7 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _notifyDataChanged(isChecked) {
     const self = this
+    console.log('check', isChecked)
     if(isChecked === undefined || isChecked === null) {
       return
     }
@@ -383,6 +405,7 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __getAllPaperRadioButton() {
+    // 拿到所有的paper-radio-button按钮
     let allCustomElements = [];
 
     const findAllPaperRadioButton = (nodes) =>{
@@ -410,22 +433,34 @@ class H2TreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       ele.set('isIndeterminate', false)
       ele.set('isChecked', false)
       ele.set('node.checked', ele.isChecked)
+      ele.set('node.indeterminate', ele.isIndeterminate)
     } else if (halfChecked) {
       ele.set('isIndeterminate', true)
       ele.set('isChecked', false)
       ele.set('node.checked', ele.isChecked)
+      ele.set('node.indeterminate', ele.isIndeterminate)
     } else if (allChecked) {
       ele.set('isIndeterminate', false)
       ele.set('isChecked', true)
       ele.set('node.checked', ele.isChecked)
+      ele.set('node.indeterminate', ele.isIndeterminate)
     }
   }
+
+  __checkedRadioClickedHandler(e) {
+    e.stopPropagation()
+  }
+
   __checkedClickedHandler(e) {
     e.stopPropagation()
     const self = this
     const isChecked = e.target.checked
-    this.set('isShow', true)
-    this.set('rotate', 0)
+    // this.set('isShow', true)
+    // this.set('rotate', 0)
+    // this.shadowRoot.querySelectorAll('h2-tree-node').forEach(el => {
+    //   el.isShow = true
+    //   el.rotate = 0
+    // })
     const recursionCheckedChildNode = (prefixKey, childNodes) => {
       childNodes.forEach((node, index) => {
         if(!node.disabled) {

@@ -111,8 +111,6 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <button id="addButton" class="box icon-box" on-click="add" data-args="[[step]]" disabled="[[disabled]]">
       <iron-icon class="icon" icon="icons:add"></iron-icon>
     </button>
-    
-    
 `;
   }
 
@@ -173,9 +171,7 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @type String
        * @default
        */
-      label: {
-        type: String,
-      },
+      label: String,
       /**
        * is disabled
        *
@@ -202,9 +198,7 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @type Number
        * @default
        */
-      precision: {
-        type: Number
-      },
+      precision: Number,
       /**
        *Can only enter multiples of step, step can not be null
        *
@@ -224,6 +218,20 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_noControlsChanged(noControls)',
       '_precisionChanged(precision)'
     ]
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+
+    if (this.stepStrictly) {
+      this.set('value', Math.ceil(this.value / this.step) * this.step)
+    }
+
+    if (this.precision) {
+      this.set('value', Number(this.value).toFixed(this.precision))
+    }
+
+
   }
 
   _valueChanged(value) {
@@ -266,9 +274,10 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.value = this.calculate(this.value, e.currentTarget.dataArgs, '+')
   }
 
-  calculate(value, step, operator) {
+  calculate(oldValue, step, operator) {
+    let value = oldValue
     if (this.stepStrictly) {
-      return Math.ceil(value / step) * step
+      value = Math.ceil(value / step) * step
     }
     const decimal = step.toString().split(".")[1]
     let digit = decimal ? decimal.length : 1
@@ -286,6 +295,9 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
   checkNum(e) {
     const decimal = this.value.toString().split(".")[1]
     const length = decimal ? decimal.length : 0
+    if (this.stepStrictly) {
+      this.set('value', Math.ceil(this.value / this.step) * this.step)
+    }
     if(this.precision && length !== this.precision) {
       this.set('value', Number(this.value).toFixed(this.precision))
     }
