@@ -349,7 +349,7 @@ export default class Node {
     this.isLeaf = false;
   }
 
-  setChecked({}) {
+  setChecked(value, deep, recursion, passValue) {
     this.indeterminate = value === 'half';
     this.checked = value === true;
 

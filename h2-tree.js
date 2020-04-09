@@ -45,8 +45,11 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
         type: Array
       },
       /**
-      * 是否需要搜索
-      * */
+       * The value of the input number
+       *
+       * @type Number
+       * @default 1
+       */
       requireQuery: {
         type: Boolean,
         value: false
@@ -135,6 +138,12 @@ class H2Tree extends mixinBehaviors(TreeStore, PolymerElement) {
       bindItemKeys: {
         type: Array,
         notify: true
+      },
+      /**
+       * 默认选中的key集合
+       * */
+      defaultCheckedKeys: {
+        type: Array
       }
     }
   }
