@@ -235,7 +235,6 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
               <iron-icon class="icon-password" icon=icons:visibility-off on-click="showPassword"></iron-icon>
             </template>
           </template>
-         
         </div>
       </iron-input>
       <template is="dom-if" if="[[suffixUnit]]">
@@ -383,7 +382,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get observers() {
     return [
-      '__refreshUIState(required, min, max, value)',
+      'getInvalidAttribute(required, min, max, value)',
       '__allowedPatternChanged(allowedPattern)'
     ];
   }
@@ -391,15 +390,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
   __allowedPatternChanged() {
     if (this.allowedPattern) {
       this._patternRegExp = new RegExp(this.allowedPattern);
-      this.__refreshUIState();
-    }
-  }
-
-  __refreshUIState() {
-    if (!this.validate()) {
-      this.setAttribute("data-invalid", "");
-    } else {
-      this.removeAttribute("data-invalid");
+      this.getInvalidAttribute();
     }
   }
 
@@ -420,6 +411,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @returns {boolean}
    */
   validate() {
+    super.validate()
     let valid = this.root.querySelector("#input").validate();
 
     if (this.required) {

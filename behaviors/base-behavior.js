@@ -353,20 +353,20 @@ export const BaseBehavior = {
     }, [[], []]);
   },
   /**
-   * 函数防抖
-   * */
-  debounce(fn, delay) {
-    let timer = null
-    return function () {
-      const self = this
-      const arg = arguments
-      if (timer) {
-        clearTimeout(timer)
-        timer = null
-      }
-      timer = setTimeout(function () {
-        fn.apply(self, arg)
-      }, delay)
-    }
+   * get date-invalid attribute
+   *
+   * @param
+   * @return
+   */
+  getInvalidAttribute() {
+    !this.validate() ? this.setAttribute("data-invalid", "") : this.removeAttribute("data-invalid");
+  },
+  /**
+   * check the validate, override by the child component
+   *
+   * @param
+   * @return
+   */
+  validate() {
   }
 };

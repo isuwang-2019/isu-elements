@@ -31,6 +31,10 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
           min-width: 200px;
         }
         
+        :host .cascade {
+          position: relative;
+        }
+        
         .cascading__container {
           flex: 1;
           display: flex;
@@ -172,6 +176,9 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         .cascading__container:hover .caret {
           display: none;
         }
+        :host([data-invalid]) #innerInput {
+          border-color: var(--isu-ui-color_pink);
+        }
       </style>
       
       <template is="dom-if" if="[[ toBoolean(label) ]]">
@@ -187,7 +194,8 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </div>
       
-      <paper-dialog id="boxDialog" no-overlap horizontal-align="auto" vertical-align="auto" on-iron-overlay-closed="__cancelClick">
+      <div class="cascade">
+        <paper-dialog id="boxDialog" no-overlap horizontal-align="auto" vertical-align="auto" on-iron-overlay-closed="__cancelClick">
         <div class="dialog-container">
           <template is="dom-repeat" items="{{treeItems}}" as="tree" index-as="treeIndex">
             <div class="view-container">
@@ -215,6 +223,13 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
         </div>
       </paper-dialog>
+        <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+          <div class="prompt-tip">
+            <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+            [[prompt]]
+          </div>
+         </div>
+      </div>
     `;
   }
 
@@ -268,6 +283,9 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: "value"
       },
+      prompt: {
+        type: String
+      },
       /**
        *
        * Attribute name for label.
@@ -320,7 +338,8 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __valueChanged(value) {
-    !this.validate() ? this.setAttribute("data-invalid", "") : this.removeAttribute("data-invalid");
+    this.getInvalidAttribute()
+
     if (this.treeItems && this.treeItems.length && !this.lazy && value) {
       let treeItems = [].concat(this.treeItems), selectedValues = []
       value.forEach((item, index) => {
@@ -421,7 +440,8 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @returns {boolean}
    */
   validate() {
-    return this.required ? this.value && this.value.length : true;
+    super.validate()
+    return this.required ? !!(this.value && this.value.length) : true;
   }
 
   __isHover(expandTrigger) {
