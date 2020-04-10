@@ -4,35 +4,92 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class"
 import '@polymer/paper-tabs/paper-tabs'
 import '@polymer/paper-tabs/paper-tab'
 
-class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
+class H2PaperTabs extends mixinBehaviors([],PolymerElement) {
   static get template() {
     return html`
-      <style include="isu-elements-shared-styles">
-        paper-tab {
+      <style include="h2-elements-shared-styles">
+        :host {
+            --layout-horizontal: {
+                display: inline-flex;
+            }
+            --paper-tabs:{
+                height: 100%;
+            }
+            --layout-inline_-_display:inline-flex;
+            --paper-tab-content:{
+                height: 48px;
+                line-height: 48px;
+           }
+        }
+        .paper-tab {
             position: relative;
             padding: 0 12px;
             overflow: hidden;
             cursor: pointer;
+            color:#6a6969;
+            border-top: 1px solid #ddd;
+            background-color: #f5f7fa;
+            @apply --paper-tab
+        }
+        .paper-tab-card {
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
             border-left: 1px solid #ddd;
             border-right: 1px solid #ddd;
-            border-top: 1px solid #ddd;
-            background-color: #f0f0f0;
         }
-        paper-tab.iron-selected {
+        .paper-tab-card.iron-selected {
             color: #337ab7;
             font-weight: bold;
+            /*border-right: 2px solid green;*/
             background-color: #ffffff;
         }
+        .paper-tab-card-border-card.iron-selected {
+            color: #337ab7;
+            font-weight: bold;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            /*border-right: 2px solid green;*/
+            background-color: #ffffff;
+        }
+        paper-tab[disabled]{
+               opacity: 0.5;
+        }
+       
+        #rightSelectionBar {
+        position: absolute;
+        height: 48px;
+        top:0;
+        right: 0;
+        border-right: 2px solid #337ab7;
+          -webkit-transform: scale(0);
+        transform: scale(0);
+          -webkit-transform-origin: center top;
+        transform-origin: center top;
+          transition: -webkit-transform;
+        transition: transform;
+        transition-duration:1000ms;
+
+        @apply --paper-tabs-selection-bar;
+      }
+      .tab-position-left{
+        position: relative;
+      }
+      #rightSelectionBar{
+        display:none;
+      }
     </style>
-        <paper-tabs selected="[[selected]]" attr-for-selected="[[attrForSelected]]" no-bar="[[noBar]]" 
-        no-slide="[[noSlide]]" scrollable="[[scrollable]]" fit-container="[[fitContainer]]" align-bottom="[[alignBottom]]"
-        autoselect="[[autoSelect]]" autoselect-delay="[[autoSelectDelay]]" noink="[[noink]]">
-            <template is="dom-repeat" items="[[tabList]]">
-                <paper-tab name="[[item.name]]" disabled="[[item.disabled]]">[[item.name]]</paper-tab>
-            </template>
-        </paper-tabs>
+<!--        <paper-tabs selected="{{selected}}" attr-for-selected="[[attrForSelected]]" no-bar="[[noBar]]" -->
+<!--        no-slide="[[noSlide]]" scrollable="[[scrollable]]" fit-container="[[fitContainer]]" align-bottom="[[alignBottom]]"-->
+<!--        autoselect="[[autoSelect]]" autoselect-delay="[[autoSelectDelay]]" noink="[[noink]]">-->
+        <div class="tab-position-left">
+            <paper-tabs selected="{{selected}}" attr-for-selected="[[attrForSelected]]"  
+            selected-item="{{selectedItem}}" noink align-bottom="[[alignBottom]]" no-bar="[[noBar]]">
+                <template is="dom-repeat" items="[[tabList]]">
+                    <paper-tab name="[[item.name]]" disabled="[[item.disabled]]" class$="[[getTabType(tabType)]]">[[item.name]]123</paper-tab>
+                </template>
+            </paper-tabs>
+            <div id="rightSelectionBar"></div>
+        </div>
       `
   }
 
@@ -48,6 +105,22 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
         type: String,
         value: '0',
         notify: true,
+      },
+      selectedItem:{
+        type:Object,
+        observer:'_selectedItemChange'
+      },
+      tabPosition:{ //设置标签位置 值：top/left/right/bottom
+        type:String,
+        value:'left',
+        notify:true,
+        observer: '_tabPositionChange'
+      },
+      tabType:{  //tab类型  值 card/border-card/widthBar
+        type:String,
+        value:'border-card',
+        notify:true,
+        observer:'_tabTypeChange'
       },
       attrForSelected:{
         type:String,
@@ -98,7 +171,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
   }
 
   static get is() {
-    return 'isu-paper-tabs'
+    return 'h2-paper-tabs'
   }
 
   connectedCallback(){
@@ -108,12 +181,45 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
   created() {
     super.created();
   }
-
+  attached(){
+    super.attached()
+    if(this.tabPosition === ('left' || 'right')){
+      this.shadowRoot.querySelector('paper-tabs').shadowRoot.querySelector('#tabsContent').setAttribute('style','display: grid;line-height: 48px;')
+      this.$.rightSelectionBar.setAttribute('style','display:block')
+    }
+  }
   ready() {
     super.ready();
-      this.setScrollDirection('y', this.$['tabsContainer']);
+  }
+  _selectedItemChange(newVal){
+    if(newVal){
+      const tab = newVal.offsetTop
+      const paperTabs = this.shadowRoot.querySelector('paper-tabs').offsetTop
+      const translateTop = tab-paperTabs
+      this.transform( `translateY(${ translateTop }px)scaleY(1)`,this.shadowRoot.querySelector("#rightSelectionBar"))
+    }
+  }
+
+  _tabPositionChange(newVal){
+    if(newVal === 'bottom'){
+      this.set('alignBottom',true)
+    }
+    if(newVal === ('left' || 'right')){
+      this.set('noBar',true)
+    }
+  }
+  getTabType(type){
+    if(type === 'widthBar'){
+      return this.noBar = false
+    }
+    const typeClassObj = {
+      'card':'paper-tab paper-tab-card',
+      'border-card':'paper-tab paper-tab-card-border-card',
+      'widthBar':''
+    }
+    return typeClassObj[type]
   }
 }
 
-window.customElements.define(IsuPaperTabs.is, IsuPaperTabs);
+window.customElements.define(H2PaperTabs.is, H2PaperTabs);
 
