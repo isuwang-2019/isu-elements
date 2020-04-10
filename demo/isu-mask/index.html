@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>isu-mask demo</title>
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../isu-mask.js';
+    import '../../isu-input.js';
+    import '../../isu-input-date.js';
+    import '../../isu-input-datetime.js';
+    import '../../isu-select.js';
+
+    if (!window.location.href.endsWith("?mock=mockData.js")) {
+      window.location.href = window.location.href + "?mock=mockData.js";
+    }
+  </script>
+  <script type="text/javascript" src="../../utils/mock_setup.js"></script>
+
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+
+    </style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>Basic demo</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          isu-mask {
+            width: 400px;
+            margin: 20px 0;
+            --isu-mask-label: {
+              width: 100px;
+            }
+          }
+        </style>
+      </custom-style>
+      <isu-mask label="输入框" class="mask">
+        <isu-input placeholder="测试输入" value="梅西"></isu-input>
+      </isu-mask>
+
+      <isu-mask label="日期框">
+        <isu-input-date placeholder="日期" value="2017-12-05"></isu-input-date>
+      </isu-mask>
+
+      <isu-mask label="时间框">
+        <isu-input-datetime placeholder="时间"></isu-input-datetime>
+      </isu-mask>
+
+      <isu-mask label="Select下拉框">
+        <isu-select placeholder="测试输入" id="select" value="1,2,3" multi=""></isu-select>
+      </isu-mask>
+
+      <isu-mask label="Picker多选框">
+        <isu-picker id="picker" multi="" attr-for-value="id"></isu-picker>
+      </isu-mask>
+
+      <script>
+        select.items = [
+          {"label": "梅西", "value": 1},
+          {"label": "C罗", "value": 2},
+          {"label": "苏亚雷斯", "value": 3},
+          {"label": "库蒂尼奥", "value": 4},
+          {"label": "特尔斯特根", "value": 5},
+          {"label": "保利尼奥", "value": 6},
+          {"label": "内马尔", "value": 13}
+        ];
+
+        picker.pickerMeta = [{field: 'label', label: '选项'}, {field: 'business', label: '业务范围'}];
+        picker.items = [
+          {"id": 1, "label": "天猫", "business": "塑料"},
+          {"id": 2, "label": "阿里巴巴", "business": "电商"},
+          {"id": 3, "label": "腾讯", "business": "游戏"},
+          {"id": 4, "label": "京东", "business": "电商"}
+        ];
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+</body>
+</html>

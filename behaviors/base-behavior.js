@@ -1,4 +1,4 @@
-import '../h2-loading.js';
+import '../isu-loading.js';
 
 /**
  * @polymerBehavior
@@ -257,10 +257,10 @@ export const BaseBehavior = {
    * 添加loading
    */
   showLoading() {
-    let loadingDiv = document.body.querySelector("#h2-loading");
+    let loadingDiv = document.body.querySelector("#isu-loading");
     if (!loadingDiv) {
-      loadingDiv = document.createElement("h2-loading");
-      loadingDiv.setAttribute("id", "h2-loading");
+      loadingDiv = document.createElement("isu-loading");
+      loadingDiv.setAttribute("id", "isu-loading");
       loadingDiv.noCancelOnOutsideClick = true;
       loadingDiv.noCancelOnEscKey = true;
       // loadingDiv.withBackdrop = true;
@@ -275,7 +275,7 @@ export const BaseBehavior = {
    */
   hideLoading() {
     this.async(function () {
-      const loadingDiv = document.body.querySelector("#h2-loading");
+      const loadingDiv = document.body.querySelector("#isu-loading");
       loadingDiv && loadingDiv.close();
     }, 0);
   },

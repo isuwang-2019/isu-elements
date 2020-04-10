@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-  <title>h2-form demo</title>
+  <title>isu-form demo</title>
 
   <!--<script type="text/javascript" src="../../utils/mock_setup.js"></script>-->
   <script type="application/javascript" src="../node_modules/web-animations-js/web-animations-next.min.js"></script>
@@ -13,27 +13,26 @@
     import '../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader';
     import '../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
     import '../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
-    import '../h2-grid-layout';
-    import '../h2-button.js';
-    import '../h2-button-group';
-    import '../h2-checkbox-group';
-    import '../h2-dialog';
-    import '../h2-image-upload.js';
-    import '../h2-image-view.js';
-    import '../h2-input.js';
-    import '../h2-input-date';
-    import '../h2-input-datetime';
-    import '../h2-mask';
-    import '../h2-pagination';
-    import '../h2-radio';
-    import '../h2-select';
-    import '../h2-table-column';
-    import '../h2-table';
-    import '../h2-textarea';
-    import '../h2-tip';
-    import '../h2-form.js';
-    import '../h2-cascading.js'
-    import '../h2-edit-table.js'
+    import '../isu-grid-layout';
+    import '../isu-button.js';
+    import '../isu-button-group';
+    import '../isu-checkbox-group';
+    import '../isu-dialog';
+    import '../isu-image-upload.js';
+    import '../isu-input.js';
+    import '../isu-input-date';
+    import '../isu-input-datetime';
+    import '../isu-mask';
+    import '../isu-pagination';
+    import '../isu-radio';
+    import '../isu-select';
+    import '../isu-table-column';
+    import '../isu-table';
+    import '../isu-textarea';
+    import '../isu-tip';
+    import '../isu-form.js';
+    import '../isu-cascading.js'
+    import '../isu-edit-table.js'
   </script>
 
   <script type="module">
@@ -56,12 +55,12 @@
 </head>
 <body>
 <div class="vertical-section-container centered">
-  <h3>Basic h2-button demo</h3>
+  <h3>Basic isu-button demo</h3>
   <demo-snippet>
     <template>
       <custom-style>
         <style>
-          h2-button-group {
+          isu-button-group {
             width: 180px;
             height: 35px;
           }
@@ -70,36 +69,35 @@
           }
         </style>
       </custom-style>
-      <h2-grid-layout columns="2" row-grip="40" colunm-grip="10">
-        <h2-button id="btn" type="danger" size="small">测试</h2-button>
-        <h2-button-group id="btnGrp" label="测试"></h2-button-group>
-        <h2-checkbox-group layout-colspan="2" id="checkbox" label="材料" value="0, 1, 2"></h2-checkbox-group>
-        <h2-image-upload id="uploader" label="上河图"></h2-image-upload>
-        <h2-image-view src="https://d1.awsstatic.com/product-marketing/Elastic%20Beanstalk/ElasticBeanstalk_Benefit_Productivity.5cd0e6aedfa2e3b2c05ed7f5faeb0fd215c9742b.png"></h2-image-view>
-        <h2-input class="typed-input" label="文本框" placeholder="Please input something..."></h2-input>
-        <h2-input class="typed-input" label="电话" type="tel" maxlength="11"></h2-input>
-        <h2-input layout-colspan="2" class="typed-input" label="数字框" type="number" required="" min="10" max="20" prompt="请输入10到20之间的数字"></h2-input>
-        <h2-input-date class="input-date" label="日期"></h2-input-date>
-        <h2-input-date class="input-date" label="默认value" value="2017-10-26"></h2-input-date>
-        <h2-input-date class="input-date" label="默认time" timestamp="1509008130349"></h2-input-date>
-        <h2-input-datetime class="datetime" label="无默认日期"></h2-input-datetime>
-        <h2-input-datetime class="datetime" label="默认value" value="2017-10-26T10:20"></h2-input-datetime>
-        <h2-input-datetime class="datetime" label="默认time" timestamp="1509008130349"></h2-input-datetime>
-        <h2-mask label="输入框" class="mask">
-          <h2-input placeholder="测试输入" value="梅西"></h2-input>
-        </h2-mask>
-        <h2-mask label="时间框">
-          <h2-input-datetime placeholder="时间"></h2-input-datetime>
-        </h2-mask>
-        <h2-mask label="Select下拉框">
-          <h2-select placeholder="测试输入" id="select" value="1,2,3" multi=""></h2-select>
-        </h2-mask>
-        <h2-pagination id="page1" total="5000" page-sizes='[10,20]' limit="10" layout-colspan="2"></h2-pagination>
-        <h2-radio id="radio2" label="姓名" attr-for-value="id" attr-for-label="name" value="3"></h2-radio>
-        <h2-select id="select" label="球员" placeholder="选择球员" value="1"></h2-select>
-        <h2-select id="select1" label="球员" placeholder="选择球员" multi="" value="1, 2, 3, 4"></h2-select>
-        <h2-table id="table" layout-colspan="2">
-          <h2-table-column prop="sex" label="性别" width="60" type="expand"  model-as="user">
+      <isu-grid-layout columns="2" row-grip="40" colunm-grip="10">
+        <isu-button id="btn" type="danger" size="small">测试</isu-button>
+        <isu-button-group id="btnGrp" label="测试"></isu-button-group>
+        <isu-checkbox-group layout-colspan="2" id="checkbox" label="材料" value="0, 1, 2"></isu-checkbox-group>
+        <isu-image-upload id="uploader" label="上河图"></isu-image-upload>
+        <isu-input class="typed-input" label="文本框" placeholder="Please input something..."></isu-input>
+        <isu-input class="typed-input" label="电话" type="tel" maxlength="11"></isu-input>
+        <isu-input layout-colspan="2" class="typed-input" label="数字框" type="number" required="" min="10" max="20" prompt="请输入10到20之间的数字"></isu-input>
+        <isu-input-date class="input-date" label="日期"></isu-input-date>
+        <isu-input-date class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
+        <isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
+        <isu-input-datetime class="datetime" label="无默认日期"></isu-input-datetime>
+        <isu-input-datetime class="datetime" label="默认value" value="2017-10-26T10:20"></isu-input-datetime>
+        <isu-input-datetime class="datetime" label="默认time" timestamp="1509008130349"></isu-input-datetime>
+        <isu-mask label="输入框" class="mask">
+          <isu-input placeholder="测试输入" value="梅西"></isu-input>
+        </isu-mask>
+        <isu-mask label="时间框">
+          <isu-input-datetime placeholder="时间"></isu-input-datetime>
+        </isu-mask>
+        <isu-mask label="Select下拉框">
+          <isu-select placeholder="测试输入" id="select" value="1,2,3" multi=""></isu-select>
+        </isu-mask>
+        <isu-pagination id="page1" total="5000" page-sizes='[10,20]' limit="10" layout-colspan="2"></isu-pagination>
+        <isu-radio id="radio2" label="姓名" attr-for-value="id" attr-for-label="name" value="3"></isu-radio>
+        <isu-select id="select" label="球员" placeholder="选择球员" value="1"></isu-select>
+        <isu-select id="select1" label="球员" placeholder="选择球员" multi="" value="1, 2, 3, 4"></isu-select>
+        <isu-table id="table" layout-colspan="2">
+          <isu-table-column prop="sex" label="性别" width="60" type="expand"  model-as="user">
             <template>
               <style>
                 .ext-container {
@@ -115,39 +113,39 @@
                 <div>phone: [[user.phone]]</div>
               </div>
             </template>
-          </h2-table-column>
-          <h2-table-column prop="name" label="名称" width="80" sortable></h2-table-column>
-          <h2-table-column prop="phone" label="电话号码" width="100" sortable></h2-table-column>
-          <h2-table-column prop="phone" label="操作" width="100" type="operate">
+          </isu-table-column>
+          <isu-table-column prop="name" label="名称" width="80" sortable></isu-table-column>
+          <isu-table-column prop="phone" label="电话号码" width="100" sortable></isu-table-column>
+          <isu-table-column prop="phone" label="操作" width="100" type="operate">
             <template>
-              <h2-button class="action-bar">查看</h2-button>
+              <isu-button class="action-bar">查看</isu-button>
               <template is="dom-if" if="[[ item.modify ]]">
-                <h2-button class="action-bar">修改</h2-button>
+                <isu-button class="action-bar">修改</isu-button>
               </template>
             </template>
-          </h2-table-column>
-        </h2-table>
-        <h2-textarea label="备注" value="readonly" layout-colspan="2" layout-rowspan="6" class="text-box"></h2-textarea>
-        <h2-textarea label="备注" value="disabled" disabled layout-colspan="2" class="text-box"></h2-textarea>
-        <h2-button id="btn1" onclick="tip.open();" size="large">Success</h2-button>
-        <h2-button id="btn2" onclick="tip2.open(2000);" size="large">Warn</h2-button>
-        <h2-button id="btn3" onclick="tip3.open(5000);" size="large">Error</h2-button>
-        <h2-cascading id="cascading" label="层叠"></h2-cascading>
+          </isu-table-column>
+        </isu-table>
+        <isu-textarea label="备注" value="readonly" layout-colspan="2" layout-rowspan="6" class="text-box"></isu-textarea>
+        <isu-textarea label="备注" value="disabled" disabled layout-colspan="2" class="text-box"></isu-textarea>
+        <isu-button id="btn1" onclick="tip.open();" size="large">Success</isu-button>
+        <isu-button id="btn2" onclick="tip2.open(2000);" size="large">Warn</isu-button>
+        <isu-button id="btn3" onclick="tip3.open(5000);" size="large">Error</isu-button>
+        <isu-cascading id="cascading" label="层叠"></isu-cascading>
 
-        <h2-picker></h2-picker>
-      </h2-grid-layout>
-      <h2-dialog id="dialog" stop-auto-dismiss>
+        <isu-picker></isu-picker>
+      </isu-grid-layout>
+      <isu-dialog id="dialog" stop-auto-dismiss>
         <div>
           Put your Content here inside an element which with
         </div>
         <div>
-          <h2-button id="btn4" dialog-dismiss size="large">关闭</h2-button>
-          <h2-button id="btn5" size="large">确定</h2-button>
+          <isu-button id="btn4" dialog-dismiss size="large">关闭</isu-button>
+          <isu-button id="btn5" size="large">确定</isu-button>
         </div>
-      </h2-dialog>
-      <h2-tip type="success" message="新建成功" id="tip" duration="5000"></h2-tip>
-      <h2-tip type="warn" message="警告：warning,warning,warning,warning,warning,warning,warning" id="tip2"></h2-tip>
-      <h2-tip type="error" message="出错了：这是一条出错的提示消息, 这是一条出错的提示消息" id="tip3"></h2-tip>
+      </isu-dialog>
+      <isu-tip type="success" message="新建成功" id="tip" duration="5000"></isu-tip>
+      <isu-tip type="warn" message="警告：warning,warning,warning,warning,warning,warning,warning" id="tip2"></isu-tip>
+      <isu-tip type="error" message="出错了：这是一条出错的提示消息, 这是一条出错的提示消息" id="tip3"></isu-tip>
 
       <script>
         cascading.treeItems = [[

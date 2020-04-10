@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  
+  <title>isu-radio demo</title>
+  
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../isu-radio';
+  </script>
+  
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
+    
+    $_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+    </style>
+  </custom-style>`;
+    
+    document.body.appendChild($_documentContainer.content);
+  </script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>isu-radio</h3>
+  <demo-snippet>
+    <template>
+      <isu-radio id="radio" label="性别" value="1"></isu-radio>
+      <script>
+        radio.items = [{value: 1, label: "男"}, {value: 2, label: "女"}];
+      </script>
+    </template>
+  </demo-snippet>
+  
+  <h3>自定义label、value字段</h3>
+  <demo-snippet>
+    <template>
+      <isu-radio id="radio2" label="姓名" attr-for-value="id" attr-for-label="name" value="3"></isu-radio>
+      <script>
+        radio2.items = [{id: 1, name: "张三"}, {id: 2, name: "李四水电费"}, {id: 3, name: "王五"}]
+      </script>
+    </template>
+  </demo-snippet>
+  
+  <h3>支持只读属性</h3>
+  <demo-snippet>
+    <template>
+      <isu-radio id="radio4" label="姓名" attr-for-value="id" attr-for-label="name" value="1" readonly=""></isu-radio>
+      <script>
+        radio4.items = [{id: 1, name: "张三"}, {id: 2, name: "李四"}, {id: 3, name: "王五"}]
+      </script>
+    </template>
+  </demo-snippet>
+  
+  <h3>支持必选, 必选时默认选中第一项</h3>
+  <demo-snippet>
+    <template>
+      <isu-radio id="radio5" label="姓名" attr-for-value="id" attr-for-label="name" required=""></isu-radio>
+      <script>
+        radio5.items = [{id: 1, name: "张三"}, {id: 2, name: "李四"}, {id: 3, name: "王五"}]
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+</body>
+</html>

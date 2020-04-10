@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>isu-edit-table demo</title>
+
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../isu-edit-table';
+    import '../../isu-table-column';
+    import '../../isu-input';
+    import '../../isu-radio';
+  </script>
+
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
+
+    $_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+
+    </style>
+  </custom-style>`;
+
+    document.body.appendChild($_documentContainer.content);
+  </script>
+</head>
+<body>
+
+<div class="vertical-section-container centered">
+  <h3>可编辑表格（含输入框及可编辑单元格）</h3>
+  <demo-snippet>
+    <template>
+      <style>
+        #table {
+          width: 100%;
+        }
+
+      </style>
+      <isu-edit-table id="table">
+        <isu-table-column prop="name" label="名称" width="100"></isu-table-column>
+        <isu-table-column prop="sex" label="性别" width="80" type="operate">
+          <template>
+            <isu-radio class="isu-td-input" value="{{item.sex}}" items="[[global.sex]]"></isu-radio>
+          </template>
+        </isu-table-column>
+        <isu-table-column prop="phone" label="电话号码1" width="160" type="operate">
+          <template>
+            <isu-input class="isu-td-input" value="{{item.phone1}}"></isu-input>
+          </template>
+        </isu-table-column>
+        <isu-table-column prop="count" label="数量" width="50"></isu-table-column>
+        <isu-table-column prop="unit" label="单位" width="50"></isu-table-column>
+        <isu-table-column label="总数" width="100" type="operate">
+          <template>
+            <isu-input class="isu-td-input" value="[[calc(item.unit,'*', item.count)]]" readonly></isu-input>
+          </template>
+        </isu-table-column>
+        
+        <isu-table-column type="delete" label="删除操作" width="100"></isu-table-column>
+        <isu-table-column type="add" label="新增操作" width="100"></isu-table-column>
+        <isu-table-column type="deleteAndAdd" label="删除及新增操作" width="150"></isu-table-column>
+      </isu-edit-table>
+      <script>
+        
+        table.global = {
+          sex: [{value: 1, label: "男"}, {value: 2, label: "女"}]
+        };
+        
+        table.data = [
+          {phone1:'132121212121',unit:1, count: 10, sex: 1, name: 'Wahson', phone: '1231231232'},
+          {phone1:'113131733132',unit:2, count: 10, sex: 2, name: 'Lucy', phone: '1231231233'},
+          {phone1:'171212121222',unit:3, count: 10, sex: 1, name: 'Rose', phone: '1231231234'},
+          {phone1:'192123323323',unit:4, count: 10, sex: 1, name: 'James', phone: '1231231235'}
+        ]
+        
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+</body>
+</html>

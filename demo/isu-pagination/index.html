@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>isu-pagination demo</title>
+
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../isu-pagination';
+  </script>
+
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+    </style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>Basic isu-pagination demo</h3>
+  <demo-snippet>
+    <template>
+      <isu-pagination id="page" total="5000" start="0" limit="20"></isu-pagination>
+      <script>
+        page.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        page.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>自定义分页条数</h3>
+  <demo-snippet>
+    <template>
+      <isu-pagination id="page1" total="50" page-sizes='[10,20,30]' start="0" limit="10"></isu-pagination>
+      <script>
+        page1.addEventListener("start-changed", e => {
+          console.log("page1 start", e);
+        });
+  
+        page1.addEventListener("limit-changed", e => {
+          console.log("page1 limit", e);
+        });
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>不同尺寸</h3>
+  <demo-snippet>
+    <template>
+      <h3>size=normal</h3>
+      <isu-pagination id="pageNormal" total="5000" start="0" limit="20"></isu-pagination>
+      <script>
+        pageNormal.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        pageNormal.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+      <h3>size=small</h3>
+      <isu-pagination id="page2" total="5000" start="0" limit="20" size="small"></isu-pagination>
+      <script>
+        page2.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        page2.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+      <h3>size=mini</h3>
+      <isu-pagination id="page3" total="5000" start="0" limit="20" size="mini" hide-page-select></isu-pagination>
+      <script>
+        page2.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        page2.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>只有一页的时候是否隐藏</h3>
+  <demo-snippet>
+    <template>
+      <h3>不隐藏</h3>
+      <isu-pagination id="pageSingle1" total="1" start="0" limit="20"></isu-pagination>
+      <script>
+        pageNormal.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        pageNormal.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+      <h3>隐藏</h3>
+      <isu-pagination id="pageSingle2" total="1" start="0" limit="20" hide-on-single-page></isu-pagination>
+      <script>
+        pageSingle2.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        pageSingle2.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>是否显示条数选择</h3>
+  <demo-snippet>
+    <template>
+      <isu-pagination id="pageSelect" total="5000" start="0" limit="20" hide-page-select></isu-pagination>
+      <script>
+        pageSelect.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+        pageSelect.addEventListener("limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+</body>
+</html>

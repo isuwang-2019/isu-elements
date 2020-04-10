@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  
+  <title>isu-button demo</title>
+  
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../node_modules/@polymer/iron-icons/iron-icons.js';
+    import '../../node_modules/@polymer/paper-styles/color.js';
+    import '../../isu-tree'
+  </script>
+  
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
+    
+    $_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+    </style>
+  </custom-style>`;
+    
+    document.body.appendChild($_documentContainer.content);
+  </script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>Basic isu-tree demo</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-tree id="tree">
+        <span slot="before-label">hahha2</span>
+        <!--<template is="dom-if" if="showLevel1">-->
+          <!--showLevel1-->
+        <!--</template>-->
+        <!--<template is="dom-if" if="showLevel2">-->
+          <!--showLevel2-->
+        <!--</template>-->
+        <!--<template is="dom-if" if="showLevel3">-->
+          <!--showLevel3-->
+        <!--</template>-->
+      </isu-tree>
+      <script>
+        tree.data = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个', children: [] },
+              { id: 12, label: '二级第2个', children: [] },
+              { id: 13, label: '二级第3个', children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  {
+                    id: 211,
+                    label: '三级1第1个',
+                    showLevel2:true,
+                    children: [
+                      { id: 2111, label: '1', children: [] },
+                      { id: 2112, label: '2', checked: true, children: [] },
+                      { id: 2113, label: '3', children: [] },
+                      { id: 2114, label: '4', children: [] },
+                      { id: 2115, label: '5', children: [] }
+                    ]
+                  },
+                  { id: 212, label: '三级2第2个', disabled: true, children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>部分禁用</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-tree id="tree4" show-radio></isu-tree>
+      <script>
+        tree4.data = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个',  children: [] },
+              { id: 12, label: '二级第2个', disabled: true, children: [] },
+              { id: 13, label: '二级第3个', disabled: true, children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  {id: 211,label: '三级1第1个',showLevel2:true, children: []},
+                  { id: 212, label: '三级2第2个', disabled: true, children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>多选</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-tree id="tree2" show-checkbox></isu-tree>
+      <script>
+        tree2.data = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个',  children: [] },
+              { id: 12, label: '二级第2个', disabled: true, children: [] },
+              { id: 13, label: '二级第3个', children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  {
+                    id: 211,
+                    label: '三级1第1个',
+                    showLevel2:true,
+                    children: [
+                      { id: 2111, label: '1', children: [] },
+                      { id: 2112, label: '2', checked: true, children: [] },
+                      { id: 2113, label: '3', children: [] },
+                      { id: 2114, label: '4', children: [] },
+                      { id: 2115, label: '5', children: [] }
+                    ]
+                  },
+                  { id: 212, label: '三级2第2个', children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>单选</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-tree id="tree3" show-radio></isu-tree>
+      <script>
+        tree3.data = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个', children: [] },
+              { id: 12, label: '二级第2个', children: [] },
+              { id: 13, label: '二级第3个', children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  { id: 211, label: '三级1第1个', children: []},
+                  { id: 212, label: '三级2第2个', children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>可以进行搜索</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-tree id="tree5" show-checkbox require-query></isu-tree>
+      <script>
+        tree5.data = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个',  children: [] },
+              { id: 12, label: '二级第2个', disabled: true, children: [] },
+              { id: 13, label: '二级第3个', children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  {
+                    id: 211,
+                    label: '三级1第1个',
+                    showLevel2:true,
+                    children: [
+                      { id: 2111, label: '1', children: [] },
+                      { id: 2112, label: '2', disabled: true, checked: true, children: [] },
+                      { id: 2113, label: '3', children: [] },
+                      { id: 2114, label: '4', children: [] },
+                      { id: 2115, label: '5', children: [] }
+                    ]
+                  },
+                  { id: 212, label: '三级2第2个', disabled: true, children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
+      </script>
+    </template>
+  </demo-snippet>
+  <h3>手风琴模式，一次只展开一个同级列表</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-tree id="tree6" show-checkbox accordion></isu-tree>
+      <script>
+        tree6.data = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个',  children: [] },
+              { id: 12, label: '二级第2个', disabled: true, children: [] },
+              { id: 13, label: '二级第3个', children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  {
+                    id: 211,
+                    label: '三级1第1个',
+                    showLevel2:true,
+                    children: [
+                      { id: 2111, label: '1', children: [] },
+                      { id: 2112, label: '2', disabled: true, checked: true, children: [] },
+                      { id: 2113, label: '3', children: [] },
+                      { id: 2114, label: '4', children: [] },
+                      { id: 2115, label: '5', children: [] }
+                    ]
+                  },
+                  { id: 212, label: '三级2第2个', disabled: true, children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>展开所有节点</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-tree id="tree7" show-checkbox default-expand-all></isu-tree>
+      <script>
+        tree7.data = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个',  children: [] },
+              { id: 12, label: '二级第2个', disabled: true, children: [] },
+              { id: 13, label: '二级第3个', children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  {
+                    id: 211,
+                    label: '三级1第1个',
+                    showLevel2:true,
+                    children: [
+                      { id: 2111, label: '1', children: [] },
+                      { id: 2112, label: '2', disabled: true, checked: true, children: [] },
+                      { id: 2113, label: '3', children: [] },
+                      { id: 2114, label: '4', children: [] },
+                      { id: 2115, label: '5', children: [] }
+                    ]
+                  },
+                  { id: 212, label: '三级2第2个', disabled: true, children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>自定义样式</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          #tree8  {
+            --paper-checkbox: {
+              --paper-checkbox-unchecked-color: pink;
+              --paper-checkbox-checked-color: red;
+              --paper-checkbox-size: 15px;
+              --paper-checkbox-checkmark-color: black;
+            };
+            --paper-checkbox-half-choose: {
+              --paper-checkbox-unchecked-background-color: red;
+              --paper-checkbox-unchecked-color: red
+            };
+            --paper-checkbox-half-after: {
+              top: 6px;
+              left: 2px;
+            }
+          }
+        </style>
+      </custom-style>
+      <isu-tree id="tree8" show-checkbox></isu-tree>
+      <script>
+        tree8.data = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个',  children: [] },
+              { id: 12, label: '二级第2个', disabled: true, children: [] },
+              { id: 13, label: '二级第3个', children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  {id: 211, label: '三级1第1个', showLevel2:true, children: []},
+                  { id: 212, label: '三级2第2个', disabled: true, children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>默认选中部分值</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-tree id="tree9" show-checkbox default-checked-keys="[11,21]"></isu-tree>
+      <script>
+        tree9.data = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个',  children: [] },
+              { id: 12, label: '二级第2个', disabled: true, children: [] },
+              { id: 13, label: '二级第3个', children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  {id: 211, label: '三级1第1个', showLevel2:true, children: []},
+                  { id: 212, label: '三级2第2个', disabled: true, children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+</body>
+</html>

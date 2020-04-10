@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>isu-button demo</title>
+
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../node_modules/@polymer/iron-icons/iron-icons.js';
+    import '../../node_modules/@polymer/paper-styles/color.js';
+    import '../../isu-button'
+  </script>
+
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
+
+    $_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+    </style>
+  </custom-style>`;
+
+    document.body.appendChild($_documentContainer.content);
+  </script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>Basic isu-button demo</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          isu-button {
+            margin: 10px;
+          }
+
+          #btn2 {
+            --isu-button: {
+              background: #000;
+              color: white
+            };
+          }
+          #btn3 {
+            --isu-button: {
+              width: 80px;
+            };
+          }
+          #btn4 {
+            --isu-button: {
+              width: 40px;
+              height: 40px;
+            };
+          }
+        </style>
+      </custom-style>
+      <div>
+        <isu-button>Enable</isu-button>
+        <isu-button disabled>Disabled</isu-button>
+      </div>
+      <div>
+        <isu-button size="small">small</isu-button>
+        <isu-button size="normal">normal</isu-button>
+        <isu-button size="large">large</isu-button>
+      </div>
+      <div>
+        <isu-button>default</isu-button>
+        <isu-button type="success">success</isu-button>
+        <isu-button type="primary">primary</isu-button>
+        <isu-button type="warning">warning</isu-button>
+        <isu-button type="danger">danger</isu-button>
+      </div>
+      <div>
+        <isu-button><iron-icon icon="check"></iron-icon>default</isu-button>
+        <isu-button type="success"><iron-icon icon="check"></iron-icon>success</isu-button>
+        <isu-button type="primary"><iron-icon icon="check"></iron-icon>primary</isu-button>
+        <isu-button type="warning"><iron-icon icon="check"></iron-icon>warning</isu-button>
+        <isu-button type="danger"><iron-icon icon="check"></iron-icon>danger</isu-button>
+      </div>
+      <div>
+        <isu-button round>default</isu-button>
+        <isu-button type="success" round>success</isu-button>
+        <isu-button type="primary" round>primary</isu-button>
+        <isu-button type="warning" round>warning</isu-button>
+        <isu-button type="danger" round>danger</isu-button>
+      </div>
+      <div>
+        <isu-button circle>1</isu-button>
+        <isu-button type="success" circle>2</isu-button>
+        <isu-button type="primary" circle>3</isu-button>
+        <isu-button type="warning" circle>4</isu-button>
+        <isu-button type="danger" circle>5</isu-button>
+        <isu-button id="btn4" circle><iron-icon icon="check"></iron-icon></isu-button>
+      </div>
+      <div>
+        <isu-button id="btn2">自定义</isu-button>
+      </div>
+      <script>
+        const clickHandler = e => alert(e.target.type);
+        btn.onclick = btn1.onclick = btn2.onclick = clickHandler;
+      </script>
+    </template>
+
+  </demo-snippet>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/paper-button/paper-button'
-import './behaviors/h2-elements-shared-styles.js';
+import './behaviors/isu-elements-shared-styles.js';
 import '@polymer/iron-input';
 import '@polymer/iron-icon';
 import '@polymer/iron-icons';
@@ -31,12 +31,12 @@ import {BaseBehavior} from "./behaviors/base-behavior";
  *
  * ### Styling
  *
- * `<h2-button>` provides the following custom properties and mixins
+ * `<isu-button>` provides the following custom properties and mixins
  * for styling:
  *
  * Custom property | Description | Default
  * ----------------|-------------|----------
- * `--h2-label` | Mixin applied to the button | {}
+ * `--isu-label` | Mixin applied to the button | {}
  *
  * @customElement
  * @polymer
@@ -45,11 +45,11 @@ import {BaseBehavior} from "./behaviors/base-behavior";
 class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`
-    <style include="h2-elements-shared-styles">
+    <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        font-family: var(--h2-ui-font-family) sans-serif;
-        font-size: var(--h2-ui-font-size);
+        font-family: var(--isu-ui-font-family) sans-serif;
+        font-size: var(--isu-ui-font-size);
         border-radius: 4px;
         outline: none;
       }
@@ -73,10 +73,10 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
         width: 120px;
         font-size: 16px;
       }
-      .h2-label {
+      .isu-label {
         text-align: right;
         line-height: 37px;
-        @apply --h2-label
+        @apply --isu-label
       }
       :host([disabled]) .box:hover {
         cursor: no-drop;
@@ -98,7 +98,7 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div class="h2-label">[[label]]</div>
+       <div class="isu-label">[[label]]</div>
     </template>
     <button id="removeButton" class="box icon-box" disabled="[[disabled]]" data-args="[[step]]" on-click="minus">
       <iron-icon class="icon" icon="icons:remove"></iron-icon>
