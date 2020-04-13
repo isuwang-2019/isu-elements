@@ -371,7 +371,6 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _notifyDataChanged(isChecked) {
     const self = this
-    console.log('check', isChecked)
     if(isChecked === undefined || isChecked === null) {
       return
     }

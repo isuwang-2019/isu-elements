@@ -1,23 +1,23 @@
 /**
-`isu-input-date`
+ `isu-input-date`
 
-Example:
-```html
-<isu-input-date class="input-date" label="日期"></isu-input-date>
-<isu-input-date class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
-<isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
+ Example:
+ ```html
+ <isu-input-date class="input-date" label="日期"></isu-input-date>
+ <isu-input-date class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
+ <isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
 
-```
-## Styling
+ ```
+ ## Styling
 
-The following custom properties and mixins are available for styling:
+ The following custom properties and mixins are available for styling:
 
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--isu-input-date-label` | Mixin applied to the label of input | {}
+ |Custom property | Description | Default|
+ |----------------|-------------|----------|
+ |`--isu-input-date-label` | Mixin applied to the label of input | {}
 
 
-*/
+ */
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/paper-dialog';
 import './behaviors/isu-elements-shared-styles.js';
@@ -55,7 +55,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
         display: flex;
         line-height: inherit;
         position: relative;
-       }
+      }
       :host .jeinput{
         display: block;
         width: 100%;
@@ -67,34 +67,47 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
         background-color: #fff;
         border-radius: 3px;
         background-color: #fcfcfc;
-       }
-       :host .input__container {
+      }
+      :host .input__container {
         flex: 1;
         display: flex;
         line-height: inherit;
         min-width: 0;
         position: relative;
+        }
+        .isu-label {
+        position: relative;
       }
-       :host([required]) .input__container::before {
+      :host([data-invalid]) .jeinput {
+        border-color: var(--isu-ui-color_pink)!important;
+      }
+      :host([required]) .input__container::before {
         content: "*";
         color: red;
         position: absolute;
         left: -10px;
         line-height: inherit;
       }
+      /*:host([required]) .input__container {*/
+        /*border: 1px solid red;*/
+      /*}*/
       :host([readonly]) .jeinput {
         cursor: default;
       }
     </style>
-    <div class="input__container">
-      <template is="dom-if" if="[[ toBoolean(label) ]]">
+    <template is="dom-if" if="[[ toBoolean(label) ]]">
         <div class="isu-label">[[label]]</div>
       </template>
+    <div class="input__container">
+       <div class="jeinpbox"><input type="text" id$="[[id]]" class="jeinput" readonly$="[[readonly]]" placeholder$="[[placeholder]]" value$="{{value}}"></div>
+      <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+          <div class="prompt-tip">
+            <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+            [[prompt]]
+          </div>
+      </div>
     </div>
-    <div class="jeinpbox"><input type="text" id$="[[id]]" class="jeinput" readonly$="[[readonly]]" placeholder$="[[placeholder]]" value$="{{value}}"></div>
-    
-    
-`;
+  `;
   }
 
   static get properties() {
@@ -329,19 +342,26 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
         value: []
       },
       id: {
-        type:String,
-        value: 'test'+Math.floor(Math.random()*10000)
+        type: String,
+        value: 'test' + Math.floor(Math.random() * 10000)
       },
       dateArray: {
         type: Array,
         value: []
       },
+      prompt: {
+        type: String
+      }
 
     };
   }
 
   static get observers() {
-    return ['_idChanged(id)', '_valueChanged(value)']
+    return [
+      '_idChanged(id)',
+      '_valueChanged(value)',
+      'getInvalidAttribute(required, value)'
+    ]
   }
 
   static get is() {
@@ -368,6 +388,11 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
     this.set('value', e.val)
   }
 
+  clearfun() {
+    this.set('dateArray', [])
+    this.set('value',null)
+  }
+
   before() {
   }
 
@@ -379,19 +404,19 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
     if (!this.readonly) {
       const self = this
       const enLang = {
-        name  : "en",
-        month : ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
-        weeks : [ "SUN","MON","TUR","WED","THU","FRI","SAT" ],
-        times : ["Hour","Minute","Second"],
-        timetxt: ["Time","Start Time","End Time"],
-        backtxt:"Back",
-        clear : "Clear",
-        today : "Now",
-        yes   : "Confirm",
-        close : "Close"
+        name: "en",
+        month: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+        weeks: ["SUN", "MON", "TUR", "WED", "THU", "FRI", "SAT"],
+        times: ["Hour", "Minute", "Second"],
+        timetxt: ["Time", "Start Time", "End Time"],
+        backtxt: "Back",
+        clear: "Clear",
+        today: "Now",
+        yes: "Confirm",
+        close: "Close"
       }
       const options = {
-        festival:this.festival,
+        festival: this.festival,
         minDate: this.min,              //最小日期
         maxDate: this.max,              //最大日期
         format: this.format,
@@ -415,16 +440,22 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
         theme: this.theme,                   //自定义主题色
         shortcut: this.shortcut,                //日期选择的快捷方式
         donefun: this.donefun.bind(this),                //选中日期完成的回调
+        clearfun: this.clearfun.bind(this),     // 清空日期后的回调
         before: this.before,                //在界面加载之前执行
         succeed: this.succeed                //在界面加载之后执行
       }
       if (this.language === 'en') {
         options.language = enLang
       }
-      const jeDateObj = jeDate(self.root.querySelector(`#${self.id}`),options)
-      this.bindData ? jeDate(self.root.querySelector(`#${self.id}`),options).setValue(convertDate) : jeDate(self.root.querySelector(`#${self.id}`),options)
+      const jeDateObj = jeDate(self.root.querySelector(`#${self.id}`), options)
+      this.bindData ? jeDate(self.root.querySelector(`#${self.id}`), options).setValue(convertDate) : jeDate(self.root.querySelector(`#${self.id}`), options)
     }
     this.set('value', convertDate)
+  }
+
+  validate() {
+    super.validate()
+    return this.required ? this.value && this.value.length > 0 : true
   }
 }
 

@@ -131,7 +131,7 @@ document.body.appendChild($_documentContainer.content);
     <template>
       <isu-picker id="picker3" label="公司" value="1,2,3" attr-for-value="id" multi readonly></isu-picker>
       <isu-picker id="picker4" label="公司" value="1,2,3" attr-for-value="id" multi required enable-hotkey></isu-picker>
-      <isu-picker id="pickerNum" label="公司"  attr-for-value="id" multi-limit="3" multi required enable-hotkey></isu-picker>
+      <isu-picker id="pickerNum" label="公司"  attr-for-value="id" multi-limit="3" multi required prompt="公司不能为空" enable-hotkey></isu-picker>
       <script>
         const pickerMeta = [{field: 'label', label: '选项'}, {field: 'business', label: '业务范围'}];
         picker3.pickerMeta = pickerMeta;

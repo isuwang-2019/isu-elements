@@ -88,6 +88,11 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
           [[ getValueByKey(item, attrForLabel) ]]
         </paper-checkbox>
       </template>
+      <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+      <div class="prompt-tip">
+        <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+        [[prompt]]
+      </div>
       <div class="mask"></div>
     </div>
 `;
@@ -174,6 +179,13 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
        * */
       max: {
         type: Number
+      },
+      /**
+       * The prompt tip to show when input is invalid.
+       * @type {String}
+       */
+      prompt: {
+        type: String
       }
     };
   }
@@ -184,7 +196,8 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
 
   static get observers() {
     return [
-      '__valueChanged(value, items)'
+      '__valueChanged(value, items)',
+      'getInvalidAttribute(required, min, max, value)'
     ];
   }
 
@@ -237,7 +250,23 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
    * @returns {boolean}
    */
   validate() {
-    return this.required ? (this.selectedValues && this.selectedValues.length > 0) : true;
+    super.validate()
+
+    let valid = true
+
+    if (this.required) {
+      valid = this.selectedValues && this.selectedValues.length > 0
+    }
+
+    if(this.min) {
+      valid = this.selectedValues && this.selectedValues.length >= this.min
+    }
+
+    if(this.max) {
+      valid = this.selectedValues && this.selectedValues.length <= this.max
+    }
+
+    return valid
   }
 }
 

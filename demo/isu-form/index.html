@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
   
   <title>isu-form demo</title>
-  
+  <link rel="stylesheet" href="/utils/jedate/skin/jedate.css">
   <script type="text/javascript" src="../../utils/mock_setup.js"></script>
   
   <script type="module">
@@ -15,7 +15,11 @@
     import '../../isu-form.js';
     import '../../isu-input.js';
     import '../../isu-button.js';
-    import '../../isu-cascading.js'
+    import '../../isu-cascading.js';
+    import '../../isu-input-date.js';
+    import '../../isu-input-datetime.js'
+    import '../../isu-input-jedate.js'
+
     if (!window.location.href.endsWith("?mock=formMockData.js")) {
       window.location.href = window.location.href + "?mock=formMockData.js";
     }
@@ -72,6 +76,9 @@
                   prompt="年龄介乎10到20之间"></isu-input>
         <isu-button slot="form-btn" form-submit="">提交</isu-button>
         <isu-cascading id="cascade" label="测试" required prompt="级联表不能为空"></isu-cascading>
+        <isu-input-date id="inputdate" label="日期date" required prompt="日期不能为空"></isu-input-date>
+        <isu-input-datetime id="inputdatetime" label="日期datetime" required prompt="日期时间不能为空" min="1994-01-23"></isu-input-datetime>
+        <isu-input-jedate label="新日期" required prompt="日期不能为空"></isu-input-jedate>
       </isu-form>
       <script type="module">
         import {TipBehavior} from "../../behaviors/tip-behavior.js";

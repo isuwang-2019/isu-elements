@@ -2,6 +2,7 @@ import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
+import '@polymer/iron-icons/social-icons';
 
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
@@ -291,6 +292,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
             </tbody>
           </table>
         </div>
+        <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+          <div class="prompt-tip">
+            <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+            [[prompt]]
+          </div>
+        </div>
       </div>
 `;
   }
@@ -519,7 +526,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: 'Enter'
       },
-      inputChinese: Boolean
+      inputChinese: Boolean,
+      prompt: String
     };
   }
   
@@ -534,7 +542,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_userInputKeywordChanged(_userInputKeyword)',
       '_selectedValuesChanged(selectedValues.splices)',
       '_valueChanged(value)',
-      '__refreshUIState(required)'
+      'getInvalidAttribute(required, value)'
     ]
   }
   
@@ -728,15 +736,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this._displayPlaceholder();
     }
     
-    this.__refreshUIState(value);
-  }
-  
-  __refreshUIState() {
-    if (!this.validate()) {
-      this.setAttribute("data-invalid", "");
-    } else {
-      this.removeAttribute("data-invalid");
-    }
+    this.getInvalidAttribute(value);
   }
   
   __textChanged(text) {
@@ -746,7 +746,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.set('_userInputKeyword', text ? text : '');
       this.set('value', text ? text : '');
     }
-    this.__refreshUIState();
+    this.getInvalidAttribute();
   }
   
   _displayPlaceholder() {

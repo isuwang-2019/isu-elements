@@ -34,6 +34,7 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
+import '@polymer/iron-icons/social-icons';
 import '@polymer/iron-selector/iron-selector';
 import './behaviors/base-behavior.js';
 import {BaseBehavior} from "./behaviors/base-behavior";
@@ -298,7 +299,12 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
         </iron-selector>
       </div>
-
+      <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+        <div class="prompt-tip">
+          <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+          [[prompt]]
+        </div>
+      </div>
       <div class="mask"></div>
     </div>
 `;
@@ -335,6 +341,15 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       items: {
         type: Array,
         value: []
+      },
+      /**
+       * The prompt tip to show when input is invalid.
+       *
+       * @attribute items
+       * @type {array}
+       */
+      prompt: {
+        type: String
       },
 
       selectedItem: {
@@ -430,8 +445,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_valueChanged(value, items)',
       '_selectedValuesChanged(selectedValues.splices)',
       'selectedItemChanged(selectedItem)',
-      '__refreshUIState(required)',
-      '__refreshUIState(value)'
+      'getInvalidAttribute(required,value)'
     ];
   }
 
@@ -447,14 +461,6 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         this.refreshElemPos();
       });
       parent = parent.offsetParent;
-    }
-  }
-
-  __refreshUIState() {
-    if (!this.validate()) {
-      this.setAttribute("data-invalid", "");
-    } else {
-      this.removeAttribute("data-invalid");
     }
   }
 

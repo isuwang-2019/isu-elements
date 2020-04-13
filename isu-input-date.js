@@ -317,6 +317,12 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </div>
       <div id="targetDate">
       </div>
+       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+          <div class="prompt-tip">
+            <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+            [[prompt]]
+          </div>
+       </div>
     </div>
     
     <paper-dialog id="dateBox" no-auto-focus no-overlap horizontal-align="auto" vertical-align="auto">
@@ -378,6 +384,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </div>
     </paper-dialog>
+   
 `;
   }
 
@@ -490,6 +497,9 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       endTime: {
         type: String,
         value: '23:30:00'
+      },
+      prompt: {
+        type: String
       }
     };
   }
@@ -500,14 +510,14 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get observers() {
     return [
-      '__refreshUIState(required)',
       '_valueChanged(value)',
       '_timestampChanged(timestamp)',
       '_startDateChanged(startDate)',
       '_endDateChanged(endDate)',
       '_startTimestampChanged(startTimestamp)',
       '_endTimestampChanged(endTimestamp)',
-      '_minmaxChanged(min, max)'
+      '_minmaxChanged(min, max)',
+      'getInvalidAttribute(required, min, max, value)'
     ];
   }
 
@@ -516,7 +526,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @private
    */
   _valueChanged(value) {
-    this.__refreshUIState();
+    this.getInvalidAttribute();
     if (!this.value && !this.rangeList.includes(this.type)) {
       this.set("timestamp", undefined);
       return;
@@ -529,15 +539,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _minmaxChanged() {
-    this.__refreshUIState();
-  }
-
-  __refreshUIState() {
-    if (!this.validate()) {
-      this.setAttribute("data-invalid", "");
-    } else {
-      this.removeAttribute("data-invalid");
-    }
+    this.getInvalidAttribute();
   }
 
   /**
@@ -576,7 +578,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _endDateChanged(endDate) {
-    this.__refreshUIState();
+    this.getInvalidAttribute();
     if (!endDate) return;
     this.getTimeList(endDate, 'end');
     let time = new Date(`${endDate}${this.type.includes('time') ? '' : ' 23:59:59:999'}`).getTime();
@@ -596,7 +598,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _endTimestampChanged(endTimestamp) {
-    this.__refreshUIState();
+    this.getInvalidAttribute();
     if (!endTimestamp) {
       this.set("endDate", undefined);
       return;
@@ -887,6 +889,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @returns {boolean}
    */
   validate() {
+    super.validate()
     let validate = !this.rangeList.includes(this.type) ? this.value && this.value.length > 0 : (this.startDate && this.endDate) || (this.startTimestamp && this.endTimestamp);
     if (this.min) {
       const minTimestamp = new Date(`${this.min}${this.type.includes('time') ? '' : ' 00:00:00:000'}`).getTime();

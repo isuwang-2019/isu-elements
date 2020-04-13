@@ -54,6 +54,14 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
         flex-wrap: nowrap;
         vertical-align: middle;
       }
+      
+      :host([required]) .candidate-wrapper::before {
+          content: "*";
+          color: red;
+          position: absolute;
+          left: -10px;
+          line-height: inherit;
+        }
 
       .candidate__item:first-of-type {
         border-top-left-radius: 4px;
@@ -102,6 +110,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
         </iron-selector>
         <div class="mask"></div>
+        
       </div>
     </div>
 `;
