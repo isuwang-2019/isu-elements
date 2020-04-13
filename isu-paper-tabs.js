@@ -1,10 +1,19 @@
-
 import {html, PolymerElement} from "@polymer/polymer"
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class"
 import '@polymer/paper-tabs/paper-tabs'
 import '@polymer/paper-tabs/paper-tab'
 
-class H2PaperTabs extends mixinBehaviors([],PolymerElement) {
+/**
+ `isu-paper-tabs`
+
+ Example:
+ ```html
+ ```
+ * @customElement
+ * @polymer
+ * @demo demo/isu-paper-tabs/index.html
+ */
+class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
   static get template() {
     return html`
       <style include="h2-elements-shared-styles">
@@ -171,7 +180,7 @@ class H2PaperTabs extends mixinBehaviors([],PolymerElement) {
   }
 
   static get is() {
-    return 'h2-paper-tabs'
+    return 'isu-paper-tabs'
   }
 
   connectedCallback(){
@@ -221,5 +230,5 @@ class H2PaperTabs extends mixinBehaviors([],PolymerElement) {
   }
 }
 
-window.customElements.define(H2PaperTabs.is, H2PaperTabs);
+window.customElements.define(IsuPaperTabs.is, IsuPaperTabs);
 

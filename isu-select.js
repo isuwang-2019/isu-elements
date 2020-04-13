@@ -1,35 +1,3 @@
-/**
-`isu-select`
-
-Example:
-```html
-<isu-select label="球员" placeholder="选择球员" items="[[items]]"></isu-select>
-<isu-select label="球员" placeholder="选择球员" multi items="[[items]]" value="1,2"></isu-select>
-
-<script>
-  items = [
-    {"label": "梅西", "value": 1},
-    {"label": "C罗", "value": 2},
-    {"label": "苏亚雷斯", "value": 3},
-    {"label": "库蒂尼奥", "value": 4},
-    {"label": "特尔斯特根", "value": 5},
-    {"label": "保利尼奥", "value": 6},
-    {"label": "内马尔", "value": 13}
-  ];
-```
-## Styling
-
-The following custom properties and mixins are available for styling:
-
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--isu-label` | Mixin applied to the select label | {}
-|`--isu-select-tag` | Mixin applied to the selected tag | {}
-|`--isu-select-tag-deleter` | Mixin applied to the deleter of each tag| {}
-|`--isu-select-tag-cursor` | Mixin applied to the cursor of the select | {}
-|`--isu-select-dropdown` | Mixin applied to the dropdown snippet of the select | {}
-
-*/
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/iron-icon/iron-icon';
@@ -41,7 +9,36 @@ import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
 
 /**
- *
+ `isu-select`
+
+ Example:
+ ```html
+ <isu-select label="球员" placeholder="选择球员" items="[[items]]"></isu-select>
+ <isu-select label="球员" placeholder="选择球员" multi items="[[items]]" value="1,2"></isu-select>
+
+ <script>
+ items = [
+ {"label": "梅西", "value": 1},
+ {"label": "C罗", "value": 2},
+ {"label": "苏亚雷斯", "value": 3},
+ {"label": "库蒂尼奥", "value": 4},
+ {"label": "特尔斯特根", "value": 5},
+ {"label": "保利尼奥", "value": 6},
+ {"label": "内马尔", "value": 13}
+ ];
+ ```
+ ## Styling
+
+ The following custom properties and mixins are available for styling:
+
+ |Custom property | Description | Default|
+ |----------------|-------------|----------|
+ |`--isu-label` | Mixin applied to the select label | {}
+ |`--isu-select-tag` | Mixin applied to the selected tag | {}
+ |`--isu-select-tag-deleter` | Mixin applied to the deleter of each tag| {}
+ |`--isu-select-tag-cursor` | Mixin applied to the cursor of the select | {}
+ |`--isu-select-dropdown` | Mixin applied to the dropdown snippet of the select | {}
+
  * @customElement
  * @polymer
  * @demo demo/isu-select/index.html

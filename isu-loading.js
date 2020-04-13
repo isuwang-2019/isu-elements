@@ -1,11 +1,3 @@
-/**
-`isu-loading`
-
-Example:
-```html
-<isu-loading opened></isu-loading>
-```
-*/
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {html, PolymerElement} from "@polymer/polymer";
 import {IronOverlayBehavior} from "@polymer/iron-overlay-behavior";
@@ -13,6 +5,13 @@ import {IronOverlayBehavior} from "@polymer/iron-overlay-behavior";
 import './behaviors/isu-elements-shared-styles.js';
 
 /**
+ `isu-loading`
+
+ Example:
+ ```html
+ <isu-loading opened></isu-loading>
+ ```
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-loading/index.html

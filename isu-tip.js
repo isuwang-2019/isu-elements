@@ -1,19 +1,3 @@
-/**
-`isu-tip`
-
-Example:
-```html
-<isu-tip type="success" message="success" id="tip"></isu-tip>
-<isu-button id="btn" onclick="tip.open();">Success</isu-button>
-
-<isu-tip type="warn" message="warn" id="tip2"></isu-tip>
-<isu-button id="btn2" onclick='tip2.open(2000);'>Warn</isu-button>
-
-<isu-tip type="error" message="alert" id="tip3"></isu-tip>
-<isu-button id="btn3" onclick='tip3.open(5000);'>Error</isu-button>
-```
-*/
-
 import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {BaseBehavior} from "./behaviors/base-behavior";
@@ -23,8 +7,20 @@ import './behaviors/isu-elements-shared-styles';
 import './isu-button.js';
 import './isu-input.js';
 import './isu-dialog.js'
-
 /**
+ `isu-tip`
+
+ Example:
+ ```html
+ <isu-tip type="success" message="success" id="tip"></isu-tip>
+ <isu-button id="btn" onclick="tip.open();">Success</isu-button>
+
+ <isu-tip type="warn" message="warn" id="tip2"></isu-tip>
+ <isu-button id="btn2" onclick='tip2.open(2000);'>Warn</isu-button>
+
+ <isu-tip type="error" message="alert" id="tip3"></isu-tip>
+ <isu-button id="btn3" onclick='tip3.open(5000);'>Error</isu-button>
+ ```
  * @customElement
  * @polymer
  * @demo demo/isu-tip/index.html

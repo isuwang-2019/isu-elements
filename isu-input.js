@@ -1,28 +1,3 @@
-/**
-
-Example:
-```html
-<isu-input label="文本框"></isu-input>
-<isu-input label="数字框" type="number"></isu-input>
-<isu-input label="电话" type="tel" maxlength="11"></isu-input>
-<isu-input label="密码框" type="password"></isu-input>
-<isu-input label="颜色框" type="color"></isu-input>
-<isu-input label="日期框" type="date"></isu-input>
-<isu-input label="日期时间框" type="datetime-local"></isu-input>
-```
-
-## Styling
-
-The following custom properties and mixins are available for styling:
-
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--isu-input-label` | Mixin applied to the label of input | {}
-|`--isu-input` | Mixin applied to the input | {}
-|`--isu-input-unit` | Mixin applied to unit of the input value | {}
-
-*/
-
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/iron-input';
@@ -32,12 +7,34 @@ import '@polymer/iron-icons/social-icons';
 
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
-
 /**
+
+ Example:
+ ```html
+ <isu-input label="文本框"></isu-input>
+ <isu-input label="数字框" type="number"></isu-input>
+ <isu-input label="电话" type="tel" maxlength="11"></isu-input>
+ <isu-input label="密码框" type="password"></isu-input>
+ <isu-input label="颜色框" type="color"></isu-input>
+ <isu-input label="日期框" type="date"></isu-input>
+ <isu-input label="日期时间框" type="datetime-local"></isu-input>
+ ```
+
+ ## Styling
+
+ The following custom properties and mixins are available for styling:
+
+ |Custom property | Description | Default|
+ |----------------|-------------|----------|
+ |`--isu-input-label` | Mixin applied to the label of input | {}
+ |`--isu-input` | Mixin applied to the input | {}
+ |`--isu-input-unit` | Mixin applied to unit of the input value | {}
+
  * @customElement
  * @polymer
  * @demo demo/isu-input/index.html
  */
+
 class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`

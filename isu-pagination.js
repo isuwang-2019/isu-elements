@@ -1,11 +1,3 @@
-/**
-`isu-pagination`
-
-Example:
-```html
-<isu-pagination total="30" limit="5" paging="{{paging}}"></isu-pagination>
-```
-*/
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/iron-icon';
 import '@polymer/iron-icons';
@@ -14,6 +6,12 @@ import './behaviors/isu-elements-shared-styles';
 import './isu-select';
 
 /**
+ `isu-pagination`
+
+ Example:
+ ```html
+ <isu-pagination total="30" limit="5" paging="{{paging}}"></isu-pagination>
+ ```
  * @customElement
  * @polymer
  * @demo demo/isu-pagination/index.html

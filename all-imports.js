@@ -1,7 +1,9 @@
+import './isu-avatar';
 import './isu-button';
 import './isu-button-group';
 import './isu-cascading'
 import './isu-checkbox-group';
+import './isu-cascading';
 import './isu-edit-table';
 import './isu-edit-table-column';
 import './isu-fetch';
@@ -15,7 +17,9 @@ import './isu-input-jedate';
 import './isu-loading';
 import './isu-mask';
 import './isu-pagination';
+import './isu-paper-tabs';
 import './isu-picker';
+import './isu-progresspicker';
 import './isu-radio';
 import './isu-select';
 import './isu-table';

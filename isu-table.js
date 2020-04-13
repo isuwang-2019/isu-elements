@@ -1,10 +1,3 @@
-/**
-
-```html
-
-```
-*/
-
 import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/iron-icon';
@@ -15,10 +8,11 @@ import '@polymer/paper-tooltip/paper-tooltip';
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
 import './isu-table-column'
-
 /**
  * `isu-table`
+ * ```html
  *
+ * ```
  * @customElement
  * @polymer
  * @demo demo/isu-table/index.html

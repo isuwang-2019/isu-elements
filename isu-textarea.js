@@ -1,24 +1,3 @@
-/**
-`isu-textarea`
-
-Example:
-```html
-<isu-textarea label="备注"></isu-textarea>
-<isu-textarea label="备注" required></isu-textarea>
-```
-
-
-## Styling
-
-The following custom properties and mixins are available for styling:
-
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--isu-textarea` | Mixin applied to the textarea | {}
-|`--isu-textarea-placeholder` | Mixin applied to placeholder of the textarea | {}
-
-*/
-
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/iron-icon';
 import '@polymer/iron-icons/social-icons';
@@ -26,11 +5,28 @@ import './behaviors/isu-elements-shared-styles.js';
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {BaseBehavior} from "./behaviors/base-behavior";
 /**
- * `isu-textarea`
- *
+ `isu-textarea`
+
+ Example:
+ ```html
+ <isu-textarea label="备注"></isu-textarea>
+ <isu-textarea label="备注" required></isu-textarea>
+ ```
+
+
+ ## Styling
+
+ The following custom properties and mixins are available for styling:
+
+ |Custom property | Description | Default|
+ |----------------|-------------|----------|
+ |`--isu-textarea` | Mixin applied to the textarea | {}
+ |`--isu-textarea-placeholder` | Mixin applied to placeholder of the textarea | {}
+
  * @customElement
  * @polymer
  * @demo demo/isu-textarea/index.html
+ *
  */
 class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
   static get template() {

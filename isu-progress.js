@@ -1,5 +1,15 @@
 import { html, PolymerElement } from '@polymer/polymer'
 
+/**
+ `isu-progress`
+
+ Example:
+ ```html
+ ```
+ * @customElement
+ * @polymer
+ * @demo demo/isu-progress/index.html
+ */
 class IsuProgress extends PolymerElement {
   static get is () {
     return 'isu-progress'

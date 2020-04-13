@@ -3,13 +3,10 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
 import '@polymer/iron-icons/social-icons';
-
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
 import {IsuFetch} from './isu-fetch';
 import {CacheSearchUtil} from './utils/cacheSearchUtil'
-
-
 import {PinyinUtil} from './utils/pinyinUtil';
 import throttle from 'lodash-es/throttle';
 
@@ -301,7 +298,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </div>
 `;
   }
-  
+
   static get properties() {
     return {
       /**
@@ -452,7 +449,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
-      
+
       /**
        * Set to true, if the selection is required.
        * @type {boolean}
@@ -500,16 +497,16 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * 多选限制选择的个数
        */
       multiLimit: Number,
-      
+
       fetchParam: {
         type: Object
       },
-      
+
       keywordPath: {
         type: String,
         value: "keyword"
       },
-      
+
       resultPath: {
         type: String
       },
@@ -530,11 +527,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       prompt: String
     };
   }
-  
+
   static get is() {
     return "isu-picker";
   }
-  
+
   static get observers() {
     return [
       '_srcChanged(src)',
@@ -545,14 +542,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       'getInvalidAttribute(required, value)'
     ]
   }
-  
+
   connectedCallback() {
     super.connectedCallback();
-    
+
     this.$.keywordInput.addEventListener("keydown", this._keyDownHandler.bind(this));
     this.$.keywordInput.addEventListener("compositionstart", () => this.inputChinese = true);
     this.$.keywordInput.addEventListener("compositionend", () => this.inputChinese = false);
-    
+
     this.addEventListener("blur", e => {
       e.stopPropagation();
       // if (!this.value) this.text = this._userInputKeyword;
@@ -561,7 +558,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         this.displayCollapse(false);
       }, 200);
     });
-    
+
     let parent = this.offsetParent;
     while (parent) {
       parent.addEventListener('scroll', e => {
@@ -570,14 +567,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       parent = parent.offsetParent;
     }
   }
-  
+
   __calcTagName(item) {
     if (Function.prototype.isPrototypeOf(this.attrForLabel)) {
       return this.attrForLabel.call(this, item);
     }
     return this.getValueByKey(item, this.attrForLabel);
   }
-  
+
   _mkRequest(data) {
     return {
       url: this.src,
@@ -590,7 +587,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       body: JSON.stringify(data)
     };
   }
-  
+
   _srcChanged(src) {
     if (!src) return;
     const request = this._mkRequest(this.fetchParam);
@@ -614,7 +611,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       })
       .catch(console.error);
   }
-  
+
   _getSelectedForItems() {
     const requestObj = this.fetchParam;
     const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this.value + '');
@@ -626,7 +623,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         if (this.resultPath) {
           data = this.getValueByPath(data, this.resultPath, []);
         }
-        
+
         const addItems = data.filter(d => !items.find(i => i[this.attrForValue] === d[this.attrForValue]));
         if (addItems.length > 0) {
           this.items = items.concat(addItems);
@@ -634,7 +631,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       })
       .catch(err => console.error(err));
   }
-  
+
   _itemsChanged(items = []) {
     this._displayItems = items.slice(0, 9);
     // 初始化一次选中项
@@ -646,22 +643,22 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
     items.forEach(item => this._cacheSearchUtil.addCacheItem(item, this._loadPinyinKeys(item, this.fieldsForIndex)));
   }
-  
+
   _userInputKeywordChanged() {
-    
+
     if (this._userInputKeyword.length > 0) {
       this.displayCollapse(true);
     }
-    
+
     const matched = this._cacheSearchUtil.search(this._userInputKeyword, " ");
     if (this.src) {
-      
+
       if (!this.__fetchByKeyword) {
         this.__fetchByKeyword = throttle(() => {
           const requestObj = this.fetchParam;
-          
+
           const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this._userInputKeyword);
-          
+
           const request = this._mkRequest(req);
           this._fetchUtil.fetchIt(request)
             .then(res => res.json())
@@ -678,22 +675,22 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
               } else {
                 this._displayItems = _displayItems.slice(0, 9);
               }
-              
+
               this._switchFocusItemAt(0);
             })
             .catch(err => console.error(err));
         }, 1000);
       }
-      
+
       this.__fetchByKeyword();
-      
+
     } else {
       this._displayItems = matched.slice(0, 9);
       this._switchFocusItemAt(0);
     }
     this._displayPlaceholder();
   }
-  
+
   _selectedValuesChanged() {
     if (this.selectedValues.length > 0) {
       this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',');
@@ -705,7 +702,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.mode === 'text') this.text = this.value && !this.multi ? this.value : this._userInputKeyword;
     this.displayCollapse(false);
   }
-  
+
   /**
    * value属性变化监听函数
    */
@@ -716,29 +713,29 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const selectedValues = this.selectedValues || [];
       const dirty = selectedValues.map(selected => selected[this.attrForValue]).join(',');
       // this.set('_userInputKeyword', '')
-      
+
       if (value && this.src && !this.multi) {
         let _selectedItem = this.items.filter(item => item[this.attrForValue] == value);
-        
+
         if (!_selectedItem.length) {
           this._getSelectedForItems();
           return;
         }
       }
-      
+
       if (dirty !== value) {
         const tmp = [...selectedValues, ...this.items];
         this.selectedValues =
           flatValues.map(val => tmp.find(item => item[this.attrForValue] == val))
             .filter(selected => !!selected);
       }
-      
+
       this._displayPlaceholder();
     }
-    
+
     this.getInvalidAttribute(value);
   }
-  
+
   __textChanged(text) {
     if (this.items && this.items.some(val => val[this.attrForValue] == text)) {
       this.set('value', text)
@@ -748,18 +745,18 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
     this.getInvalidAttribute();
   }
-  
+
   _displayPlaceholder() {
     this.$.placeholder.hidden = this.value || (this.mode && this.text) || this._userInputKeyword;
   }
-  
+
   _selectItemAt(index) {
     if (index >= 0 && index < this._displayItems.length) {
       this._switchFocusItemAt(index);
       this._selectItem(this._displayItems[index]);
     }
   }
-  
+
   /**
    * 选择选项
    * @param item
@@ -773,12 +770,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         this.selectedValues = [item];
       }
     }
-    
+
     this.displayCollapse(false);
     if (this.multi) this.__focusOnKeywordInput();
     this._userInputKeyword = "";
   }
-  
+
   /**
    * 切换焦点到第n个元素，从0开始
    * @param index
@@ -790,7 +787,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const newIndex = (maxIndex + index) % maxIndex;
       this.root.querySelectorAll("tr.candidate-item--focus")
         .forEach(e => e.classList.remove('candidate-item--focus'));
-      
+
       const newFocusItem = this.root.querySelector(`#candidate-item__${newIndex}`);
       if (newFocusItem != null) {
         newFocusItem.classList.add('candidate-item--focus');
@@ -798,32 +795,32 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     }, 0);
   }
-  
+
   _isPickerCollapseHidden() {
     return this.$["picker-collapse"].hidden;
   }
-  
+
   __openCollapse({target: {classList}}) {
     if (classList.contains('tag-deleter')) return;
-    
+
     this.__focusOnKeywordInput();
   }
-  
+
   __inputFocus() {
     if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
 
     this.displayCollapse(true);
     this._switchFocusItemAt(0);
   }
-  
+
   __collapsePosition() {
     const {left, top} = this.__getElemPos(this);
     this.$['picker-collapse'].style['left'] = left + this.clientWidth - this.$['select__container'].clientWidth + 'px';
     this.$['picker-collapse'].style['top'] = top + this.clientHeight + 'px';
     this.$['picker-collapse'].style['width'] = this.$['select__container'].clientWidth + 'px';
   }
-  
-  
+
+
   __getElemPos(obj) {
     const {x, y} = obj.getBoundingClientRect();
     return {
@@ -831,18 +828,18 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       top: y + 2
     }
   }
-  
+
   __focusOnKeywordInput() {
     this.$.keywordInput.focus();
   }
-  
+
   _selectCollapseItem(event) {
     event.stopPropagation();
     this._selectItem(event.model.row);
     this.displayCollapse(false)
     this.blur();
   }
-  
+
   /**
    * 输入框键盘按键事件
    * @param event
@@ -851,12 +848,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _keyDownHandler(event) {
     if (this.inputChinese) return;
     if (this.shortcutKey !== event.key && !this.$["picker-collapse"].hidden) event.stopPropagation();
-    
+
     const key = event.key;
     if (event.altKey || key === this.shortcutKey) {
       event.preventDefault();
     }
-    
+
     const collapseOpend = !this._isPickerCollapseHidden();
     if (collapseOpend && this.enableHotkey && event.altKey) {
       const ind = event.code.replace(/[A-Za-z]*/g, '') - 1;
@@ -866,7 +863,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         case 'ArrowUp':
           collapseOpend && this._switchFocusItemAt(this.__focusIndex - 1);
           break;
-        
+
         case 'ArrowDown':
           if (collapseOpend) {
             this._switchFocusItemAt(this.__focusIndex + 1);
@@ -875,31 +872,31 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
             this.displayCollapse(true);
           }
           break;
-        
+
         case this.shortcutKey:
           if (collapseOpend && this._displayItems.length > 0 && this.__focusIndex < this._displayItems.length) {
             this._selectItemAt(this.__focusIndex);
           }
           break;
-        
+
         case 'Backspace':
           if (this._userInputKeyword == undefined || this._userInputKeyword.length === 0) {
             this.deleteLastTag();
           }
-          
+
           break;
       }
     }
   }
-  
+
   /**
    * 给对象根据fieldsForIndex给对应的字段做拼音缓存（字段值，字段值全拼和拼音首字母）
    */
   _loadPinyinKeys(item, fieldsForIndex = []) {
     let keys = [], values = fieldsForIndex.map(sf => item[sf]);
-    
+
     values = values.length === 0 ? Object.values(item) : values;
-    
+
     if (this.disablePinyinSearch) {
       keys = values.map(value => String(value));
     } else {
@@ -913,10 +910,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         }
       );
     }
-    
+
     return keys;
   }
-  
+
   /**
    * Delete the last selected tag.
    */
@@ -925,7 +922,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.pop("selectedValues");
     }
   }
-  
+
   /**
    * 删除Tag项，事件处理函数
    */
@@ -935,11 +932,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.splice("selectedValues", ind, 1);
     if (!this.multi || (this.multi && this.selectedValues.length === 0)) this._userInputKeyword = '';
   }
-  
+
   _getHotKey(index) {
     return 'Alt+' + (index + 1);
   }
-  
+
   /**
    * Open or close the collapse
    * @param {boolean} display  true to open the collapse.
@@ -948,7 +945,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$["picker-collapse"].hidden = !display;
     if (this.$["picker-collapse"].hidden === false) this.__collapsePosition();
   }
-  
+
   /**
    * Toggle collapse. Side effect: the picker input will get a focus.
    */
@@ -957,14 +954,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$["picker-collapse"].hidden = !hidden;
     this.__focusOnKeywordInput();
   }
-  
+
   /**
    * Set focus to picker.
    */
   doFocus() {
     this.__focusOnKeywordInput();
   }
-  
+
   /**
    * Validate, true if the select is set to be required and this.selectedValues.length > 0, or else false.
    * @returns {boolean}

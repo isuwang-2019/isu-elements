@@ -1,28 +1,3 @@
-/**
-`isu-mask`
-
-Example:
-```html
-<isu-mask label="输入框" class="mask">
-  <isu-input placeholder="测试输入" value="Test"></isu-input>
-</isu-mask>
-```
-
-## Styling
-
-The following custom properties and mixins are available for styling:
-
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--isu-mask-label` | Mixin applied to the label of mask | {}
-
-*/
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-
 import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 
@@ -32,10 +7,32 @@ import '@polymer/iron-icons/iron-icons.js';
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './isu-input.js';
 /**
+ `isu-mask`
+
+ Example:
+ ```html
+ <isu-mask label="输入框" class="mask">
+ <isu-input placeholder="测试输入" value="Test"></isu-input>
+ </isu-mask>
+ ```
+
+ ## Styling
+
+ The following custom properties and mixins are available for styling:
+
+ |Custom property | Description | Default|
+ |----------------|-------------|----------|
+ |`--isu-mask-label` | Mixin applied to the label of mask | {}
+
  * @customElement
  * @polymer
  * @demo demo/isu-mask/index.html
  */
+/*
+  FIXME(polymer-modulizer): the above comments were extracted
+  from HTML and may be out of place here. Review them and
+  then delete this comment!
+*/
 class IsuMask extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`
