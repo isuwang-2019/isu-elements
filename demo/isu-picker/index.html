@@ -58,13 +58,6 @@ document.body.appendChild($_documentContainer.content);
       <isu-picker id="pickerAll" label="多选" value="1,2,3,4" attr-for-value="id" show-all
                  multi placeholder="请选择" picker-meta='[{"field": "label", "label": "选项"}, {"field": "business", "label": "业务范围"}]'></isu-picker>
       <script>
-        const items = [
-          {"id": 1, "label": "天猫", "business": "塑料", "tags": ["ksw", "sl"]},
-          {"id": 2, "label": "阿里巴巴", "business": "电商", "tags": ["albb", "ds"]},
-          {"id": 3, "label": "腾讯", "business": "游戏", "tags": ["tx", "yx"]},
-          {"id": 4, "label": "京东", "business": "电商", "tags": ["jd", "ds"]}
-        ];
-
         const productPickerMeta = [{field: 'category', label: '分类'}, {field: 'designation', label: '牌号'}, {field: 'manufacturerName', label: '生产商'}, {field: 'originCountry', label: '产地'}];
         const products = [
           {
@@ -113,6 +106,13 @@ document.body.appendChild($_documentContainer.content);
         picker.pickerMeta = productPickerMeta;
         picker.fieldsForIndex = ['category', 'designation', 'manufacturerName', 'originCountry'];
         picker.items = products;
+
+        const items = [
+          {"id": 1, "label": "天猫", "business": "塑料", "tags": ["ksw", "sl"]},
+          {"id": 2, "label": "阿里巴巴", "business": "电商", "tags": ["albb", "ds"]},
+          {"id": 3, "label": "腾讯", "business": "游戏", "tags": ["tx", "yx"]},
+          {"id": 4, "label": "京东", "business": "电商", "tags": ["jd", "ds"]}
+        ];
 
         picker1.attrForLabel = "label";
         picker1.shortcutKey = ' ';
@@ -218,6 +218,8 @@ document.body.appendChild($_documentContainer.content);
       <isu-picker id="picker9" label="公司" src="/init.do" multi="" attr-for-value="id"></isu-picker>
       <script>
         picker9.pickerMeta = pickerMeta;
+        picker9.value = 2
+        picker9.fetchParam = {id: 2}
         picker9.keywordSearchSrc = JSON.stringify({pageRequest: {limit: "10", start: 0}});
       </script>
     </template>
@@ -252,6 +254,40 @@ document.body.appendChild($_documentContainer.content);
       <script>
         picker10.pickerMeta = productPickerMeta;
         picker10.attrForLabel = ({category, designation, manufacturerName}) => `${category} | ${designation} | ${manufacturerName}`;
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>自定义组件样式</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          #picker11 {
+            width: 250px;
+            --isu-picker-input: {
+              background-color: lightpink;
+            };
+            --isu-picker-tag: {
+              --isu-ui-bg: purple;
+            };
+            --isu-select-tag-deleter: {
+              color: yellow;
+            };
+            --isu-picker-dropdown: {
+              background-color: green;
+            };
+            --collapase-table-cell: {
+              color: lightgreen;
+            }
+          }
+        </style>
+      </custom-style>
+      <isu-picker id="picker11" label="公司" multi="" attr-for-value="id" value="1,2,3,4,5"></isu-picker>
+      <script>
+        picker11.pickerMeta = pickerMeta;
+        picker11.items = items;
+
       </script>
     </template>
   </demo-snippet>

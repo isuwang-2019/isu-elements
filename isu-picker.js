@@ -12,6 +12,43 @@ import throttle from 'lodash-es/throttle';
 
 
 /**
+
+ Example:
+ ```html
+ <isu-picker id="picker" label="单选" mode="text" text="99" attr-for-value="id" placeholder="请选择" clearable></isu-picker>
+ <isu-picker id="picker1" label="多选" value="1,2,3,4" attr-for-value="id" multi placeholder="请选择" picker-meta='[{"field": "label", "label": "选项"}, {"field": "business", "label": "业务范围"}]'></isu-picker>
+ <isu-picker id="pickerAll" label="多选" value="1,2,3,4" attr-for-value="id" show-all
+ multi placeholder="请选择" picker-meta='[{"field": "label", "label": "选项"}, {"field": "business", "label": "业务范围"}]'></isu-picker>
+ <isu-picker id="picker3" label="只读" value="1,2,3" attr-for-value="id" multi readonly></isu-picker>
+ <isu-picker id="picker4" label="必填" value="1,2,3" attr-for-value="id" multi required enable-hotkey></isu-picker>
+ <isu-picker id="pickerNum" label="限制多选数量"  attr-for-value="id" multi-limit="3" multi required prompt="公司不能为空" enable-hotkey></isu-picker>
+ <isu-picker id="picker5" label="修改组件大小" multi="" attr-for-value="id" value="1,2,3,4,5"></isu-picker>
+ <isu-picker id="picker6" label="默认" attr-for-value="id"></isu-picker>
+ <isu-picker id="picker7" label="自定义搜索字段" attr-for-value="id"></isu-picker>
+ <isu-picker id="picker8" src="/init.do" label="自定义初始数据源" attr-for-value="id"></isu-picker>
+ <isu-picker id="picker9" label="通过接口搜索数据" src="/init.do" multi="" attr-for-value="id"></isu-picker>
+ <isu-picker id="picker10" label="键盘快捷键操作" src="/api/listProduct" attr-for-value="id" keyword-path="request.keyword" result-path="success.result"
+ fetch-param='{"request": {"pageRequest": {"limit": 10, "start": 0}}}'></isu-picker>
+ ```
+
+ ## Styling
+
+ The following custom properties and mixins are available for styling:
+
+ |Custom property | Description | Default|
+ |----------------|-------------|----------|
+ |`--isu-picker-width` | The width of the picker | 300px
+ |`--isu-picker-input` | Mixin applied to the keyword input | {}
+ |`--isu-picker-input` | Mixin applied to the keyword input | {}
+ |`--isu-picker-input` | Mixin applied to the keyword input | {}
+ |`--isu-picker-input` | Mixin applied to the keyword input | {}
+
+ |`--isu-picker-input` | Mixin applied to the keyword input | {}
+ |`--isu-picker-tag` | Mixin applied to the chosed tags | {}
+ |`--isu-select-tag-deleter` | Mixin applied to the selected tag's delete tag | {}
+ |`--isu-picker-dropdown` | Mixin applied to the dropdown table | {}
+ |`--collapase-table-cell` | Mixin applied to the dropdown table's cell | {}
+
  * @customElement
  * @polymer
  * @demo demo/isu-picker/index.html
@@ -117,7 +154,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   
         #picker-collapse {
           display: flex;
-          position: fixed;
+          position: absolute;
           /*top: 100%;*/
           width: 100%;
           margin-top: 1px;
@@ -150,7 +187,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         .collapse-content__table {
           width: 100%;
           font-size: 12px;
-          background-color: #ffffff;
           border-collapse: separate;
           border-spacing: 0;
           text-align: left;
@@ -163,6 +199,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           padding: 6px 10px;
           line-height: 1.42857143;
           border-bottom: 1px solid #ddd;
+          @apply --collapase-table-cell
         }
   
         th.collapse-table__cell {
@@ -223,6 +260,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           z-index: 1;
           position: absolute;
           right: 5px;
+          top: -2px;
         }
         .icon-clear {
           width: 12px;
@@ -815,8 +853,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   __collapsePosition() {
     const {left, top} = this.__getElemPos(this);
-    this.$['picker-collapse'].style['left'] = left + this.clientWidth - this.$['select__container'].clientWidth + 'px';
-    this.$['picker-collapse'].style['top'] = top + this.clientHeight + 'px';
+    // this.$['picker-collapse'].style['left'] = left + this.clientWidth - this.$['select__container'].clientWidth + 'px';
+    this.$['picker-collapse'].style['top'] = this.clientHeight + 'px';
     this.$['picker-collapse'].style['width'] = this.$['select__container'].clientWidth + 'px';
   }
 
