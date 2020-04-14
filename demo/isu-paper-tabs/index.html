@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>h2-paper-tab</title>
+
+    <script type="module">
+      import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+      // import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js';
+      import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+      import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+      import '@polymer/paper-tabs/paper-tabs'
+      import '@polymer/paper-tabs/paper-tab'
+      import '@polymer/polymer/lib/elements/dom-bind.js';
+      import '../../isu-paper-tabs'
+    </script>
+    <script type="application/javascript"
+            src="../../node_modules/web-animations-js/web-animations-next.min.js"></script>
+    <script type="module">
+      const $_documentContainer = document.createElement('template');
+
+      $_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      /*.centered {*/
+      /*  min-width: 800px;*/
+      /*}*/
+
+      /*demo-snippet {*/
+      /*  --demo-snippet-code: {*/
+      /*    max-height: 500px;*/
+      /*  }*/
+      /*}*/
+      /*:root {*/
+      /*  --paper-toolbar-background: #00bcd4;*/
+      /*}*/
+
+      /*body {*/
+      /*  font-family: sans-serif;*/
+      /*  margin: 0;*/
+      /*  padding: 24px;*/
+      /*  color: #333;*/
+      /*}*/
+
+      /*h2-paper-tabs, h2-paper-toolbar {*/
+      /*  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);*/
+      /*}*/
+
+      /*h2-paper-toolbar h2-paper-tabs {*/
+      /*  box-shadow: none;*/
+      /*}*/
+
+      /*h2-paper-tabs[noink][no-bar] h2-paper-tab.iron-selected {*/
+      /*  color: #ffff8d;*/
+      /*}*/
+
+      /*h2-paper-tabs[align-bottom] {*/
+      /*  box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.15);*/
+      /*}*/
+
+      /*h3 {*/
+      /*  font-size: 16px;*/
+      /*  font-weight: 400;*/
+      /*  padding-top: 20px;*/
+      /*}*/
+    </style>
+  </custom-style>`;
+
+      document.body.appendChild($_documentContainer.content);
+    </script>
+</head>
+<body>
+    <div class="vertical-section-container centered">
+        <h3>h2 isu-paper-tabs demo</h3>
+        <h3>Plain <code>isu-paper-tabs</code>.</h3>
+        <demo-snippet>
+            <template>
+
+                <isu-paper-tabs selected="ITEM ONE" attr-for-selected="name"
+                               id="iSuPaperTabs" tab-position="right"></isu-paper-tabs>
+                <script>
+                  iSuPaperTabs.tabList = [
+                    {name: 'ITEM ONE',value:0,disabled:false},
+                    {name: 'ITEM TWO',value:1,disabled:false},
+                    {name: 'ITEM Three',value:2,disabled:false},
+                    {name: 'ITEM Four',value:3,disabled:false}
+                  ];
+                  iSuPaperTabs.tabType = 'otherBar'
+                </script>
+            </template>
+        </demo-snippet>
+        <h3>Plain <code>isu-paper-tabs</code>.</h3>
+        <demo-snippet>
+            <template>
+
+                <isu-paper-tabs selected="ITEM ONE" attr-for-selected="name"
+                               id="iSuCardPaperTabs" tab-type="card" tab-position="top"></isu-paper-tabs>
+                <script>
+                  iSuCardPaperTabs.tabList = [
+                    {name: 'ITEM ONE',value:0,disabled:false},
+                    {name: 'ITEM TWO',value:1,disabled:false},
+                    {name: 'ITEM Three',value:2,disabled:false},
+                    {name: 'ITEM Four',value:3,disabled:false}
+                  ];
+                </script>
+            </template>
+        </demo-snippet>
+    </div>
+</body>
+</html>

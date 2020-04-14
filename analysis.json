@@ -4427,6 +4427,18 @@
       "tagname": "isu-button"
     },
     {
+      "description": "i`isu-paper-tabs`\n\nExample:\n```html\n<isu-paper-tabs></isu-paper-tabs>\n```",
+      "summary": "",
+      "path": "isu-paper-tabs.js",
+      "demos": [
+        {
+          "url": "demo/isu-paper-tabs/index.html",
+          "description": ""
+        }
+      ],
+      "tagname": "h2-paper-tabs"
+    },
+    {
       "description": "`isu-loading`\n\nExample:\n```html\n<isu-loading opened></isu-loading>\n```",
       "summary": "",
       "path": "isu-loading.js",
