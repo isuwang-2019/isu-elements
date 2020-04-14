@@ -6,12 +6,12 @@ import './behaviors/isu-elements-shared-styles';
 import './isu-select';
 
 /**
- `isu-pagination`
-
- Example:
- ```html
- <isu-pagination total="30" limit="5" paging="{{paging}}"></isu-pagination>
- ```
+ * `isu-pagination`
+ *
+ * Example:
+ * ```html
+ * <isu-pagination total="30" limit="5" paging="{{paging}}"></isu-pagination>
+ * ```
  * @customElement
  * @polymer
  * @demo demo/isu-pagination/index.html

@@ -1,24 +1,4 @@
-/**
-`isu-image-upload`
 
-Example:
-```html
-<isu-image-upload label="上河图" value="{{file}}"></isu-image-upload>
-<isu-image-upload size-limit="1.4M" value="{{file}}"></isu-image-upload>
-
-```
-## Styling
-
-The following custom properties and mixins are available for styling:
-
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--isu-image-upload-label` | Mixin applied to the label of image uploader | {}
-|`--isu-image-upload-width` | Mixin applied to width of image uploader | 140px
-|`--isu-image-upload-height` | Mixin applied to height of image uploader | 180px
-|`--isu-image-upload-buttons` | Mixin applied to tool buttons of the uploader | {}
-
-*/
 
 import './behaviors/base-behavior.js';
 
@@ -31,8 +11,25 @@ import './behaviors/isu-elements-shared-styles.js';
 import './isu-button.js';
 import './isu-dialog';
 import './isu-tip';
-
 /**
+ * `isu-image-upload`
+ *
+ * Example:
+ * ```html
+ * <isu-image-upload label="上河图" value="{{file}}"></isu-image-upload>
+ * <isu-image-upload size-limit="1.4M" value="{{file}}"></isu-image-upload>
+ *
+ * ```
+ * ## Styling
+ *
+ * The following custom properties and mixins are available for styling:
+ *
+ * |Custom property | Description | Default|
+ * |----------------|-------------|----------|
+ * |`--isu-image-upload-label` | Mixin applied to the label of image uploader | {}
+ * |`--isu-image-upload-width` | Mixin applied to width of image uploader | 140px
+ * |`--isu-image-upload-height` | Mixin applied to height of image uploader | 180px
+ * |`--isu-image-upload-buttons` | Mixin applied to tool buttons of the uploader | {}
  * @customElement
  * @polymer
  * @demo demo/isu-image-upload/index.html

@@ -4,11 +4,11 @@ import '@polymer/paper-tabs/paper-tabs'
 import '@polymer/paper-tabs/paper-tab'
 
 /**
- `isu-paper-tabs`
-
- Example:
- ```html
- ```
+ * `isu-paper-tabs`
+ *
+ * Example:
+ * ```html
+ * ```
  * @customElement
  * @polymer
  * @demo demo/isu-paper-tabs/index.html
@@ -18,7 +18,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
     return html`
       <style include="h2-elements-shared-styles">
         :host {
-            --layout-horizontal: {
+        --layout-horizontal: {
                 display: inline-flex;
             }
             --paper-tabs:{
@@ -64,11 +64,11 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
                opacity: 0.5;
         }
        
-        #rightSelectionBar {
+        #positionSelectionBar {
+        display:none;
         position: absolute;
         height: 48px;
         top:0;
-        right: 0;
         border-right: 2px solid #337ab7;
           -webkit-transform: scale(0);
         transform: scale(0);
@@ -80,24 +80,41 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
 
         @apply --paper-tabs-selection-bar;
       }
-      .tab-position-left{
+      .tab-position-left-right{
         position: relative;
+        display: inline-block;
+        --layout-horizontal: {
+                display: inline-grid;
+            }
       }
-      #rightSelectionBar{
-        display:none;
+      .tab-position-left {
+        border-right: 2px solid #cccccc;
       }
+      .tab-position-left #positionSelectionBar{
+        display:block;
+        right: -2px;
+      }
+      .tab-position-right {
+        border-left: 2px solid #cccccc;
+        right: calc(-100% + 120px);
+      }
+      .tab-position-right #positionSelectionBar{
+        display:block;
+        left: -2px;
+      }
+      
     </style>
 <!--        <paper-tabs selected="{{selected}}" attr-for-selected="[[attrForSelected]]" no-bar="[[noBar]]" -->
 <!--        no-slide="[[noSlide]]" scrollable="[[scrollable]]" fit-container="[[fitContainer]]" align-bottom="[[alignBottom]]"-->
 <!--        autoselect="[[autoSelect]]" autoselect-delay="[[autoSelectDelay]]" noink="[[noink]]">-->
-        <div class="tab-position-left">
+        <div class$="[[getTabPositionClass(tabPosition)]]">
             <paper-tabs selected="{{selected}}" attr-for-selected="[[attrForSelected]]"  
             selected-item="{{selectedItem}}" noink align-bottom="[[alignBottom]]" no-bar="[[noBar]]">
                 <template is="dom-repeat" items="[[tabList]]">
                     <paper-tab name="[[item.name]]" disabled="[[item.disabled]]" class$="[[getTabType(tabType)]]">[[item.name]]123</paper-tab>
                 </template>
             </paper-tabs>
-            <div id="rightSelectionBar"></div>
+            <div id="positionSelectionBar" ></div>
         </div>
       `
   }
@@ -127,9 +144,9 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       },
       tabType:{  //tab类型  值 card/border-card/widthBar
         type:String,
-        value:'border-card',
+        value:'widthBar',
         notify:true,
-        observer:'_tabTypeChange'
+        // observer:'_tabTypeChange'
       },
       attrForSelected:{
         type:String,
@@ -193,8 +210,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
   attached(){
     super.attached()
     if(this.tabPosition === ('left' || 'right')){
-      this.shadowRoot.querySelector('paper-tabs').shadowRoot.querySelector('#tabsContent').setAttribute('style','display: grid;line-height: 48px;')
-      this.$.rightSelectionBar.setAttribute('style','display:block')
+
     }
   }
   ready() {
@@ -205,7 +221,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       const tab = newVal.offsetTop
       const paperTabs = this.shadowRoot.querySelector('paper-tabs').offsetTop
       const translateTop = tab-paperTabs
-      this.transform( `translateY(${ translateTop }px)scaleY(1)`,this.shadowRoot.querySelector("#rightSelectionBar"))
+      this.transform( `translateY(${ translateTop }px)scaleY(1)`,this.shadowRoot.querySelector("#positionSelectionBar"))
     }
   }
 
@@ -217,6 +233,13 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       this.set('noBar',true)
     }
   }
+  getTabPositionClass(type){
+    const tabPositionObj = {
+      left:'tab-position-left-right tab-position-left',
+      right:'tab-position-left-right tab-position-right'
+    }
+    return typeof tabPositionObj[type] !== 'undefined'? tabPositionObj[type] :''
+  }
   getTabType(type){
     if(type === 'widthBar'){
       return this.noBar = false
@@ -224,7 +247,8 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
     const typeClassObj = {
       'card':'paper-tab paper-tab-card',
       'border-card':'paper-tab paper-tab-card-border-card',
-      'widthBar':''
+      'widthBar':'',
+      'otherBar':''
     }
     return typeClassObj[type]
   }

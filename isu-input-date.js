@@ -9,23 +9,23 @@ import '@polymer/iron-icons';
 import './isu-select';
 
 /**
- `isu-input-date`
-
- Example:
- ```html
- <isu-input-date class="input-date" label="日期"></isu-input-date>
- <isu-input-date class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
- <isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
-
- ```
- ## Styling
-
- The following custom properties and mixins are available for styling:
-
- |Custom property | Description | Default|
- |----------------|-------------|----------|
- |`--isu-input-date-label` | Mixin applied to the label of input | {}
-
+ * `isu-input-date`
+ *
+ * Example:
+ * ```html
+ * <isu-input-date class="input-date" label="日期"></isu-input-date>
+ * <isu-input-date class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
+ * <isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
+ *
+ * ```
+ * ## Styling
+ *
+ * The following custom properties and mixins are available for styling:
+ *
+ * |Custom property | Description | Default|
+ * |----------------|-------------|----------|
+ * |`--isu-input-date-label` | Mixin applied to the label of input | {}
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-input-date/index.html

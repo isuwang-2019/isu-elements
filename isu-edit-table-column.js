@@ -1,16 +1,13 @@
-/**
-
-```html
-
-```
-*/
-
 import {html, PolymerElement} from "@polymer/polymer";
 import {Templatizer} from '@polymer/polymer/lib/legacy/templatizer-behavior.js';
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-
 /**
+ * `isu-table-column`
  *
+ * Example:
+ * ```html
+ *
+ * ```
  * @customElement
  * @polymer
  * @demo demo/isu-table-column/index.html

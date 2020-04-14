@@ -1,10 +1,3 @@
-/**
-
-```html
-
-```
-*/
-
 import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
@@ -16,6 +9,10 @@ import './isu-button';
 /**
  * `isu-table`
  *
+ * Example:
+ * ```html
+ *
+ * ```
  * @customElement
  * @polymer
  * @demo demo/isu-table/index.html

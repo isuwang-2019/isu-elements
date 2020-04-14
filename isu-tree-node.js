@@ -8,6 +8,14 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/paper-radio-button';
 import Node from "./utils/tree/node";
 /**
+ *
+ * `isu-tree-node`
+ *
+ * Example:
+ * ```html
+ *
+ * ```
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-tree/index.html
