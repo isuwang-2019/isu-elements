@@ -32,7 +32,6 @@ const template = html`
         display: flex;
         flex-flow: row;
         align-items: center;
-        padding-left: 18px;
         height: 25px;
         overflow: hidden;
       }

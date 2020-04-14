@@ -38,10 +38,10 @@ import throttle from 'lodash-es/throttle';
  |Custom property | Description | Default|
  |----------------|-------------|----------|
  |`--isu-picker-width` | The width of the picker | 300px
- |`--isu-picker-input` | Mixin applied to the keyword input | {}
- |`--isu-picker-input` | Mixin applied to the keyword input | {}
- |`--isu-picker-input` | Mixin applied to the keyword input | {}
- |`--isu-picker-input` | Mixin applied to the keyword input | {}
+ |`--isu-ui-font-family` | The font family of the picker | Microsoft YaHei
+ |`--isu-ui-font-size` | The font size of the picker | 14px
+ |`--isu-ui-bg` | The basic color of the selected tags,collapse tr`s color when hover tr | linear-gradient(315deg, var(--isu-ui-color_lightblue)  0%, var(--isu-ui-color_skyblue) 100%)
+ |`--isu-ui-red` | The color of the selected tag`s delete shape when hover the tag | linear-gradient(315deg, #f9a7c3 0%, var(--isu-ui-color_pink) 100%);
 
  |`--isu-picker-input` | Mixin applied to the keyword input | {}
  |`--isu-picker-tag` | Mixin applied to the chosed tags | {}
@@ -535,7 +535,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * 多选限制选择的个数
        */
       multiLimit: Number,
-
+      /**
+       * url`s params
+       * @type {Object}
+       * @default
+       */
       fetchParam: {
         type: Object
       },

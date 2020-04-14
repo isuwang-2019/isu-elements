@@ -330,7 +330,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _getIndentStyle(level, indent) {
-    return `padding-left: ${(level + 1)*indent }px`
+    return `padding-left: ${ level * indent }px`
   }
 
   _getRotateStyle(rotate) {
