@@ -132,7 +132,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
         value: '0',
         notify: true,
       },
-      selectedItem:{
+      selectedItem:{ //选中值
         type:Object,
         observer:'_selectedItemChange'
       },
