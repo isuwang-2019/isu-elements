@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <title>isu-select demo</title>
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../isu-select'
+  </script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+
+      isu-select {
+        margin-bottom: 10px;
+      }
+    </style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>支持默认选中</h3>
+  <demo-snippet>
+    <template>
+      <isu-select id="select" label="球员" placeholder="选择球员" value="1" required prompt="球员选择不能为空"></isu-select>
+      <isu-select id="select1" label="球员" placeholder="选择球员" multi="" value="1, 2, 3, 4"></isu-select>
+      <isu-select id="selectShow" label="球员" placeholder="选择球员" multi="" show-all value="1, 2, 3, 4"></isu-select>
+      <script>
+        const items = [
+          {"label": "梅西", "value": 1},
+          {"label": "C罗", "value": 2},
+          {"label": "苏亚雷斯", "value": 3},
+          {"label": "库蒂尼奥", "value": 4},
+          {"label": "特尔斯特根", "value": 5},
+          {"label": "保利尼奥", "value": 6},
+          {"label": "内马尔", "value": 13}
+        ];
+        select.items = items;
+        select1.items = items;
+        selectShow.items = items;
+
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>Readonly &amp; required &amp; multi-limit</h3>
+  <demo-snippet>
+    <template>
+      <isu-select id="select2" label="球员" placeholder="选择球员" readonly="" value="1"></isu-select>
+      <isu-select id="select3" label="球员" placeholder="选择球员" required="" multi=""></isu-select>
+      <isu-select id="selectLimit" label="球员" placeholder="选择球员" required="" multi show-all multi-limit="4"></isu-select>
+      <script>
+        select2.items = items;
+        select3.items = items;
+        selectLimit.items = items;
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>Custom style</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          #select4,
+          #select5 {
+            width: 350px;
+            --isu-label: {
+              width: 100px;
+            };
+            --isu-select-tag: {
+              background-color: #fff9c4;
+              border: 1px solid #fff9c4;
+              border-radius: 0;
+            };
+            --isu-select-tag-deleter: {
+              color: #000;
+              font-size: 1.2em;
+              line-height: 20px;
+            };
+          }
+        </style>
+      </custom-style>
+      <isu-select id="select4" label="球员" placeholder="选择球员" multi=""></isu-select>
+      <isu-select id="select5" label="球员球员" placeholder="选择球员" multi="" value="1, 2, 3"></isu-select>
+      <script>
+        select4.items = items;
+        select5.items = items;
+      </script>
+    </template>
+  </demo-snippet>
+
+  <h3>keyboard shortcut</h3>
+  <demo-snippet>
+    <template>
+      <isu-select id="select6" label="球员" placeholder="选择球员" multi="" value="1,2,3,4"></isu-select>
+      <p>
+      </p><ul>
+        <li>键盘Left, Right键 切换光标位置</li>
+        <li>Backspace 可删除选中项</li>
+      </ul>
+      <p></p>
+      <script>
+        select6.items = items;
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+
+</demo-snippet>
+</div>
+</body>
+</html>

@@ -1,26 +1,26 @@
-import '../h2-tip.js'
+import '../isu-tip.js'
 
 /**
  * @polymerBehavior
  */
 export const TipBehavior = {
   /**
-   * h2Tip提供了以下便捷方法来使用 `h2-tip`.
-   * - `h2Tip.success(message, duration = 1500)`
-   * - `h2Tip.success({message, title}, duration = 1500)`
-   * - `h2Tip.warn(message, duration = 5000)`
-   * - `h2Tip.warn({message, title}, duration = 5000)`
-   * - `h2Tip.error(message, duration = 600000)`
-   * - `h2Tip.error({message, title}, duration = 600000)`
-   * - `h2Tip.confirm(message, confirmCallback, cancelCallback)`
-   * - `h2Tip.confirm({message, title}, confirmCallback, cancelCallback)`
-   * - `h2Tip.prompt(message, confirmCallback, cancelCallback)`
-   * - `h2Tip.prompt({message, title}, confirmCallback, cancelCallback)`
-   * - `h2Tip.tip({message, type, duration = 0, confirmCallback, cancelCallback})`
-   * - `h2Tip.tip({{message, title}, type, duration = 0, confirmCallback, cancelCallback})`
+   * isuTip提供了以下便捷方法来使用 `isu-tip`.
+   * - `isuTip.success(message, duration = 1500)`
+   * - `isuTip.success({message, title}, duration = 1500)`
+   * - `isuTip.warn(message, duration = 5000)`
+   * - `isuTip.warn({message, title}, duration = 5000)`
+   * - `isuTip.error(message, duration = 600000)`
+   * - `isuTip.error({message, title}, duration = 600000)`
+   * - `isuTip.confirm(message, confirmCallback, cancelCallback)`
+   * - `isuTip.confirm({message, title}, confirmCallback, cancelCallback)`
+   * - `isuTip.prompt(message, confirmCallback, cancelCallback)`
+   * - `isuTip.prompt({message, title}, confirmCallback, cancelCallback)`
+   * - `isuTip.tip({message, type, duration = 0, confirmCallback, cancelCallback})`
+   * - `isuTip.tip({{message, title}, type, duration = 0, confirmCallback, cancelCallback})`
    * @type {object}
    */
-  h2Tip: {
+  isuTip: {
     /**
      * 成功提示框
      * @param {string|object} msgObj
@@ -76,7 +76,7 @@ export const TipBehavior = {
       
       let {message, title, width, height, cancelBtnLabel, confirmBtnLabel} = (typeof msgObj === 'object') ? msgObj : {message: msgObj};
       
-      const tip = document.createElement('h2-tip');
+      const tip = document.createElement('isu-tip');
       tip.setAttribute('type', type);
       tip.message = message;
       tip.title = title;

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>isu-image-upload demo</title>
+  
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../isu-image-upload.js';
+  </script>
+
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 800px;
+        }
+      }
+
+    </style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>Basic isu-image-upload demo</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-image-upload id="uploader" label="上河图"></isu-image-upload>
+    </template>
+  </demo-snippet>
+
+  <h3>View mode</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-image-upload id="uploaderView" label="上河图" type="view" src="https://d1.awsstatic.com/product-marketing/Elastic%20Beanstalk/ElasticBeanstalk_Benefit_Productivity.5cd0e6aedfa2e3b2c05ed7f5faeb0fd215c9742b.png"></isu-image-upload>
+    </template>
+  </demo-snippet>
+
+  <h3>Size</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+        </style>
+      </custom-style>
+      <isu-image-upload id="uploaderView" label="Large Picture" type="view" size="large"
+                       src="https://d1.awsstatic.com/product-marketing/Elastic%20Beanstalk/ElasticBeanstalk_Benefit_Productivity.5cd0e6aedfa2e3b2c05ed7f5faeb0fd215c9742b.png"></isu-image-upload>
+      <isu-image-upload id="uploaderView" label="Normal Picture" type="view"
+                       src="https://d1.awsstatic.com/product-marketing/Elastic%20Beanstalk/ElasticBeanstalk_Benefit_Productivity.5cd0e6aedfa2e3b2c05ed7f5faeb0fd215c9742b.png"></isu-image-upload>
+      <isu-image-upload id="uploaderView" label="Small Picture" type="view" size="small"
+                       src="https://d1.awsstatic.com/product-marketing/Elastic%20Beanstalk/ElasticBeanstalk_Benefit_Productivity.5cd0e6aedfa2e3b2c05ed7f5faeb0fd215c9742b.png"></isu-image-upload>
+    </template>
+  </demo-snippet>
+
+  <h3>Custom style</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style>
+          #uploader1 {
+            --isu-image-upload-buttons: {
+              background-color: #71a7b7;
+            };
+            --isu-image-upload-width: 120px;
+            --isu-image-upload-height: 160px;
+            --isu-image-upload-label: {
+              align-self: flex-end;
+            };
+          }
+        </style>
+      </custom-style>
+      <isu-image-upload id="uploader1" label="上河图"></isu-image-upload>
+    </template>
+  </demo-snippet>
+
+  <h3>File Size limit</h3>
+  <demo-snippet>
+    <template>
+      <isu-image-upload id="uploader2" size-limit="1.4M"></isu-image-upload>
+    </template>
+  </demo-snippet>
+
+  <h3>Disabled uploader</h3>
+  <demo-snippet>
+    <template>
+      <isu-image-upload size-limit="1.4M" disabled></isu-image-upload>
+    </template>
+  </demo-snippet>
+</div>
+</body>
+</html>

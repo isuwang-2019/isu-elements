@@ -9,9 +9,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/wanbo-chain/h2-elements.git"
+    "url": "https://github.com/isuwang-2019/isu-elements.git"
   },
-  "homepage": "https://github.com/wanbo-chain/h2-elements",
+  "homepage": "https://github.com/isuwang-2019/isu-elements",
   "resolutions": {
     "inherits": "2.0.3",
     "samsam": "1.1.3",

@@ -2,6 +2,17 @@ import { html, PolymerElement } from '@polymer/polymer'
 import '@polymer/iron-icon/iron-icon.js'
 import '@polymer/iron-icons/iron-icons.js'
 
+/**
+ * `isu-avatar`
+ *
+ * Example:
+ * ```html
+ *
+ * ```
+ * @customElement
+ * @polymer
+ * @demo demo/isu-avatar/index.html
+ */
 class IsuAvatar extends PolymerElement {
   static get is () {
     return 'isu-avatar'

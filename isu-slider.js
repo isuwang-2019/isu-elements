@@ -1,7 +1,14 @@
 import { html, PolymerElement } from '@polymer/polymer'
-import './h2-input.js'
+import './isu-input.js'
 
 /**
+ *
+ * `isu-slider`
+ *
+ * Example:
+ * ```html
+ * ```
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-slider/index.html
@@ -164,7 +171,7 @@ class IsuSlider extends PolymerElement {
           </div>
         </div>
         <template is="dom-if" if="[[showInput]]">
-          <h2-input class="isu-slider-input" style$=[[getInputStyle(inputSize)]] type="number" min="{{min}}" max="{{max}}" value={{value}}></h2-input>
+          <isu-input class="isu-slider-input" style$=[[getInputStyle(inputSize)]] type="number" min="{{min}}" max="{{max}}" value={{value}}></isu-input>
         </template>
       </div>
     `

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  
+  <title>isu-input demo</title>
+  
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../isu-input'
+  </script>
+  
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
+    
+    $_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+
+      isu-input {
+        margin-bottom: 10px;
+      }
+    </style>
+  </custom-style>`;
+    
+    document.body.appendChild($_documentContainer.content);
+  </script>
+</head>
+<body>
+  <h3>支持不同类型（H5的input元素所有类型，除file类型）</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style is="custom-style">
+          .typed-input {
+            width: 350px;
+            --isu-label: {
+              width: 100px;
+            };
+          }
+        </style>
+      </custom-style>
+      <isu-input class="typed-input" label="文本框" placeholder="Please input something..." clearable></isu-input>
+      <isu-input class="typed-input" label="数字框" type="number" required min="10" max="20" prompt="请输入10到20之间的数字"></isu-input>
+      <isu-input class="typed-input" label="电话" type="tel" maxlength="11" allowed-pattern="^1[3456789]\d{9}$" prompt="电话格式输入有误"></isu-input>
+      <isu-input class="typed-input" label="密码框" type="password" show-password></isu-input>
+      <isu-input class="typed-input" label="颜色框" type="color"></isu-input>
+      <isu-input class="typed-input" label="日期框" type="date"></isu-input>
+      <isu-input class="typed-input" label="日期时间框" type="datetime-local"></isu-input>
+    </template>
+  </demo-snippet>
+
+  <h3>支持增加输入框前缀（单位等）</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style is="custom-style">
+          .container {
+            display: grid;
+            grid-template-columns: 45% 45%;
+          }
+
+          .unit-input {
+            width: 300px;
+            height: 40px;
+            line-height: 40px;
+
+            --isu-input: {
+              font-size: 16px;
+            };
+
+            --isu-input-unit: {
+              font-size: 14px;
+              color: red;
+            }
+          }
+        </style>
+      </custom-style>
+      <div class="container">
+        <isu-input class="unit-input" label="存款" prefix-unit="$"></isu-input>
+        <isu-input class="unit-input" label="单价" prefix-unit="元/吨"></isu-input>
+        <isu-input class="unit-input" label="数量" prefix-unit="吨"></isu-input>
+      </div>
+
+    </template>
+  </demo-snippet>
+
+  <h3>支持增加输入框后缀（单位等）</h3>
+  <demo-snippet>
+    <template>
+      <isu-input label="存款" suffix-unit="$"></isu-input>
+      <isu-input label="单价" suffix-unit="元/吨"></isu-input>
+      <isu-input label="数量" suffix-unit="吨"></isu-input>
+    </template>
+  </demo-snippet>
+
+  <h3>支持必填、只读属性</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style is="custom-style">
+          #required-input {
+            height: 50px;
+            line-height: 50px;
+          }
+        </style>
+      </custom-style>
+      <isu-input label="有值必填框" value="梅西" required=""></isu-input>
+      <isu-input id="required-input" label="无值必填框" required="" prompt="必填项"></isu-input>
+      <isu-input label="只读输入框" value="梅西" readonly=""></isu-input>
+    </template>
+  </demo-snippet>
+
+  <h3>支持最大值、最小值范围（对日期支持）</h3>
+  <demo-snippet>
+    <template>
+      <isu-input label="日期" type="date" min="2017-10-10"></isu-input>
+      <isu-input label="日期" type="date" max="2017-10-30"></isu-input>
+      <isu-input label="日期" type="date" min="2017-10-10" max="2017-10-30"></isu-input>
+    </template>
+  </demo-snippet>
+
+  <h3>支持最大输入长度</h3>
+  <demo-snippet>
+    <template>
+      <isu-input label="数量" type="number" max="20"></isu-input>
+      <isu-input label="名字" maxlength="5"></isu-input>
+      <isu-input label="URL" type="url" maxlength="10" minlength="1"></isu-input>
+    </template>
+  </demo-snippet>
+
+  <h3>格式校验</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style is="custom-style">
+        </style>
+      </custom-style>
+      <isu-input label="标签" allowed-pattern="[A-Za-z]\\d{3}"></isu-input>
+      <isu-input label="标签" class="isu-input--invalid"></isu-input>
+    </template>
+  </demo-snippet>
+</div>`
+  
+</body>
+</html>
