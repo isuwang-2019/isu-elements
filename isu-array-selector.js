@@ -2,7 +2,18 @@ import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/polymer/lib/elements/array-selector.js';
 import '@polymer/polymer/lib/elements/dom-bind.js';
 
-class H2ArraySelector extends PolymerElement {
+/**
+ * `isu-array-selector`
+ *
+ * Example:
+ * ```html
+ *
+ * ```
+ * @customElement
+ * @polymer
+ * @demo demo/isu-array-selector/index.html
+ */
+class IsuArraySelector extends PolymerElement {
   constructor() {
     super();
     this.noink = true;
@@ -32,7 +43,7 @@ class H2ArraySelector extends PolymerElement {
 
         `;
   }
-  static get is() { return 'h2-array-selector'; }
+  static get is() { return 'isu-array-selector'; }
   static get properties() {
     return {
       employees: {
@@ -51,4 +62,4 @@ class H2ArraySelector extends PolymerElement {
   }
 }
 
-window.customElements.define(H2ArraySelector.is, H2ArraySelector);
+window.customElements.define(IsuArraySelector.is, IsuArraySelector);

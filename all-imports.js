@@ -1,3 +1,4 @@
+import './isu-array-selector';
 import './isu-avatar';
 import './isu-button';
 import './isu-button-group';
