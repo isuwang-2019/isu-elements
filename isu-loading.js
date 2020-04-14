@@ -5,12 +5,12 @@ import {IronOverlayBehavior} from "@polymer/iron-overlay-behavior";
 import './behaviors/isu-elements-shared-styles.js';
 
 /**
- `isu-loading`
-
- Example:
- ```html
- <isu-loading opened></isu-loading>
- ```
+ * `isu-loading`
+ *
+ * Example:
+ * ```html
+ * <isu-loading opened></isu-loading>
+ * ```
  *
  * @customElement
  * @polymer

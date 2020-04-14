@@ -2,6 +2,13 @@ import { html, PolymerElement } from '@polymer/polymer'
 import './isu-input.js'
 
 /**
+ *
+ * `isu-slider`
+ *
+ * Example:
+ * ```html
+ * ```
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-slider/index.html

@@ -4,11 +4,11 @@ import '@polymer/paper-tabs/paper-tabs'
 import '@polymer/paper-tabs/paper-tab'
 
 /**
- `isu-paper-tabs`
-
- Example:
- ```html
- ```
+ * `isu-paper-tabs`
+ *
+ * Example:
+ * ```html
+ * ```
  * @customElement
  * @polymer
  * @demo demo/isu-paper-tabs/index.html

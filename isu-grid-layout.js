@@ -5,6 +5,17 @@ import {BaseBehavior} from "./behaviors/base-behavior";
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
 
+/**
+ * `isu-grid-layout`
+ *
+ * Example:
+ * ```html
+ *
+ * ```
+ * @customElement
+ * @polymer
+ * @demo demo/isu-grid-layout/index.html
+ */
 class IsuGridLayout extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`

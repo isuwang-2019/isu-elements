@@ -7,23 +7,23 @@ import '@polymer/iron-icons/iron-icons.js';
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './isu-input.js';
 /**
- `isu-mask`
-
- Example:
- ```html
- <isu-mask label="输入框" class="mask">
- <isu-input placeholder="测试输入" value="Test"></isu-input>
- </isu-mask>
- ```
-
- ## Styling
-
- The following custom properties and mixins are available for styling:
-
- |Custom property | Description | Default|
- |----------------|-------------|----------|
- |`--isu-mask-label` | Mixin applied to the label of mask | {}
-
+ * `isu-mask`
+ *
+ * Example:
+ * ```html
+ * <isu-mask label="输入框" class="mask">
+ * <isu-input placeholder="测试输入" value="Test"></isu-input>
+ * </isu-mask>
+ * ```
+ *
+ * ## Styling
+ *
+ * The following custom properties and mixins are available for styling:
+ *
+ * |Custom property | Description | Default|
+ * |----------------|-------------|----------|
+ * |`--isu-mask-label` | Mixin applied to the label of mask | {}
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-mask/index.html

@@ -19,6 +19,19 @@ import { TipBehavior } from './behaviors/tip-behavior';
 import { BaseBehavior } from './behaviors/base-behavior';
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 
+/**
+ *
+ * `isu-upload`
+ *
+ * Example:
+ * ```html
+ *
+ * ```
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/isu-upload/index.html
+ */
 export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerElement) {
 
   static get template() {

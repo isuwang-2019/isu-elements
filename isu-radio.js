@@ -4,18 +4,18 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/iron-selector/iron-selector';
 import './behaviors/isu-elements-shared-styles.js';
 /**
- `isu-radio`
-
- Example:
- ```html
- <isu-radio id="radio" label="性别" value=1></isu-radio>
- <isu-radio id="radio2" label="姓名" attr-for-value="id" attr-for-label="name" value="3"></isu-radio>
-
- <script>
- radio.items = [{value: 1, label: "男"}, {value: 2, label: "女"}];
- radio2.items = [{id: 1, name: "张三"}, {id: 2, name: "李四"}, {id: 3, name: "王五"}]
- </script>
- ```
+ * `isu-radio`
+ *
+ * Example:
+ * ```html
+ * <isu-radio id="radio" label="性别" value=1></isu-radio>
+ * <isu-radio id="radio2" label="姓名" attr-for-value="id" attr-for-label="name" value="3"></isu-radio>
+ *
+ * <script>
+ * radio.items = [{value: 1, label: "男"}, {value: 2, label: "女"}];
+ * radio2.items = [{id: 1, name: "张三"}, {id: 2, name: "李四"}, {id: 3, name: "王五"}]
+ * </script>
+ * ```
  * @customElement
  * @polymer
  * @demo demo/isu-radio/index.html

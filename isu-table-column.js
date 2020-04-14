@@ -1,8 +1,6 @@
 /**
 
-```html
 
-```
 */
 
 import {PolymerElement} from "@polymer/polymer";
@@ -13,6 +11,10 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 /**
  * `isu-grid`
  *
+ * Example:
+ * ```html
+ *
+ * ```
  * @customElement
  * @polymer
  * @demo demo/isu-table-column/index.html

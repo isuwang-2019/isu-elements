@@ -1,23 +1,3 @@
-/**
- `isu-input-date`
-
- Example:
- ```html
- <isu-input-date class="input-date" label="日期"></isu-input-date>
- <isu-input-date class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
- <isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
-
- ```
- ## Styling
-
- The following custom properties and mixins are available for styling:
-
- |Custom property | Description | Default|
- |----------------|-------------|----------|
- |`--isu-input-date-label` | Mixin applied to the label of input | {}
-
-
- */
 import {html, PolymerElement} from "@polymer/polymer";
 import '@polymer/paper-dialog';
 import './behaviors/isu-elements-shared-styles.js';
@@ -31,6 +11,14 @@ import './utils/jedate/js/jedate'
 import {FormatBehavior} from "./behaviors/format-behavior";
 
 /**
+ *
+ * `isu-input-jedate`
+ *
+ * Example:
+ * ```html
+ *
+ * ```
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-input-date/index.html

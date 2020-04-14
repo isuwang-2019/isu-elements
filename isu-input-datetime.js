@@ -1,23 +1,4 @@
-/**
-`isu-input-datetime`
 
-Example:
-```html
-<isu-input-datetime class="datetime" label="无默认日期"></isu-input-datetime>
-<isu-input-datetime class="datetime" label="默认value" value="2017-10-26T10:20"></isu-input-datetime>
-<isu-input-datetime class="datetime" label="默认time" timestamp="1509008130349"></isu-input-datetime>
-```
-
-## Styling
-
-The following custom properties and mixins are available for styling:
-
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--isu-input-datetime-label` | Mixin applied to the label of input | {}
-
-
-*/
 import './behaviors/format-behavior.js';
 
 import './isu-input.js';
@@ -25,10 +6,29 @@ import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import {FormatBehavior} from "./behaviors/format-behavior";
 /**
+ * `isu-input-datetime`
+ *
+ * Example:
+ * ```html
+ * <isu-input-datetime class="datetime" label="无默认日期"></isu-input-datetime>
+ * <isu-input-datetime class="datetime" label="默认value" value="2017-10-26T10:20"></isu-input-datetime>
+ * <isu-input-datetime class="datetime" label="默认time" timestamp="1509008130349"></isu-input-datetime>
+ * ```
+ *
+ * ## Styling
+ *
+ * The following custom properties and mixins are available for styling:
+ *
+ * |Custom property | Description | Default|
+ * |----------------|-------------|----------|
+ * |`--isu-input-datetime-label` | Mixin applied to the label of input | {}
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-input-datetime/index.html
+ *
  */
+
 class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) {
   static get template() {
     return html`

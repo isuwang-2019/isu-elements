@@ -1,28 +1,4 @@
-/**
-`isu-form`
 
-Example:
-```html
-<isu-form title="demo" action="/test.do">
-  <isu-input class="form-input" label="公司名称" name="company"></isu-input>
-  <isu-input class="form-input" label="电话" name="tel" type="tel" maxlength="11"></isu-input>
-  <isu-input class="form-input" label="地址" name="address"></isu-input>
-  <isu-input class="form-input" label="姓名" name="name"></isu-input>
-  <isu-input class="form-input" label="年龄" name="age" type="number"></isu-input>
-  <isu-button slot="form-btn" form-submit>提交</isu-button>
-</isu-form>
-```
-## Styling
-
-The following custom properties and mixins are available for styling:
-
-|Custom property | Description | Default|
-|----------------|-------------|----------|
-|`--isu-form-title` | Mixin applied to the head title of form | {}
-|`--isu-form` | Mixin applied to form | {}
-|`--isu-form-button` | Mixin applied to submit button of the form | {}
-
-*/
 
 import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
@@ -32,8 +8,29 @@ import {BaseBehavior} from "./behaviors/base-behavior";
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import './isu-fetch.js';
 import schema from 'async-validator';
-
 /**
+ * `isu-form`
+ *
+ * Example:
+ * ```html
+ * <isu-form title="demo" action="/test.do">
+ * <isu-input class="form-input" label="公司名称" name="company"></isu-input>
+ * <isu-input class="form-input" label="电话" name="tel" type="tel" maxlength="11"></isu-input>
+ * <isu-input class="form-input" label="地址" name="address"></isu-input>
+ * <isu-input class="form-input" label="姓名" name="name"></isu-input>
+ * <isu-input class="form-input" label="年龄" name="age" type="number"></isu-input>
+ * <isu-button slot="form-btn" form-submit>提交</isu-button>
+ * </isu-form>
+ * ```
+ * ## Styling
+ *
+ * The following custom properties and mixins are available for styling:
+ *
+ * |Custom property | Description | Default|
+ * |----------------|-------------|----------|
+ * |`--isu-form-title` | Mixin applied to the head title of form | {}
+ * |`--isu-form` | Mixin applied to form | {}
+ * |`--isu-form-button` | Mixin applied to submit button of the form | {}
  * @customElement
  * @polymer
  * @demo demo/isu-form/index.html

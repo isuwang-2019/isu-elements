@@ -1,11 +1,12 @@
 import { html, PolymerElement } from '@polymer/polymer'
 
 /**
- `isu-progress`
-
- Example:
- ```html
- ```
+ * `isu-progress`
+ *
+ * Example:
+ * ```html
+ *
+ * ```
  * @customElement
  * @polymer
  * @demo demo/isu-progress/index.html
