@@ -21,36 +21,32 @@ import './isu-tree.js'
 
  |Custom property | Description | Default|
  |----------------|-------------|----------|
- |`--isu-picker-width` | The width of the picker | 300px
  |`--isu-ui-font-family` | The font family of the picker | Microsoft YaHei
  |`--isu-ui-font-size` | The font size of the picker | 14px
- |`--isu-ui-bg` | The basic color of the selected tags,collapse tr`s color when hover tr | linear-gradient(315deg, var(--isu-ui-color_lightblue)  0%, var(--isu-ui-color_skyblue) 100%)
- |`--isu-ui-red` | The color of the selected tag`s delete shape when hover the tag | linear-gradient(315deg, #f9a7c3 0%, var(--isu-ui-color_pink) 100%);
 
- |`--isu-picker-input` | Mixin applied to the keyword input | {}
- |`--isu-picker-tag` | Mixin applied to the chosed tags | {}
- |`--isu-select-tag-deleter` | Mixin applied to the selected tag's delete tag | {}
- |`--isu-picker-dropdown` | Mixin applied to the dropdown table | {}
- |`--collapase-table-cell` | Mixin applied to the dropdown table's cell | {}
+ |`--isu-select-tree-collapse` | Mixin applied to the collapse tree | {}
+ |`--isu-select-tree-input` | Mixin applied to the input div | {}
+ |`--isu-label` | Mixin applied to the label | {}
 
  * @customElement
  * @polymer
  * @demo demo/isu-org-tree/index.html
  */
-class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
+class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`
       <style include="isu-elements-shared-styles">
         :host {
           display: flex;
+          width: 300px;
+          height: 34px;
+          line-height: 34px;
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
           position: relative;
           box-sizing: border-box;
         }
   
-        .input-wrap {
-        }
         #collapse-tree {
           position: absolute;
           z-index: 999;
@@ -58,6 +54,9 @@ class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
           background: white;
           border: 1px solid lightgray;
           border-radius: 5px;
+          height: 420px;
+          overflow-y: auto;
+          @apply --isu-select-tree-collapse
         }
         #collapse-tree[hidden] {
           visibility: hidden;
@@ -65,9 +64,22 @@ class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
           opacity: 0;
         }
         .input-div {
-          width: 300px;
-          height: 30px;
+          width: 210px;
+          height: 24px;
+          line-height: 24px;
           border: 1px solid lightgray;
+          flex: 1;
+          font-family: 'Microsoft Yahei', sans-serif;
+          font-size: inherit;
+          padding: 4px 8px;
+          min-width: inherit;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          @apply --isu-select-tree-input
+        }
+        .placeholder {
+          color: #999;
         }
   
       </style>
@@ -75,15 +87,10 @@ class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
          <div class="isu-label">[[label]]</div>
       </template>
       
-      <div class="input-wrap" id="select__container">
-        <div on-focus="_inputFocus" class="input-div"></div>
-        <!--<iron-input bind-value="[[value]]" id="input" class="iron-input">-->
-          <!--<input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]" rows$="[[rows]]"-->
-              <!--maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" on-focus="_inputFocus"-->
-              <!--autocomplete="off" step="any" spellcheck="false">-->
-        <!--</iron-input>-->
+      <div id="select__container">
+        <div id="keywordInput" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(selectedItem.label, placeholder)]]">[[getValued(selectedItem.label, placeholder)]]</div>
         <div id="collapse-tree" hidden>
-          <isu-tree id="tree" data="[[treeData]]" default-expand-all></isu-tree>
+          <isu-tree id="tree" data="{{treeData}}" bind-items="{{bindItems}}" default-expand-all check-on-click-node></isu-tree>
         </div>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
@@ -108,7 +115,13 @@ class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         }
       },
       /**
-       * The label of the picker.
+       * The fetch param of the url,for example: {id: 2}
+       * */
+      fetchParam: {
+        type: Object
+      },
+      /**
+       * The label of the select tree.
        * @type {string}
        */
       label: {
@@ -119,24 +132,16 @@ class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @type {String}
        */
       placeholder: {
-        type: String
+        type: String,
+        value: '请选择'
       },
       /**
        *
-       * The selected value of this select,  if `multi` is true,
-       * the value will join with comma ( `selectedValues.map(selected => selected[this.attrForValue]).join(',')` ).
+       * The selected value of this select tree
        * @type {string}
        */
       value: {
         type: String,
-        notify: true
-      },
-      /**
-       * The selected value objects of this select.
-       * @type {array}
-       */
-      selectedValues: {
-        type: Array,
         notify: true
       },
       /**
@@ -155,29 +160,13 @@ class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String
       },
       /**
-       * The candidate selection of this picker.
-       * @type {array}
-       */
-      items: {
-        type: Array
-      },
-      /**
        * Attribute name for value.
        * @type {string}
        * @default 'value'
        */
       attrForValue: {
         type: String,
-        value: "value"
-      },
-      /**
-       * Attribute name for label.
-       * @type {object}
-       * @default 'label'
-       */
-      attrForLabel: {
-        type: Object,
-        value: "label"
+        value: "id"
       },
 
       /**
@@ -190,7 +179,7 @@ class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false
       },
       /**
-       * Set to true, if the picker is readonly.
+       * Set to true, if the select tree is readonly.
        * @type {boolean}
        * @default false
        */
@@ -207,47 +196,74 @@ class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
-      text: {
-        type: String,
-        notify: true,
-        observer: '__textChanged'
-      },
       shortcutKey: {
         type: String,
         value: 'Enter'
       },
-      prompt: String,
+      /**
+       * The prompt tip to show when input is invalid.
+       * @type {String}
+       */
+      prompt: {
+        type: String
+      },
       /**
        * The data of the tree
        * @type {boolean}
        * @default false
        */
       treeData: {
-        type: String
+        type: Array,
+        value: [],
+        notify: true
+      },
+      bindItems: {
+        type: Array
       }
     };
   }
 
   static get is() {
-    return "isu-org-tree";
+    return "isu-select-tree";
   }
 
   static get observers() {
     return [
+      '_bindItemsChange(bindItems)',
+      '_srcChanged(src)'
     ]
   }
 
   connectedCallback() {
     super.connectedCallback();
-
-    this.addEventListener("blur", e => {
-      e.stopPropagation();
+    const self = this
+    self.$.keywordInput.addEventListener("blur", e => {
+      // e.stopPropagation();
       setTimeout(() => { // 解决blur事件和click事件冲突的问题
-        if (this.shadowRoot.activeElement && this.shadowRoot.activeElement.id === 'keywordInput') return;
-        this._displayCollapse(false);
+        if (self.shadowRoot.activeElement && self.shadowRoot.activeElement.id === 'keywordInput') return;
+        self._displayCollapse(false);
       }, 200);
     });
+    this.addEventListener('click', e => {
+      const minWidth = this.$['collapse-tree'].offsetLeft
+      const maxWidth = minWidth + this.$['collapse-tree'].offsetWidth
+      const minHeight = this.$['collapse-tree'].offsetTop
+      const maxHeight = minHeight + this.$['collapse-tree'].offsetHeight
+      if (e.offsetX >= minWidth && e.offsetX <= maxWidth && e.offsetY >= minHeight && e.offsetY <= maxHeight) {
+        this.$.keywordInput.focus()
+      }
+    })
+    this.addEventListener('tree-arrow-check', (e) => {
+      this.selectedItem = e.detail.selectedItem
+      this.$.keywordInput.focus()
+    });
+  }
 
+  _bindItemsChange(bindItems) {
+    if (bindItems) {
+      this.selectedItem = bindItems[0]
+      this.value = this.selectedItem && this.selectedItem.label
+    }
   }
 
   _inputFocus() {
@@ -263,13 +279,51 @@ class IsuOrgTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @returns {boolean}
    */
   validate() {
-    if (this.mode === 'text') {
-      return this.required ? this.text : true;
-    } else {
-      return this.required ? (this.selectedValues && this.selectedValues.length > 0) : true;
-    }
+    return this.required ? !!this.value.trim() : true;
+  }
+
+  getValued(label, placeholder) {
+    return !!label ? label : placeholder
+  }
+
+  getPlaceholderClass(label, placeholder) {
+    return !!label ? '' : 'placeholder'
+  }
+
+  _srcChanged(src) {
+    if (!src) return;
+    const request = this._mkRequest(this.fetchParam);
+    this._fetchUtil.fetchIt(request)
+      .then(res => res.json())
+      .then(data => {
+        let items;
+        if (this.resultPath) {
+          items = this.getValueByPath(data, this.resultPath, []);
+        } else {
+          items = data || [];
+        }
+        let findIndex = items.findIndex(item => item[this.attrForValue] == this.value);
+        if (findIndex >= 0) {
+          this.selectedItem = items[findIndex]
+        }
+        this.set('treeData', items)
+      })
+      .catch(console.error);
+  }
+
+  _mkRequest(data) {
+    return {
+      url: this.src,
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=utf-8",
+        "Cache-Control": "no-cache"
+      },
+      credentials: "include",
+      body: JSON.stringify(data)
+    };
   }
 
 }
 
-window.customElements.define(IsuOrgTree.is, IsuOrgTree);
+window.customElements.define(IsuSelectTree.is, IsuSelectTree);

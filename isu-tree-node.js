@@ -57,69 +57,73 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .trigger__icon {
         color: #B1B6BF;
       }
+      .pitch-on {
+        background: #FCE9BB;
+        text-decoration: underline;
+        
+      }
     </style>
     <template is="dom-if" if="{{node.visible}}">
       <div class="dht-tree-twig-one">
-      <div class="dht-tree-node-content" style$="{{_getIndentStyle(level, indent)}}" on-click="showNode">
-        <!--箭头-->
-        <template is="dom-if" if="[[node.childNodes.length]]">
-          <iron-icon class="trigger__icon" icon="icons:arrow-drop-down" style$="{{_getRotateStyle(rotate)}}"></iron-icon>
+        <div class="dht-tree-node-content" style$="{{_getIndentStyle(level, indent)}}" on-click="_clickCheckOnClickNode">
+          <!--箭头-->
+          <template is="dom-if" if="[[node.childNodes.length]]">
+            <iron-icon class="trigger__icon" icon="icons:arrow-drop-down" style$="{{_getRotateStyle(rotate)}}" on-click="showNode"></iron-icon>
+          </template>
+          <!--没有子元素的时候箭头用空span代替-->
+          <template is="dom-if" if="[[!node.childNodes.length]]">
+            <span class="black-span"></span>
+          </template>
+          <!--多选框-->
+          <template is="dom-if" if="[[showCheckbox]]">
+            <paper-checkbox 
+              class="checkbox-item half" 
+              class$="[[getHalfClass(node.indeterminate)]]"
+              checked="{{ node.checked }}" 
+              disabled="{{ node.disabled }}" 
+              on-change="__checkedChangeHandler"
+              on-click="__checkedClickedHandler"
+              value="[[ getValueByKey(item, attrForValue) ]]">
+                [[ getValueByKey(item, attrForLabel) ]]
+             </paper-checkbox>
+          </template>
+          <!--单选框-->
+          <template is="dom-if" if="[[showRadio]]">
+            <paper-radio-button
+              class="checkbox-item" name="radio"
+              checked="{{ node.checked }}" 
+              disabled="{{ node.disabled }}" 
+              on-change="__checkedRadioChangeHandler"
+              on-click="__checkedRadioClickedHandler"
+              value="[[ getValueByKey(item, attrForValue) ]]">
+                [[ getValueByKey(item, attrForLabel) ]]
+             </paper-radio-button>
+          </template>
+          <!--可自定义部分-->
+          <slot name="before-label"></slot>
+          <span>[[node.label]]</span>
+          <!--可自定义部分-->
+          <slot name="after-label"></slot>
+        </div>
+        <template is="dom-if" if="{{isShow}}">
+          <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
+            <isu-tree-node
+              show-checkbox="[[showCheckbox]]"
+              show-radio="[[showRadio]]"
+              is-checked="{{isChecked}}"
+              check-on-click-node="[[checkOnClickNode]]"
+              search-word="[[searchWord]]" is-show="{{isShow}}"
+              key="[[getNodeKey(item, index)]]"
+              node="{{item}}" id="{{item.nodeId}}"
+              default-expand-all="[[defaultExpandAll]]"
+              level="[[_getNextLevel(level)]]"
+              data-location="[[_getDataLocation(index)]]"
+              indent="[[indent]]"
+            >
+             <slot name="before-label"></slot>
+            </isu-tree-node>
+          </template>
         </template>
-        <!--没有子元素的时候箭头用空span代替-->
-        <template is="dom-if" if="[[!node.childNodes.length]]">
-          <span class="black-span"></span>
-        </template>
-        <!--多选框-->
-        <template is="dom-if" if="[[showCheckbox]]">
-          <paper-checkbox 
-            class="checkbox-item half" 
-            class$="[[getHalfClass(node.indeterminate)]]"
-            checked="{{ node.checked }}" 
-            disabled="{{ node.disabled }}" 
-            on-change="__checkedChangeHandler"
-            on-click="__checkedClickedHandler"
-            value="[[ getValueByKey(item, attrForValue) ]]">
-              [[ getValueByKey(item, attrForLabel) ]]
-           </paper-checkbox>
-        </template>
-        <!--单选框-->
-        <template is="dom-if" if="[[showRadio]]">
-          <paper-radio-button
-            class="checkbox-item" name="radio"
-            checked="{{ node.checked }}" 
-            disabled="{{ node.disabled }}" 
-            on-change="__checkedRadioChangeHandler"
-            on-click="__checkedRadioClickedHandler"
-            value="[[ getValueByKey(item, attrForValue) ]]">
-              [[ getValueByKey(item, attrForLabel) ]]
-           </paper-radio-button>
-        </template>
-        <!--可自定义部分-->
-        <slot name="before-label"></slot>
-        <span>[[node.label]]</span>
-        <!--可自定义部分-->
-        <slot name="after-label"></slot>
-      </div>
-      <!--<transition-group name="dht-tree-node">-->
-      <template is="dom-if" if="{{isShow}}">
-        <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
-          <isu-tree-node
-            show-checkbox="[[showCheckbox]]"
-            show-radio="[[showRadio]]"
-            is-checked="{{isChecked}}"
-            search-word="[[searchWord]]" is-show="{{isShow}}"
-            key="[[getNodeKey(item, index)]]"
-            node="{{item}}" id="{{item.nodeId}}"
-            default-expand-all="[[defaultExpandAll]]"
-            level="[[_getNextLevel(level)]]"
-            data-location="[[_getDataLocation(index)]]"
-            indent="[[indent]]"
-          >
-           <slot name="before-label"></slot>
-          </isu-tree-node>
-        </template>
-      </template>
-      <!--</transition-group>-->
     </div>
     </template>
     
@@ -204,6 +208,13 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       isIndeterminate: {
         type: Boolean,
         value: false
+      },
+      /**
+       * 是否在点击节点的时候选中节点，默认值为 false，即只有在点击复选框时才会选中节点
+       * */
+      checkOnClickNode: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -258,7 +269,6 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if(path.includes('checked')) {
       this.__setNodeChecked(this)
     }
-    // this._notifyDataChanged(this.isChecked)
   }
 
   _searchWordChanged(searchWord) {
@@ -313,14 +323,29 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return level + 1
   }
 
-  showNode () {
+  _clickCheckOnClickNode() {
+    if (this.checkOnClickNode) {
+      const dhtTreeNodeContentList = this.getAllQulifyingElements(document.querySelectorAll('*'), 'className', 'dht-tree-node-content')
+      dhtTreeNodeContentList.forEach(el => {
+        el.classList.remove('pitch-on')
+      })
+      this.shadowRoot.querySelector('.dht-tree-node-content') && this.shadowRoot.querySelector('.dht-tree-node-content').classList.add('pitch-on')
+      this.dispatchEvent(new CustomEvent("single-check", {detail: {data: this.node.data}, bubbles: true, composed: true}));
+    }
+  }
+
+  showNode (e) {
+    e.stopPropagation()
     if (this.node.childNodes.length <= 0) return false
+
+    this.dispatchEvent(new CustomEvent('arrow-check', {detail: {data: null}, bubbles: true, composed: true}));
     const parent = this.parentNode.host || this.parentNode
     if (this.isShow) {
       this.isShow = false
       this.rotate = -90
       return
     }
+
     //如果开启了手风琴模式，一次展示一个层级
     if (this.accordion) {
       parent.shadowRoot.querySelectorAll('isu-tree-node').forEach(el => {
@@ -352,7 +377,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   __checkedRadioChangeHandler(e) {
     e.stopPropagation()
     const isChecked = e.target.checked
-    const allPaperRadioButton = this.__getAllPaperRadioButton()
+    const allPaperRadioButton = this.getAllQulifyingElements(document.querySelectorAll('*'), 'localName', 'paper-radio-button')
     allPaperRadioButton.forEach(item => item.checked = false )
     this.isChecked = isChecked
     this.set('node.checked', isChecked)
@@ -364,7 +389,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       halfCheckedNodes: store.getHalfCheckedNodes(),
       halfCheckedKeys: store.getHalfCheckedKeys()
     }
-    this.dispatchEvent(new CustomEvent("check", {detail: {data: this.node.data, ...param}}));
+    this.dispatchEvent(new CustomEvent("check", {detail: {data: this.node.data, ...param}, bubbles: true, composed: true}));
   }
 
   __checkedChangeHandler(e) {
@@ -410,25 +435,43 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     })
     return checked && childrenChecked
   }
-
-  __getAllPaperRadioButton() {
+  /**
+   * 拿到所有符合条件的元素
+   * */
+  getAllQulifyingElements(nodes, attribute, elementName) {
     // 拿到所有的paper-radio-button按钮
     let allCustomElements = [];
 
-    const findAllPaperRadioButton = (nodes) =>{
+    const findAllQulifyingElements = (nodes, attribute, elementName) => {
+
       for (let i = 0, el; el = nodes[i]; ++i) {
-        if (el.localName === 'paper-radio-button') {
+        if (el[attribute] === elementName) {
           allCustomElements.push(el);
         }
         // 如果元素有shadow DOM, 那么就继续深入
         if (el.shadowRoot) {
-          findAllPaperRadioButton(el.shadowRoot.querySelectorAll('*'));
+          findAllQulifyingElements(el.shadowRoot.querySelectorAll('*'));
         }
       }
     }
 
-    findAllPaperRadioButton(document.querySelectorAll('*'));
+    findAllQulifyingElements(nodes, attribute, elementName);
     return allCustomElements
+  }
+  /**
+   * 拿到所有符合条件的元素
+   * */
+  findAllQulifyingElements (nodes, attribute, elementName) {
+
+    for (let i = 0, el; el = nodes[i]; ++i) {
+      if (el[attribute] === elementName) {
+        allCustomElements.push(el);
+      }
+      // 如果元素有shadow DOM, 那么就继续深入
+      if (el.shadowRoot) {
+        findAllPaperRadioButton(el.shadowRoot.querySelectorAll('*'));
+      }
+    }
   }
 
   __setNodeChecked(ele) {

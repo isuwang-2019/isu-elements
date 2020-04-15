@@ -78,7 +78,7 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
             is-checked="{{isChecked}}" is-first="[[_isFirst(index)]]"
             accordion="[[accordion]]" level="1" id="{{item.nodeId}}"
             key="[[getNodeKey(item, index)]]" node="{{item}}"  
-            default-expand-all="[[defaultExpandAll]]"
+            default-expand-all="[[defaultExpandAll]]" check-on-click-node="[[checkOnClickNode]]"
             show-radio="{{showRadio}}" indent="[[indent]]"
             data-location="[[_getDataLocation(index)]]" 
           >
@@ -196,13 +196,21 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
        * */
       defaultCheckedKeys: {
         type: Array
+      },
+      /**
+       * 是否在点击节点的时候选中节点，默认值为 false，即只有在点击复选框时才会选中节点
+       * */
+      checkOnClickNode: {
+        type: Boolean,
+        value: false
       }
     }
   }
   static get observers() {
     return [
       '_childNodesChanged(node.childNodes.*)',
-      '_isFirst(isFirst)'
+      '_isFirst(isFirst)',
+      '_dataChanged(data)'
     ]
   }
 
@@ -211,35 +219,47 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
     self.addEventListener('check-button', (e) => {
       self.debounce('_setBindItemsChanged', self._setBindItemsChanged.bind(self, e), 200)
     });
+    self.addEventListener('single-check', (e) => {
+      self.debounce('_setSingleBindItemsChanged', self._setSingleBindItemsChanged.bind(self, e), 200)
+    });
+    self.addEventListener('arrow-check', (e) => {
+      this.dispatchEvent(new CustomEvent('tree-arrow-check', {detail: {selectedItem: self.bindItems[0]}, bubbles: true, composed: true}));
+    });
   }
 
   _setBindItemsChanged(e) {
-    this.set('bindItems', e.detail.checkedNodes)
-    this.set('bindItemKeys', e.detail.checkedKeys)
-    console.log(this.bindItems)
-    console.log(this.bindItemKeys)
+    if (!this.checkOnClickNode) {
+      this.set('bindItems', e.detail.checkedNodes)
+      this.set('bindItemKeys', e.detail.checkedKeys)
+    }
   }
 
-  ready() {
-    super.ready()
-    const store = new TreeStore({
-      data: this.data,
-      key: this.key,
-      lazy: this.lazy,
-      props: this.props,
-      load: this.load,
-      currentNodeKey: this.currentNodeKey,
-      checkStrictly: this.checkStrictly,
-      checkDescendants: this.checkDescendants,
-      defaultCheckedKeys: this.defaultCheckedKeys,
-      defaultExpandedKeys: this.defaultExpandedKeys,
-      autoExpandParent: this.autoExpandParent,
-      defaultExpandAll: this.defaultExpandAll
-    });
-    this.set('store',  store)
-    this.set('node',  store.root)
+  _setSingleBindItemsChanged(e) {
+    this.set('bindItems', Array.prototype.concat([], e.detail.data))
+    this.set('bindItemKeys', Array.prototype.concat([], e.detail.data[this.key]))
   }
 
+  _dataChanged(data) {
+    if (data) {
+      const store = new TreeStore({
+        data: data,
+        key: this.key,
+        lazy: this.lazy,
+        props: this.props,
+        load: this.load,
+        currentNodeKey: this.currentNodeKey,
+        checkStrictly: this.checkStrictly,
+        checkDescendants: this.checkDescendants,
+        defaultCheckedKeys: this.defaultCheckedKeys,
+        defaultExpandedKeys: this.defaultExpandedKeys,
+        autoExpandParent: this.autoExpandParent,
+        defaultExpandAll: this.defaultExpandAll
+      });
+      this.set('store',  store)
+      this.set('node',  store.root)
+    }
+
+  }
 
   _isFirst(index) {
     return index === 0

@@ -37,7 +37,8 @@ const template = html`
       }
       .dht-tree-twig-one .dht-tree-node-content:hover,
       .dht-tree-twig-one .dht-tree-node-content:active {
-        background: rgba(15, 128, 255, 0.1);
+        text-decoration: underline;
+        /*background: rgba(15, 128, 255, 0.1);*/
       }
       .dht-tree-twig-one .dht-tree-node-content .arrow {
         font-size: 12px;
