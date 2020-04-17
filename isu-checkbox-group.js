@@ -12,14 +12,6 @@ import '@polymer/paper-checkbox';
  * ```html
  * <isu-checkbox-group label="材料" value="0" items="{{items}}"></isu-checkbox-group>
  *
- * <script>
- * items = [
- * {label: '薄膜', value: 0},
- * {label: '纤维', value: 1},
- * {label: '塑料', value: 2},
- * {label: '其它', value: 3}
- * ];
- * </script>
  * ```
  *
  * ## Styling
@@ -169,20 +161,24 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
         value: false
       },
       /**
-       * 可选项目数量的限制，最少可选
+       * A limit on the number of optional items, smallest optional
+       * @type Number
+       * @default
        * */
       min: {
         type: Number
       },
       /**
-       * 可选项目数量的限制，最多可选
+       * A limit on the number of optional items, biggest optional
+       * @type Number
+       * @default
        * */
       max: {
         type: Number
       },
       /**
        * The prompt tip to show when input is invalid.
-       * @type {String}
+       * @type String
        */
       prompt: {
         type: String

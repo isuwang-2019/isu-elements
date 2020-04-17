@@ -33,8 +33,8 @@ import './isu-button';
  *
  * |Custom property | Description | Default|
  * |----------------|-------------|----------|
- * |`--isu-button-group-button` | Mixin applied to the group button | {}
- * |`--isu-button-group-dropdown` | Mixin applied to the group dropdown | {}
+ * |`--isu-button-group-button` | The style of the trigger button | {}
+ * |`--isu-button-group-dropdown` | The style of the dropdown menu | {}
  *
  * @customElement
  * @polymer
@@ -52,12 +52,6 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         font-size: var(--isu-ui-font-size);
       }
 
-      /*.box {*/
-        /*!*position: relative;*!*/
-        /*!*width: 100%;*!*/
-        /*!*height: 100%;*!*/
-      /*}*/
-      
       .trigger {
         width: 100%;
         height: 100%;
@@ -66,10 +60,6 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         @apply --isu-button-group-button;
       }
       
-      .trigger:hover {
-      
-      }
-
       .trigger__label {
         flex: 1;
       }
@@ -90,8 +80,6 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         flex-flow: column nowrap;
         box-sizing: border-box;
         z-index: 999;
-        /*width: 100%;*/
-        /*margin-top: 2px;*/
         font-size: 1em;
         text-align: center;
         background-clip: padding-box;
@@ -182,7 +170,10 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return {
       /**
        * Size of the action group button.options:small/medium/large.Default option:medium
-       * */
+       *
+       * @type String
+       * @default medium
+       */
       size: {
         type: String,
         value: 'medium',
@@ -190,13 +181,16 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       /**
        * Label of the action group.
+       *
+       * @type String
+       * @default
        */
       label: {
         type: String
       },
       /**
        * Return true if the action group is expanded.
-       * @type {boolean}
+       * @type Boolean
        * @default false
        */
       opened: {
@@ -215,7 +209,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       /**
        * Attribute name for label.
-       * @type {string}
+       * @type String
        * @default 'label'
        */
       attrForLabel: {
@@ -224,16 +218,25 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       /**
        * The Function called when user click on every item on dropdownlist.
+       * @type Object
+       * @default
        */
       onItemClick: {
         type: Object
       },
+      /**
+       * Return true if the button-group element is disabled
+       * @type Boolean
+       * @default false
+       */
       disabled: {
         type: Boolean,
         value: false
       },
       /**
        * The items will hide when user clicks one item
+       * @type Boolean
+       * @default false
        * */
       hideOnClick: {
         type: Boolean,
@@ -305,7 +308,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   /**
-   * 是否有权限
+   * Whether the item has the permission to show or not
    * */
   _hasPermission(item) {
     const permission = 'permission' in item

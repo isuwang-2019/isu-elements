@@ -146,6 +146,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
 
       /**
+       * Modal popup window
        * @type {boolean}
        * @default false
        */
@@ -157,6 +158,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
 
       /**
+       * If true, clicking the place outside the modal can not make the modal hide.
        * @type {boolean}
        * @default false
        */
@@ -165,29 +167,44 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false,
         reflectToAttribute: true
       },
-
+      /**
+       * If true, pressing the Esc key can not make the modal hide.
+       * @type {boolean}
+       * @default false
+       */
       noCancelOnEscKey: {
         type: Boolean,
         value: false
       },
+      /**
+       * If true, the modal will be opened
+       * @type {boolean}
+       * @default false
+       */
       opened: {
         type: Boolean,
         reflectToAttribute: true
       },
       /**
-       * 距顶端的距离
+       * The distance from the top
+       * @type {number}
+       * @default
        * */
       top: {
         type: Number
       },
       /**
-       * 距左边的距离
+       * The distance from the left
+       * @type {number}
+       * @default
        * */
       left: {
         type: Number
       },
       /**
-       * 是否在 Dialog 出现时将 body 滚动锁定
+       * If true, lock the body scroll when dailog modal appears
+       * @type {boolean}
+       * @default false
        * */
       lockScroll: {
         type: Boolean,

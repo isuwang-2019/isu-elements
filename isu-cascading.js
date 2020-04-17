@@ -11,6 +11,7 @@ import './behaviors/isu-elements-shared-styles.js';
  * `isu-cascading`
  *
  * ```html
+ *  <isu-cascading class="isu-cascading" label="地址" id="cascading" attr-for-label="label" attr-for-value="value" separator=">" required show-all-levels></isu-cascading>
  *
  * ```
  *
@@ -185,7 +186,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <div class="isu-label">[[label]]</div>
       </template>
       
-      <div class="cascading__container" on-click="_onInputClick">
+      <div class="cascading__container" on-click="__onInputClick">
         <div id="placeholder">[[placeholder]]</div>
         <div class="box-value">[[showLabel]]</div>
         <iron-icon class="caret" icon="icons:expand-more"></iron-icon>
@@ -235,40 +236,88 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get properties() {
     return {
+      /**
+       * Label of the cascading element
+       *
+       * @type String
+       * @default
+       */
       label: {
         type: String
       },
+      /**
+       * Placeholder of the cascading container
+       *
+       * @type String
+       * @default 请选择
+       */
       placeholder: {
         type: String,
         value: '请选择'
       },
+      /**
+       * if is true, the collapse cascading will open.
+       *
+       * @type Boolean
+       * @default false
+       */
       opened: {
         type: Boolean,
         value: false,
         reflectToAttribute: true
       },
+      /**
+       * The items of the cascading, is passed in by the customer.
+       *
+       * @type Array
+       * @default []
+       */
       items: {
         type: Array,
         observer: '__itemsChanged',
         value: []
       },
+      /**
+       * The items of the cascading, equals to items. If 'lazy' is true, can also be passed in by the customer.
+       *
+       * @type Array
+       * @default []
+       */
       treeItems: {
         type: Array,
         notify: true,
         observer: '__treeItemsChanged',
         value: []
       },
+      /**
+       * The attrForValue array selected from the selectedValues. eg: ["zhinan", "shejiyuanze", "fankui"]
+       *
+       * @type Array
+       * @default []
+       */
       value: {
         type: Array,
         notify: true,
         value: [],
         observer: '__valueChanged'
       },
+      /**
+       * The array selected from the treeItems.
+       *
+       * @type Array
+       * @default []
+       */
       selectedValues: {
         type: Array,
         notify: true,
         value: []
       },
+      /**
+       * The value showed in the cascading container input. eg: 指南>设计原则>反馈
+       *
+       * @type Array
+       * @default []
+       */
       valueLabel: {
         type: String,
         notify: true
@@ -283,6 +332,10 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: "value"
       },
+      /**
+       * The prompt tip to show when input is invalid.
+       * @type {String}
+       */
       prompt: {
         type: String
       },
@@ -297,34 +350,64 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: "label"
       },
+      /**
+       *
+       * Separator for the valueLabel
+       *
+       * @type String
+       * @default /
+       */
       separator: {
         type: String,
         value: '/'
       },
+      /**
+       *
+       * Is required
+       *
+       * @type Boolean
+       * @default false
+       */
       required: {
         type: Boolean,
         value: false
       },
+      /**
+       *
+       * Is readonly
+       *
+       * @type Boolean
+       * @default false
+       */
       readonly: {
         type: Boolean,
         value: false
       },
       /**
-       * 次级菜单的展开方式(click/hover)
-       * */
+       *
+       * The way the secondary menu is expanded(click/hover)
+       *
+       * @type String
+       * @default click
+       */
       expandTrigger: {
         type: String,
         value: 'click'
       },
       /**
-       * 输入框中是否显示选中值的完整路径, 如果为false则显示最后一层路径
+       * Show the whole path of the selected value in the input box. Show the last path if it is false.
+       *
+       * @type Boolean
+       * @default false
        * */
       showAllLevels: {
         type: Boolean,
         value: false
       },
       /**
-       * 显示在输入框中的值
+       * Values displayed in the input box
+       * @type String
+       * @default
        * */
       showLabel: {
         type: String,
@@ -380,7 +463,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return select ? 'view-item-active' : ''
   }
 
-  _onInputClick() {
+  __onInputClick() {
     this.opened = !this.opened;
     this.$.boxDialog.positionTarget = this.$.targetDialog;
     this.opened ? this.$.boxDialog.open() : this.$.boxDialog.close();
