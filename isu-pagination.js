@@ -10,8 +10,23 @@ import './isu-select';
  *
  * Example:
  * ```html
- * <isu-pagination total="30" limit="5" paging="{{paging}}"></isu-pagination>
+ * <isu-pagination total="5000" start="0" limit="20"></isu-pagination>
+ * <isu-pagination total="50" page-sizes='[10,20,30]' start="0" limit="10"></isu-pagination>
+ * <isu-pagination id="page2" total="5000" start="0" limit="20" size="small"></isu-pagination>
+ * <isu-pagination id="page3" total="5000" start="0" limit="20" size="mini" hide-page-select></isu-pagination>
+ * <isu-pagination id="pageSingle2" total="1" start="0" limit="20" hide-on-single-page></isu-pagination>
+ * <isu-pagination id="pageSelect" total="5000" start="0" limit="20" hide-page-select></isu-pagination>
+ *
  * ```
+ *
+ * ### Styling
+ *
+ * `<isu-button>` provides the following custom properties and mixins
+ * for styling:
+ *
+ * Custom property | Description | Default
+ * ----------------|-------------|----------
+ * `--isu-pagination-size-selector` | Mixin applied to the page size selector | {}
  * @customElement
  * @polymer
  * @demo demo/isu-pagination/index.html
@@ -109,6 +124,7 @@ class IsuPagination extends PolymerElement {
            width: 100px;
            font-size: 12px;
         }
+        @apply --isu-pagination-size-selector
       }
       
       .page-count {
@@ -206,7 +222,11 @@ class IsuPagination extends PolymerElement {
         type: Number,
         value: 0
       },
-
+      /**
+       * Size of the pagination, small/mini
+       * @type {string}
+       * @default 0
+       */
       size: {
         type: String,
         value: ''
@@ -231,12 +251,18 @@ class IsuPagination extends PolymerElement {
 
       /**
        * Whether or not show the page select items
+       * @type {boolean}
+       * @default false
        */
       hidePageSelect: {
         type: Boolean,
         value: false
       },
-
+      /**
+       * The number of items that are displayed per page
+       * @type {array}
+       * @default [20, 40, 60]
+       */
       pageSizes: {
         type: Array,
         value: function () {
@@ -247,7 +273,11 @@ class IsuPagination extends PolymerElement {
       __pageIndex: {
         type: Number,
       },
-
+      /**
+       * The start page of the pagination
+       * @type {number}
+       * @default
+       */
       start: {
         type: Number,
         observer: '_pageStartChanged'

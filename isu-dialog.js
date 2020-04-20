@@ -13,10 +13,19 @@ import './behaviors/isu-elements-shared-styles.js';
  *
  * Example:
  * ```html
- * <isu-dialog id="dialog">
- * Put your Content here inside an element which with [slot=container]
- * </isu-dialog>
- * <button id="btn" onclick="javascript:dialog.open();">Click to open the Dialog</button>
+ * <isu-dialog id="dialog">Put your Content here inside an element which with [slot=container]</isu-dialog>
+ *
+ * <isu-dialog id="dialog" stop-auto-dismiss top="12" left="30">Put your Content here inside an element which with</isu-dialog>
+ *
+ *<isu-dialog id="dialog1" stop-auto-dismiss no-cancel-on-outside-click>Put your Content here inside an element which with</isu-dialog>
+ *
+ *<isu-dialog id="dialogLock" stop-auto-dismiss no-cancel-on-outside-click lock-scroll>Put your Content here inside an element which with</isu-dialog>
+ *
+ * <isu-dialog id="dialog2" stop-auto-dismiss title="Dialog demo" modal>
+ *  <div>
+ *    Put your Content here inside an element which with
+ *  </div>
+ *</isu-dialog>
  * ```
  * ## Styling
  *
@@ -24,9 +33,8 @@ import './behaviors/isu-elements-shared-styles.js';
  *
  * |Custom property | Description | Default|
  * |----------------|-------------|----------|
- * |`--isu-dialog-width` | Mixin applied to the width of dialog | 85%
- * |`--isu-dialog-height` | Mixin applied to the height of dialog | 90%
- * |`--isu-dialog-title` |  Mixin applied to the style of dialog title | {}
+ * |`--isu-dialog-content` | Mixin applied to the adding contents of dialog | {}
+ * |`--isu-dialog-title` | Mixin applied to the title of dialog | {}
  * @customElement
  * @polymer
  * @demo demo/isu-dialog/index.html

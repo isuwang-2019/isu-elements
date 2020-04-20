@@ -16,7 +16,34 @@ import {FormatBehavior} from "./behaviors/format-behavior";
  *
  * Example:
  * ```html
+ * <isu-input-jedate class="input-date multi" label="年选择" format="YYYY" placeholder="YYYY" required></isu-input-jedate>
+ * <isu-input-jedate class="input-date multi" label="年月选择" format="YYYY-MM" placeholder="YYYY-MM"></isu-input-jedate>
+ * <isu-input-jedate class="input-date multi" label="年月日选择" format="MM-DD-YYYY" placeholder="MM-DD-YYYY"></isu-input-jedate>
+ * <isu-input-jedate class="input-date multi" label="年月日时分秒选择" festival min="1900-01-01" max="2099-12-31"
+ * format="YYYY-MM-DD hh:mm:ss" placeholder="YYYY-MM-DD hh:mm:ss"></isu-input-jedate>
+ * <isu-input-jedate class="input-date multi" label="时分秒选择" format="hh:mm:ss" min="01:02:08" max="15:25:35" placeholder="hh:mm:ss"></isu-input-jedate>
  *
+ * <isu-input-jedate class="input-date multi" label="年月日选择" format="YYYY-MM-DD" placeholder="YYYY-MM-DD" language="en"></isu-input-jedate>
+ *<isu-input-jedate class="input-date multi" id="testBlue" label="蓝色主题" format="YYYY-MM-DD hh:mm:ss"
+ *  placeholder="YYYY-MM-DD hh:mm:ss"></isu-input-jedate>
+ *<script>
+ *  testBlue.theme = {bgcolor:'#00A1CB',pnColor:'#00CCFF'}
+ *</script>
+ *<isu-input-jedate label="年范围选择" format="YYYY" placeholder="YYYY" range=" ~ "></isu-input-jedate>
+ *<isu-input-jedate label="年月范围选择" format="YYYY-MM" placeholder="YYYY-MM" range=" To "></isu-input-jedate>
+ *<isu-input-jedate label="日范围选择" format="YYYY-MM-DD" placeholder="YYYY-MM-DD" range=" 至 "></isu-input-jedate>
+ *<isu-input-jedate label="年范围选择" format="YYYY" placeholder="YYYY" range=" ~ " multi-pane="false"></isu-input-jedate>
+ *<isu-input-jedate label="年月范围选择" format="YYYY-MM" placeholder="YYYY-MM" range=" To " ></isu-input-jedate>
+ *<isu-input-jedate label="日范围选择" format="YYYY-MM-DD" placeholder="YYYY-MM-DD" range=" 至 " ></isu-input-jedate>
+ *<isu-input-jedate label="日时分秒范围选择" format="YYYY-MM-DD hh:mm:ss" placeholder="YYYY-MM-DD hh:mm:ss" range=" ~ "></isu-input-jedate>
+ *<isu-input-jedate label="时分秒范围选择" format="hh:mm:ss" placeholder="hh:mm:ss" range=" To "></isu-input-jedate>
+ *<isu-input-jedate label="时分范围选择" format="hh:mm" placeholder="hh:mm" range=" 至 "></isu-input-jedate>
+ *<isu-input-jedate label="自定义格式" format="YYYY年MM月DD日" placeholder="YYYY年MM月DD日"></isu-input-jedate>
+ *<isu-input-jedate label="自定义格式" format="MM-DD-YYYY" placeholder="MM-DD-YYYY"></isu-input-jedate>
+ *<isu-input-jedate label="自定义格式" format="DD/MM/YYYY" placeholder="DD/MM/YYYY"></isu-input-jedate>
+ *<isu-input-jedate id="multiPane7" label="自定义格式（双面板）" format="DD/MM/YYYY" placeholder="DD/MM/YYYY" range=" 至 " multi-pane="false"></isu-input-jedate>
+ *<isu-input-jedate label="默认初始赋值" format="YYYY-MM-DD" placeholder="YYYY年MM月DD日" isinit-val></isu-input-jedate>
+ *<isu-input-jedate label="只读" format="YYYY年MM月DD日" placeholder="YYYY年MM月DD日" bind-data="1517760000000" readonly></isu-input-jedate>
  * ```
  *
  * @customElement
@@ -76,9 +103,6 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
         left: -10px;
         line-height: inherit;
       }
-      /*:host([required]) .input__container {*/
-        /*border: 1px solid red;*/
-      /*}*/
       :host([readonly]) .jeinput {
         cursor: default;
       }
@@ -162,169 +186,217 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
         type: String
       },
       /**
-       * 日期格式
-       * */
+       * The format of the date
+       * @type {string}
+       * @default 'YYYY-MM-DD'
+       */
       format: {
         type: String,
         value: 'YYYY-MM-DD'
       },
       /**
-       * 是否为双面板，为false是展示双面板
-       * */
+       * Double panel or not, show double panel if multiPane is false
+       * @type {boolean}
+       * @default true
+       */
       multiPane: {
         type: Boolean,
         value: true
       },
       /**
-       * 是否显示为固定日历，为false的时候固定显示
-       * */
+       * Whether it is displayed as a fixed calender or not, if false, displayed as a fixed calender
+       * @type {boolean}
+       * @default true
+       */
       isShow: {
         type: Boolean,
         value: true
       },
       /**
-       * 是否为选中日期后关闭弹层，为false时选中日期后关闭弹层
-       * */
+       * Close the shell layer after selecting date, if false, close the shell layer after selecting date
+       * @type {boolean}
+       * @default true
+       */
       onClose: {
         type: Boolean,
         value: true
       },
       /**
-       * 如果不为空且不为false，则会进行区域选择，例如 " 至 "，" ~ "，" To "
-       * */
+       * If it is not empty and not false, a range selection will be made. eg: " 至 "，" ~ "，" To "
+       * @type {string}
+       * @default false
+       */
       range: {
         type: String,
         value: false
       },
       /**
-       * 是否为内部触发事件，默认为内部触发事件
-       * */
+       * Whether it is an internal event or not. It is an internal event by default.
+       * @type {string}
+       * @default 'click'
+       */
       trigger: {
         type: String,
         value: 'click'
       },
       /**
-       * 自定义日期弹层的偏移位置，长度为0，弹层自动查找位置
-       * */
+       * Custom date bouncer`s offset position,the length is 0, bouncer will automactically find the position.
+       * @type {array}
+       * @default []
+       */
       position: {
         type: Array,
         value: []
       },
       /**
-       * 是否初始化时间，默认不初始化时间
-       * */
+       * Whether initialize the time or not. Does not initialize the time by default.
+       * @type {boolean}
+       * @default false
+       */
       isinitVal: {
         type: Boolean,
         value: false
       },
       /**
-       * 初始化时间，加减 天 时 分
-       * */
+       * Initialize the date, add or minus the day, time, minute
+       * @type {boolean}
+       * @default false
+       */
       initDate: {
         type: Object,
         value: {}
       },
       /**
-       * 是否开启时间选择
-       * */
+       * Whether to turn on the time selection or not
+       * @type {boolean}
+       * @default true
+       */
       isTime: {
         type: Boolean,
         value: true
       },
       /**
-       * 是否显示清空按钮
-       * */
+       * Whether to display the clear button
+       * @type {boolean}
+       * @default true
+       */
       isClear: {
         type: Boolean,
         value: true
       },
       /**
-       * 是否显示今天或本月按钮
-       * */
+       * Whether to display the today or this mounth button
+       * @type {boolean}
+       * @default true
+       */
       isToday: {
         type: Boolean,
         value: true
       },
       /**
-       * 是否显示确定按钮
-       * */
+       * Whether to display the ok button
+       * @type {boolean}
+       * @default true
+       */
       isYes: {
         type: Boolean,
         value: true
       },
       /**
-       * 是否显示农历节日
-       * */
+       * Whether to display the lunar festival
+       * @type {boolean}
+       * @default false
+       */
       festival: {
         type: Boolean,
         value: false
       },
       /**
-       * 有效日期与非有效日期，例如 ["0[4-7]$,1[1-5]$,2[58]$",true]
-       * */
+       * Valid date and non-valid date. eg: ["0[4-7]$,1[1-5]$,2[58]$",true]
+       * @type {array}
+       * @default []
+       */
       valiDate: {
         type: Array,
         value: []
       },
       /**
-       * 是否静止定位，为true时定位在输入框，为false时居中定位
-       * */
+       * Whether the position is fixed or not. The position is located in the input box when it is true, and the position is centered when it is false
+       * @type {boolean}
+       * @default true
+       */
       fixed: {
         type: Boolean,
         value: true
       },
       /**
-       * 自定义主题色
-       * */
+       * Custom theme colors
+       * @type {object}
+       * @default {}
+       */
       theme: {
         type: Object,
         value: {}
       },
       /**
-       * 语言，'en'/'cn'
-       * */
+       * language，'en'/'cn'
+       * @type {string}
+       * @default 'cn'
+       */
       language: {
         type: String,
         value: 'cn'
       },
       /**
-       * 自定义方法
-       * */
+       * Custom methods
+       * @type {object}
+       * @default {}
+       */
       method: {
         type: Object,
         value: {}
       },
       /**
-       * 在界面加载之前执行
-       * */
+       * Methods executed before the interface loads
+       * @type {function}
+       * @default null
+       */
       before: {
-        type: Object,
+        type: Function,
         value: null
       },
       /**
-       * 在界面加载之后执行
-       * */
+       * Methods executed after the interface loads
+       * @type {function}
+       * @default null
+       */
       succeed: {
-        type: Object,
+        type: Function,
         value: null
       },
       /**
-       * 弹出层的层级高度
-       * */
+       * The level height of the pop-up layer
+       * @type {number}
+       * @default 2099
+       */
       zIndex: {
         type: Number,
         value: 2099
       },
       /**
-       * 日期选择的快捷方式
-       * */
+       * The shortcut to date selection
+       * @type {array}
+       * @default []
+       */
       shortcut: {
         type: Array,
         value: []
       },
       /**
-       * 选中的值的集合，如果有范围时集合里有两个值，没有范围则只有一个值，都是时间戳
-       * */
+       * The set of selected values, if there is a range there are two values in the set, if there is no range, there is only one value. Each value in the set is timestamp.
+       * @type {array}
+       * @default []
+       */
       selectedItems: {
         type: Array,
         value: []
@@ -337,6 +409,10 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
         type: Array,
         value: []
       },
+      /**
+       * The prompt tip to show when input is invalid.
+       * @type String
+       */
       prompt: {
         type: String
       }

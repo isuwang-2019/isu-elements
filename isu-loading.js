@@ -10,6 +10,10 @@ import './behaviors/isu-elements-shared-styles.js';
  * Example:
  * ```html
  * <isu-loading opened></isu-loading>
+ * <isu-loading text="加载中..."></isu-loading>
+ * <isu-loading id="loading4" text="加载中..." background="rgba(0, 0, 0, 0.8)" target="#table" style="display: none"></isu-loading>
+ * <div id="table" style="width: 400px; height: 600px; border: 1px solid red;"></div>
+ *
  * ```
  *
  * @customElement
@@ -37,8 +41,6 @@ class IsuLoading extends mixinBehaviors([IronOverlayBehavior], PolymerElement) {
         width: 80px;
         height: 80px;
         margin: auto;
-        /*background: black;*/
-        /*opacity: 0.7;*/
         border-radius: 6px;
         display: flex;
         position: relative;

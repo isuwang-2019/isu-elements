@@ -10,8 +10,62 @@ import '@polymer/iron-icons/iron-icons';
  *
  * Example:
  * ```html
- *
+ * 基本用法
+ *<isu-grid-layout columns="6" column-gap="10" row-gap="20" class="layout">
+ *  <div class="lay">Lorem ipsum dolor sit amet consectetur, adipisicing elit.  architecto. Eius, maiores ad?</div>
+ *  <div class="lay" layout-colspan="3" layout-rowspan="3">Quibusdam, eos esse dolorum facere voluptatem eius, dolore quas totam aspernatur obcaecati harum? Nihil eligendi eos minus odit minima earum incidunt rem fugit reprehenderit, molestiae possimus eveniet itaque laudantium excepturi.</div>
+ *  <div class="lay">Ducimus quibusdam inventore delectus doloribus dignissimos. Dignissimos quos officia minus exercitationem perspiciatis harum iusto molestiae deleniti quod sunt amet recusandae autem, neque doloremque ad alias eaque consequuntur nesciunt quis eius!</div>
+ *  <div class="lay">Cumque aspernatur ex ipsum dolorum eius, tempore omnis minus sequi architecto totam sunt maxime nemo, ab repellendus. Aut voluptatem saepe voluptatibus nisi ipsum. Debitis corporis culpa ipsa error nemo doloribus.</div>
+ *  <div class="lay">Consequatur dolore, architecto quos saepe consequuntur libero minus totam? Enim optio provident commodi corporis officiis, sunt maiores? Cupiditate consequuntur, cumque natus corporis velit sunt ad magni aliquid facere deleniti molestiae.</div>
+ *  <div class="lay">Voluptatibus similique modi voluptatum voluptatem quo quod minima ducimus facere, sequi libero accusamus nisi nobis? Minima error tempore quo esse quod odit, deleniti labore nulla ullam velit nemo neque sint!</div>
+ *  <div class="lay" layout-colspan="1" layout-rowspan="3">Qui, corporis delectus? Pariatur vel autem commodi, accusantium, voluptate obcaecati iste, a debitis facilis repellendus mollitia. Dolore dicta totam, quaerat omnis accusantium magni alias voluptates eligendi ex id aut dolorem?</div>
+ *  <div class="lay">Recusandae tempora ab error omnis exercitationem illo accusamus esse sit ipsa accusantium iure, possimus ducimus quis consequuntur qui corporis nobis culpa repudiandae! Suscipit, debitis. Omnis delectus at vitae laborum quos?</div>
+ *  <div class="lay">Dolorem saepe accusamus sed placeat porro ex, ab, vel eaque libero incidunt facilis delectus, iure odio dicta error consequuntur perspiciatis quasi? Corrupti incidunt quia asperiores quo magnam at minima laudantium?</div>
+ *  <div class="lay">Dolor ad saepe, nemo fugit tempora autem est fugiat quis porro atque nam repellendus maxime neque voluptatem rerum amet odit aspernatur voluptates iusto eos laboriosam enim vel. Eius, debitis beatae!</div>
+ *</isu-grid-layout>
+ * 新增折叠功能
+ * <isu-grid-layout columns="6" column-gap="10" row-gap="20" class="layout" accordion title="自定义标题">
+ *  <isu-button slot="header" size="small">编辑</isu-button>
+ *  <div class="lay">Lorem ipsum dolor sit amet consectetur, adipisicing elit.  architecto. Eius, maiores ad?</div>
+ *  <div class="lay" layout-colspan="3" layout-rowspan="3">Quibusdam, eos esse dolorum facere voluptatem eius, dolore quas totam aspernatur obcaecati harum? Nihil eligendi eos minus odit minima earum incidunt rem fugit reprehenderit, molestiae possimus eveniet itaque laudantium excepturi.</div>
+ *  <div class="lay">Ducimus quibusdam inventore delectus doloribus dignissimos. Dignissimos quos officia minus exercitationem perspiciatis harum iusto molestiae deleniti quod sunt amet recusandae autem, neque doloremque ad alias eaque consequuntur nesciunt quis eius!</div>
+ *  <div class="lay">Cumque aspernatur ex ipsum dolorum eius, tempore omnis minus sequi architecto totam sunt maxime nemo, ab repellendus. Aut voluptatem saepe voluptatibus nisi ipsum. Debitis corporis culpa ipsa error nemo doloribus.</div>
+ *  <div class="lay">Consequatur dolore, architecto quos saepe consequuntur libero minus totam? Enim optio provident commodi corporis officiis, sunt maiores? Cupiditate consequuntur, cumque natus corporis velit sunt ad magni aliquid facere deleniti molestiae.</div>
+ *  <div class="lay">Voluptatibus similique modi voluptatum voluptatem quo quod minima ducimus facere, sequi libero accusamus nisi nobis? Minima error tempore quo esse quod odit, deleniti labore nulla ullam velit nemo neque sint!</div>
+ *  <div class="lay" layout-colspan="1" layout-rowspan="3">Qui, corporis delectus? Pariatur vel autem commodi, accusantium, voluptate obcaecati iste, a debitis facilis repellendus mollitia. Dolore dicta totam, quaerat omnis accusantium magni alias voluptates eligendi ex id aut dolorem?</div>
+ *  <div class="lay">Recusandae tempora ab error omnis exercitationem illo accusamus esse sit ipsa accusantium iure, possimus ducimus quis consequuntur qui corporis nobis culpa repudiandae! Suscipit, debitis. Omnis delectus at vitae laborum quos?</div>
+ *  <div class="lay">Dolorem saepe accusamus sed placeat porro ex, ab, vel eaque libero incidunt facilis delectus, iure odio dicta error consequuntur perspiciatis quasi? Corrupti incidunt quia asperiores quo magnam at minima laudantium?</div>
+ *  <div class="lay">Dolor ad saepe, nemo fugit tempora autem est fugiat quis porro atque nam repellendus maxime neque voluptatem rerum amet odit aspernatur voluptates iusto eos laboriosam enim vel. Eius, debitis beatae!</div>
+ *</isu-grid-layout>
+ *  部分定宽
+ *<isu-grid-layout row-gap="20" class="layout" template-columns="200px 300px auto 100px">
+ *  <div class="lay">Lorem ipsum dolor sit amet consectetur, adipisicing elit.  architecto. Eius, maiores ad?</div>
+ *  <div class="lay">Quibusdam, eos esse dolorum facere voluptatem eius, dolore quas totam aspernatur obcaecati harum? Nihil eligendi eos minus odit minima earum incidunt rem fugit reprehenderit, molestiae possimus eveniet itaque laudantium excepturi.</div>
+ *  <div class="lay">Ducimus quibusdam inventore</div>
+ *  <div class="lay">Cumque aspernatur ex ipsum dolorum eius</div>
+ *  <div class="lay">Recusandae tempora ab error omnis exercitationem</div>
+ *  <div class="lay">Dolorem saepe accusamus sed placeat porro ex, ab, vel eaque libero incidunt facilis delectus, iure odio dicta error consequuntur perspiciatis quasi? Corrupti incidunt quia asperiores quo magnam at minima laudantium?</div>
+ *  <div class="lay">Dolor ad saepe, nemo fugit tempora autem est fugiat quis porro atque nam repellendus maxime neque voluptatem rerum amet odit aspernatur voluptates iusto eos laboriosam enim vel. Eius, debitis beatae!</div>
+ *</isu-grid-layout>
+ * 横行合并
+ *<isu-grid-layout column-gap="10" class="layout" template-columns="auto 20% 20%">
+ *  <div class="lay">Lorem ipsum dolor sit amet consectetur, adipisicing elit.  architecto. Eius, maiores ad?</div>
+ *  <div class="lay">Ducimus quibusdam inventore</div>
+ *  <div class="lay">Cumque aspernatur ex ipsum dolorum eius</div>
+ *  <div class="lay" full-colspan>Quibusdam, eos esse dolorum facere voluptatem eius, dolore quas totam aspernatur obcaecati harum? Nihil eligendi eos minus odit minima earum incidunt rem fugit reprehenderit, molestiae possimus eveniet itaque laudantium excepturi.</div>
+ *  <div class="lay">Recusandae tempora ab error omnis exercitationem</div>
+ *  <div class="lay">Dolorem saepe accusamus sed placeat porro ex, ab, vel eaque libero incidunt facilis delectus, iure odio dicta error consequuntur perspiciatis quasi? Corrupti incidunt quia asperiores quo magnam at minima laudantium?</div>
+ *  <div class="lay">Dolor ad saepe, nemo fugit tempora autem est fugiat quis porro atque nam repellendus maxime neque voluptatem rerum amet odit aspernatur voluptates iusto eos laboriosam enim vel. Eius, debitis beatae!</div>
+ *</isu-grid-layout>
  * ```
+ * ## Styling
+ *
+ * The following custom properties and mixins are available for styling:
+ *
+ * |Custom property | Description | Default|
+ * |----------------|-------------|----------|
+ * |`--isu-grid-layout` | Mixin applied to the grid layout | {}
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-grid-layout/index.html
@@ -84,34 +138,44 @@ class IsuGridLayout extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get properties() {
     return {
       /**
-       * 列数量
+       * Number of columns
+       * @type {number}
+       * @default 4
        * */
       columns: {
         type: Number,
         value: 4
       },
       /**
-       * 列间隔
+       * The column spacing
+       * @type {number}
+       * @default 20
        * */
       columnGap: {
         type: Number,
         value: 20
       },
       /**
-       * 行间隔
+       * The row spacing
+       * @type {number}
+       * @default 20
        * */
       rowGap: {
         type: Number,
         value: 20
       },
       /**
-       * 部分定宽
+       * Customize the width of each section
+       * @type {string}
+       * @default
        * */
       templateColumns: {
         type: String
       },
       /**
-       * 是否可折叠
+       * Is accordion or not
+       * @type {boolean}
+       * @default
        * */
       accordion: {
         type: Boolean
@@ -121,6 +185,11 @@ class IsuGridLayout extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false,
         reflectToAttribute: true
       },
+      /**
+       * The title of the grid layout
+       * @type {string}
+       * @default 标题
+       * */
       title: {
         type: String,
         value: '标题'

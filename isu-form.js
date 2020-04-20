@@ -118,26 +118,12 @@ class IsuForm extends mixinBehaviors([BaseBehavior], PolymerElement) {
       novalidate: {
         type: Boolean,
         value: false
-      },
-      /**
-       * 校验规则
-       */
-      rule: {
-        type: Object
       }
     };
   }
 
-  static get observers() {
-    return ['_ruleChanged(rule)']
-  }
-
   static get is() {
     return "isu-form";
-  }
-  _ruleChanged(rule) {
-    const validator = new schema(rule)
-    // validator.validate()
   }
 
   connectedCallback() {

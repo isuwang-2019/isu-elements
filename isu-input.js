@@ -216,7 +216,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <div class="prefix-unit input-unit">[[prefixUnit]]</div>
       </template>
       <iron-input bind-value="[[value]]" id="input" class="iron-input">
-        <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]" rows$="[[rows]]"
+        <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]"
             maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
         <div class="clear">
           <template is="dom-if" if="[[ isExistTruthy(value) ]]">
@@ -257,12 +257,17 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return {
       /**
        * The label of the input.
+       *
+       * @type {string}
+       * @default
        */
       label: {
         type: String
       },
       /**
        * The placeholder of the input.
+       * @type {string}
+       * @default
        */
       placeholder: {
         type: String
@@ -360,10 +365,6 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       prompt: {
         type: String
-      },
-
-      rows: {
-        type: Number
       },
 
       togglePassword: {

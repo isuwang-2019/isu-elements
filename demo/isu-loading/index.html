@@ -110,58 +110,17 @@
         }
       </style>
       <isu-button id="btn4">局部加载</isu-button>
-      <isu-loading id="loading4" text="加载中..." background="rgba(0, 0, 0, 0.8)" target="isu-table" style="display: none"></isu-loading>
-      <isu-table id="table" tooltip>
-        <script>
-          var clickHandler = e => {
-            table.querySelector('isu-loading').opened = true
-            setTimeout(e=> {
-              table.querySelector('isu-loading').opened = false
-            }, 2000)
-          };
-          btn4.onclick = clickHandler;
-        </script>
-        <isu-table-column prop="sex" label="性别" width="100" type="expand"  model-as="user">
-          <template>
-            <style>
-              .ext-container {
-                display: flex;
-                width: 550px;
-              }
-              .ext-container > div {
-                width: 250px;
-              }
-            </style>
-            <div class="ext-container">
-              <div>姓名：[[user.name]]</div>
-              <div>sex: [[user.sex]]</div>
-              <div>phone: [[user.phone]]</div>
-            </div>
-          </template>
-        </isu-table-column>
-        <isu-table-column prop="name" label="名称" width="100" sortable></isu-table-column>
-        <isu-table-column prop="phone" label="电话号码" width="160" sortable default-value="--" cell-style="text-align: right;color:red;"></isu-table-column>
-        <isu-table-column prop="phone" label="操作" width="300" type="operate" model-as="user">
-          <template>
-            <template is="dom-if" if="[[ isEqual(user.name, 'Wahson') ]]">
-              <isu-button class="action-bar" on-click="view">[[global.lookup]]</isu-button>
-            </template>
-
-            <template is="dom-if" if="[[ user.modify ]]">
-              <isu-button class="action-bar" on-click="modify">[[global.modify]]</isu-button>
-            </template>
-
-            <template is="dom-if" if="[[ user.actions ]]">
-              <isu-button-group label="[[global.more]]">
-                <template is="dom-repeat" items="[[user.actions]]" as="action">
-                  <div on-click="more">[[action]]</div>
-                </template>
-              </isu-button-group>
-            </template>
-
-          </template>
-        </isu-table-column>
-      </isu-table>
+      <isu-loading id="loading4" text="加载中..." background="rgba(0, 0, 0, 0.8)" target="#table" style="display: none"></isu-loading>
+      <div id="table" style="width: 400px; height: 600px; border: 1px solid red;"></div>
+      <script>
+      var clickHandler = e => {
+        table.querySelector('isu-loading').opened = true
+        setTimeout(e=> {
+          table.querySelector('isu-loading').opened = false
+        }, 2000)
+      };
+      btn4.onclick = clickHandler;
+      </script>
       <script>
         table.view = ({model}) => {
           console.log("view", model.user);
