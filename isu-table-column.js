@@ -13,6 +13,17 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
  *
  * Example:
  * ```html
+ * <isu-table-column prop="phone" label="电话号码" sortable width="160" default-value="--" cell-style="text-align: right;"></isu-table-column>
+ * <isu-table-column prop="sex" label="性别" width="100" type="expand"  model-as="user">
+ *   <template>
+ *    <div class="ext-container">
+ *    <div>姓名：[[user.name]]</div>
+ *    <div>sex: [[user.sex]]</div>
+ *    <div>phone: [[user.phone]]</div>
+ *    </div>
+ *   </template>
+ * </isu-table-column>
+ * <isu-table-column label="操作" width="300" type="operate" model-as="user" frozen fixed="right">
  *
  * ```
  * @customElement
@@ -26,26 +37,59 @@ class IsuTableColumn extends mixinBehaviors([Templatizer], PolymerElement) {
 
   static get properties() {
     return {
+      /**
+       *The key whose value needs to be displayed in the td. eg: 'sex'
+       *
+       * @type {string}
+       */
       prop: {
         type: String
       },
-
-      props: String,
-
-      separator: String,
-
+      /**
+       *The keys whose values need to be displayed in the td. eg: 'sex,name'
+       *
+       * @type {string}
+       */
+      props: {
+        type: String
+      },
+      /**
+       *The separator when a column displays multiple fields
+       *
+       * @type {string}
+       */
+      separator: {
+        type: String
+      },
+      /**
+       *The label of the column
+       *
+       * @type {string}
+       */
       label: {
         type: String
       },
-
+      /**
+       *The width of the column
+       *
+       * @type {number}
+       */
       width: {
         type: Number
       },
-
+      /**
+       *The fixed way a column fixed
+       *
+       * @type {string}
+       */
       fixed: {
         type: String,
       },
-
+      /**
+       *The fixed way a column fixed
+       *
+       * @type {string}
+       */
       type: {
         type: String,
         value: 'view'
@@ -57,12 +101,22 @@ class IsuTableColumn extends mixinBehaviors([Templatizer], PolymerElement) {
         type: String,
         value: 'item'
       },
-
+      /**
+       *Whether the column is sortable
+       *
+       * @type {boolean}
+       * @default false
+       */
       sortable: {
         type: Boolean,
         value: false
       },
-
+      /**
+       *Whether the column is frozen
+       *
+       * @type {boolean}
+       * @default false
+       */
       frozen: {
         type: Boolean,
         value: false
@@ -70,10 +124,21 @@ class IsuTableColumn extends mixinBehaviors([Templatizer], PolymerElement) {
 
       formatter: Function,
       /**
-       * 样式，可以设定颜色，对齐方式等
+       * The column style, can set the color, alignment,etc.
+       *
+       * @type {string}
        * */
-      cellStyle: String,
-      defaultValue: String
+      cellStyle: {
+        type: String
+      },
+      /**
+       * The default value of the column
+       *
+       * @type {string}
+       * */
+      defaultValue: {
+        type: String
+      }
     };
   }
 

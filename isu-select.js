@@ -422,14 +422,23 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: "label"
       },
-      /*
-      * 判断是否需要最后一个虚拟输入框的焦点
-      * */
-      isFocus: Boolean,
       /**
-       * 多选限制选择的个数
+      * Whether the focus of the last virtual input box is needed
+      * @type {boolean}
+      * @default
+      *
+      * */
+      isFocus: {
+        type: Boolean
+      },
+      /**
+       * The number of the choices you can make in the case of multiple choices.
+       *
+       * @type {number}
        */
-      multiLimit: Number,
+      multiLimit: {
+        type: Number
+      },
     };
   }
 

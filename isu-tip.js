@@ -163,6 +163,7 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return {
       /**
        * Message of the tip.
+       * @type {string}
        */
       message: {
         type: String,
@@ -178,21 +179,24 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       /**
        * User input when `type` is `prompt`.
+       * @type {string}
        */
       remark: {
         type: String
       },
       /**
-       * confirm、prompt信息框确认按钮点击回调函数
+       * The callback function by clicking the confirm、prompt message box`s sure button
+       * @type {function}
        */
       _confirmCallback: {
-        type: Object
+        type: Function
       },
       /**
-       * confirm、prompt信息框取消按钮点击回调函数
+       * The callback function by clicking the confirm、prompt message box`s cancel button
+       *  @type {function}
        */
       _cancelCallback: {
-        type: Object
+        type: Function
       },
 
       /**
@@ -206,17 +210,39 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       /**
        * Set to true, if you want that `isu-tip` can auto detach from its parentElement.
+       * @type {boolean}
        * @default false
        */
       autoDetach: {
         type: Boolean,
         value: false
       },
-
-      title: String,
-      width: String,
-      height: String,
-
+      /**
+       * The title of the tip
+       * @type {string}
+       */
+      title: {
+        type: String
+      },
+      /**
+       * The width of the tip box
+       * @type {string}
+       */
+      width: {
+        type: String
+      },
+      /**
+       * The height of the tip box
+       * @type {string}
+       */
+      height: {
+        type: String
+      },
+      /**
+       * Custom configuration.eg: {"title":"Notice!!!", "cancelBtnLabel": "NO", "confirmBtnLabel": "YES"}
+       *
+       * @type {string}
+       */
       config: {
         type: Object,
         value: function() {
@@ -224,9 +250,13 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
         }
       },
       /**
-       * 自定义图标的类名，会覆盖type
+       * The icon`s class in the tip box. eg: `icons:build`
+       *
+       * @type {string}
        * */
-      iconClass: String
+      iconClass: {
+        type: String
+      }
 
     };
   }

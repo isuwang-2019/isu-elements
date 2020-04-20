@@ -130,6 +130,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       /**
        * The placeholder of the select.
        * @type {String}
+       * @default '请选择'
        */
       placeholder: {
         type: String,
@@ -162,7 +163,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       /**
        * Attribute name for value.
        * @type {string}
-       * @default 'value'
+       * @default 'id'
        */
       attrForValue: {
         type: String,
@@ -196,27 +197,36 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
+      /**
+       * shortcut key
+       * @type {string}
+       * @default 'enter'
+       */
       shortcutKey: {
         type: String,
         value: 'Enter'
       },
       /**
        * The prompt tip to show when input is invalid.
-       * @type {String}
+       * @type {string}
        */
       prompt: {
         type: String
       },
       /**
        * The data of the tree
-       * @type {boolean}
-       * @default false
+       * @type {array}
+       * @default []
        */
       treeData: {
         type: Array,
         value: [],
         notify: true
       },
+      /**
+       * An array of the selected items
+       * @type {array}
+       */
       bindItems: {
         type: Array
       }

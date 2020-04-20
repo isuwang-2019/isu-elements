@@ -104,11 +104,30 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
 
   static get properties() {
     return {
-      accept: String,
+      /**
+       * Specifies a filter for what file types the user can pick from the file input dialog box
+       *
+       * @type {string}
+       * */
+      accept: {
+        type: String
+      },
+      /**
+       * Specifies that a user can enter more than one value in an <input> element
+       *
+       * @type {boolean}
+       * @default false
+       * */
       multiple: {
         type: Boolean,
         value: false
       },
+      /**
+       * The files that customer choose
+       *
+       * @type {array}
+       * @default []
+       * */
       files: {
         type: Array,
         value: []

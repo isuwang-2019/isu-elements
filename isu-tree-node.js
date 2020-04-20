@@ -133,40 +133,58 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get properties() {
     return {
       tree: Object,
+      /**
+       * The angle at which a triangle rotates
+       *
+       * @type {number}
+       * @default -90
+       */
       rotate: {
         type: Number,
         value: -90
       }, // 三角形标记
       /**
-       * 是否显示多选框
+       * Whether to show checkbox or not
+       *
+       * @type {boolean}
+       * @default false
        * */
       showCheckbox: {
         type: Boolean,
         value: false
       },
       /**
-       * 是否显示单选框
+       * Whether to show radio or not
+       *
+       * @type {boolean}
+       * @default false
        * */
       showRadio: {
         type: Boolean,
         value: false
       },
       /**
-       * 手风琴模式，一次只展示一个
+       * Accordion mode, showing only one sibling node at a time
+       *
+       * @type {boolean}
+       * @default false
        * */
       accordion: {
         type: Boolean,
         value: false
       },
       /**
-       * 是否默认展开所有节点
+       * Whether to expand all nodes by default
+       *
+       * @type {boolean}
+       * @default false
        * */
       defaultExpandAll: {
         type: Boolean,
         value: false
       },
       /**
-       * 操作子元素关闭
+       * Operate the child element is closed or opened
        * */
       isShow: {
         type: Boolean,
@@ -174,14 +192,23 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         observer: '__isShowChanged'
       },
       /**
-       * 缩进
+       * How many pixels are indented per layer.
+       *
+       * @type {number}
+       * @default 18
        * */
       indent: {
         type: Number,
         value: 18
       },
-      dataLocation: Array, // 数据定位，表示层级和数据位置
-      level: Number, // 当前层级
+      /**
+       * The current level
+       *
+       * @type {number}
+       * */
+      level: {
+        type: Number
+      }, // 当前层级
       node: {// 子节点数据
         type: Node,
         notify: true,
@@ -210,7 +237,10 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false
       },
       /**
-       * 是否在点击节点的时候选中节点，默认值为 false，即只有在点击复选框时才会选中节点
+       * Whether to choose the node when the node is clicked. The default value is false, which means that the node is only selected when the checkbox is clicked
+       *
+       * @type {boolean}
+       * @default false
        * */
       checkOnClickNode: {
         type: Boolean,

@@ -545,7 +545,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </template>
     </div>
-`;
+ `;
   }
 
   __sortTheColumn({currentTarget: container, model}) {
@@ -814,6 +814,12 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get properties() {
     return {
+      /**
+       *The data array of the table
+       *
+       * @type {array}
+       * @default []
+       */
       data: {
         type: Array,
         observer: '__dataChanged',
@@ -821,17 +827,21 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
           return [];
         }
       },
-
-      sort: {
-        type: Function,
-        observer: '__sortChanged'
-      },
-
+      /**
+       *The colspan of the table
+       *
+       * @type {array}
+       * @default []
+       */
       colspan: {
         type: Number,
         computed: '__calColspan(columnInfos)'
       },
-
+      /**
+       *The column infos of the table
+       *
+       * @type {array}
+       */
       columnInfos: {
         type: Array
       },
@@ -843,28 +853,52 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
       __tableData: {
         type: Array
       },
-
+      /**
+       *Is show summary, footer combined
+       *
+       * @type {array}
+       */
       showSummary: {
         type: Boolean,
         value: false
       },
-
+      /**
+       *Whether to display tooltip information or not
+       *
+       * @type {boolean}
+       * @default false
+       */
       tooltip: {
         type: Boolean,
         value: false,
         reflectToAttribute: true
       },
-
+      /**
+       *Whether to display the serial number
+       *
+       * @type {boolean}
+       * @default false
+       */
       showIndex: {
         type: Boolean,
         value: false
       },
-
+      /**
+       *If true, the items are selectable
+       *
+       * @type {boolean}
+       * @default false
+       */
       selectable: {
         type: Boolean,
         value: false
       },
-
+      /**
+       *If true, you can only choose one. If you want to use this attribute, make sure selectable is true.
+       *
+       * @type {boolean}
+       * @default false
+       */
       radio: {
         type: Boolean,
         value: false
@@ -876,12 +910,47 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
 
       __selectedState: Boolean,
-
-      height: Number,
-      tableBodyStyle: String,
-      __tableFixed: Array,
+      /**
+       *The height of the table
+       *
+       * @type {number}
+       */
+      height: {
+        type: Number
+      },
+      /**
+       *The css style of the table`s body
+       *
+       * @type {number}
+       */
+      tableBodyStyle: {
+        type: String
+      },
+      /**
+       *The table items array that are fixed.`isu-table-column` element needs to have the `fixed`
+       *
+       * @type {array}
+       */
+      __tableFixed: {
+        type: Array
+      },
+      /**
+       *The table items array that are fixed in the right. `isu-table-column` element needs to have the `fixed="right"`
+       *
+       * @type {array}
+       */
       __tableFixedRight: Array,
+      /**
+       *The css style of the fixed table`s items
+       *
+       * @type {string}
+       */
       tableFixedStyle: String,
+      /**
+       *The css style of the fixed table`s items in the right
+       *
+       * @type {string}
+       */
       tableFixedRightStyle: String,
     };
   }

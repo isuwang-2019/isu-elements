@@ -93,54 +93,80 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
 
   static get properties() {
     return {
+      /**
+       * The data of the tree
+       *
+       * @type {array}
+       */
       data: {
         type: Array
       },
       /**
-       * The value of the input number
+       * Whether to require a query input box or not
        *
-       * @type Number
-       * @default 1
+       * @type {boolean}
+       * @default false
        */
       requireQuery: {
         type: Boolean,
         value: false
       },
       /**
-       * 是否显示多选框
+       * Whether to show checkbox or not
+       *
+       * @type {boolean}
+       * @default false
        * */
       showCheckbox: {
         type: Boolean,
         value: false
       },
       /**
-       * 是否显示单选框
+       * Whether to show radio or not
+       *
+       * @type {boolean}
+       * @default false
        * */
       showRadio: {
         type: Boolean,
         value: false
       },
       /**
-       * 是否默认展开所有节点
+       * Whether to expand all nodes by default
+       *
+       * @type {boolean}
+       * @default false
        * */
       defaultExpandAll: {
         type: Boolean,
         value: false
       },
       /**
-       * 手风琴模式，一次只展示一个
+       * Accordion mode, showing only one sibling node at a time
+       *
+       * @type {boolean}
+       * @default false
        * */
       accordion: {
         type: Boolean,
         value: false
       },
       /**
-       * 需要返回的key的集合的指定字段
+       * The specified field of the collection of keys that need to be returned
+       *
+       * @type {string}
+       * @default 'id'
        * */
       key: {
         type: String,
         value: 'id'
       },
+      /**
+       * How many pixels are indented per layer.
+       *
+       * @type {number}
+       * @default 18
+       * */
       indent: {
         // 每一层缩进多少像素
         type: Number,
@@ -149,9 +175,6 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
       isTree: {
         type: Boolean,
         value: true
-      },
-      dataLocation: {
-        type: Array
       },
       props: {
         type: Object,
@@ -172,33 +195,44 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
         reflectToAttribute: true
       },
       /**
-       * 搜索条件
+       * The search word
+       *
+       * @type {string}
        * */
       searchWord: {
         type: String
       },
       /**
-       * 选中的对象的集合
+       * The set of selected items
+       *
+       * @type {array}
        * */
       bindItems: {
         type: Array,
         notify: true
       },
       /**
-       * 选中的对象的id的集合
+       * The set of selected items`s id
+       *
+       * @type {array}
        * */
       bindItemKeys: {
         type: Array,
         notify: true
       },
       /**
-       * 默认选中的key集合
+       * The default selected set of keys
+       *
+       * @type {array}
        * */
       defaultCheckedKeys: {
         type: Array
       },
       /**
-       * 是否在点击节点的时候选中节点，默认值为 false，即只有在点击复选框时才会选中节点
+       * Whether to choose the node when the node is clicked. The default value is false, which means that the node is only selected when the checkbox is clicked
+       *
+       * @type {boolean}
+       * @default false
        * */
       checkOnClickNode: {
         type: Boolean,

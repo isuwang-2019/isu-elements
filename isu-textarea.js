@@ -127,7 +127,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
        * The initial number of rows.
        *
        * @attribute rows
-       * @type number
+       * @type {number}
        * @default 1
        */
       rows: {
@@ -135,7 +135,9 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
         value: 1
       },
       /**
-       * Specifies the visible width of a text area
+       * The initial number of cols
+       * @type {number}
+       * @default 1
        * */
       cols: {
         type: Number,
@@ -144,6 +146,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
 
       /**
        * Bound to the textarea's `autocomplete` attribute.
+       * @type {string}
        * @default 'off'
        */
       autocomplete: {
@@ -153,6 +156,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
 
       /**
        * Bound to the textarea's `autofocus` attribute.
+       * @type {boolean}
        * @default false
        */
       autofocus: {
@@ -162,6 +166,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
 
       /**
        * Bound to the textarea's `inputmode` attribute.
+       * @type {string}
        */
       inputmode: {
         type: String
@@ -169,6 +174,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
 
       /**
        * Bound to the textarea's `placeholder` attribute.
+       * @type {string}
        */
       placeholder: {
         type: String
@@ -176,6 +182,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
 
       /**
        * Bound to the textarea's `readonly` attribute.
+       * @type {boolean}
        */
       readonly: {
         type: Boolean
@@ -183,6 +190,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
 
       /**
        * Set to true to mark the textarea as required.
+       * @type {boolean}
        */
       required: {
         type: Boolean
@@ -197,6 +205,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
 
       /**
        * The maximum length of the input value.
+       * @type {number}
        */
       maxlength: {
         type: Number
@@ -204,12 +213,14 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
 
       /**
        * Bound to the textarea's `aria-label` attribute.
+       * @type {string}
        */
       label: {
         type: String
       },
       /**
        * The prompt to show when textarea is invalid.
+       * @type {string}
        */
       prompt: {
         type: String

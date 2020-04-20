@@ -340,7 +340,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get properties() {
     return {
       /**
-       * 中文转拼音插件
+       * Chinese pinyin plugin
        */
       _pinyinUtil: {
         type: Object,
@@ -350,7 +350,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         }
       },
       /**
-       * 缓存搜索插件
+       * Cache search plugin
        */
       _cacheSearchUtil: {
         type: Object,
@@ -360,7 +360,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         }
       },
       /**
-       * 发送请求和模拟数据的组件
+       * The component that sends the request and simulates the data
        */
       _fetchUtil: {
         type: Object,
@@ -431,14 +431,15 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Array
       },
       /**
-       * 下拉面板当前展示的数据集（默认显示items的前10条）
+       * The data set displayed currently in the drop-down panel（The first 10 of the items are displayed by default）
        * @type {array}
        */
       _displayItems: {
         type: Array
       },
       /**
-       * 用户输入的模糊搜索关键字
+       * The search keywords input by the user
+       * @type {string}
        *
        */
       _userInputKeyword: {
@@ -452,7 +453,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Array
       },
       /**
-       * 下拉面板中展示的字段，默认为[{"field": "label", "label": "选项"}]
+       * The fields shown in the drop-down panel，default: [{"field": "label", "label": "选项"}]
        * @type {array}
        * @default [{"field": "label", "label": "选项"}]
        */
@@ -481,7 +482,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: "label"
       },
       /**
-       * 是否禁用拼音搜索
+       * Whether to disable pinyin search or not
+       *
+       * @type {boolean}
+       * @default false
        */
       disablePinyinSearch: {
         type: Boolean,
@@ -516,7 +520,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false
       },
       /**
-       * 下拉面板当前选项焦点
+       * The current option focus in the dropdown panel.
        */
       __focusIndex: {
         type: Number,
@@ -532,9 +536,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false
       },
       /**
-       * 多选限制选择的个数
+       * The limit number that customers can choose if the selection is multiple.
+       *
+       * @type {number}
+       * @default
        */
-      multiLimit: Number,
+      multiLimit: {
+        type: Number
+      },
       /**
        * url`s params
        * @type {Object}
@@ -561,12 +570,23 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: 'default'
       },
+      /**
+       * shortcut key
+       * @type {string}
+       * @default 'enter'
+       */
       shortcutKey: {
         type: String,
         value: 'Enter'
       },
       inputChinese: Boolean,
-      prompt: String
+      /**
+       * The prompt tip to show when input is invalid.
+       * @type String
+       */
+      prompt: {
+        type: String
+      }
     };
   }
 
