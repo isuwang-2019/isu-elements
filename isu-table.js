@@ -322,7 +322,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
               </template>
               
               <template is="dom-repeat" items="[[__tableData]]" as="row" index-as="rowIndex">
-                <tr class="table__row">
+                <tr class="table__row"  on-click="__operateTableRow">
                   <template is="dom-if" if="[[ selectable ]]">
                     <td><paper-checkbox class="checkbox-item" noink disabled="[[isDisabledSelection(row)]]" checked="{{ row.__selected }}" on-change="__rowSelecttion"></paper-checkbox></td>
                   </template>
@@ -341,8 +341,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
                     </td>
                   </template>
                 </tr>
-                
-                <template is="dom-if" if="[[ __showExpansion ]]">
+                <template is="dom-if" if="[[ __showSecondChildRow ]]">
                   <tr class="row__expansion row__expansion-hidden">
                     <td id="row_[[rowIndex]]" class="row__expansion-col" colspan$="[[ colspan ]]">
                       [[ computeExpansion(row, rowIndex) ]]
@@ -613,8 +612,17 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.toggleClass(expansion, 'row__expansion-hidden');
   }
 
-  __openExpanderHandler({path: [icon], model: {rowIndex}}) {
+  __openExpanderHandler(e) {
+    e.stopPropagation()
+    let {path: [icon], model: {rowIndex}} = e
     this.__shareOpenExpanderHandler(icon, rowIndex, `#row_${rowIndex}`);
+  }
+
+  __operateTableRow({path: [icon], model: {rowIndex}}) {
+    if (this.expandOnClickRow) {
+      const expansion = this.shadowRoot.querySelector(`#row_${rowIndex}`).parentElement;
+      this.toggleClass(expansion, 'row__expansion-hidden');
+    }
   }
 
   __openExpanderHandlerFixed({path: [icon], model: {rowIndex}}) {
@@ -658,7 +666,11 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __calShowExpansion([first] = [{}]) {
-    return first.type === 'expand';
+    return first.type === 'expand'
+  }
+
+  __calShowSecondChildRow([first] = [{}], expandOnClickRow) {
+    return first.type === 'expand' || expandOnClickRow
   }
 
   isDisabledSelection(row) {
@@ -676,7 +688,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   shareComputeExpansion(row, rowIndex, targetSelect) {
     const [column] = this.columnInfos || [];
-    if (column && column.type === 'expand') {
+    if ((column && column.type === 'expand') || this.expandOnClickRow) {
       setTimeout(() => {
         this.__appendTmplContent(targetSelect, row, rowIndex, column);
       }, 0, this);
@@ -909,6 +921,11 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
         computed: '__calShowExpansion(columnInfos)'
       },
 
+      __showSecondChildRow: {
+        type: Boolean,
+        computed: '__calShowSecondChildRow(columnInfos, expandOnClickRow)'
+      },
+
       __selectedState: Boolean,
       /**
        *The height of the table
@@ -951,7 +968,18 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
        *
        * @type {string}
        */
-      tableFixedRightStyle: String,
+      tableFixedRightStyle: {
+        type: String
+      },
+      /**
+       *if true, the child row will expand when click the row
+       *
+       * @type {boolean}
+       */
+      expandOnClickRow: {
+        type: Boolean,
+        value: false
+      },
     };
   }
 

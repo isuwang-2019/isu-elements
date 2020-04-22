@@ -340,6 +340,15 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String
       },
       /**
+       * The prompt tip's position. top/bottom
+       * @type String
+       * @default ''
+       */
+      promptPosition: {
+        type: String,
+        value: ''
+      },
+      /**
        *
        * Attribute name for label.
        *

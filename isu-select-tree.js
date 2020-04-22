@@ -88,7 +88,9 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </template>
       
       <div id="select__container">
-        <div id="keywordInput" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(selectedItem.label, placeholder)]]">[[getValued(selectedItem.label, placeholder)]]</div>
+        <div id="keywordInput" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(selectedItem.label, placeholder)]]">
+          [[getValued(selectedItem.label, placeholder)]]
+        </div>
         <div id="collapse-tree" hidden>
           <isu-tree id="tree" data="{{treeData}}" bind-items="{{bindItems}}" default-expand-all check-on-click-node></isu-tree>
         </div>
@@ -214,6 +216,15 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String
       },
       /**
+       * The prompt tip's position. top/bottom
+       * @type String
+       * @default ''
+       */
+      promptPosition: {
+        type: String,
+        value: ''
+      },
+      /**
        * The data of the tree
        * @type {array}
        * @default []
@@ -240,7 +251,8 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get observers() {
     return [
       '_bindItemsChange(bindItems)',
-      '_srcChanged(src)'
+      '_srcChanged(src)',
+      '_valueChanged(value)'
     ]
   }
 
@@ -272,7 +284,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _bindItemsChange(bindItems) {
     if (bindItems) {
       this.selectedItem = bindItems[0]
-      this.value = this.selectedItem && this.selectedItem.label
+      this.value = this.selectedItem && this.selectedItem[this.attrForValue]
     }
   }
 
@@ -300,8 +312,32 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return !!label ? '' : 'placeholder'
   }
 
+  _valueChanged(value) {
+    const self = this
+    if (this.treeData.length > 0) {
+      const getSuitIndex = function (items) {
+        if (!items) return -1
+        let index = items.findIndex(item => item[self.attrForValue] == self.value)
+        if (index < 0) {
+          items.forEach(item => {
+            getSuitIndex(item.children)
+          })
+        }
+        if (index >= 0) {
+          self.selectedItem = items[index]
+        }
+        return index
+
+      }
+      getSuitIndex(this.treeData)
+    }
+
+  }
+
   _srcChanged(src) {
+    const self = this
     if (!src) return;
+    this.fetchParam = {id: this.value}
     const request = this._mkRequest(this.fetchParam);
     this._fetchUtil.fetchIt(request)
       .then(res => res.json())
@@ -312,10 +348,25 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         } else {
           items = data || [];
         }
-        let findIndex = items.findIndex(item => item[this.attrForValue] == this.value);
-        if (findIndex >= 0) {
-          this.selectedItem = items[findIndex]
+        // let findIndex = items.findIndex(item => item[this.attrForValue] == this.value);
+        const getSuitIndex = function (items) {
+          if (!items) return -1
+          let index = items.findIndex(item => item[self.attrForValue] == self.value)
+          if (index < 0) {
+            items.forEach(item => {
+              getSuitIndex(item.children)
+            })
+          }
+          if (index >= 0) {
+            self.selectedItem = items[index]
+          }
+          return index
+
         }
+        let findIndex = getSuitIndex(items)
+        // if (findIndex >= 0) {
+        //   this.selectedItem = items[findIndex]
+        // }
         this.set('treeData', items)
       })
       .catch(console.error);

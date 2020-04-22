@@ -55,12 +55,30 @@ const template = html`
         position: absolute;
         left: 100%;
         margin-left: 16px;
-        height: 100%;
+        /*height: 100%;*/
 
         opacity: 0;
         z-index: 9;
 
         pointer-events: none;
+      }
+      
+      :host([prompt-position=bottom]) .prompt-tip__container {
+        position: absolute;
+        top: 110%;
+        pointer-events: none;
+        display: block;
+        left: 0;
+        margin-left: 0;
+      }
+      
+      :host([prompt-position=top]) .prompt-tip__container {
+        position: absolute;
+        bottom: 108%;
+        pointer-events: none;
+        display: block;
+        left: 0;
+        margin-left: 0;
       }
 
       .prompt-tip {
@@ -69,8 +87,8 @@ const template = html`
         background: var(--isu-prompt-tip-background-color, #aeaeae);
         color: var(--isu-prompt-tip-color, white);
         border-radius: 4px;
-        font-size: 14px;
-        line-height: 22px;
+        font-size: 12px;
+        line-height: 0px;
         position: relative;
         white-space: nowrap;
       }

@@ -209,6 +209,15 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: 1500
       },
       /**
+       * If true, no duration is required. The tip will displayed until you close it.
+       * @type {boolean}
+       * @default false
+       */
+      noDuration: {
+        type: Boolean,
+        value: false
+      },
+      /**
        * Set to true, if you want that `isu-tip` can auto detach from its parentElement.
        * @type {boolean}
        * @default false
@@ -325,9 +334,12 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$.dialog.open();
 
     if (this.type !== 'confirm' && this.type !== 'prompt') {
-      setTimeout(() => {
-        this.close();
-      }, duration);
+      if (!this.noDuration) {
+        setTimeout(() => {
+          this.close()
+        }, duration)
+      }
+
     }
   }
 

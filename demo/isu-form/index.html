@@ -73,12 +73,12 @@
         <isu-input class="form-input" label="地址" name="address"></isu-input>
         <isu-input class="form-input" label="姓名" name="name"></isu-input>
         <isu-input class="form-input" label="年龄" name="age" type="number" required="" min="10" max="20"
-                  prompt="年龄介乎10到20之间"></isu-input>
+                  prompt="年龄介乎10到20之间(bottom)" prompt-position="bottom"></isu-input>
         <isu-button slot="form-btn" form-submit="">提交</isu-button>
-        <isu-cascading id="cascade" label="测试" required prompt="级联表不能为空"></isu-cascading>
+        <isu-cascading id="cascade" label="测试" required prompt="级联表不能为空(right)"></isu-cascading>
         <isu-input-date id="inputdate" label="日期date" required prompt="日期不能为空"></isu-input-date>
         <isu-input-datetime id="inputdatetime" label="日期datetime" required prompt="日期时间不能为空" min="1994-01-23"></isu-input-datetime>
-        <isu-input-jedate label="新日期" required prompt="日期不能为空"></isu-input-jedate>
+        <isu-input-jedate label="新日期" required prompt="日期不能为空(top)" prompt-position="top"></isu-input-jedate>
       </isu-form>
       <script type="module">
         import {TipBehavior} from "../../behaviors/tip-behavior.js";

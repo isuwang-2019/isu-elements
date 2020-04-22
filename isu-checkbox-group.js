@@ -79,20 +79,28 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
         z-index: 999;
       }
       
+       :host([required]) .checkbox-container::before {
+        content: "*";
+        color: red;
+        position: absolute;
+        left: -10px;
+        line-height: inherit;
+      }
+      
     </style>
     <div class="isu-label">[[label]]</div>
-    <div id="checkbox-container">
+    <div id="checkbox-container" class="checkbox-container">
       <div class="checkboxes">
          <template is="dom-repeat" items="[[ _items ]]" index-as="index">
-          <div id$="readonly[[index]]" class="readonly-shade">
-          </div>
+          <!--<div id$="readonly[[index]]" class="readonly-shade">-->
+          <!--</div>-->
           <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
             [[ getValueByKey(item, attrForLabel) ]]
           </paper-checkbox>
          </template>
       </div>
-      <div id="readonly" class="readonly-shade">
-      </div>
+      <!--<div id="readonly" class="readonly-shade">-->
+      <!--</div>-->
       
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
       <div class="prompt-tip">
@@ -197,6 +205,16 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
       prompt: {
         type: String
       },
+
+      /**
+       * The prompt tip's position. top/bottom
+       * @type String
+       * @default ''
+       */
+      promptPosition: {
+        type: String,
+        value: ''
+      },
       /**
        * Set to true if the selection is readonly.
        * @type {boolean}
@@ -222,9 +240,9 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
   }
 
   __readonlyChanged(readonly) {
-    if (readonly) {
-      this.$.readonly.style.width = this.querySelector('.checkboxes')
-    }
+    // if (readonly) {
+    //   this.$.readonly.style.width = this.querySelector('.checkboxes')
+    // }
   }
 
   __computedInnerItems(items = [], value = "") {

@@ -497,7 +497,16 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       prompt: {
         type: String
-      }
+      },
+      /**
+       * The prompt tip's position. top/bottom
+       * @type String
+       * @default ''
+       */
+      promptPosition: {
+        type: String,
+        value: ''
+      },
     };
   }
 

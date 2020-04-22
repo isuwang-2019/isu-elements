@@ -366,7 +366,15 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
       prompt: {
         type: String
       },
-
+      /**
+       * The prompt tip's position. top/bottom
+       * @type String
+       * @default ''
+       */
+      promptPosition: {
+        type: String,
+        value: ''
+      },
       togglePassword: {
         type: Boolean,
         value: false

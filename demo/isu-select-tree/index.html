@@ -54,62 +54,63 @@
   <h3>支持单选、多选、输入关键字过滤下拉选项</h3>
   <demo-snippet>
     <template>
-      <isu-select-tree id="orgtree" label="组织" placeholder="请选择" src="/init.do"></isu-select-tree>
+      <isu-select-tree id="orgtree" label="组织(模拟url)" placeholder="请选择" src="/init.do" value="2111"></isu-select-tree>
       <isu-input id="input" label="输入框" placeholder="请选择"></isu-input>
+      <isu-select-tree id="orgtree2" label="组织（传入数据）" placeholder="请选择" value="21"></isu-select-tree>
       <script>
-        // orgtree.treeData = [
-        //   { id: 1, label: '第1个', children: [
-        //       { id: 11, label: '二级第1个', children: [] },
-        //       { id: 12, label: '二级第2个', children: [] },
-        //       { id: 13, label: '二级第3个', children: [] },
-        //       { id: 14, label: '二级第4个', children: [] },
-        //       { id: 15, label: '二级第5个', children: [] }
-        //     ] },
-        //   {
-        //     id: 2,
-        //     label: '第2个',
-        //     children: [
-        //       {
-        //         id: 21,
-        //         label: '二级第1个',
-        //         showSlotBefore: true,
-        //         showSlotAfter: true,
-        //         slotefault: true,
-        //         showLevel1: true,
-        //         level2Show: true,
-        //         children: [
-        //           {
-        //             id: 211,
-        //             label: '三级1第1个',
-        //             showLevel2:true,
-        //             children: [
-        //               { id: 2111, label: '1', children: [] },
-        //               { id: 2112, label: '2', checked: true, children: [] },
-        //               { id: 2113, label: '3', children: [] },
-        //               { id: 2114, label: '4', children: [] },
-        //               { id: 2115, label: '5', children: [] }
-        //             ]
-        //           },
-        //           { id: 212, label: '三级2第2个', disabled: true, children: [] },
-        //           { id: 213, label: '三级3第3个', children: [] },
-        //           { id: 214, label: '三级4第4个', children: [] },
-        //           { id: 215, label: '三级5第5个', children: [] }
-        //         ]
-        //       },
-        //       { id: 22, label: '二级第2个', children: [] },
-        //       { id: 23, label: '二级第3个', children: [] },
-        //       { id: 24, label: '二级第4个', children: [] },
-        //       { id: 25, label: '二级第5个', children: [] }
-        //     ]
-        //   },
-        //   { id: 3, label: '第3个', children: [ {
-        //       id: 31,
-        //       label: '三级第1个'},{
-        //       id: 32,
-        //       label: '三级第2个'}] },
-        //   { id: 4, label: '第4个', children: [] },
-        //   { id: 5, label: '第5个', children: [] }
-        // ]
+        orgtree2.treeData = [
+          { id: 1, label: '第1个', children: [
+              { id: 11, label: '二级第1个', children: [] },
+              { id: 12, label: '二级第2个', children: [] },
+              { id: 13, label: '二级第3个', children: [] },
+              { id: 14, label: '二级第4个', children: [] },
+              { id: 15, label: '二级第5个', children: [] }
+            ] },
+          {
+            id: 2,
+            label: '第2个',
+            children: [
+              {
+                id: 21,
+                label: '二级第1个',
+                showSlotBefore: true,
+                showSlotAfter: true,
+                slotefault: true,
+                showLevel1: true,
+                level2Show: true,
+                children: [
+                  {
+                    id: 211,
+                    label: '三级1第1个',
+                    showLevel2:true,
+                    children: [
+                      { id: 2111, label: '1', children: [] },
+                      { id: 2112, label: '2', checked: true, children: [] },
+                      { id: 2113, label: '3', children: [] },
+                      { id: 2114, label: '4', children: [] },
+                      { id: 2115, label: '5', children: [] }
+                    ]
+                  },
+                  { id: 212, label: '三级2第2个', disabled: true, children: [] },
+                  { id: 213, label: '三级3第3个', children: [] },
+                  { id: 214, label: '三级4第4个', children: [] },
+                  { id: 215, label: '三级5第5个', children: [] }
+                ]
+              },
+              { id: 22, label: '二级第2个', children: [] },
+              { id: 23, label: '二级第3个', children: [] },
+              { id: 24, label: '二级第4个', children: [] },
+              { id: 25, label: '二级第5个', children: [] }
+            ]
+          },
+          { id: 3, label: '第3个', children: [ {
+              id: 31,
+              label: '三级第1个'},{
+              id: 32,
+              label: '三级第2个'}] },
+          { id: 4, label: '第4个', children: [] },
+          { id: 5, label: '第5个', children: [] }
+        ]
 
       </script>
     </template>

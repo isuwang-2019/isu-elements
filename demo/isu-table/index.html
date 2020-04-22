@@ -49,7 +49,7 @@
         
       </style>
       <isu-table id="table" tooltip>
-        <isu-table-column prop="sex" label="性别" width="100" type="expand"  model-as="user">
+        <isu-table-column prop="sex" type="expand" label="性别" width="100"  model-as="user">
             <template>
               <style>
                 .ext-container {
@@ -60,6 +60,11 @@
                   width: 250px;
                 }
               </style>
+              <div class="ext-container">
+                <div>姓名：[[user.name]]</div>
+                <div>sex: [[user.sex]]</div>
+                <div>phone: [[user.phone]]</div>
+              </div>
               <div class="ext-container">
                 <div>姓名：[[user.name]]</div>
                 <div>sex: [[user.sex]]</div>
@@ -118,6 +123,17 @@
           {sex: '男', name: 'Cat', phone: '12349'},
           {sex: '男', name: 'Apple', phone: '1211111111345', modify: true, actions:['more', 'more1']}
         ]
+
+        // console.log(table.innerTable)
+        //
+        // innerTable.data = [
+        //   {sex: '男', name: 'Wahson', phone: '12341111116'},
+        //   {sex: '女', name: 'Rose'},
+        //   {sex: '女', name: 'Lucy', phone: '12390'},
+        //   {sex: '男', name: 'James', phone: '12326'},
+        //   {sex: '男', name: 'Cat', phone: '12349'},
+        //   {sex: '男', name: 'Apple', phone: '1211111111345'}
+        // ]
       </script>
     </template>
   </demo-snippet>
@@ -366,7 +382,7 @@
           flex-flow: row nowrap;
           justify-content: space-evenly;
         }
-        
+
       </style>
       <isu-table id="table2" show-summary show-index>
         <isu-table-column prop="sex" label="性别" width="100" model-as="user"></isu-table-column>
@@ -380,7 +396,7 @@
           <div>男： 2人</div>
           <div>女： 2人</div>
         </div>
-        
+
       </isu-table>
         <script>
           table2.data = [
@@ -389,7 +405,7 @@
             {phone1:'12',phone2:'2323423423423423',phone3:'3453534534', sex: '女', name: 'Rose', phone: '1231231234'},
             {phone1:'12',phone2:'2323423423423423',phone3:'3453534534', sex: '男', name: 'James', phone: '1231231235'}
           ]
-  
+
         </script>
       </template>
   </demo-snippet>
@@ -403,24 +419,24 @@
         #table {
           width: 100%;
         }
-        
+
         .summary {
           display: flex;
           flex-flow: row nowrap;
           justify-content: space-evenly;
         }
-      
+
       </style>
       <isu-table id="table3" show-index>
         <isu-table-column label="名称 / 性别" width="100" props="name, sex" separator=" / "></isu-table-column>
         <isu-table-column prop="phone" label="电话号码" width="200"></isu-table-column>
-        
+
         <div slot="summarySlot" class="summary">
           <div>总价： 4人</div>
           <div>男： 2人</div>
           <div>女： 2人</div>
         </div>
-      
+
       </isu-table>
       <script>
         table3.data = [
@@ -429,7 +445,7 @@
           {sex: '女', name: 'Rose', phone: '1231231234'},
           {sex: '男', name: 'James', phone: '1231231235'}
         ]
-      
+
       </script>
     </template>
   </demo-snippet>
@@ -443,13 +459,13 @@
         #table {
           width: 100%;
         }
-        
+
         .summary {
           display: flex;
           flex-flow: row nowrap;
           justify-content: space-evenly;
         }
-      
+
       </style>
       <isu-table id="table31" selectable>
         <isu-table-column label="名称 / 性别" width="100" props="name, sex" separator=" / "></isu-table-column>
@@ -471,7 +487,7 @@
         table31.addEventListener('row-selection-changed', ({detail}) => {
           console.log(detail, table31.getSelectedRows());
         });
-        
+
         table31.addEventListener('rows-all-selection-changed', ({detail}) => {
           console.log(detail);
         })
@@ -533,13 +549,13 @@
         #table {
           width: 100%;
         }
-        
+
         .summary {
           display: flex;
           flex-flow: row nowrap;
           justify-content: space-evenly;
         }
-      
+
       </style>
       <isu-table show-index>
         <isu-table-column prop="name" label="名称 / 性别" width="100" props="name, sex"></isu-table-column>
@@ -630,17 +646,110 @@
           {sex: '男', name: 'Apple', phone: '1211111111345', modify: true, actions:['more', 'more1']}
         ]
 
-        // tableStriped.data = [
-        //   {sex: '男', name: 2, phone: '12341111116', modify: true},
-        //   {sex: '女', name: 12, actions:['more']},
-        //   {sex: '女', name: 31, phone: '12390'},
-        //   {sex: '男', name: 4, phone: '12326'},
-        //   {sex: '男', name: 55, phone: '12349'},
-        //   {sex: '男', name: 3, phone: '1211111111345', modify: true, actions:['more', 'more1']}
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+<div class="vertical-section-container centered">
+  <h3>点击列可以直接打开二级列表</h3>
+  <demo-snippet>
+    <template>
+      <style>
+        #table {
+          width: 100%;
+        }
+
+      </style>
+      <isu-table id="tableRow" tooltip expand-on-click-row>
+        <isu-table-column prop="sex" label="性别" width="100"  model-as="user">
+          <template>
+            <style>
+              .ext-container {
+                display: flex;
+                width: 550px;
+              }
+              .ext-container > div {
+                width: 250px;
+              }
+            </style>
+            <div class="ext-container">
+              <div>姓名：[[user.name]]</div>
+              <div>sex: [[user.sex]]</div>
+              <div>phone: [[user.phone]]</div>
+            </div>
+            <div class="ext-container">
+              <div>姓名：[[user.name]]</div>
+              <div>sex: [[user.sex]]</div>
+              <div>phone: [[user.phone]]</div>
+            </div>
+          </template>
+        </isu-table-column>
+        <isu-table-column prop="name" label="名称" width="100" sortable></isu-table-column>
+        <isu-table-column prop="phone" label="电话号码" width="160" sortable default-value="--" cell-style="text-align: right;color:red;"></isu-table-column>
+        <isu-table-column prop="phone" label="操作" width="300" type="operate" model-as="user">
+          <template>
+            <template is="dom-if" if="[[ isEqual(user.name, 'Wahson') ]]">
+              <isu-button class="action-bar" on-click="view">[[global.lookup]]</isu-button>
+            </template>
+
+            <template is="dom-if" if="[[ user.modify ]]">
+              <isu-button class="action-bar" on-click="modify">[[global.modify]]</isu-button>
+            </template>
+
+            <template is="dom-if" if="[[ user.actions ]]">
+              <isu-button-group label="[[global.more]]">
+                <template is="dom-repeat" items="[[user.actions]]" as="action">
+                  <div on-click="more">[[action]]</div>
+                </template>
+              </isu-button-group>
+            </template>
+
+          </template>
+        </isu-table-column>
+      </isu-table>
+      <script>
+
+        tableRow.view = ({model}) => {
+          console.log("view", model.user);
+        };
+
+        tableRow.modify = ({model}) => {
+          console.log("modify", model.user);
+        };
+
+        tableRow.more = (e) => {
+          console.log(e.model.action, e.model.parentModel.user);
+        };
+
+        tableRow.global = {
+          lookup: "查看",
+          modify: "修改",
+          more: "更多"
+        };
+
+        tableRow.data = [
+          {sex: '男', name: 'Wahson', phone: '12341111116', modify: true},
+          {sex: '女', name: 'Rose', actions:['more']},
+          {sex: '女', name: 'Lucy', phone: '12390'},
+          {sex: '男', name: 'James', phone: '12326'},
+          {sex: '男', name: 'Cat', phone: '12349'},
+          {sex: '男', name: 'Apple', phone: '1211111111345', modify: true, actions:['more', 'more1']}
+        ]
+
+        // console.log(table.innerTable)
+        //
+        // innerTable.data = [
+        //   {sex: '男', name: 'Wahson', phone: '12341111116'},
+        //   {sex: '女', name: 'Rose'},
+        //   {sex: '女', name: 'Lucy', phone: '12390'},
+        //   {sex: '男', name: 'James', phone: '12326'},
+        //   {sex: '男', name: 'Cat', phone: '12349'},
+        //   {sex: '男', name: 'Apple', phone: '1211111111345'}
         // ]
       </script>
     </template>
   </demo-snippet>
 </div>
+
 </body>
 </html>

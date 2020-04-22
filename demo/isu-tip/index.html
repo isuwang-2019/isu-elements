@@ -53,6 +53,7 @@ document.body.appendChild($_documentContainer.content);
           }
         </style>
       </custom-style>
+
       <isu-tip type="success" message="新建成功" id="tip" duration="20000" center></isu-tip>
       <isu-button id="btn" onclick="tip.open();">Success</isu-button>
 
@@ -64,6 +65,9 @@ document.body.appendChild($_documentContainer.content);
 
       <isu-tip  message="这是自定义的图标" type="custom" icon-class="icons:build" duration="100000" id="tipCustom"></isu-tip>
       <isu-button id="btnCustom" onclick="tipCustom.open();">Custom</isu-button>
+
+      <isu-tip type="success" message="新建成功" id="tipnotime" center no-duration></isu-tip>
+      <isu-button id="btnnotime" onclick="tipnotime.open();">Success(no duration)</isu-button>
     </template>
   </demo-snippet>
 </div>

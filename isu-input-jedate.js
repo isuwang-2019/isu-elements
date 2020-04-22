@@ -415,7 +415,16 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
        */
       prompt: {
         type: String
-      }
+      },
+      /**
+       * The prompt tip's position. top/bottom
+       * @type String
+       * @default ''
+       */
+      promptPosition: {
+        type: String,
+        value: ''
+      },
 
     };
   }

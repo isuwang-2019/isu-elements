@@ -53,7 +53,7 @@ class IsuForm extends mixinBehaviors([BaseBehavior], PolymerElement) {
           display: grid;
           grid-template-columns: 45% 45%;
           grid-column-gap: 10px;
-          grid-row-gap: 10px;
+          grid-row-gap: 30px;
           @apply --isu-form;
         }
   
