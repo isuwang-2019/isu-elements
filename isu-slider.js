@@ -2,12 +2,17 @@ import { html, PolymerElement } from '@polymer/polymer'
 import './isu-input.js'
 
 /**
- *
- * `isu-slider`
- *
- * Example:
- * ```html
- * ```
+ 
+ Example:
+ ```html
+  <isu-slider show-tooltip></isu-slider>
+  <isu-slider value="50" show-tooltip></isu-slider>
+  <isu-slider></isu-slider>
+  <isu-slider value="70" disabled></isu-slider>
+  <isu-slider value="50" step="10" show-tooltip min="-10" max="100"></isu-slider>
+  <isu-slider show-tooltip show-input></isu-slider>
+  <isu-slider vertical height="200px" value="50" show-input show-tooltip></isu-slider>
+ ```
  *
  * @customElement
  * @polymer
@@ -180,21 +185,27 @@ class IsuSlider extends PolymerElement {
   static get properties () {
     return {
       /**
-       * 最小值
+       * min value
+       * @type {Number}
+       * @default 0
        */
       min: {
         type: Number,
         value: 0
       },
       /**
-       * 最大值
+       * max value
+       * @type {Number}
+       * @default 100
        */
       max: {
         type: Number,
         value: 100
       },
       /**
-       * 滑动值
+       * Current value
+       * @type {Number}
+       * @default 0
        */
       value: {
         type: Number,
@@ -202,28 +213,36 @@ class IsuSlider extends PolymerElement {
         observer: 'onValueChange'
       },
       /**
-       * 是否禁用
+       * Whether to disable
+       * @type {Boolean}
+       * @default false
        */
       disabled: {
         type: Boolean,
         value: false
       },
       /**
-       * 步长
+       * step
+       * @type {Number}
+       * @default 1
        */
       step: {
         type: Number,
         value: 1
       },
       /**
-       * 是否显示输入框
+       * Whether to display the input box
+       * @type {Boolean}
+       * @default false
        */
       showInput: {
         type: Boolean,
         value: false
       },
       /**
-       * 输入框大小
+       * Input box size, the value must be one of large, medium, small, and mini
+       * @type {string}
+       * @default small
        */
       inputSize: {
         type: String,
@@ -231,21 +250,25 @@ class IsuSlider extends PolymerElement {
         observer: 'onInputSizeChange'
       },
       /**
-       * 是否显示提示框
+       * Whether to display the tip
+       * @type {Boolean}
+       * @default false
        */
       showTooltip: {
         type: Boolean,
         value: false
       },
       /**
-       * 是否垂直
+       * direction
+       * @type {Boolean}
+       * @default false
        */
       vertical: {
         type: Boolean,
         value: false
       },
       /**
-       * 垂直高度
+       * Vertical height
        */
       height: {
         type: String
