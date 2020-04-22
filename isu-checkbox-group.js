@@ -71,15 +71,29 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
       :host([border]) .checkbox-item[checked] {
         border: 1px solid var(--isu-ui-color_skyblue);
       }
+      .readonly-shade {
+        border: 1px solid red;
+        min-width: 300px;
+        height: 34px;
+        position: absolute;
+        z-index: 999;
+      }
       
     </style>
     <div class="isu-label">[[label]]</div>
     <div id="checkbox-container">
-      <template is="dom-repeat" items="[[ _items ]]">
-        <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
-          [[ getValueByKey(item, attrForLabel) ]]
-        </paper-checkbox>
-      </template>
+      <div class="checkboxes">
+         <template is="dom-repeat" items="[[ _items ]]" index-as="index">
+          <div id$="readonly[[index]]" class="readonly-shade">
+          </div>
+          <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
+            [[ getValueByKey(item, attrForLabel) ]]
+          </paper-checkbox>
+         </template>
+      </div>
+      <div id="readonly" class="readonly-shade">
+      </div>
+      
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
       <div class="prompt-tip">
         <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
@@ -182,6 +196,15 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
        */
       prompt: {
         type: String
+      },
+      /**
+       * Set to true if the selection is readonly.
+       * @type {boolean}
+       * @default false
+       */
+      readonly: {
+        type: Boolean,
+        value: false
       }
     };
   }
@@ -193,8 +216,15 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
   static get observers() {
     return [
       '__valueChanged(value, items)',
-      'getInvalidAttribute(required, min, max, value)'
+      'getInvalidAttribute(required, min, max, value)',
+      '__readonlyChanged(readonly)'
     ];
+  }
+
+  __readonlyChanged(readonly) {
+    if (readonly) {
+      this.$.readonly.style.width = this.querySelector('.checkboxes')
+    }
   }
 
   __computedInnerItems(items = [], value = "") {

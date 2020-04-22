@@ -238,7 +238,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @type Boolean
        * @default false
        * */
-      hideOnClick: {
+      hideItemsOnClick: {
         type: Boolean,
         value: false
       }
@@ -301,7 +301,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
     const target = e.target,
       bindItem = e.target.bindItem || e.target.getAttribute('bind-item');
 
-    if (this.hideOnClick) {
+    if (this.hideItemsOnClick) {
       this.opened = false;
     }
     this.dispatchEvent(new CustomEvent('item-click', {detail: {target, bindItem}}));
