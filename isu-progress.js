@@ -1,12 +1,26 @@
 import { html, PolymerElement } from '@polymer/polymer'
 
 /**
- * `isu-progress`
- *
- * Example:
- * ```html
- *
- * ```
+ 
+ Example:
+ ```html
+  <isu-progress percentage="50" show-text></isu-progress>
+  <isu-progress percentage="100" show-text status="success"></isu-progress>
+  <isu-progress percentage="100" show-text status="warning"></isu-progress>
+  <isu-progress percentage="50" show-text status="exception"></isu-progress>
+  <isu-progress stroke-width="24" percentage="100" show-text status="success"></isu-progress>
+  <isu-progress percentage="20" color="#000" show-text></isu-progress>
+  <isu-progress type="circle" percentage="0" show-text></isu-progress>
+  <isu-progress type="circle" percentage="25" show-text></isu-progress>
+  <isu-progress type="circle" percentage="100" status="success" show-text></isu-progress>
+  <isu-progress type="circle" percentage="70" status="warning" show-text></isu-progress>
+  <isu-progress type="circle" percentage="50" status="exception" show-text></isu-progress>
+  <isu-progress type="dashboard" percentage="0" show-text></isu-progress>
+  <isu-progress type="dashboard" percentage="25" show-text></isu-progress>
+  <isu-progress type="dashboard" percentage="100" status="success" show-text></isu-progress>
+  <isu-progress type="dashboard" percentage="70" status="warning" show-text></isu-progress>
+  <isu-progress type="dashboard" percentage="50" status="exception" show-text></isu-progress>
+ ```
  * @customElement
  * @polymer
  * @demo demo/isu-progress/index.html
@@ -132,7 +146,9 @@ class IsuProgress extends PolymerElement {
   static get properties () {
     return {
       /**
-       * 进度条类型，可以是line、dashboard、circle中的一个
+       * Progress bar type, the value must be one of line, dashboard, circle
+       * @type {string}
+       * @default line
        */
       type: {
         type: String,
@@ -140,7 +156,9 @@ class IsuProgress extends PolymerElement {
         observer: 'onTypeChange'
       },
       /**
-       * 进度值
+       * Progress bar value
+       * @type {Number}
+       * @default 0
        */
       percentage: {
         type: Number,
@@ -148,14 +166,17 @@ class IsuProgress extends PolymerElement {
         observer: 'onPercentageChange'
       },
       /**
-       * 进度条宽度
+       * Progress bar width
+       * @type {Number}
+       * @default 6
        */
       strokeWidth: {
         type: Number,
         value: 6
       },
       /**
-       * 状态，可以是success/exception/warning中的一个
+       * Progress bar, the value must be one of success, exception, warning
+       * @type {string}
        */
       status: {
         type: String,
@@ -163,20 +184,25 @@ class IsuProgress extends PolymerElement {
         observer: 'onStatusChange'
       },
       /**
-       * 进度条的背景色
+       * Progress bar background color
+       * @type {string}
        */
       color: {
         type: String
       },
       /**
-       * 环形进度条画布宽度
+       * Circular progress bar width
+       * @type {Number}
+       * @default 126
        */
       width: {
         type: Number,
         value: 126
       },
       /**
-       * 是否显示进度条文字内容
+       * Whether to display the progress bar value
+       * @type {Boolean}
+       * @default false
        */
       showText: {
         type: Boolean,

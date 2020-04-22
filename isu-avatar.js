@@ -3,12 +3,26 @@ import '@polymer/iron-icon/iron-icon.js'
 import '@polymer/iron-icons/iron-icons.js'
 
 /**
- * `isu-avatar`
- *
- * Example:
- * ```html
- *
- * ```
+ 
+ Example:
+ ```html
+  <isu-avatar size="50" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+  <isu-avatar size="large" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+  <isu-avatar size="medium" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+  <isu-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+  <isu-avatar shape="square" size="50" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+  <isu-avatar shape="square" size="large" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+  <isu-avatar shape="square" size="medium" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+  <isu-avatar shape="square" size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+  <isu-avatar icon="search"></isu-avatar>
+  <isu-avatar src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+  <isu-avatar>user</isu-avatar>
+  <isu-avatar shape="square" size="100" fit="fit" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"></isu-avatar>
+  <isu-avatar shape="square" size="100" fit="contain" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"></isu-avatar>
+  <isu-avatar shape="square" size="100" fit="cover" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"></isu-avatar>
+  <isu-avatar shape="square" size="100" fit="none" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"></isu-avatar>
+  <isu-avatar shape="square" size="100" fit="scale-down" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"></isu-avatar>
+ ```
  * @customElement
  * @polymer
  * @demo demo/isu-avatar/index.html
@@ -77,28 +91,34 @@ class IsuAvatar extends PolymerElement {
   static get properties () {
     return {
       /**
-       * icon，参照iron-icon的icon类型
+       * Icon type, refer to the icon type of iron-icon
+       * @type {string}
        */
       icon: {
         type: String,
         value: ''
       },
       /**
-       * 图片地址
+       * Icon source
+       * @type {string}
        */
       src: {
         type: String,
         value: ''
       },
       /**
-       * 头像大小，可以是数字字符串或者large、medium、small中的一个
+       * Avatar size, the value can be a numeric string or one of large, medium, small
+       * @type {string}
+       * @default large
        */
       size: {
         value: 'large',
         observer: 'onSizeChange'
       },
       /**
-       * 头像形状，可以是circle或者square
+       * Avatar shape, the value can be one of circle or square
+       * @type {string}
+       * @default circle
        */
       shape: {
         type: String,
@@ -106,14 +126,17 @@ class IsuAvatar extends PolymerElement {
         observer: 'onShapeChange'
       },
       /**
-       * 图片适应类型，类型参照https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit
+       * Image adaptation type, type refer to https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit
+       * @type {string}
+       * @default cover
        */
       fit: {
         type: String,
         value: 'cover'
       },
       /**
-       * 图片加载不成功的替代文字
+       * Alt text for unsuccessful image loading
+       * @type {string}
        */
       alt: {
         type: String
