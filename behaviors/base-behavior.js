@@ -256,27 +256,29 @@ export const BaseBehavior = {
   /**
    * 添加loading
    */
-  showLoading() {
-    let loadingDiv = document.body.querySelector("#isu-loading");
+  showLoading(ele) {
+    let loadingDiv = (ele ||document.body).querySelector("#isu-loading");
     if (!loadingDiv) {
       loadingDiv = document.createElement("isu-loading");
       loadingDiv.setAttribute("id", "isu-loading");
       loadingDiv.noCancelOnOutsideClick = true;
       loadingDiv.noCancelOnEscKey = true;
       // loadingDiv.withBackdrop = true;
-      document.body.appendChild(loadingDiv);
+      (ele || document.body).appendChild(loadingDiv);
     }
     this.async(function () {
-      loadingDiv.open();
+      loadingDiv.opened = true;
     }, 0);
   },
   /**
    * 消除loading
    */
-  hideLoading() {
+  hideLoading(ele) {
     this.async(function () {
-      const loadingDiv = document.body.querySelector("#isu-loading");
-      loadingDiv && loadingDiv.close();
+      const loadingDiv = (ele || document.body).querySelector("#isu-loading");
+      if (loadingDiv) {
+        loadingDiv.opened = false
+      }
     }, 0);
   },
   

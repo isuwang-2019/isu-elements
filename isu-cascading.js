@@ -3,6 +3,7 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/iron-icon';
 import '@polymer/iron-icons';
 import '@polymer/paper-dialog';
+import {IsuFetch} from './isu-fetch';
 
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
@@ -274,8 +275,17 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       items: {
         type: Array,
-        observer: '__itemsChanged',
         value: []
+      },
+      /**
+       * The component that sends the request and simulates the data
+       */
+      _fetchUtil: {
+        type: Object,
+        readOnly: true,
+        value: function () {
+          return new IsuFetch();
+        }
       },
       /**
        * The items of the cascading, equals to items. If 'lazy' is true, can also be passed in by the customer.
@@ -286,7 +296,6 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       treeItems: {
         type: Array,
         notify: true,
-        observer: '__treeItemsChanged',
         value: []
       },
       /**
@@ -298,8 +307,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       value: {
         type: Array,
         notify: true,
-        value: [],
-        observer: '__valueChanged'
+        value: []
       },
       /**
        * The array selected from the treeItems.
@@ -421,8 +429,50 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       showLabel: {
         type: String,
         notify: true
+      },
+      src: {
+        type: String
+      },
+      fetchParam: {
+        type: Object
+      },
+      /**
+       * Whether to get data dynamically internally
+       * @type {boolean}
+       * @default false
+       * */
+      isInnnerDynamicAppendData: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Whether to get data dynamically outside
+       * @type {boolean}
+       * @default false
+       * */
+      isDynamicAppendData: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * The parent element of the currently clicked option
+       * @type {object}
+       * @default
+       * */
+      currentClickViewElement: {
+        type: Object,
+        notify: true
       }
     };
+  }
+
+  static get observers() {
+    return [
+      '__itemsChanged(items)',
+      '__valueChanged(value)',
+      '__treeItemsChanged(treeItems)',
+      '__srcChanged(src)'
+    ];
   }
 
   __itemsChanged() {
@@ -466,6 +516,44 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.$.placeholder.hidden = lastLevelValue
       this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
     }
+    // this.hideLoading(this.__currentClickViewElement)
+  }
+
+  _mkRequest(data) {
+    return {
+      url: this.src,
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=utf-8",
+        "Cache-Control": "no-cache"
+      },
+      credentials: "include",
+      body: JSON.stringify(data)
+    };
+  }
+
+  __srcChanged(src) {
+    if (!src) return;
+    const request = this._mkRequest(this.fetchParam);
+    this._fetchUtil.fetchIt(request)
+      .then(res => res.json())
+      .then(data => {
+        let items;
+        if (this.resultPath) {
+          items = this.getValueByPath(data, this.resultPath, []);
+        } else {
+          items = data || [];
+        }
+        let findIndex = items.findIndex(item => item[this.attrForValue] == this.value);
+        if (findIndex >= 0) {
+          items = [items[findIndex]].concat(items);
+          items.splice(findIndex + 1, 1);
+        } else {
+          // this.value ? this._getSelectedForItems() : this.items = items;
+        }
+        this.items = items;
+      })
+      .catch(console.error);
   }
 
   __setViewClass(select) {
@@ -482,26 +570,84 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.opened = !this.opened;
   }
 
-  __viewItemClick({model}) {
+  __viewItemClick(e) {
+    const self = this
+    const parentElement = e.currentTarget.parentElement
+    self.currentClickViewElement = parentElement
+    if (self.isInnnerDynamicAppendData) {
+      self.showLoading(parentElement)
+      setTimeout(() => {
+        const treeItems = [].concat(self.treeItems);
+        if (self.value.length) {
+          treeItems.push([
+            {
+              value: 'dongcheng',
+              label: '东城'
+            },
+            {
+              value: 'xicheng',
+              label: '西城'
+            }
+          ]);
+          self.treeItems = treeItems;
+        }
+        self.hideLoading(parentElement)
+      }, 1000)
+    }
+    // 解决外部动态插入数据时loading的显示和隐藏问题
+    if(self.isDynamicAppendData) {
+      self.showLoading(parentElement)
+    }
+
+    const {model} = e
     const {index, item, parentModel} = model;
-    let treeItems = this.treeItems.slice(0, parentModel.treeIndex + 1);
+    let treeItems = self.treeItems.slice(0, parentModel.treeIndex + 1);
     const treeItem = parentModel.tree.map((itm, idx) => Object.assign({}, itm, {__select: idx === index}));
     treeItems[parentModel.treeIndex] = treeItem;
     if (item.children) {
-      parentModel.treeIndex + 1 >= this.treeItems.length ? treeItems.push(item.children) : treeItems.splice(parentModel.treeIndex + 1, 1, item.children);
+      parentModel.treeIndex + 1 >= self.treeItems.length ? treeItems.push(item.children) : treeItems.splice(parentModel.treeIndex + 1, 1, item.children);
     }
-    let selectedValues = this.selectedValues.slice(0, parentModel.treeIndex + 1);
+    let selectedValues = self.selectedValues.slice(0, parentModel.treeIndex + 1);
     selectedValues[parentModel.treeIndex] = item;
     this.set('selectedValues', selectedValues);
     if (!item.children) {
-      this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator));
-      this.set('value', selectedValues.map(itm => itm[this.attrForValue]));
+      this.set('valueLabel', selectedValues.map(itm => itm[self.attrForLabel]).join(self.separator));
+      this.set('value', selectedValues.map(itm => itm[self.attrForValue]));
     }
     this.set('treeItems', treeItems);
-    let lastLevelValue = selectedValues.length && selectedValues[selectedValues.length-1][this.attrForLabel]
+    let lastLevelValue = selectedValues.length && selectedValues[selectedValues.length-1][self.attrForLabel]
     this.$.placeholder.hidden = lastLevelValue
-    this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
+    this.showLabel = self.showAllLevels ? self.valueLabel : lastLevelValue
   }
+
+  // /**
+  //  * 添加loading
+  //  */
+  // showLoading(ele) {
+  //   let loadingDiv = ele.querySelector("#isu-loading");
+  //   if (!loadingDiv) {
+  //     loadingDiv = document.createElement("isu-loading");
+  //     loadingDiv.setAttribute("id", "isu-loading");
+  //     loadingDiv.noCancelOnOutsideClick = true;
+  //     loadingDiv.noCancelOnEscKey = true;
+  //     // loadingDiv.withBackdrop = true;
+  //     ele.appendChild(loadingDiv);
+  //   }
+  //   this.async(function () {
+  //     loadingDiv.opened = true;
+  //   }, 0);
+  // }
+  // /**
+  //  * 消除loading
+  //  */
+  // hideLoading(ele) {
+  //   this.async(function () {
+  //     const loadingDiv = ele.querySelector("#isu-loading");
+  //     if (loadingDiv) {
+  //       loadingDiv.opened = false
+  //     }
+  //   }, 0);
+  // }
 
   close() {
     this.$.boxDialog.close()
