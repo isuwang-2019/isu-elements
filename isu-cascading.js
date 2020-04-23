@@ -436,6 +436,10 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       fetchParam: {
         type: Object
       },
+      keywordPath: {
+        type: String,
+        value: 'keyword'
+      },
       /**
        * Whether to get data dynamically internally
        * @type {boolean}
@@ -516,7 +520,6 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.$.placeholder.hidden = lastLevelValue
       this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
     }
-    // this.hideLoading(this.__currentClickViewElement)
   }
 
   _mkRequest(data) {
@@ -549,7 +552,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
           items = [items[findIndex]].concat(items);
           items.splice(findIndex + 1, 1);
         } else {
-          // this.value ? this._getSelectedForItems() : this.items = items;
+          this.value ? this._getSelectedForItems() : this.items = items;
         }
         this.items = items;
       })
@@ -572,28 +575,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   __viewItemClick(e) {
     const self = this
-    const parentElement = e.currentTarget.parentElement
-    self.currentClickViewElement = parentElement
-    if (self.isInnnerDynamicAppendData) {
-      self.showLoading(parentElement)
-      setTimeout(() => {
-        const treeItems = [].concat(self.treeItems);
-        if (self.value.length) {
-          treeItems.push([
-            {
-              value: 'dongcheng',
-              label: '东城'
-            },
-            {
-              value: 'xicheng',
-              label: '西城'
-            }
-          ]);
-          self.treeItems = treeItems;
-        }
-        self.hideLoading(parentElement)
-      }, 1000)
-    }
+
     // 解决外部动态插入数据时loading的显示和隐藏问题
     if(self.isDynamicAppendData) {
       self.showLoading(parentElement)
@@ -618,36 +600,28 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
     let lastLevelValue = selectedValues.length && selectedValues[selectedValues.length-1][self.attrForLabel]
     this.$.placeholder.hidden = lastLevelValue
     this.showLabel = self.showAllLevels ? self.valueLabel : lastLevelValue
-  }
 
-  // /**
-  //  * 添加loading
-  //  */
-  // showLoading(ele) {
-  //   let loadingDiv = ele.querySelector("#isu-loading");
-  //   if (!loadingDiv) {
-  //     loadingDiv = document.createElement("isu-loading");
-  //     loadingDiv.setAttribute("id", "isu-loading");
-  //     loadingDiv.noCancelOnOutsideClick = true;
-  //     loadingDiv.noCancelOnEscKey = true;
-  //     // loadingDiv.withBackdrop = true;
-  //     ele.appendChild(loadingDiv);
-  //   }
-  //   this.async(function () {
-  //     loadingDiv.opened = true;
-  //   }, 0);
-  // }
-  // /**
-  //  * 消除loading
-  //  */
-  // hideLoading(ele) {
-  //   this.async(function () {
-  //     const loadingDiv = ele.querySelector("#isu-loading");
-  //     if (loadingDiv) {
-  //       loadingDiv.opened = false
-  //     }
-  //   }, 0);
-  // }
+    const parentElement = e.currentTarget.parentElement
+    self.currentClickViewElement = parentElement
+    if (self.isInnnerDynamicAppendData) {
+      self.showLoading(parentElement)
+      const requestObj = this.fetchParam;
+      const req = self.setValueByPath(self.mkObject(self.keywordPath, requestObj), self.keywordPath, self.value[self.value.length-1] + '');
+      const request = self._mkRequest(req);
+      this._fetchUtil.fetchIt(request)
+        .then(res => res.json())
+        .then(data => {
+          const treeItems = [].concat(self.treeItems)
+          if (self.value.length) {
+            const pushData = [].concat(data)
+            treeItems.push(pushData)
+            self.treeItems = treeItems
+          }
+          self.hideLoading(parentElement)
+        })
+        .catch(console.error);
+    }
+  }
 
   close() {
     this.$.boxDialog.close()

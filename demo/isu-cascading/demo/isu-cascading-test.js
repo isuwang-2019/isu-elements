@@ -18,8 +18,8 @@ class IsuCascadingTest extends mixinBehaviors([BaseBehavior], PolymerElement) {
           width: 500px;
         }
       </style>
-      <isu-cascading class="isu-cascading" label="地址(内部)" is-innner-dynamic-append-data
-        value="{{value}}" tree-items="{{treeItems}}"
+      <isu-cascading class="isu-cascading" label="地址(内部)" src="/init2.do" is-innner-dynamic-append-data
+        value="{{value}}" tree-items="{{treeItems}}" fetch-param="{{fetchParam}}"
       ></isu-cascading>
       <isu-cascading class="isu-cascading" label="地址2（外部）" is-dynamic-append-data
         value="{{value2}}" tree-items="{{treeItems2}}" current-click-view-element="{{currentClickViewElement}}"
@@ -63,11 +63,11 @@ class IsuCascadingTest extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get observers() {
     return [
-      '__valueChanged(value2)',
+      '__value2Changed(value2)',
     ];
   }
 
-  __valueChanged(value) {
+  __value2Changed(value) {
     const self = this
     setTimeout(() => {
       const treeItems = [].concat(self.treeItems2);

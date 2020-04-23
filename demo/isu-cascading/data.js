@@ -192,6 +192,23 @@ const cascadingData = [{
     value: 'jiaohu',
     label: '组件交互文档'
   }]
+}];
+
+const cascadingData2 = [{
+  value: 'menu',
+  label: 'NavMenu 导航菜单'
+}, {
+  value: 'tabs',
+  label: 'Tabs 标签页'
+}, {
+  value: 'breadcrumb',
+  label: 'Breadcrumb 面包屑'
+}, {
+  value: 'dropdown',
+  label: 'Dropdown 下拉菜单'
+}, {
+  value: 'steps',
+  label: 'Steps 步骤条'
 }]
 
-export {cascadingData};
+export {cascadingData, cascadingData2};
