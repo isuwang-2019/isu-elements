@@ -72,11 +72,11 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
         border: 1px solid var(--isu-ui-color_skyblue);
       }
       .readonly-shade {
-        border: 1px solid red;
-        min-width: 300px;
+        min-width: 30px;
         height: 34px;
         position: absolute;
         z-index: 999;
+        top: 0;
       }
       
        :host([required]) .checkbox-container::before {
@@ -87,16 +87,29 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
         line-height: inherit;
       }
       
+      .inline-block {
+        display: inline-block;
+        position: relative;
+      }
+      :host([readonly]) .inline-block {
+        background: #f4f4f4;
+      }
+      
     </style>
     <div class="isu-label">[[label]]</div>
     <div id="checkbox-container" class="checkbox-container">
       <div class="checkboxes">
          <template is="dom-repeat" items="[[ _items ]]" index-as="index">
-          <!--<div id$="readonly[[index]]" class="readonly-shade">-->
-          <!--</div>-->
-          <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
-            [[ getValueByKey(item, attrForLabel) ]]
-          </paper-checkbox>
+          <div class="inline-block">
+            <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
+              [[ getValueByKey(item, attrForLabel) ]]
+            </paper-checkbox>
+            <template is="dom-if" if="[[readonly]]">
+              <div id$="readonly[[index]]" class="readonly-shade"></div>
+            </template>
+            
+          </div>
+          
          </template>
       </div>
       <!--<div id="readonly" class="readonly-shade">-->
