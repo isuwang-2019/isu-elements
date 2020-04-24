@@ -57,6 +57,9 @@ class IsuCascadingTest extends mixinBehaviors([BaseBehavior], PolymerElement) {
       currentClickViewElement: {
         type: Object,
         notify: true
+      },
+      src: {
+        type: String
       }
     };
   }

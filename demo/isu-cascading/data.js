@@ -211,4 +211,21 @@ const cascadingData2 = [{
   label: 'Steps 步骤条'
 }]
 
-export {cascadingData, cascadingData2};
+const shanghaiData = [{
+  value: 'menu',
+  label: 'NavMenu 上海'
+}, {
+  value: 'tabs',
+  label: 'Tabs 上海'
+}, {
+  value: 'breadcrumb',
+  label: 'Breadcrumb 上海'
+}, {
+  value: 'dropdown',
+  label: 'Dropdown 上海'
+}, {
+  value: 'steps',
+  label: 'Steps 上海'
+}]
+
+export {cascadingData, cascadingData2, shanghaiData};

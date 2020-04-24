@@ -434,7 +434,8 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String
       },
       fetchParam: {
-        type: Object
+        type: Object,
+        notify: true
       },
       keywordPath: {
         type: String,
@@ -522,9 +523,9 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  _mkRequest(data) {
+  _mkRequest(data, src) {
     return {
-      url: this.src,
+      url: src,
       method: "POST",
       headers: {
         "content-type": "application/json;charset=utf-8",
@@ -537,7 +538,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   __srcChanged(src) {
     if (!src) return;
-    const request = this._mkRequest(this.fetchParam);
+    const request = this._mkRequest(this.fetchParam, src);
     this._fetchUtil.fetchIt(request)
       .then(res => res.json())
       .then(data => {
@@ -574,53 +575,60 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __viewItemClick(e) {
-    const self = this
-
-    // 解决外部动态插入数据时loading的显示和隐藏问题
-    if(self.isDynamicAppendData) {
-      self.showLoading(parentElement)
+    // 解决外部动态插入数据时loading的显示问题
+    if(this.isDynamicAppendData) {
+      this.showLoading(parentElement)
     }
 
     const {model} = e
     const {index, item, parentModel} = model;
-    let treeItems = self.treeItems.slice(0, parentModel.treeIndex + 1);
+    let treeItems = this.treeItems.slice(0, parentModel.treeIndex + 1);
     const treeItem = parentModel.tree.map((itm, idx) => Object.assign({}, itm, {__select: idx === index}));
     treeItems[parentModel.treeIndex] = treeItem;
     if (item.children) {
-      parentModel.treeIndex + 1 >= self.treeItems.length ? treeItems.push(item.children) : treeItems.splice(parentModel.treeIndex + 1, 1, item.children);
+      parentModel.treeIndex + 1 >= this.treeItems.length ? treeItems.push(item.children) : treeItems.splice(parentModel.treeIndex + 1, 1, item.children);
     }
-    let selectedValues = self.selectedValues.slice(0, parentModel.treeIndex + 1);
+    let selectedValues = this.selectedValues.slice(0, parentModel.treeIndex + 1);
     selectedValues[parentModel.treeIndex] = item;
     this.set('selectedValues', selectedValues);
     if (!item.children) {
-      this.set('valueLabel', selectedValues.map(itm => itm[self.attrForLabel]).join(self.separator));
-      this.set('value', selectedValues.map(itm => itm[self.attrForValue]));
+      this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator));
+      this.set('value', selectedValues.map(itm => itm[this.attrForValue]));
     }
     this.set('treeItems', treeItems);
-    let lastLevelValue = selectedValues.length && selectedValues[selectedValues.length-1][self.attrForLabel]
+    let lastLevelValue = selectedValues.length && selectedValues[selectedValues.length-1][this.attrForLabel]
     this.$.placeholder.hidden = lastLevelValue
-    this.showLabel = self.showAllLevels ? self.valueLabel : lastLevelValue
-
+    this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
+    // 解决外部动态插入数据时loading的隐藏问题
     const parentElement = e.currentTarget.parentElement
-    self.currentClickViewElement = parentElement
-    if (self.isInnnerDynamicAppendData) {
-      self.showLoading(parentElement)
-      const requestObj = this.fetchParam;
-      const req = self.setValueByPath(self.mkObject(self.keywordPath, requestObj), self.keywordPath, self.value[self.value.length-1] + '');
-      const request = self._mkRequest(req);
-      this._fetchUtil.fetchIt(request)
-        .then(res => res.json())
-        .then(data => {
-          const treeItems = [].concat(self.treeItems)
-          if (self.value.length) {
-            const pushData = [].concat(data)
-            treeItems.push(pushData)
-            self.treeItems = treeItems
-          }
-          self.hideLoading(parentElement)
-        })
-        .catch(console.error);
+    this.currentClickViewElement = parentElement
+    // 内部动态获取数据
+    if (this.isInnnerDynamicAppendData) {
+      this.__getInnerDynamicAppendData(parentElement)
     }
+  }
+  /**
+   * 内部动态获取数据
+   * */
+  __getInnerDynamicAppendData(element) {
+    const self = this
+    self.showLoading(element)
+    const requestObj = self.fetchParam;
+    const req = self.setValueByPath(self.mkObject(self.keywordPath, requestObj), self.keywordPath, self.value[self.value.length-1] + '');
+    // 拼接url，参数名从外界传入，参数值为当前value数组中的最后一个值
+    const src = `${self.src}?${self.keywordPath}=${self.value[self.value.length-1]}`
+    const request = self._mkRequest(req, src);
+    self._fetchUtil.fetchIt(request)
+      .then(res => res.json())
+      .then(data => {
+        const treeItems = [].concat(self.treeItems)
+        if (self.value.length) {
+          treeItems.push(data)
+          self.treeItems = treeItems
+        }
+        self.hideLoading(element)
+      })
+      .catch(console.error);
   }
 
   close() {
