@@ -28,7 +28,6 @@ import {FormatBehavior} from "./behaviors/format-behavior";
  * @demo demo/isu-input-datetime/index.html
  *
  */
-
 class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) {
   static get template() {
     return html`

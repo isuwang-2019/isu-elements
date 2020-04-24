@@ -39,7 +39,6 @@ import './behaviors/isu-elements-shared-styles.js';
  * @polymer
  * @demo demo/isu-dialog/index.html
  */
-
 class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`

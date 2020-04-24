@@ -28,11 +28,6 @@ import './isu-input.js';
  * @polymer
  * @demo demo/isu-mask/index.html
  */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
 class IsuMask extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`

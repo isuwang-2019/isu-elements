@@ -27,102 +27,101 @@ import '@polymer/paper-checkbox';
  * @polymer
  * @demo demo/isu-checkbox-group/index.html
  */
-
 class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
   static get template() {
     return html`
-    <style include="isu-elements-shared-styles">
-      :host {
-        display: flex;
-        flex-wrap: nowrap;
-        position: relative;
-        line-height: 34px;
-        font-family: var(--isu-ui-font-family), sans-serif;
-        font-size: var(--isu-ui-font-size);
-      }
-
-      #checkbox-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        @apply --isu-checkbox-group-container;
-      }
-
-      :host([direction=column]) #checkbox-container {
-        flex-direction: column;
-        align-items: start;
-      }
-      
-      :host([direction=column]) .checkbox-item {
-        margin-bottom: 6px;
-      }
-      .checkbox-item {
-        margin-left: 6px;
-        --paper-checkbox-checked-color: var(--isu-ui-color_skyblue);
-      }
-      
-      :host([border]) .checkbox-item {
-        border: 1px solid lightgray;
-        padding: 7px 13px;
-        border-radius: 4px;
-      }
-      
-      :host([border]) .checkbox-item[checked] {
-        border: 1px solid var(--isu-ui-color_skyblue);
-      }
-      .readonly-shade {
-        min-width: 30px;
-        height: 34px;
-        position: absolute;
-        z-index: 999;
-        top: 0;
-      }
-      
-       :host([required]) .checkbox-container::before {
-        content: "*";
-        color: red;
-        position: absolute;
-        left: -10px;
-        line-height: inherit;
-      }
-      
-      .inline-block {
-        display: inline-block;
-        position: relative;
-      }
-      :host([readonly]) .inline-block {
-        background: #f4f4f4;
-      }
-      
-    </style>
-    <div class="isu-label">[[label]]</div>
-    <div id="checkbox-container" class="checkbox-container">
-      <div class="checkboxes">
-         <template is="dom-repeat" items="[[ _items ]]" index-as="index">
-          <div class="inline-block">
-            <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
-              [[ getValueByKey(item, attrForLabel) ]]
-            </paper-checkbox>
-            <template is="dom-if" if="[[readonly]]">
-              <div id$="readonly[[index]]" class="readonly-shade"></div>
-            </template>
+      <style include="isu-elements-shared-styles">
+        :host {
+          display: flex;
+          flex-wrap: nowrap;
+          position: relative;
+          line-height: 34px;
+          font-family: var(--isu-ui-font-family), sans-serif;
+          font-size: var(--isu-ui-font-size);
+        }
+  
+        #checkbox-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+          flex-direction: row;
+          @apply --isu-checkbox-group-container;
+        }
+  
+        :host([direction=column]) #checkbox-container {
+          flex-direction: column;
+          align-items: start;
+        }
+        
+        :host([direction=column]) .checkbox-item {
+          margin-bottom: 6px;
+        }
+        .checkbox-item {
+          margin-left: 6px;
+          --paper-checkbox-checked-color: var(--isu-ui-color_skyblue);
+        }
+        
+        :host([border]) .checkbox-item {
+          border: 1px solid lightgray;
+          padding: 7px 13px;
+          border-radius: 4px;
+        }
+        
+        :host([border]) .checkbox-item[checked] {
+          border: 1px solid var(--isu-ui-color_skyblue);
+        }
+        .readonly-shade {
+          min-width: 30px;
+          height: 34px;
+          position: absolute;
+          z-index: 999;
+          top: 0;
+        }
+        
+         :host([required]) .checkbox-container::before {
+          content: "*";
+          color: red;
+          position: absolute;
+          left: -10px;
+          line-height: inherit;
+        }
+        
+        .inline-block {
+          display: inline-block;
+          position: relative;
+        }
+        :host([readonly]) .inline-block {
+          background: #f4f4f4;
+        }
+        
+      </style>
+      <div class="isu-label">[[label]]</div>
+      <div id="checkbox-container" class="checkbox-container">
+        <div class="checkboxes">
+           <template is="dom-repeat" items="[[ _items ]]" index-as="index">
+            <div class="inline-block">
+              <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
+                [[ getValueByKey(item, attrForLabel) ]]
+              </paper-checkbox>
+              <template is="dom-if" if="[[readonly]]">
+                <div id$="readonly[[index]]" class="readonly-shade"></div>
+              </template>
+              
+            </div>
             
-          </div>
-          
-         </template>
+           </template>
+        </div>
+        <!--<div id="readonly" class="readonly-shade">-->
+        <!--</div>-->
+        
+        <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+        <div class="prompt-tip">
+          <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+          [[prompt]]
+        </div>
+        <div class="mask"></div>
       </div>
-      <!--<div id="readonly" class="readonly-shade">-->
-      <!--</div>-->
-      
-      <div class="prompt-tip__container" data-prompt$="[[prompt]]">
-      <div class="prompt-tip">
-        <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
-        [[prompt]]
-      </div>
-      <div class="mask"></div>
-    </div>
-`;
+    `;
   }
 
   static get properties() {
