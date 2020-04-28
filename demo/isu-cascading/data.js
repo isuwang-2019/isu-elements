@@ -227,5 +227,6 @@ const shanghaiData = [{
   value: 'steps',
   label: 'Steps 上海'
 }]
+const hubeiData = null
 
-export {cascadingData, cascadingData2, shanghaiData};
+export {cascadingData, cascadingData2, shanghaiData, hubeiData};

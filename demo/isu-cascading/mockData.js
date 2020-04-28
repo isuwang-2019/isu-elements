@@ -1,4 +1,4 @@
-import {cascadingData, cascadingData2, shanghaiData} from "./data.js";
+import {cascadingData, cascadingData2, shanghaiData, hubeiData} from "./data.js";
 
 MockDataPool.when("POST", "/init.do")
   .withExpectedHeader("content-type", "application/json;charset=utf-8")
@@ -22,4 +22,12 @@ MockDataPool.when("POST", "/init2.do?keyword=shanghai")
   .responseWith({
     status: 200,
     body: JSON.stringify(shanghaiData)
+  });
+
+MockDataPool.when("POST", "/init2.do?keyword=hubei")
+  .withExpectedHeader("content-type", "application/json;charset=utf-8")
+  .withExpectedHeader("Cache-Control", "no-cache")
+  .responseWith({
+    status: 200,
+    body: JSON.stringify(hubeiData)
   });

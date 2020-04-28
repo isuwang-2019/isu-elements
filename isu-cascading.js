@@ -552,8 +552,6 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         if (findIndex >= 0) {
           items = [items[findIndex]].concat(items);
           items.splice(findIndex + 1, 1);
-        } else {
-          this.value ? this._getSelectedForItems() : this.items = items;
         }
         this.items = items;
       })
@@ -622,13 +620,16 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .then(res => res.json())
       .then(data => {
         const treeItems = [].concat(self.treeItems)
-        if (self.value.length) {
+        if (self.value.length && data && data.length > 0) {
           treeItems.push(data)
           self.treeItems = treeItems
         }
         self.hideLoading(element)
       })
-      .catch(console.error);
+      .catch(e => {
+        console.error
+        self.hideLoading(element)
+      });
   }
 
   close() {

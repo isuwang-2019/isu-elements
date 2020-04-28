@@ -71,7 +71,8 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
           border: 1px solid var(--isu-ui-color_skyblue);
         }
         .readonly-shade {
-          min-width: 30px;
+          min-width: 100px;
+          width: 100%;
           height: 34px;
           position: absolute;
           z-index: 999;
