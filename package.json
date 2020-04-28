@@ -1,6 +1,6 @@
 {
   "name": "isu-elements",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Polymer components for building web apps.",
   "repository": {
     "type": "git",
@@ -54,13 +54,14 @@
     "@polymer/paper-dialog": "^3.0.1",
     "@polymer/paper-dialog-behavior": "^3.0.1",
     "@polymer/paper-input": "^3.2.1",
-    "@polymer/paper-tabs": "^3.1.0",
     "@polymer/paper-radio-button": "^3.0.1",
+    "@polymer/paper-tabs": "^3.1.0",
     "@polymer/paper-tooltip": "^3.0.1",
     "@polymer/polymer": "^3.3.1",
     "async-validator": "^3.2.4",
     "babel-polyfill": "^6.26.0",
     "lodash-es": "^4.17.15",
+    "nprogress": "^0.2.0",
     "web-animations-js": "^2.3.2"
   },
   "devDependencies": {

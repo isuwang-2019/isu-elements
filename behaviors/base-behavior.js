@@ -281,6 +281,19 @@ export const BaseBehavior = {
       }
     }, 0);
   },
+
+  showNprogress() {
+    const link = document.createElement('link');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/nprogress@0.2.0/nprogress.css';
+    const script = document.createElement('script')
+    script.src = 'https://unpkg.com/nprogress@0.2.0/nprogress.js'
+    const head = document.getElementsByTagName('head')[0];
+    head.appendChild(script);
+    head.appendChild(link);
+
+  },
   
   throwNotFoundError(string) {
     throw new TypeError(string + " should not be undefined.")

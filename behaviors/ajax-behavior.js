@@ -1,5 +1,6 @@
 import {BaseBehavior} from "./base-behavior";
 /**
+ *  @polymerBehavior
  */
 const AjaxBehaviorImpl = {
   /**
@@ -36,7 +37,7 @@ const AjaxBehaviorImpl = {
    * @param {Function} failCallback - callback whenever query fail
    * @return
    */
-  query(input, succCallback, failCallback) {
+  query(input, succCallback, failCallback, configLoading) {
     let url,
       data = {},
       handleAs = 'json';
@@ -57,7 +58,7 @@ const AjaxBehaviorImpl = {
       url = String(input);
     }
 
-    return this.__get(handleAs, {url, data}, succCallback, failCallback);
+    return this.__get(handleAs, {url, data}, succCallback, failCallback, configLoading);
 
   },
 
@@ -109,7 +110,7 @@ const AjaxBehaviorImpl = {
    * @param {Function} failCallback - callback whenever post fail
    * @return {*}
    */
-  post(input, succCallback, failCallback) {
+  post(input, succCallback, failCallback, configLoading) {
 
     let url,
       data = {},
@@ -133,11 +134,70 @@ const AjaxBehaviorImpl = {
       url = String(input);
     }
 
-    return this.__post(handleAs, {url, data, sendAsJson}, succCallback, failCallback);
+    return this.__post(handleAs, {url, data, sendAsJson}, succCallback, failCallback, configLoading);
+  },
+
+  /**
+   * DELETE 请求
+   *
+   * 例子：
+   *```javascript
+   * 1. 直接传递一个Request 实例
+   *  const req = new Request('/test?foo=1&bar=2', {method: 'GET'});
+   *  this.query(req, console.log );
+   *
+   * 2. 直接传递一个url
+   *  this.delete('/test', console.log);
+   *
+   * 3. 直接传递一个包含url、data内容的对象
+   *  this.query({
+   *       url: '/test',
+   *       data: { foo:1, bar:2 },
+   *       handleAs: 'json'
+   *   }, console.log, console.log );
+   * ```
+   * ******************************************************
+   *
+   * @param {string|Request|Object} input -
+   *      支持3种类型： String|Request|Object
+   *      1. Request实例
+   *      2. string：请求url
+   *      3: Object： 对象结构要求 { url , data, handleAs}
+   *          url：必填项
+   *          data：可选
+   *          handleAs：string, 可选，默认值是"json"， 取值范围: text|json|blob|formData|arrayBuffers
+   *
+   * @param {Function} succCallback - callback whenever query success
+   * @param {Function} failCallback - callback whenever query fail
+   * @return
+   */
+  delete(input, succCallback, failCallback, configLoading) {
+    let url,
+      data = {},
+      handleAs = 'json';
+
+    if (Request.prototype.isPrototypeOf(input)) {
+
+      return this.__fetch(handleAs, input, succCallback, failCallback);
+
+    } else if (Object.prototype.isPrototypeOf(input)) {
+
+      ({
+        url = this.throwNotFoundError("url"),
+        data = {},
+        handleAs = "json"
+      } = input);
+
+    } else {
+      url = String(input);
+    }
+
+    return this.__delete(handleAs, {url, data}, succCallback, failCallback, configLoading);
+
   },
 
 
-  __get(handleAs, {url, data}, succCallback, failCallback) {
+  __get(handleAs, {url, data}, succCallback, failCallback, configLoading) {
 
     const reqUrl = new URL(window.location.origin + url);
     Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]));
@@ -147,10 +207,10 @@ const AjaxBehaviorImpl = {
       credentials: "include"
     });
 
-    return this.__fetch(handleAs, req, succCallback, failCallback);
+    return this.__fetch(handleAs, req, succCallback, failCallback, configLoading);
   },
 
-  __post(handleAs, {url, data, sendAsJson}, succCallback, failCallback) {
+  __post(handleAs, {url, data, sendAsJson}, succCallback, failCallback, configLoading) {
     let body, headers;
     if (sendAsJson) {
       headers = {
@@ -172,13 +232,26 @@ const AjaxBehaviorImpl = {
       body
     });
 
-    return this.__fetch(handleAs, req, succCallback, failCallback);
+    return this.__fetch(handleAs, req, succCallback, failCallback, configLoading);
   },
 
-  __fetch(handleAs, request, succCallback, failCallback) {
-    this.showLoading();
+  __delete(handleAs, {url, data}, succCallback, failCallback, configLoading) {
+
+    const reqUrl = new URL(window.location.origin + url);
+    Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]));
+
+    const req = new Request(reqUrl, {
+      method: "DELETE",
+      credentials: "include"
+    });
+
+    return this.__fetch(handleAs, req, succCallback, failCallback, configLoading);
+  },
+
+  __fetch(handleAs, request, succCallback, failCallback, configLoading = { showLoading: true, type: 'nprogress'}) {
+    this.showLoadingByStatus(configLoading);
     window.fetch(request).then(response => {
-      this.hideLoading();
+      this.hideLoadingByStatus(configLoading);
       if (response.ok) {
         // response content is blank
         if (response.headers.has('Content-length')
@@ -196,8 +269,31 @@ const AjaxBehaviorImpl = {
     }).catch(err => {
       Function.prototype.isPrototypeOf(failCallback) && failCallback(err.message);
       console.error(err);
-      this.hideLoading();
+      this.hideLoadingByStatus(configLoading);
     });
+  },
+
+  /**
+   * 根据参数设置隐藏loading的方式
+   */
+  hideLoadingByStatus: function({showLoading, type}) {
+    if (showLoading && type === 'loading') {
+      this.hideLoading();
+    } else if(showLoading && type === 'nprogress') {
+      NProgress.done()
+    }
+  },
+
+  /**
+   * 根据参数设置显示loading的方式
+   */
+  showLoadingByStatus: function({showLoading, type}) {
+    if (showLoading && type === 'loading') {
+      this.showLoading();
+    } else if(showLoading && type === 'nprogress') {
+      this.showNprogress()
+      NProgress.start()
+    }
   }
 };
 
