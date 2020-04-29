@@ -61,7 +61,6 @@
     "async-validator": "^3.2.4",
     "babel-polyfill": "^6.26.0",
     "lodash-es": "^4.17.15",
-    "nprogress": "^0.2.0",
     "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
