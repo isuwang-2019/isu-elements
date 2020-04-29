@@ -73,35 +73,91 @@
 <body>
     <div class="vertical-section-container centered">
         <h3>h2 isu-paper-tabs demo</h3>
-        <h3>Plain <code>isu-paper-tabs</code>.</h3>
+        <h3>Plain <code>isu-paper-tabs-border-card-type</code>.</h3>
         <demo-snippet>
             <template>
 
-                <isu-paper-tabs selected="ITEM ONE" attr-for-selected="name"
-                               id="iSuPaperTabs" tab-position="right"></isu-paper-tabs>
+                <isu-paper-tabs selected="0" id="iSuPaperTabs1"></isu-paper-tabs>
                 <script>
-                  iSuPaperTabs.tabList = [
-                    {name: 'ITEM ONE',value:0,disabled:false},
-                    {name: 'ITEM TWO',value:1,disabled:false},
-                    {name: 'ITEM Three',value:2,disabled:false},
-                    {name: 'ITEM Four',value:3,disabled:false}
+                  iSuPaperTabs1.tabList = [
+                    {name: 'ITEM ONE',value:0,disabled:false,permission:true},
+                    {name: 'ITEM TWO',value:1,disabled:false,permission:true},
+                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {name: 'ITEM Four',value:3,disabled:false,permission:true}
                   ];
-                  iSuPaperTabs.tabType = 'otherBar'
                 </script>
             </template>
         </demo-snippet>
-        <h3>Plain <code>isu-paper-tabs</code>.</h3>
+        <h3>Plain <code>isu-paper-tabs-position-right</code>.</h3>
         <demo-snippet>
             <template>
 
-                <isu-paper-tabs selected="ITEM ONE" attr-for-selected="name"
-                               id="iSuCardPaperTabs" tab-type="card" tab-position="top"></isu-paper-tabs>
+                <isu-paper-tabs selected="one" attr-for-selected="name"
+                               id="iSuPaperTabsRight" tab-position="right"></isu-paper-tabs>
+                <script>
+                  iSuPaperTabsRight.tabList = [
+                    {name: 'ITEM ONE',value:'one',disabled:false,permission:true},
+                    {name: 'ITEM TWO',value:'two',disabled:false,permission:true},
+                    {name: 'ITEM Three',value:'three',disabled:false,permission:true},
+                    {name: 'ITEM Four',value:'four',disabled:false,permission:true}
+                  ];
+                </script>
+            </template>
+        </demo-snippet>
+        <h3>Plain <code>isu-paper-tabs-position-left</code>.</h3>
+        <demo-snippet>
+            <template>
+
+                <isu-paper-tabs selected="0" id="iSuPaperTabsLeft" tab-position="left"></isu-paper-tabs>
+                <script>
+                  iSuPaperTabsLeft.tabList = [
+                    {name: 'ITEM ONE',value:0,disabled:false,permission:true},
+                    {name: 'ITEM TWO',value:1,disabled:false,permission:true},
+                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {name: 'ITEM Four',value:3,disabled:false,permission:true}
+                  ];
+                </script>
+            </template>
+        </demo-snippet>
+        <h3>Plain <code>isu-paper-tabs-card-type</code>.</h3>
+        <demo-snippet>
+            <template>
+
+                <isu-paper-tabs selected="0" id="iSuCardPaperTabs" tab-type="card"></isu-paper-tabs>
                 <script>
                   iSuCardPaperTabs.tabList = [
-                    {name: 'ITEM ONE',value:0,disabled:false},
-                    {name: 'ITEM TWO',value:1,disabled:false},
-                    {name: 'ITEM Three',value:2,disabled:false},
-                    {name: 'ITEM Four',value:3,disabled:false}
+                    {name: 'ITEM ONE',value:0,disabled:false,permission:false},
+                    {name: 'ITEM TWO',value:1,disabled:false,permission:false},
+                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {name: 'ITEM Four',value:3,disabled:false,permission:true }
+                  ];
+                </script>
+            </template>
+        </demo-snippet>
+        <h3>Plain <code>isu-paper-tabs-border-card-type</code>.</h3>
+        <demo-snippet>
+            <template>
+                <isu-paper-tabs selected="0" id="iSuBorderCardPaperTabs" tab-type="border-card"></isu-paper-tabs>
+                <script>
+                  iSuBorderCardPaperTabs.tabList = [
+                    {name: 'ITEM ONE',value:0,disabled:false,permission:true},
+                    {name: 'ITEM TWO',value:1,disabled:false,permission:true},
+                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {name: 'ITEM Four',value:3,disabled:false,permission:true}
+                  ];
+                </script>
+            </template>
+        </demo-snippet>
+        <h3>Plain <code>isu-paper-tabs-width-bar</code>.</h3>
+        <demo-snippet>
+            <template>
+                <isu-paper-tabs selected="0" id="iSuWidthBarPaperTabs" tab-type="width-bar"></isu-paper-tabs>
+                <script>
+                  iSuWidthBarPaperTabs.tabList = [
+                    {name: 'ITEM ONE',value:0,disabled:false,permission:true},
+                    {name: 'ITEM TWO',value:1,disabled:false,permission:true},
+                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {name: 'ITEM Four',value:3,disabled:false,permission:true}
                   ];
                 </script>
             </template>
