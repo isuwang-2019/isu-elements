@@ -52,6 +52,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       .isu-table th {
         border-bottom-width: 2px;
+        @apply --isu-table-th
       }
       
       .table__head, .table__body {
