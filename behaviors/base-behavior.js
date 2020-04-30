@@ -14,10 +14,10 @@ export const BaseBehavior = {
       const target = args[0];
       return args.slice(1).some(arg => Object.is(arg, target));
     }
-    
+
     return false;
   },
-  
+
   /**
    * 判断两个值是否相等，使用 `Object.is` 判断。
    * @param {*} left
@@ -27,7 +27,7 @@ export const BaseBehavior = {
   isEqual(left, right) {
     return Object.is(left, right);
   },
-  
+
   /**
    * 判断传入参数两两是否全部相等
    * @param args
@@ -39,7 +39,7 @@ export const BaseBehavior = {
     }
     return true;
   },
-  
+
   /**
    * 判断传入参数两两是否存在一对相等
    * @param args
@@ -59,7 +59,7 @@ export const BaseBehavior = {
   isFunction(fn) {
     return Function.prototype.isPrototypeOf(fn);
   },
-  
+
   /**
    * Return the first giving arg which is not ``undefined``, ``null``, ``NaN`` , ``false`` ,``0`` or ``''``.
    *
@@ -76,7 +76,7 @@ export const BaseBehavior = {
     const [first, ...rest] = args;
     return rest.length === 0 ? first : (first || this.orElse(...rest));
   },
-  
+
   /**
    * 通过key查询对象中的值
    * @param {Object} model
@@ -87,7 +87,7 @@ export const BaseBehavior = {
   getValueByKey(model, key, defVal = "") {
     return (model && (key in model)) ? model[key] : defVal;
   },
-  
+
   /**
    * 等价于 model[key1 || key2 || ...]
    * @param {Object} model
@@ -130,7 +130,7 @@ export const BaseBehavior = {
       }
     } catch (e) {
     }
-    
+
     return val;
   },
   /**
@@ -142,7 +142,7 @@ export const BaseBehavior = {
    */
   getValueByPath(model, path = '', defVal) {
     if (!model) return this.resolveJsonValue(defVal);
-    
+
     const splits = path.split('.');
     let copy = model;
     for (let key of splits) {
@@ -151,7 +151,7 @@ export const BaseBehavior = {
     }
     return copy;
   },
-  
+
   /**
    * 通过路径设置对象字段值， 如果路径不存在，会抛出异常
    * @param model
@@ -161,7 +161,7 @@ export const BaseBehavior = {
    */
   setValueByPath(model, path, value) {
     const paths = String(path).split(".");
-    
+
     let tmp = model, ctx, key;
     for (key of paths) {
       if (key in tmp) {
@@ -172,10 +172,10 @@ export const BaseBehavior = {
       }
     }
     ctx[key] = value;
-    
+
     return model;
   },
-  
+
   /**
    * 根据路径生成对象，如 path='a.b' 返回 {a: {b: {}}}, 如果指定了target, 会在target上生成不存在的key
    * @param path
@@ -183,17 +183,17 @@ export const BaseBehavior = {
    */
   mkObject(path = '', target = {}) {
     const paths = String(path).split(".");
-    
+
     if (String(path).length > 0) {
       paths.reduce((res, p) => {
         if (!(p in res && typeof res[p] === 'object')) res[p] = {};
         return res[p];
       }, target);
     }
-    
+
     return target;
   },
-  
+
   /**
    * To boolean.
    * @param {*} val
@@ -201,8 +201,8 @@ export const BaseBehavior = {
   toBoolean(val) {
     return !!val;
   },
-  
-  
+
+
   /**
    * check if there's a truthy in the giving args
    * @param {*} val
@@ -210,7 +210,7 @@ export const BaseBehavior = {
   isExistTruthy(...args) {
     return args.some(arg => !!arg)
   },
-  
+
   /**
    * Check if an array is empty.
    * @param arr
@@ -242,7 +242,7 @@ export const BaseBehavior = {
         return '';
     }
   },
-  
+
   toggleClass(target, className) {
     if (target instanceof Element) {
       if (target.classList.contains(className)) {
@@ -252,7 +252,7 @@ export const BaseBehavior = {
       }
     }
   },
-  
+
   /**
    * 添加loading
    */
@@ -282,6 +282,9 @@ export const BaseBehavior = {
     }, 0);
   },
 
+  /**
+   * 添加Nprogress， loading的另一种表现形式
+   */
   showNprogress() {
     const link = document.createElement('link');
     link.type = 'text/css';
@@ -292,21 +295,30 @@ export const BaseBehavior = {
     const head = document.getElementsByTagName('head')[0];
     head.appendChild(script);
     head.appendChild(link);
-
+    this.async(this.startNprogress, 0)
   },
-  
+  startNprogress() {
+    NProgress.start()
+  },
+  /**
+   * 消除Nprogress
+   */
+  hideNprogress() {
+    NProgress.done()
+  },
+
   throwNotFoundError(string) {
     throw new TypeError(string + " should not be undefined.")
   },
-  
+
   deepClone(obj) {
     return obj == null || typeof (obj) !== "object" ? obj : JSON.parse(JSON.stringify(obj));
   },
-  
+
   optional(bool, trueReturn, falseReturn = '') {
     return bool ? trueReturn : falseReturn;
   },
-  
+
   /**
    * 用法：
    * this.groupBy(array, 'a', 'nogroup');
@@ -335,7 +347,7 @@ export const BaseBehavior = {
       return res;
     }, {});
   },
-  
+
   /**
    * this.partition([1,2,3], item => item > 2);  返回 [[3], [1, 2]]
    * this.partition([{a: 1}, {a: 2}],  {a: 1});  返回 [[{a: 1}], [{a: 2}]]
@@ -357,7 +369,7 @@ export const BaseBehavior = {
     } else {
       throw new TypeError(`Unsupported predicate type ${typeof predicate}`)
     }
-    
+
     return array.reduce((res, item) => {
       if (_predicate.call(this, item)) {
         res[0].push(item);

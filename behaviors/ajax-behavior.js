@@ -33,11 +33,14 @@ const AjaxBehaviorImpl = {
    *          data：可选
    *          handleAs：string, 可选，默认值是"json"， 取值范围: text|json|blob|formData|arrayBuffers
    *
-   * @param {Function} succCallback - callback whenever query success
-   * @param {Function} failCallback - callback whenever query fail
-   * @return
+   *
+   * @param input
+   * @param succCallback
+   * @param failCallback
+   * @param loadConfig
+   * @returns {*}
    */
-  query(input, succCallback, failCallback, configLoading) {
+  query(input, succCallback, failCallback, loadConfig = { showLoading: true, type: 'loading'}) {
     let url,
       data = {},
       handleAs = 'json';
@@ -58,7 +61,7 @@ const AjaxBehaviorImpl = {
       url = String(input);
     }
 
-    return this.__get(handleAs, {url, data}, succCallback, failCallback, configLoading);
+    return this.__get(handleAs, {url, data}, succCallback, failCallback, loadConfig);
 
   },
 
@@ -108,9 +111,10 @@ const AjaxBehaviorImpl = {
    *
    * @param {Function} succCallback - callback whenever post success
    * @param {Function} failCallback - callback whenever post fail
+   * @param loadConfig
    * @return {*}
    */
-  post(input, succCallback, failCallback, configLoading) {
+  post(input, succCallback, failCallback, loadConfig = { showLoading: true, type: 'loading'}) {
 
     let url,
       data = {},
@@ -134,7 +138,7 @@ const AjaxBehaviorImpl = {
       url = String(input);
     }
 
-    return this.__post(handleAs, {url, data, sendAsJson}, succCallback, failCallback, configLoading);
+    return this.__post(handleAs, {url, data, sendAsJson}, succCallback, failCallback, loadConfig);
   },
 
   /**
@@ -169,9 +173,10 @@ const AjaxBehaviorImpl = {
    *
    * @param {Function} succCallback - callback whenever query success
    * @param {Function} failCallback - callback whenever query fail
+   * @param loadConfig
    * @return
    */
-  delete(input, succCallback, failCallback, configLoading) {
+  delete(input, succCallback, failCallback, loadConfig = { showLoading: true, type: 'loading'}) {
     let url,
       data = {},
       handleAs = 'json';
@@ -192,12 +197,12 @@ const AjaxBehaviorImpl = {
       url = String(input);
     }
 
-    return this.__delete(handleAs, {url, data}, succCallback, failCallback, configLoading);
+    return this.__delete(handleAs, {url, data}, succCallback, failCallback, loadConfig);
 
   },
 
 
-  __get(handleAs, {url, data}, succCallback, failCallback, configLoading) {
+  __get(handleAs, {url, data}, succCallback, failCallback, loadConfig) {
 
     const reqUrl = new URL(window.location.origin + url);
     Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]));
@@ -207,10 +212,10 @@ const AjaxBehaviorImpl = {
       credentials: "include"
     });
 
-    return this.__fetch(handleAs, req, succCallback, failCallback, configLoading);
+    return this.__fetch(handleAs, req, succCallback, failCallback, loadConfig);
   },
 
-  __post(handleAs, {url, data, sendAsJson}, succCallback, failCallback, configLoading) {
+  __post(handleAs, {url, data, sendAsJson}, succCallback, failCallback, loadConfig) {
     let body, headers;
     if (sendAsJson) {
       headers = {
@@ -232,10 +237,10 @@ const AjaxBehaviorImpl = {
       body
     });
 
-    return this.__fetch(handleAs, req, succCallback, failCallback, configLoading);
+    return this.__fetch(handleAs, req, succCallback, failCallback, loadConfig);
   },
 
-  __delete(handleAs, {url, data}, succCallback, failCallback, configLoading) {
+  __delete(handleAs, {url, data}, succCallback, failCallback, loadConfig) {
 
     const reqUrl = new URL(window.location.origin + url);
     Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]));
@@ -245,17 +250,30 @@ const AjaxBehaviorImpl = {
       credentials: "include"
     });
 
-    return this.__fetch(handleAs, req, succCallback, failCallback, configLoading);
+    return this.__fetch(handleAs, req, succCallback, failCallback, loadConfig);
   },
 
-  __fetch(handleAs, request, succCallback, failCallback, configLoading = { showLoading: true, type: 'nprogress'}) {
-    this.showLoadingByStatus(configLoading);
+  /**
+   *
+   * loadConfig = { showLoading: true, type: 'nprogress' }
+   * 参数介绍： showLoading @type {boolean} @default false
+   *           type @type string @default `loading` , value: `loading`|`nprogress`, if value !== `nprogress`, value === `loading`
+   *
+   * @param handleAs
+   * @param request
+   * @param succCallback
+   * @param failCallback
+   * @param loadConfig => default: { showLoading: true, type: 'loading' }
+   * @private
+   */
+  __fetch(handleAs, request, succCallback, failCallback, loadConfig = { showLoading: true, type: 'loading'}) {
+    this.showLoadingByStatus(loadConfig);
     window.fetch(request).then(response => {
-      this.hideLoadingByStatus(configLoading);
+      this.hideLoadingByStatus(loadConfig);
       if (response.ok) {
         // response content is blank
         if (response.headers.has('Content-length')
-          && response.headers.get('Content-length') == 0) {
+          && response.headers.get('Content-length') === 0) {
 
           succCallback && succCallback();
         } else {
@@ -269,7 +287,7 @@ const AjaxBehaviorImpl = {
     }).catch(err => {
       Function.prototype.isPrototypeOf(failCallback) && failCallback(err.message);
       console.error(err);
-      this.hideLoadingByStatus(configLoading);
+      this.hideLoadingByStatus(loadConfig);
     });
   },
 
@@ -277,10 +295,17 @@ const AjaxBehaviorImpl = {
    * 根据参数设置隐藏loading的方式
    */
   hideLoadingByStatus: function({showLoading, type}) {
-    if (showLoading && type === 'loading') {
-      this.hideLoading();
-    } else if(showLoading && type === 'nprogress') {
-      NProgress.done()
+    if(!showLoading) return
+    switch (type) {
+      case 'loading':
+        this.hideLoading();
+        break;
+      case 'nprogress':
+        this.hideNprogress();
+        break;
+      default:
+        this.hideLoading();
+        break;
     }
   },
 
@@ -288,11 +313,17 @@ const AjaxBehaviorImpl = {
    * 根据参数设置显示loading的方式
    */
   showLoadingByStatus: function({showLoading, type}) {
-    if (showLoading && type === 'loading') {
-      this.showLoading();
-    } else if(showLoading && type === 'nprogress') {
-      this.showNprogress()
-      NProgress.start()
+    if(!showLoading) return
+    switch (type) {
+      case 'loading':
+        this.showLoading();
+        break;
+      case 'nprogress':
+        this.showNprogress()
+        break;
+      default:
+        this.showLoading();
+        break;
     }
   }
 };
