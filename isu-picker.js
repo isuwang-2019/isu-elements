@@ -196,6 +196,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   
         .collapse-table__cell {
           white-space: nowrap;
+          text-align: center;
           padding: 6px 10px;
           line-height: 1.42857143;
           border-bottom: 1px solid #ddd;
@@ -596,6 +597,15 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: ''
       },
+      /**
+       * The mode of the request, eg: POST/GET
+       * @type String
+       * @default ''
+       */
+      method: {
+        type: String,
+        value: 'GET'
+      },
     };
   }
 
@@ -647,6 +657,17 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _mkRequest(data) {
+    if (this.method === 'GET') {
+      return {
+        url: this.src,
+        method: "GET",
+        headers: {
+          "Cache-Control": "no-cache"
+        },
+        credentials: "include",
+        body: JSON.stringify(data)
+      }
+    }
     return {
       url: this.src,
       method: "POST",

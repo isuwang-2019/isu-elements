@@ -170,9 +170,26 @@ export class IsuFetch extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __getCorrectedRequest(request) {
+    if (request.method === 'GET') {
+      request.url = request.url + this.__formatUrlData(request.url, JSON.parse((request.body || '{}')))
+      delete request.body
+    }
     const req = Request.prototype.isPrototypeOf(request) ? request : new Request(request.url, request);
     //TODO set default value to req
     return req;
+  }
+
+  __formatUrlData(url, data) {
+    let paramStr = ''
+    const dataKeys = Object.keys(data)
+    const dataValues = Object.values(data)
+    if (dataKeys.length > 0) {
+      paramStr += url.indexOf('?') === -1 ? '?' : ''
+      dataKeys.forEach((key, index) => {
+        paramStr += `&${key}=${dataValues[index]}`
+      })
+    }
+    return paramStr
   }
 
   __requestChange(request) {
