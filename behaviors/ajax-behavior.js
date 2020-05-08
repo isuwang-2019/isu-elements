@@ -1,4 +1,5 @@
 import {BaseBehavior} from "./base-behavior";
+import {TipBehavior} from "./tip-behavior"
 /**
  *  @polymerBehavior
  */
@@ -10,17 +11,17 @@ const AjaxBehaviorImpl = {
    *```javascript
    * 1. 直接传递一个Request 实例
    *  const req = new Request('/test?foo=1&bar=2', {method: 'GET'});
-   *  this.query(req, console.log );
+   *  this.query(req).then(() => console.log());
    *
    * 2. 直接传递一个url
-   *  this.query('/test', console.log);
+   *  this.query('/test').then(() => console.log());
    *
    * 3. 直接传递一个包含url、data内容的对象
    *  this.query({
    *       url: '/test',
    *       data: { foo:1, bar:2 },
    *       handleAs: 'json'
-   *   }, console.log, console.log );
+   *   }).then(() => console.log());
    * ```
    * ******************************************************
    *
@@ -35,19 +36,17 @@ const AjaxBehaviorImpl = {
    *
    *
    * @param input
-   * @param succCallback
-   * @param failCallback
-   * @param loadConfig
+   * @param loadConfig => default: { showLoading: true, type: 'loading' }
    * @returns {*}
    */
-  query(input, succCallback, failCallback, loadConfig = { showLoading: true, type: 'loading'}) {
+  query(input, loadConfig = { showLoading: true, type: 'loading'}) {
     let url,
       data = {},
       handleAs = 'json';
 
     if (Request.prototype.isPrototypeOf(input)) {
 
-      return this.__fetch(handleAs, input, succCallback, failCallback);
+      return this.__fetch(handleAs, input, loadConfig);
 
     } else if (Object.prototype.isPrototypeOf(input)) {
 
@@ -61,7 +60,7 @@ const AjaxBehaviorImpl = {
       url = String(input);
     }
 
-    return this.__get(handleAs, {url, data}, succCallback, failCallback, loadConfig);
+    return this.__get(handleAs, {url, data}, loadConfig);
 
   },
 
@@ -71,16 +70,16 @@ const AjaxBehaviorImpl = {
    * ```javascript
    * 1. 直接传递一个Request 实例
    *  const req = new Request('/test?foo=1&bar=2', {method: 'POST'});
-   *  this.post(req, console.log );
+   *  this.post(req).then(() => console.log());
    *
    * 2. 直接传递一个url
-   *  this.post('/test', console.log);
+   *  this.post('/test').then(() => console.log());
    *
    * 3. 直接传递一个包含url、data内容的对象
    *  this.post({
    *       url: '/test',
    *       data: { foo:1, bar:2 }
-   *   }, console.log, console.log );
+   *   }).then(() => console.log());
    *
    *  4. 上传文件
    *  const formData = new FormData();
@@ -88,14 +87,14 @@ const AjaxBehaviorImpl = {
    *  this.post({
    *      url: '/upload',
    *      data: formData
-   *  }, console.log, console.log );
+   *  }).then(() => console.log());
    *
    *  5. 发送json格式的数据
    *  this.post({
    *      url: '/upload',
    *      data: {foo:1,bar:2},
    *      sendAsJson: true
-   *  }, console.log, console.log );
+   *  }).then(() => console.log());
    * ```
    * ******************************************************
    *
@@ -109,12 +108,10 @@ const AjaxBehaviorImpl = {
    *          handleAs：string, 可选，默认值是"json"， 取值范围: text|json|blob|formData|arrayBuffer
    *          sendAsJson：boolean 可选，默认值是false
    *
-   * @param {Function} succCallback - callback whenever post success
-   * @param {Function} failCallback - callback whenever post fail
    * @param loadConfig
    * @return {*}
    */
-  post(input, succCallback, failCallback, loadConfig = { showLoading: true, type: 'loading'}) {
+  post(input, loadConfig = { showLoading: true, type: 'loading'}) {
 
     let url,
       data = {},
@@ -123,7 +120,7 @@ const AjaxBehaviorImpl = {
 
     if (Request.prototype.isPrototypeOf(input)) {
 
-      return this.__fetch(handleAs, input, succCallback, failCallback);
+      return this.__fetch(handleAs, input, loadConfig);
 
     } else if (Object.prototype.isPrototypeOf(input)) {
 
@@ -138,7 +135,7 @@ const AjaxBehaviorImpl = {
       url = String(input);
     }
 
-    return this.__post(handleAs, {url, data, sendAsJson}, succCallback, failCallback, loadConfig);
+    return this.__post(handleAs, {url, data, sendAsJson}, loadConfig);
   },
 
   /**
@@ -148,17 +145,17 @@ const AjaxBehaviorImpl = {
    *```javascript
    * 1. 直接传递一个Request 实例
    *  const req = new Request('/test?foo=1&bar=2', {method: 'GET'});
-   *  this.query(req, console.log );
+   *  this.delete(req).then(() => console.log());
    *
    * 2. 直接传递一个url
-   *  this.delete('/test', console.log);
+   *  this.delete('/test').then(() => console.log());
    *
    * 3. 直接传递一个包含url、data内容的对象
-   *  this.query({
+   *  this.delete({
    *       url: '/test',
    *       data: { foo:1, bar:2 },
    *       handleAs: 'json'
-   *   }, console.log, console.log );
+   *   }).then(() => console.log());
    * ```
    * ******************************************************
    *
@@ -171,19 +168,17 @@ const AjaxBehaviorImpl = {
    *          data：可选
    *          handleAs：string, 可选，默认值是"json"， 取值范围: text|json|blob|formData|arrayBuffers
    *
-   * @param {Function} succCallback - callback whenever query success
-   * @param {Function} failCallback - callback whenever query fail
-   * @param loadConfig
+   * @param loadConfig => default: { showLoading: true, type: 'loading' }
    * @return
    */
-  delete(input, succCallback, failCallback, loadConfig = { showLoading: true, type: 'loading'}) {
+  delete(input, loadConfig = { showLoading: true, type: 'loading'}) {
     let url,
       data = {},
       handleAs = 'json';
 
     if (Request.prototype.isPrototypeOf(input)) {
 
-      return this.__fetch(handleAs, input, succCallback, failCallback);
+      return this.__fetch(handleAs, input, loadConfig);
 
     } else if (Object.prototype.isPrototypeOf(input)) {
 
@@ -197,12 +192,12 @@ const AjaxBehaviorImpl = {
       url = String(input);
     }
 
-    return this.__delete(handleAs, {url, data}, succCallback, failCallback, loadConfig);
+    return this.__delete(handleAs, {url, data}, loadConfig);
 
   },
 
 
-  __get(handleAs, {url, data}, succCallback, failCallback, loadConfig) {
+  __get(handleAs, {url, data}, loadConfig) {
 
     const reqUrl = new URL(window.location.origin + url);
     Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]));
@@ -212,10 +207,10 @@ const AjaxBehaviorImpl = {
       credentials: "include"
     });
 
-    return this.__fetch(handleAs, req, succCallback, failCallback, loadConfig);
+    return this.__fetch(handleAs, req, loadConfig);
   },
 
-  __post(handleAs, {url, data, sendAsJson}, succCallback, failCallback, loadConfig) {
+  __post(handleAs, {url, data, sendAsJson}, loadConfig) {
     let body, headers;
     if (sendAsJson) {
       headers = {
@@ -237,10 +232,10 @@ const AjaxBehaviorImpl = {
       body
     });
 
-    return this.__fetch(handleAs, req, succCallback, failCallback, loadConfig);
+    return this.__fetch(handleAs, req, loadConfig);
   },
 
-  __delete(handleAs, {url, data}, succCallback, failCallback, loadConfig) {
+  __delete(handleAs, {url, data}, loadConfig) {
 
     const reqUrl = new URL(window.location.origin + url);
     Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]));
@@ -250,7 +245,7 @@ const AjaxBehaviorImpl = {
       credentials: "include"
     });
 
-    return this.__fetch(handleAs, req, succCallback, failCallback, loadConfig);
+    return this.__fetch(handleAs, req, loadConfig);
   },
 
   /**
@@ -261,34 +256,32 @@ const AjaxBehaviorImpl = {
    *
    * @param handleAs
    * @param request
-   * @param succCallback
-   * @param failCallback
    * @param loadConfig => default: { showLoading: true, type: 'loading' }
    * @private
    */
-  __fetch(handleAs, request, succCallback, failCallback, loadConfig = { showLoading: true, type: 'loading'}) {
-    this.showLoadingByStatus(loadConfig);
-    window.fetch(request).then(response => {
+  async __fetch(handleAs, request, loadConfig = {showLoading: true, type: 'loading'}) {
+    try {
+      this.showLoadingByStatus(loadConfig);
+      const response = await window.fetch(request)
       this.hideLoadingByStatus(loadConfig);
-      if (response.ok) {
-        // response content is blank
+      if(response.ok) {
         if (response.headers.has('Content-length')
-          && response.headers.get('Content-length') === 0) {
-
-          succCallback && succCallback();
+          && Number(response.headers.get('Content-length')) === 0) {
+          return Promise.resolve()
         } else {
-          response[handleAs]().then(succCallback);
+          return response[handleAs]();
         }
-
       } else {
-        response.text().then(failCallback);
+        const err = await response.text()
+        this.isuTip.error(err)
+        throw err;
       }
-
-    }).catch(err => {
-      Function.prototype.isPrototypeOf(failCallback) && failCallback(err.message);
-      console.error(err);
+    }catch (e) {
       this.hideLoadingByStatus(loadConfig);
-    });
+      this.isuTip.error(e)
+      return await Promise.reject(e)
+    }
+
   },
 
   /**
@@ -328,4 +321,4 @@ const AjaxBehaviorImpl = {
   }
 };
 
-export const AjaxBehavior = [BaseBehavior, AjaxBehaviorImpl];
+export const AjaxBehavior = [BaseBehavior, TipBehavior, AjaxBehaviorImpl];
