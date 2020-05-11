@@ -5,13 +5,18 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
   <title>isu-dialog demo</title>
-  
+
+  <script type="text/javascript" src="../../utils/mock_setup.js"></script>
   <script type="application/javascript" src="../../node_modules/web-animations-js/web-animations-next.min.js"></script>
   <script type="module">
     import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
     import '../../isu-dialog';
+    import '../../isu-picker';
+    if (!window.location.href.endsWith("?mock=mockData.js")) {
+      window.location.href = window.location.href + "?mock=mockData.js";
+    }
   </script>
   
 
@@ -36,92 +41,239 @@ document.body.appendChild($_documentContainer.content);
 </script>
 </head>
 <body>
+<!--<div class="vertical-section-container centered">-->
+  <!--<h3>Basic isu-dialog demo</h3>-->
+  <!--<demo-snippet>-->
+    <!--<template>-->
+      <!--<style is="custom-style">-->
+        <!--div[slot=container] {-->
+          <!--font-size: 20px;-->
+        <!--}-->
+
+        <!--#dialog {-->
+          <!--&#45;&#45;isu-dialog-width: 400px;-->
+          <!--&#45;&#45;isu-dialog-height: 80px;-->
+        <!--}-->
+      <!--</style>-->
+      <!--<isu-dialog id="dialog" stop-auto-dismiss top="12" left="30">-->
+        <!--<div>-->
+          <!--Put your Content here inside an element which with-->
+        <!--</div>-->
+      <!--</isu-dialog>-->
+      <!--<button id="btn">Click to open the Dialog</button>-->
+      <!--<script>-->
+        <!--btn.onclick = () => dialog.open();-->
+      <!--</script>-->
+      <!---->
+    <!--</template>-->
+  <!--</demo-snippet>-->
+<!--</div>-->
+
+<!--<div class="vertical-section-container centered">-->
+  <!--<h3>禁用点击弹窗外部关闭</h3>-->
+  <!--<demo-snippet>-->
+    <!--<template>-->
+      <!--<style is="custom-style">-->
+        <!--div[slot=container] {-->
+          <!--font-size: 20px;-->
+        <!--}-->
+        <!---->
+        <!--#dialog1 {-->
+          <!--&#45;&#45;isu-dialog-width: 400px;-->
+          <!--&#45;&#45;isu-dialog-height: 100px;-->
+        <!--}-->
+      <!--</style>-->
+      <!--<isu-dialog id="dialog1" stop-auto-dismiss no-cancel-on-outside-click>-->
+        <!--<div>-->
+          <!--Put your Content here inside an element which with-->
+        <!--</div>-->
+      <!--</isu-dialog>-->
+      <!--<button id="btn1">Click to open the Dialog</button>-->
+      <!--<script>-->
+        <!--btn1.onclick = () => dialog1.open();-->
+      <!--</script>-->
+    <!---->
+    <!--</template>-->
+  <!--</demo-snippet>-->
+<!--</div>-->
+
+<!--<div class="vertical-section-container centered">-->
+  <!--<h3>打开弹框时禁止body滚动</h3>-->
+  <!--<demo-snippet>-->
+    <!--<template>-->
+      <!--<style is="custom-style">-->
+        <!--div[slot=container] {-->
+          <!--font-size: 20px;-->
+        <!--}-->
+
+        <!--#dialog1 {-->
+          <!--&#45;&#45;isu-dialog-width: 400px;-->
+          <!--&#45;&#45;isu-dialog-height: 100px;-->
+        <!--}-->
+      <!--</style>-->
+      <!--<isu-dialog id="dialogLock" stop-auto-dismiss no-cancel-on-outside-click lock-scroll>-->
+        <!--<div>-->
+          <!--Put your Content here inside an element which with-->
+        <!--</div>-->
+      <!--</isu-dialog>-->
+      <!--<button id="lockScroll">Click to open the Dialog</button>-->
+      <!--<script>-->
+        <!--lockScroll.onclick = () => dialogLock.open();-->
+      <!--</script>-->
+
+    <!--</template>-->
+  <!--</demo-snippet>-->
+<!--</div>-->
+
+<!--<div class="vertical-section-container centered">-->
+  <!--<h3>模态弹窗</h3>-->
+  <!--<demo-snippet>-->
+    <!--<template>-->
+      <!--<style is="custom-style">-->
+        <!--p {-->
+          <!--margin: 0 0 10px;-->
+          <!--font-size: 14px;-->
+        <!--}-->
+      <!--</style>-->
+      <!--<isu-dialog id="dialog2" stop-auto-dismiss title="Dialog demo" modal>-->
+        <!--<div>-->
+          <!--<p>It was all very well to say 'Drink me,' but the wise little-->
+            <!--Alice was not going to do <i>that</i> in a hurry. 'No, I'll look-->
+            <!--first,' she said, 'and see whether it's marked "<i>poison</i>" or-->
+            <!--not'; for she had read several nice little histories about-->
+            <!--children who had got burnt, and eaten up by wild beasts and other-->
+            <!--unpleasant things, all because they <i>would</i> not remember the-->
+            <!--simple rules their friends had taught them: such as, that a-->
+            <!--red-hot poker will burn you if you hold it too long; and that if-->
+            <!--you cut your finger <i>very</i> deeply with a knife, it usually-->
+            <!--bleeds; and she had never forgotten that, if you drink much from-->
+            <!--a bottle marked '<i>poison</i>,' it is almost certain to disagree-->
+            <!--with you, sooner or later.</p>-->
+          <!--<p>It was all very well to say 'Drink me,' but the wise little-->
+            <!--Alice was not going to do <i>that</i> in a hurry. 'No, I'll look-->
+            <!--first,' she said, 'and see whether it's marked "<i>poison</i>" or-->
+            <!--not'; for she had read several nice little histories about-->
+            <!--children who had got burnt, and eaten up by wild beasts and other-->
+            <!--unpleasant things, all because they <i>would</i> not remember the-->
+            <!--simple rules their friends had taught them: such as, that a-->
+            <!--red-hot poker will burn you if you hold it too long; and that if-->
+            <!--you cut your finger <i>very</i> deeply with a knife, it usually-->
+            <!--bleeds; and she had never forgotten that, if you drink much from-->
+            <!--a bottle marked '<i>poison</i>,' it is almost certain to disagree-->
+            <!--with you, sooner or later.</p>-->
+          <!--<p>It was all very well to say 'Drink me,' but the wise little-->
+            <!--Alice was not going to do <i>that</i> in a hurry. 'No, I'll look-->
+            <!--first,' she said, 'and see whether it's marked "<i>poison</i>" or-->
+            <!--not'; for she had read several nice little histories about-->
+            <!--children who had got burnt, and eaten up by wild beasts and other-->
+            <!--unpleasant things, all because they <i>would</i> not remember the-->
+            <!--simple rules their friends had taught them: such as, that a-->
+            <!--red-hot poker will burn you if you hold it too long; and that if-->
+            <!--you cut your finger <i>very</i> deeply with a knife, it usually-->
+            <!--bleeds; and she had never forgotten that, if you drink much from-->
+            <!--a bottle marked '<i>poison</i>,' it is almost certain to disagree-->
+            <!--with you, sooner or later.</p>-->
+          <!--<p>It was all very well to say 'Drink me,' but the wise little-->
+            <!--Alice was not going to do <i>that</i> in a hurry. 'No, I'll look-->
+            <!--first,' she said, 'and see whether it's marked "<i>poison</i>" or-->
+            <!--not'; for she had read several nice little histories about-->
+            <!--children who had got burnt, and eaten up by wild beasts and other-->
+            <!--unpleasant things, all because they <i>would</i> not remember the-->
+            <!--simple rules their friends had taught them: such as, that a-->
+            <!--red-hot poker will burn you if you hold it too long; and that if-->
+            <!--you cut your finger <i>very</i> deeply with a knife, it usually-->
+            <!--bleeds; and she had never forgotten that, if you drink much from-->
+            <!--a bottle marked '<i>poison</i>,' it is almost certain to disagree-->
+            <!--with you, sooner or later.</p>-->
+        <!--</div>-->
+      <!--</isu-dialog>-->
+      <!--<button id="btn2" onclick="dialog2.open();">Click to open the Dialog</button>-->
+
+    <!--</template>-->
+  <!--</demo-snippet>-->
+<!--</div>-->
+
+<!--<div class="vertical-section-container centered">-->
+  <!--<h3>弹窗里面又有弹窗</h3>-->
+  <!--<demo-snippet>-->
+    <!--<template>-->
+      <!--<style is="custom-style">-->
+        <!--p {-->
+          <!--margin: 0 0 10px;-->
+          <!--font-size: 14px;-->
+        <!--}-->
+        <!--#dialog3 {-->
+          <!--&#45;&#45;isu-dialog-width: 300px;-->
+          <!--&#45;&#45;isu-dialog-height: 400px;-->
+        <!--}-->
+        <!--#dialog4 {-->
+          <!--&#45;&#45;isu-dialog-width: 500px;-->
+          <!--&#45;&#45;isu-dialog-height: 600px;-->
+        <!--}-->
+      <!--</style>-->
+      <!--<isu-dialog id="dialog3" stop-auto-dismiss title="Dialog demo" modal>-->
+        <!--<div>-->
+          <!--<p>It was all very well to say 'Drink me,' but the wise little-->
+            <!--Alice was not going to do <i>that</i> in a hurry. 'No, I'll look-->
+            <!--first,' she said, 'and see whether it's marked "<i>poison</i>" or-->
+            <!--not'; for she had read several nice little histories about-->
+            <!--children who had got burnt, and eaten up by wild beasts and other-->
+            <!--unpleasant things, all because they <i>would</i> not remember the-->
+            <!--simple rules their friends had taught them: such as, that a-->
+            <!--red-hot poker will burn you if you hold it too long; and that if-->
+            <!--you cut your finger <i>very</i> deeply with a knife, it usually-->
+            <!--bleeds; and she had never forgotten that, if you drink much from-->
+            <!--a bottle marked '<i>poison</i>,' it is almost certain to disagree-->
+            <!--with you, sooner or later.</p>-->
+          <!--<button id="btn4" onclick="dialog4.open();">Click to open the Sub Dialog</button>-->
+          <!--<isu-dialog id="dialog4" stop-auto-dismiss title="Dialog demo" modal>-->
+            <!--<p>It was all very well to say 'Drink me,' but the wise little-->
+              <!--Alice was not going to do <i>that</i> in a hurry. 'No, I'll look-->
+              <!--first,' she said, 'and see whether it's marked "<i>poison</i>" or-->
+              <!--not'; for she had read several nice little histories about-->
+              <!--children who had got burnt, and eaten up by wild beasts and other-->
+              <!--unpleasant things, all because they <i>would</i> not remember the-->
+              <!--simple rules their friends had taught them: such as, that a-->
+              <!--red-hot poker will burn you if you hold it too long; and that if-->
+              <!--you cut your finger <i>very</i> deeply with a knife, it usually-->
+              <!--bleeds; and she had never forgotten that, if you drink much from-->
+              <!--a bottle marked '<i>poison</i>,' it is almost certain to disagree-->
+              <!--with you, sooner or later.</p>-->
+            <!--<p>It was all very well to say 'Drink me,' but the wise little-->
+              <!--Alice was not going to do <i>that</i> in a hurry. 'No, I'll look-->
+              <!--first,' she said, 'and see whether it's marked "<i>poison</i>" or-->
+              <!--not'; for she had read several nice little histories about-->
+              <!--children who had got burnt, and eaten up by wild beasts and other-->
+              <!--unpleasant things, all because they <i>would</i> not remember the-->
+              <!--simple rules their friends had taught them: such as, that a-->
+              <!--red-hot poker will burn you if you hold it too long; and that if-->
+              <!--you cut your finger <i>very</i> deeply with a knife, it usually-->
+              <!--bleeds; and she had never forgotten that, if you drink much from-->
+              <!--a bottle marked '<i>poison</i>,' it is almost certain to disagree-->
+              <!--with you, sooner or later.</p>-->
+            <!--<p>It was all very well to say 'Drink me,' but the wise little-->
+              <!--Alice was not going to do <i>that</i> in a hurry. 'No, I'll look-->
+              <!--first,' she said, 'and see whether it's marked "<i>poison</i>" or-->
+              <!--not'; for she had read several nice little histories about-->
+              <!--children who had got burnt, and eaten up by wild beasts and other-->
+              <!--unpleasant things, all because they <i>would</i> not remember the-->
+              <!--simple rules their friends had taught them: such as, that a-->
+              <!--red-hot poker will burn you if you hold it too long; and that if-->
+              <!--you cut your finger <i>very</i> deeply with a knife, it usually-->
+              <!--bleeds; and she had never forgotten that, if you drink much from-->
+              <!--a bottle marked '<i>poison</i>,' it is almost certain to disagree-->
+              <!--with you, sooner or later.</p>-->
+          <!--</isu-dialog>-->
+        <!--</div>-->
+      <!--</isu-dialog>-->
+      <!--<button id="btn3" onclick="dialog3.open();">Click to open the Dialog</button>-->
+
+    <!--</template>-->
+  <!--</demo-snippet>-->
+<!--</div>-->
+
 <div class="vertical-section-container centered">
-  <h3>Basic isu-dialog demo</h3>
-  <demo-snippet>
-    <template>
-      <style is="custom-style">
-        div[slot=container] {
-          font-size: 20px;
-        }
-
-        #dialog {
-          --isu-dialog-width: 400px;
-          --isu-dialog-height: 80px;
-        }
-      </style>
-      <isu-dialog id="dialog" stop-auto-dismiss top="12" left="30">
-        <div>
-          Put your Content here inside an element which with
-        </div>
-      </isu-dialog>
-      <button id="btn">Click to open the Dialog</button>
-      <script>
-        btn.onclick = () => dialog.open();
-      </script>
-      
-    </template>
-  </demo-snippet>
-</div>
-
-<div class="vertical-section-container centered">
-  <h3>禁用点击弹窗外部关闭</h3>
-  <demo-snippet>
-    <template>
-      <style is="custom-style">
-        div[slot=container] {
-          font-size: 20px;
-        }
-        
-        #dialog1 {
-          --isu-dialog-width: 400px;
-          --isu-dialog-height: 100px;
-        }
-      </style>
-      <isu-dialog id="dialog1" stop-auto-dismiss no-cancel-on-outside-click>
-        <div>
-          Put your Content here inside an element which with
-        </div>
-      </isu-dialog>
-      <button id="btn1">Click to open the Dialog</button>
-      <script>
-        btn1.onclick = () => dialog1.open();
-      </script>
-    
-    </template>
-  </demo-snippet>
-</div>
-
-<div class="vertical-section-container centered">
-  <h3>打开弹框时禁止body滚动</h3>
-  <demo-snippet>
-    <template>
-      <style is="custom-style">
-        div[slot=container] {
-          font-size: 20px;
-        }
-
-        #dialog1 {
-          --isu-dialog-width: 400px;
-          --isu-dialog-height: 100px;
-        }
-      </style>
-      <isu-dialog id="dialogLock" stop-auto-dismiss no-cancel-on-outside-click lock-scroll>
-        <div>
-          Put your Content here inside an element which with
-        </div>
-      </isu-dialog>
-      <button id="lockScroll">Click to open the Dialog</button>
-      <script>
-        lockScroll.onclick = () => dialogLock.open();
-      </script>
-
-    </template>
-  </demo-snippet>
-</div>
-
-<div class="vertical-section-container centered">
-  <h3>模态弹窗</h3>
+  <h3>弹窗里面有picker组件</h3>
   <demo-snippet>
     <template>
       <style is="custom-style">
@@ -129,60 +281,65 @@ document.body.appendChild($_documentContainer.content);
           margin: 0 0 10px;
           font-size: 14px;
         }
+        #dialog5 {
+          --isu-dialog-width: 600px;
+          --isu-dialog-height: 100%;
+        }
+        isu-picker {
+          --isu-picker-width: {
+            /*width: 500px;*/
+          }
+        }
+        ul {
+          /*display: flex;*/
+          text-decoration: none;
+          display: block;
+        }
+        ul li {
+          text-decoration: none;
+          display: inline-block;
+          float: left;
+        }
       </style>
-      <isu-dialog id="dialog2" stop-auto-dismiss title="Dialog demo" modal>
+      <isu-dialog id="dialog5" stop-auto-dismiss title="Dialog demo" modal>
         <div>
+
           <p>It was all very well to say 'Drink me,' but the wise little
-            Alice was not going to do <i>that</i> in a hurry. 'No, I'll look
-            first,' she said, 'and see whether it's marked "<i>poison</i>" or
-            not'; for she had read several nice little histories about
-            children who had got burnt, and eaten up by wild beasts and other
-            unpleasant things, all because they <i>would</i> not remember the
-            simple rules their friends had taught them: such as, that a
-            red-hot poker will burn you if you hold it too long; and that if
-            you cut your finger <i>very</i> deeply with a knife, it usually
-            bleeds; and she had never forgotten that, if you drink much from
-            a bottle marked '<i>poison</i>,' it is almost certain to disagree
-            with you, sooner or later.</p>
-          <p>It was all very well to say 'Drink me,' but the wise little
-            Alice was not going to do <i>that</i> in a hurry. 'No, I'll look
-            first,' she said, 'and see whether it's marked "<i>poison</i>" or
-            not'; for she had read several nice little histories about
-            children who had got burnt, and eaten up by wild beasts and other
-            unpleasant things, all because they <i>would</i> not remember the
-            simple rules their friends had taught them: such as, that a
-            red-hot poker will burn you if you hold it too long; and that if
-            you cut your finger <i>very</i> deeply with a knife, it usually
-            bleeds; and she had never forgotten that, if you drink much from
-            a bottle marked '<i>poison</i>,' it is almost certain to disagree
-            with you, sooner or later.</p>
-          <p>It was all very well to say 'Drink me,' but the wise little
-            Alice was not going to do <i>that</i> in a hurry. 'No, I'll look
-            first,' she said, 'and see whether it's marked "<i>poison</i>" or
-            not'; for she had read several nice little histories about
-            children who had got burnt, and eaten up by wild beasts and other
-            unpleasant things, all because they <i>would</i> not remember the
-            simple rules their friends had taught them: such as, that a
-            red-hot poker will burn you if you hold it too long; and that if
-            you cut your finger <i>very</i> deeply with a knife, it usually
-            bleeds; and she had never forgotten that, if you drink much from
-            a bottle marked '<i>poison</i>,' it is almost certain to disagree
-            with you, sooner or later.</p>
-          <p>It was all very well to say 'Drink me,' but the wise little
-            Alice was not going to do <i>that</i> in a hurry. 'No, I'll look
-            first,' she said, 'and see whether it's marked "<i>poison</i>" or
-            not'; for she had read several nice little histories about
-            children who had got burnt, and eaten up by wild beasts and other
-            unpleasant things, all because they <i>would</i> not remember the
-            simple rules their friends had taught them: such as, that a
-            red-hot poker will burn you if you hold it too long; and that if
-            you cut your finger <i>very</i> deeply with a knife, it usually
-            bleeds; and she had never forgotten that, if you drink much from
-            a bottle marked '<i>poison</i>,' it is almost certain to disagree
-            with you, sooner or later.</p>
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry.It was all very well to say 'Drink me,' but the wise little
+            Alice was not going to do <i>that</i> in a hurry. </p>
+          <isu-picker id="picker8" src="/init.do" label="公司" attr-for-value="id"></isu-picker>
+          <ul>
+            <li><isu-picker id="picker9" src="/init.do" label="公司" attr-for-value="id"></isu-picker></li>
+            <li><isu-picker id="picker10" src="/init.do" label="公司" attr-for-value="id"></isu-picker></li>
+            <li><isu-picker id="picker11" src="/init.do" label="公司" attr-for-value="id"></isu-picker></li>
+            <li><isu-picker id="picker12" src="/init.do" label="公司" attr-for-value="id"></isu-picker></li>
+            <li><isu-picker id="picker13" src="/init.do" label="公司" attr-for-value="id"></isu-picker></li>
+            <li><isu-picker id="picker14" src="/init.do" label="公司" attr-for-value="id"></isu-picker></li>
+            <!--<li><isu-picker id="picker15" src="/init.do" label="公司" attr-for-value="id"></isu-picker></li>-->
+          </ul>
+          <script>
+            const pickerMeta = [{field: 'label', label: '选项'}, {field: 'business', label: '业务范围'}, {field: 'business2', label: '业务范围2'}, {field: 'business3', label: '业务范围3'}];
+            picker8.pickerMeta = pickerMeta;
+            picker9.pickerMeta = pickerMeta;
+            picker10.pickerMeta = pickerMeta;
+            picker11.pickerMeta = pickerMeta;
+            picker12.pickerMeta = pickerMeta;
+            picker13.pickerMeta = pickerMeta;
+            picker14.pickerMeta = pickerMeta;
+            picker15.pickerMeta = pickerMeta;
+          </script>
         </div>
       </isu-dialog>
-      <button id="btn2" onclick="dialog2.open();">Click to open the Dialog</button>
+      <button id="btn5" onclick="dialog5.open();">Click to open the Dialog</button>
 
     </template>
   </demo-snippet>

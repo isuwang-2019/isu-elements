@@ -2,6 +2,7 @@ import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '../../../isu-cascading.js'
 import {BaseBehavior} from "../../../behaviors/base-behavior";
+import {AjaxBehavior} from "../../../behaviors/ajax-behavior";
 
 /**
  * `isu-cascading-test`
@@ -10,7 +11,7 @@ import {BaseBehavior} from "../../../behaviors/base-behavior";
  * @polymer
  * @demo demo/isu-cascading/index.html
  */
-class IsuCascadingTest extends mixinBehaviors([BaseBehavior], PolymerElement) {
+class IsuCascadingTest extends mixinBehaviors([AjaxBehavior], PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -89,6 +90,22 @@ class IsuCascadingTest extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
       self.hideLoading(this.currentClickViewElement)
     }, 3000)
+  }
+
+  ready() {
+    super.ready()
+    const self = this
+    self.query({url: '/init2.do', data: {start: 0, limit: 10}}, function (result) {
+      self.set('data', result.rows)
+    })
+
+  }
+
+  test() {
+    const self = this
+    self.query({url: '/init2.do', data: {start: 0, limit: 10}}, function (result) {
+      self.set('data', result.rows)
+    })
   }
 
   static get is() {
