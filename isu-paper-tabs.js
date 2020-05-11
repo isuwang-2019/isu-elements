@@ -53,6 +53,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
             --layout-horizontal: {
                 display: inline-flex;
             }
+            border-bottom: 1px solid #ddd;
             @apply --paper-tabs-card
         }
         :host .iron-selected{
@@ -96,8 +97,9 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
                opacity: 0.5;
         }
        
-        :host #positionSelectionBar {
-        display:none;
+        :host([tab-position=right]) #positionSelectionBar {
+        display:block;
+        left: -2px;
         position: absolute;
         height: 48px;
         top:0;
@@ -110,7 +112,38 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
         transition: transform;
         transition-duration:1000ms;
 
-        @apply --paper-tabs-position-selection-bar;
+        @apply --paper-tabs-position-selection-bar-right;
+      }
+      :host([tab-position=left]) #positionSelectionBar {
+        display:block;
+        right: -2px;
+        position: absolute;
+        height: 48px;
+        top:0;
+        border-right: 2px solid #337ab7;
+          -webkit-transform: scale(0);
+        transform: scale(0);
+          -webkit-transform-origin: center top;
+        transform-origin: center top;
+          transition: -webkit-transform;
+        transition: transform;
+        transition-duration:1000ms;
+
+        @apply --paper-tabs-position-selection-bar-left;
+      }
+      :host .paper-tabs-card #positionSelectionBar,.paper-tabs-card-border-card #positionSelectionBar{
+        display:block;
+        position: absolute;
+        background-color: #ffffff;
+        height: 1px;
+          -webkit-transform: scale(0);
+        transform: scale(0);
+          -webkit-transform-origin:inherit ;
+        transform-origin: inherit;
+          transition: -webkit-transform;
+        transition: transform;
+
+        @apply --paper-tabs-position-selection-bar-card;
       }
       :host .tab-position-left-right{
         position: relative;
@@ -122,20 +155,25 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       :host .tab-position-left {
         border-right: 2px solid #cccccc;
       }
-      :host .tab-position-left #positionSelectionBar{
-        display:block;
-        right: -2px;
-      }
       :host .tab-position-right {
         border-left: 2px solid #cccccc;
         right: calc(-100% + 120px);
       }
-      :host([tab-position=right]) .tab-position-right #positionSelectionBar{
-        display:block;
-        left: -2px;
-      }
       :host .paper-tab-iron-icon{
         @apply --paper-tab-iron-icon
+      }
+      :host .paper-tab-clear-icon{
+        font-size: 10px;
+        width: 18px;
+        height: 18px;
+        margin-left: 15px;
+        margin-bottom: 2px;
+        border-radius: 10px;
+        @apply --paper-tab-clear-icon
+      }
+      :host .paper-tab-clear-icon:hover{
+        background-color: #dddddd;
+        @apply --paper-tab-clear-icon-hover
       }
     </style>
         <div class$="[[getTabPositionClass(tabPosition)]] [[getTabTypeClass(tabType)]]">
@@ -150,6 +188,10 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
                                 <iron-icon icon="[[item.iconName]]" class="paper-tab-iron-icon"></iron-icon>             
                             </template>
                             [[item.name]]
+                            <template is="dom-if" if="[[_isAppearClearIcon(isClear,tabType)]]">
+                                <iron-icon icon="icons:clear" class="paper-tab-clear-icon" on-click="clearPaperTab" 
+                                data-args="[[item]]"></iron-icon>
+                            </template>
                         </paper-tab>
                     </template>
                 </template>
@@ -261,6 +303,10 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
        * tabs.
        */
       hideScrollButtons: {type: Boolean, value: false},
+      /**
+       * If true, the paper-tab will have clear icon.On click it,can clear this paper-tab.
+       */
+      isClear:{type:Boolean, value:false}
     }
   }
 
@@ -282,13 +328,29 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
     super.ready();
   }
   _selectedItemChange(newVal){
-    if(newVal){
-      const tab = newVal.offsetTop
-      const paperTabs = this.shadowRoot.querySelector('paper-tabs').offsetTop
-      const translateTop = tab-paperTabs
-      this.transform( `translateY(${ translateTop }px)scaleY(1)`,this.shadowRoot.querySelector("#positionSelectionBar"))
+    if(newVal && ['left','right'].includes(this.tabPosition)){
+      return setTimeout(()=>{
+        this._computedPositionSelectionBarHeight(newVal)
+      },0)
+    }
+    if(newVal && ['card','border-card'].includes(this.tabType)){
+      return setTimeout(()=>{
+        this._computedPositionSelectionBarWidth(newVal)
+      },50)
     }
   }
+  _computedPositionSelectionBarHeight(selectedItem){
+    const tab = selectedItem.offsetTop
+    const paperTabs = this.shadowRoot.querySelector('paper-tabs').offsetTop
+    const translateTop = tab-paperTabs
+    return this.transform( `translateY(${ translateTop }px)scaleY(1)`,this.shadowRoot.querySelector("#positionSelectionBar"))
+  }
+  _computedPositionSelectionBarWidth(selectedItem){
+      const tabWidth = selectedItem.offsetWidth
+      const positionSelectionBar = this.shadowRoot.querySelector("#positionSelectionBar")
+      positionSelectionBar.setAttribute('style',`width:${tabWidth}px`)
+      this.transform( `translateX(${ selectedItem.offsetLeft }px)scaleX(1)`,positionSelectionBar)
+    }
 
   _tabPositionChange(newVal){
     if(newVal !== 'top'){
@@ -298,7 +360,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       this.set('alignBottom',true)
       this.set('noBar',false)
     }
-    if(newVal === ('left' || 'right')){
+    if(['left','right'].includes(newVal)){
       this.set('noBar',true)
     }
   }
@@ -323,6 +385,16 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       'width-bar':''
     }
     return typeClassObj[type]
+  }
+  _isAppearClearIcon(isClear,tabType){
+    return isClear && tabType === 'card'
+  }
+  clearPaperTab(e){
+    const data = e.currentTarget.dataArgs
+    this.set('tabList',this.tabList.filter(item => { return item.value !== data.value }))
+    if(this.tabList.indexOf(item=>{item.value = this.selectedItem.value}) === -1){
+      this.set('selected',this.attrForSelected?this.tabList[0].value:0)
+    }
   }
 }
 
