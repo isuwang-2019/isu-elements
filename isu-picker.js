@@ -682,7 +682,9 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _srcChanged(src) {
     if (!src) return;
-    const request = this._mkRequest(this.fetchParam);
+    const requestObj = this.fetchParam;
+    const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this.value + '' || '');
+    const request = this._mkRequest(req);
     this._fetchUtil.fetchIt(request)
       .then(res => res.json())
       .then(data => {
