@@ -907,9 +907,17 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   __collapsePosition() {
     const {left, top} = this.__getElemPos(this);
-    // this.$['picker-collapse'].style['left'] = left + this.clientWidth - this.$['select__container'].clientWidth + 'px';
     this.$['picker-collapse'].style['top'] = this.clientHeight + 'px';
-    this.$['picker-collapse'].style['width'] = this.$['select__container'].clientWidth + 'px';
+    // 当页面中存在isu-dialog时，打开picker列表碰到dialog的右边边缘，则向列表向左移
+    const dialog = document.querySelector('isu-dialog')
+    if(dialog) {
+      const dialogPos = this.__getElemPos(dialog.$.dialog)
+      const collapse = this.$['picker-collapse']
+      const collapsePos = this.__getElemPos(collapse)
+      if (dialogPos.left + dialog.$.dialog.clientWidth < collapsePos.left + collapse.clientWidth) {
+        this.$['picker-collapse'].style['left'] = (dialogPos.left + dialog.$.dialog.clientWidth) - (collapsePos.left + collapse.clientWidth) - 20 + 'px'
+      }
+    }
   }
 
 

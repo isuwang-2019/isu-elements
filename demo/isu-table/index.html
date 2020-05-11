@@ -174,6 +174,7 @@
         <isu-table-column prop="phone" label="电话号码2" width="160" default-value="--" cell-style="text-align: right;"></isu-table-column>
         <isu-table-column prop="phone" label="电话号码3" width="160" default-value="--" cell-style="text-align: right;"></isu-table-column>
         <isu-table-column prop="phone" label="电话号码4" width="160" default-value="--" cell-style="text-align: right;"></isu-table-column>
+        <isu-table-column id="ratio" prop="ratio" label="比例" width="160" cell-style="text-align: right;"></isu-table-column>
         <isu-table-column label="操作" width="300" type="operate" model-as="user" frozen>
           <template>
             <template is="dom-if" if="[[ isEqual(user.name, 'Wahson') ]]">
@@ -214,14 +215,15 @@
           modify: "修改",
           more: "更多"
         };
+        ratio.formatter=(value)=>{return value+'%'}
 
         table9991.data = [
-          {sex: '男', name: 'Wahson', phone: '12341111116', modify: true},
-          {sex: '女', name: 'Rose', actions:['more']},
-          {sex: '女', name: 'Lucy', phone: '12390'},
-          {sex: '男', name: 'James', phone: '12326', modify: true},
-          {sex: '男', name: 'Cat', phone: '12349'},
-          {sex: '男', name: 'Apple', phone: '1211111111345', modify: true, actions:['more', 'more1']}
+          {sex: '男', name: 'Wahson', phone: '12341111116', ratio: 3, modify: true},
+          {sex: '女', name: 'Rose', ratio: 3, actions:['more']},
+          {sex: '女', name: 'Lucy', ratio: 3, phone: '12390'},
+          {sex: '男', name: 'James', ratio: 3, phone: '12326', modify: true},
+          {sex: '男', name: 'Cat', ratio: 3, phone: '12349'},
+          {sex: '男', name: 'Apple', ratio: 3, phone: '1211111111345', modify: true, actions:['more', 'more1']}
         ]
       </script>
     </template>
