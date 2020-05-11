@@ -1,6 +1,6 @@
 {
   "name": "isu-elements",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Polymer components for building web apps.",
   "repository": {
     "type": "git",
@@ -40,28 +40,27 @@
     "debug": "npm run start:proxy"
   },
   "dependencies": {
-    "@polymer/iron-collapse": "^3.0.0",
-    "@polymer/iron-icon": "^3.0.0",
-    "@polymer/iron-icons": "^3.0.0",
+    "@polymer/iron-collapse": "^3.0.1",
+    "@polymer/iron-icon": "^3.0.1",
+    "@polymer/iron-icons": "^3.0.1",
     "@polymer/iron-iconset-svg": "^3.0.1",
-    "@polymer/iron-input": "^3.0.0",
-    "@polymer/iron-overlay-behavior": "^3.0.3",
-    "@polymer/iron-selector": "^3.0.0",
+    "@polymer/iron-input": "^3.0.1",
+    "@polymer/iron-overlay-behavior": "^3.0.1",
+    "@polymer/iron-selector": "^3.0.1",
     "@polymer/neon-animation": "^3.0.1",
     "@polymer/paper-behaviors": "^3.0.1",
-    "@polymer/paper-button": "^3.0.0",
-    "@polymer/paper-checkbox": "^3.0.0",
+    "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-checkbox": "^3.0.1",
     "@polymer/paper-dialog": "^3.0.1",
     "@polymer/paper-dialog-behavior": "^3.0.1",
-    "@polymer/paper-input": "^3.2.1",
+    "@polymer/paper-input": "^3.0.1",
     "@polymer/paper-radio-button": "^3.0.1",
-    "@polymer/paper-tabs": "^3.1.0",
+    "@polymer/paper-tabs": "^3.0.1",
     "@polymer/paper-tooltip": "^3.0.1",
-    "@polymer/polymer": "^3.3.1",
-    "async-validator": "^3.2.4",
+    "@polymer/polymer": "^3.0.1",
     "babel-polyfill": "^6.26.0",
     "lodash-es": "^4.17.15",
-    "web-animations-js": "^2.3.2"
+    "web-animations-js": "^2.3.1"
   },
   "devDependencies": {
     "@polymer/iron-component-page": "^4.0.0",
