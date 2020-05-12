@@ -317,11 +317,6 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
     if(newVal && ['left','right'].includes(this.tabPosition)){
       return Promise.resolve(this._computedPositionSelectionBarHeight(newVal))
     }
-    if(newVal && ['card','border-card'].includes(this.tabType)){
-      return setTimeout(()=>{
-        // this._computedPositionSelectionBarWidth(newVal)
-      },50)
-    }
   }
   _computedPositionSelectionBarHeight(selectedItem){
     const tab = selectedItem.offsetTop
@@ -329,12 +324,6 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
     const translateTop = tab-paperTabs
     return this.transform( `translateY(${ translateTop }px)scaleY(1)`,this.shadowRoot.querySelector("#positionSelectionBar"))
   }
-  _computedPositionSelectionBarWidth(selectedItem){
-      const tabWidth = selectedItem.offsetWidth
-      const positionSelectionBar = this.shadowRoot.querySelector("#positionSelectionBar")
-      positionSelectionBar.setAttribute('style',`width:${tabWidth}px`)
-      this.transform( `translateX(${ selectedItem.offsetLeft }px)scaleX(1)`,positionSelectionBar)
-    }
 
   _tabPositionChange(newVal){
     if(newVal !== 'top'){
