@@ -131,20 +131,6 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
 
         @apply --paper-tabs-position-selection-bar-left;
       }
-      :host .paper-tabs-card #positionSelectionBar,.paper-tabs-card-border-card #positionSelectionBar{
-        display:block;
-        position: absolute;
-        background-color: #ffffff;
-        height: 1px;
-          -webkit-transform: scale(0);
-        transform: scale(0);
-          -webkit-transform-origin:inherit ;
-        transform-origin: inherit;
-          transition: -webkit-transform;
-        transition: transform;
-
-        @apply --paper-tabs-position-selection-bar-card;
-      }
       :host .tab-position-left-right{
         position: relative;
         display: inline-block;
@@ -329,13 +315,11 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
   }
   _selectedItemChange(newVal){
     if(newVal && ['left','right'].includes(this.tabPosition)){
-      return setTimeout(()=>{
-        this._computedPositionSelectionBarHeight(newVal)
-      },0)
+      return Promise.resolve(this._computedPositionSelectionBarHeight(newVal))
     }
     if(newVal && ['card','border-card'].includes(this.tabType)){
       return setTimeout(()=>{
-        this._computedPositionSelectionBarWidth(newVal)
+        // this._computedPositionSelectionBarWidth(newVal)
       },50)
     }
   }
