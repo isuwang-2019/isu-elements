@@ -755,7 +755,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
           const request = this._mkRequest(req);
           this._fetchUtil.fetchIt(request)
-            .then(res => res.json())
+            .then((res => {
+              return res.json().catch(err => {
+                console.warn(`'${err}' happened, but no big deal!`);
+                return [];
+              });
+            }))
             .then(data => {
               let candidateItems = data || [];
               if (this.resultPath) {
