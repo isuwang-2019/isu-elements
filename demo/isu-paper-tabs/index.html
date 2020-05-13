@@ -8,7 +8,6 @@
 
     <script type="module">
       import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
-      // import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js';
       import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
       import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
       import '@polymer/paper-tabs/paper-tabs'
@@ -75,8 +74,10 @@
         <h3>h2 isu-paper-tabs demo</h3>
         <h3>Plain <code>isu-paper-tabs-border-card-type</code>.</h3>
         <demo-snippet>
+            <script type="module">
+              import "@polymer/iron-icons/communication-icons.js";
+            </script>
             <template>
-
                 <isu-paper-tabs selected="0" id="iSuPaperTabs1"></isu-paper-tabs>
                 <script>
                   iSuPaperTabs1.tabList = [
@@ -85,6 +86,7 @@
                     {name: 'ITEM Three',value:2,disabled:false,permission:true},
                     {name: 'ITEM Four',value:3,disabled:false,permission:true}
                   ];
+                  iSuPaperTabs1.isClear = true
                 </script>
             </template>
         </demo-snippet>
@@ -115,6 +117,20 @@
                     {name: 'ITEM TWO',value:1,disabled:false,permission:true},
                     {name: 'ITEM Three',value:2,disabled:false,permission:true},
                     {name: 'ITEM Four',value:3,disabled:false,permission:true}
+                  ];
+                </script>
+            </template>
+        </demo-snippet>
+        <h3>Plain <code>isu-paper-tabs-position-bottom</code>.</h3>
+        <demo-snippet>
+            <template>
+                <isu-paper-tabs selected="0" id="iSuBottomPaperTabs" tab-position="bottom"></isu-paper-tabs>
+                <script>
+                  iSuBottomPaperTabs.tabList = [
+                    {name: 'ITEM ONE',value:0,disabled:false,permission:true,iconName:'menu'},
+                    {name: 'ITEM TWO',value:1,disabled:false,permission:true,iconName:'menu'},
+                    {name: 'ITEM Three',value:2,disabled:false,permission:true,iconName:'menu'},
+                    {name: 'ITEM Four',value:3,disabled:false,permission:true,iconName:'menu'}
                   ];
                 </script>
             </template>

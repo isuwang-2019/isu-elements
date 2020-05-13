@@ -3,6 +3,9 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/paper-tabs/paper-tabs';
 import '@polymer/paper-tabs/paper-tab';
 import '@polymer/paper-styles/color.js';
+import '@polymer/iron-icon/iron-icon';
+import '@polymer/iron-icons/iron-icons';
+
 
 /**
  * `isu-paper-tabs`
@@ -30,7 +33,10 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
             border-bottom-color: var(--paper-blue-a200);
         }
         }
-        .paper-tabs-card paper-tab {
+        :host paper-tab{
+           color:#6a6969;
+        }
+        :host .paper-tabs-card paper-tab {
             position: relative;
             padding: 0 12px;
             overflow: hidden;
@@ -43,21 +49,22 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
             border-bottom: none;
             @apply --paper-tabs-card-paper-card
         }
-        .paper-tabs-card {
+        :host .paper-tabs-card {
             --layout-horizontal: {
                 display: inline-flex;
             }
+            border-bottom: 1px solid #ddd;
             @apply --paper-tabs-card
         }
-        .iron-selected{
+        :host .iron-selected{
             color:var(--paper-blue-a200);
         }
-        .paper-tabs-card paper-tab.iron-selected {
+        :host .paper-tabs-card paper-tab.iron-selected {
             color: #337ab7;
             background-color: #ffffff;
             @apply --paper-tabs-card-paper-tab-selected
         }
-        .paper-tabs-card-border-card{
+        :host .paper-tabs-card-border-card{
             --layout-horizontal: {
                 display: inline-flex;
             }
@@ -65,34 +72,34 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
             background-color: #f5f7fa;
             @apply paper-tabs-card-border-card
         }
-        .paper-tabs-card-border-card paper-tab{
+        :host .paper-tabs-card-border-card paper-tab{
             position: relative;
             padding: 0 12px;
             overflow: hidden;
             cursor: pointer;
-            color:#6a6969;
             background-color: #f5f7fa;
             @apply paper-tabs-card-border-card-paper-tab
         }
-        .paper-tabs-card-border-card paper-tab:first-child.iron-selected{
+        :host .paper-tabs-card-border-card paper-tab:first-child.iron-selected{
             border-left: none;
         }
-        .paper-tabs-card-border-card paper-tab:last-child.iron-selected{
+        :host .paper-tabs-card-border-card paper-tab:last-child.iron-selected{
             border-right: none;
         }
-        .paper-tabs-card-border-card paper-tab.iron-selected {
+        :host .paper-tabs-card-border-card paper-tab.iron-selected {
             color: #337ab7;
             border-left: 1px solid #ddd;
             border-right: 1px solid #ddd;
             background-color: #ffffff;
             @apply --paper-tabs-card-border-card-selected
         }
-        paper-tab[disabled]{
+        :host paper-tab[disabled]{
                opacity: 0.5;
         }
        
-        #positionSelectionBar {
-        display:none;
+        :host([tab-position=right]) #positionSelectionBar {
+        display:block;
+        left: -2px;
         position: absolute;
         height: 48px;
         top:0;
@@ -105,43 +112,77 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
         transition: transform;
         transition-duration:1000ms;
 
-        @apply --paper-tabs-position-selection-bar;
+        @apply --paper-tabs-position-selection-bar-right;
       }
-      .tab-position-left-right{
+      :host([tab-position=left]) #positionSelectionBar {
+        display:block;
+        right: -2px;
+        position: absolute;
+        height: 48px;
+        top:0;
+        border-right: 2px solid #337ab7;
+          -webkit-transform: scale(0);
+        transform: scale(0);
+          -webkit-transform-origin: center top;
+        transform-origin: center top;
+          transition: -webkit-transform;
+        transition: transform;
+        transition-duration:1000ms;
+
+        @apply --paper-tabs-position-selection-bar-left;
+      }
+      :host .tab-position-left-right{
         position: relative;
         display: inline-block;
         --layout-horizontal: {
                 display: inline-grid;
             }
       }
-      .tab-position-left {
+      :host .tab-position-left {
         border-right: 2px solid #cccccc;
       }
-      .tab-position-left #positionSelectionBar{
-        display:block;
-        right: -2px;
-      }
-      .tab-position-right {
+      :host .tab-position-right {
         border-left: 2px solid #cccccc;
         right: calc(-100% + 120px);
       }
-      .tab-position-right #positionSelectionBar{
-        display:block;
-        left: -2px;
+      :host .paper-tab-iron-icon{
+        @apply --paper-tab-iron-icon
       }
-      
+      :host .paper-tab-clear-icon{
+        font-size: 10px;
+        width: 18px;
+        height: 18px;
+        margin-left: 15px;
+        margin-bottom: 2px;
+        border-radius: 10px;
+        @apply --paper-tab-clear-icon
+      }
+      :host .paper-tab-clear-icon:hover{
+        background-color: #dddddd;
+        @apply --paper-tab-clear-icon-hover
+      }
     </style>
         <div class$="[[getTabPositionClass(tabPosition)]] [[getTabTypeClass(tabType)]]">
             <paper-tabs selected="{{selected}}" attr-for-selected="[[attrForSelected]]"  
             selected-item="{{selectedItem}}" noink="[[noink]]" align-bottom="[[alignBottom]]" no-bar="[[noBar]]" no-slide="[[noSlide]]"
-            scrollable="[[scrollable]]" autoselect="[[autoSelect]]" autoselect-delay="[[autoSelectDelay]]">
+            scrollable="[[scrollable]]" autoselect="[[autoSelect]]" autoselect-delay="[[autoSelectDelay]]"
+            hide-scroll-buttons="[[hideScrollButtons]]" disable-drag="[[disableDrag]]">
                 <template is="dom-repeat" items="[[tabList]]">
                     <template is="dom-if" if="[[item.permission]]">
-                        <paper-tab name="[[item.value]]" disabled="[[item.disabled]]">[[item.name]]</paper-tab>
+                        <paper-tab name="[[item.value]]" disabled="[[item.disabled]]">
+                            <template is="dom-if" if="[[item.iconName]]">
+                                <iron-icon icon="[[item.iconName]]" class="paper-tab-iron-icon"></iron-icon>             
+                            </template>
+                            [[item.name]]
+                            <template is="dom-if" if="[[_isAppearClearIcon(isClear,tabType)]]">
+                                <iron-icon icon="icons:clear" class="paper-tab-clear-icon" on-click="clearPaperTab" 
+                                data-args="[[item]]"></iron-icon>
+                            </template>
+                        </paper-tab>
                     </template>
                 </template>
             </paper-tabs>
-            <div id="positionSelectionBar" ></div>
+            <div id="positionSelectionBar"></div>
         </div>
       `
   }
@@ -151,7 +192,8 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
     return {
       /**
        * TabList:Must-Pass,is a Array.
-       * Child element requirements:{name:String,value:Number||String,permission:Boolean,disabled:Boolean}.
+       * Child element
+       * requirements:{name:String,value:Number||String,permission:Boolean,iconName:String, disabled:Boolean}.
        * if permission === false ,paper-tab hidden.
        * if disabled === false,paper-tab can't click.
        */
@@ -247,6 +289,10 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
        * tabs.
        */
       hideScrollButtons: {type: Boolean, value: false},
+      /**
+       * If true, the paper-tab will have clear icon.On click it,can clear this paper-tab.
+       */
+      isClear:{type:Boolean, value:false}
     }
   }
 
@@ -263,20 +309,20 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
   }
   attached(){
     super.attached()
-    if(this.tabPosition === ('left' || 'right')){
-
-    }
   }
   ready() {
     super.ready();
   }
   _selectedItemChange(newVal){
-    if(newVal){
-      const tab = newVal.offsetTop
-      const paperTabs = this.shadowRoot.querySelector('paper-tabs').offsetTop
-      const translateTop = tab-paperTabs
-      this.transform( `translateY(${ translateTop }px)scaleY(1)`,this.shadowRoot.querySelector("#positionSelectionBar"))
+    if(newVal && ['left','right'].includes(this.tabPosition)){
+      return Promise.resolve(this._computedPositionSelectionBarHeight(newVal))
     }
+  }
+  _computedPositionSelectionBarHeight(selectedItem){
+    const tab = selectedItem.offsetTop
+    const paperTabs = this.shadowRoot.querySelector('paper-tabs').offsetTop
+    const translateTop = tab-paperTabs
+    return this.transform( `translateY(${ translateTop }px)scaleY(1)`,this.shadowRoot.querySelector("#positionSelectionBar"))
   }
 
   _tabPositionChange(newVal){
@@ -285,8 +331,9 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
     }
     if(newVal === 'bottom'){
       this.set('alignBottom',true)
+      this.set('noBar',false)
     }
-    if(newVal === ('left' || 'right')){
+    if(['left','right'].includes(newVal)){
       this.set('noBar',true)
     }
   }
@@ -311,6 +358,16 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       'width-bar':''
     }
     return typeClassObj[type]
+  }
+  _isAppearClearIcon(isClear,tabType){
+    return isClear && tabType === 'card'
+  }
+  clearPaperTab(e){
+    const data = e.currentTarget.dataArgs
+    this.set('tabList',this.tabList.filter(item => { return item.value !== data.value }))
+    if(this.tabList.indexOf(item=>{item.value = this.selectedItem.value}) === -1){
+      this.set('selected',this.attrForSelected?this.tabList[0].value:0)
+    }
   }
 }
 

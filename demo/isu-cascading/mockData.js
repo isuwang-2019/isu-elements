@@ -8,6 +8,13 @@ MockDataPool.when("POST", "/init.do")
     body: JSON.stringify(cascadingData)
   });
 
+MockDataPool.when("GET", "/init2.do")
+  .withExpectedHeader("Cache-Control", "no-cache")
+  .responseWith({
+    status: 200,
+    body: JSON.stringify(cascadingData)
+  });
+
 MockDataPool.when("POST", "/init2.do?keyword=beijing")
   .withExpectedHeader("content-type", "application/json;charset=utf-8")
   .withExpectedHeader("Cache-Control", "no-cache")
