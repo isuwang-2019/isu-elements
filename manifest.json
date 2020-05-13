@@ -1,7 +1,7 @@
 {
-  "name": "isuwang-elements",
-  "short_name": "isuwang-elements",
-  "description": "isuwang-elements",
+  "name": "isu-elements",
+  "short_name": "isu-elements",
+  "description": "isu-elements",
   "start_url": "/",
   "display": "standalone"
 }
