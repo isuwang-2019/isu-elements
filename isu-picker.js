@@ -25,9 +25,9 @@ import throttle from 'lodash-es/throttle';
  <isu-picker id="picker5" label="修改组件大小" multi="" attr-for-value="id" value="1,2,3,4,5"></isu-picker>
  <isu-picker id="picker6" label="默认" attr-for-value="id"></isu-picker>
  <isu-picker id="picker7" label="自定义搜索字段" attr-for-value="id"></isu-picker>
- <isu-picker id="picker8" src="/init.do" label="自定义初始数据源" attr-for-value="id"></isu-picker>
- <isu-picker id="picker9" label="通过接口搜索数据" src="/init.do" multi="" attr-for-value="id"></isu-picker>
- <isu-picker id="picker10" label="键盘快捷键操作" src="/api/listProduct" attr-for-value="id" keyword-path="request.keyword" result-path="success.result"
+ <isu-picker id="picker8" query-by-value-url="/init.do" label="自定义初始数据源" attr-for-value="id"></isu-picker>
+ <isu-picker id="picker9" label="通过接口搜索数据" query-by-value-url="/init.do" multi="" attr-for-value="id"></isu-picker>
+ <isu-picker id="picker10" label="键盘快捷键操作" query-by-value-url="/api/listProduct" attr-for-value="id" keyword-path="request.keyword" result-path="success.result"
  fetch-param='{"request": {"pageRequest": {"limit": 10, "start": 0}}}'></isu-picker>
  ```
 
@@ -411,10 +411,17 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         notify: true
       },
       /**
-       * A url for fetching local data, the response data of the request should be json.
+       * A url query by keyword
        * @type {string}
        */
-      src: {
+      queryByKeywordUrl: {
+        type: String
+      },
+      /**
+       * A url query by value
+       * @type {string}
+       */
+      queryByValueUrl: {
         type: String
       },
       /**
@@ -559,6 +566,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: "keyword"
       },
 
+      valuePath: {
+        type: String,
+        value: "ids"
+      },
+
       resultPath: {
         type: String
       },
@@ -615,7 +627,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get observers() {
     return [
-      '_srcChanged(src)',
+      '_queryByValueUrlChanged(queryByValueUrl)',
       '_itemsChanged(items)',
       '_userInputKeywordChanged(_userInputKeyword)',
       '_selectedValuesChanged(selectedValues.splices)',
@@ -656,10 +668,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return this.getValueByKey(item, this.attrForLabel);
   }
 
-  _mkRequest(data) {
+  _mkRequest(url, data) {
     if (this.method === 'GET') {
       return {
-        url: this.src,
+        url: url,
         method: "GET",
         headers: {
           "Cache-Control": "no-cache"
@@ -669,7 +681,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     }
     return {
-      url: this.src,
+      url: url,
       method: "POST",
       headers: {
         "content-type": "application/json;charset=utf-8",
@@ -680,11 +692,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     };
   }
 
-  _srcChanged(src) {
-    if (!src) return;
+  _queryByValueUrlChanged(queryByValueUrl) {
+    if (!queryByValueUrl) return;
     const requestObj = this.fetchParam;
-    const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this.value + '' || '');
-    const request = this._mkRequest(req);
+    const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value + '' || '');
+    const request = this._mkRequest(queryByValueUrl, req);
     this._fetchUtil.fetchIt(request)
       .then(res => res.json())
       .then(data => {
@@ -708,8 +720,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _getSelectedForItems() {
     const requestObj = this.fetchParam;
-    const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this.value + '');
-    const request = this._mkRequest(req);
+    const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value + '' || '');
+    const request = this._mkRequest(this.queryByValueUrl, req);
     this._fetchUtil.fetchIt(request)
       .then(res => res.json())
       .then(data => {
@@ -745,7 +757,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
 
     const matched = this._cacheSearchUtil.search(this._userInputKeyword, " ");
-    if (this.src) {
+    if (this.queryByKeywordUrl) {
 
       if (!this.__fetchByKeyword) {
         this.__fetchByKeyword = throttle(() => {
@@ -753,7 +765,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
           const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this._userInputKeyword);
 
-          const request = this._mkRequest(req);
+          const request = this._mkRequest(this.queryByKeywordUrl, req);
           this._fetchUtil.fetchIt(request)
             .then((res => {
               return res.json().catch(err => {
@@ -813,7 +825,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const dirty = selectedValues.map(selected => selected[this.attrForValue]).join(',');
       // this.set('_userInputKeyword', '')
 
-      if (value && this.src && !this.multi) {
+      if (value && this.queryByKeywordUrl && !this.multi) {
         let _selectedItem = this.items.filter(item => item[this.attrForValue] == value);
 
         if (!_selectedItem.length) {
