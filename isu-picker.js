@@ -411,16 +411,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         notify: true
       },
       /**
-       * A url query by keyword
+       * A url for fetching local data, the response data of the request should be json.
        * @type {string}
        */
       queryByKeywordUrl: {
         type: String
       },
-      /**
-       * A url query by value
-       * @type {string}
-       */
       queryByValueUrl: {
         type: String
       },
@@ -627,7 +623,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get observers() {
     return [
-      '_queryByValueUrlChanged(queryByValueUrl)',
+      '_queryByKeywordUrlChanged(queryByKeywordUrl)',
       '_itemsChanged(items)',
       '_userInputKeywordChanged(_userInputKeyword)',
       '_selectedValuesChanged(selectedValues.splices)',
@@ -692,11 +688,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     };
   }
 
-  _queryByValueUrlChanged(queryByValueUrl) {
-    if (!queryByValueUrl) return;
+  _queryByKeywordUrlChanged(queryByKeywordUrl) {
+    if (!queryByKeywordUrl) return;
     const requestObj = this.fetchParam;
-    const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value + '' || '');
-    const request = this._mkRequest(queryByValueUrl, req);
+    const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, '');
+    const request = this._mkRequest(queryByKeywordUrl, req);
     this._fetchUtil.fetchIt(request)
       .then(res => res.json())
       .then(data => {
@@ -712,7 +708,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           items.splice(findIndex + 1, 1);
           this.items = items;
         } else {
-          this.value ? this._getSelectedForItems() : this.items = items;
+          this.items = items
+          if(this.value) this._getSelectedForItems()
         }
       })
       .catch(console.error);
@@ -894,16 +891,16 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   _switchFocusItemAt(index) {
     setTimeout(() => {
-      const maxIndex = (this._displayItems || []).length;
-      const newIndex = (maxIndex + index) % maxIndex;
-      this.root.querySelectorAll("tr.candidate-item--focus")
-        .forEach(e => e.classList.remove('candidate-item--focus'));
-
-      const newFocusItem = this.root.querySelector(`#candidate-item__${newIndex}`);
-      if (newFocusItem != null) {
-        newFocusItem.classList.add('candidate-item--focus');
-        this.__focusIndex = newIndex;
-      }
+      // const maxIndex = (this._displayItems || []).length;
+      // const newIndex = (maxIndex + index) % maxIndex;
+      // this.root.querySelectorAll("tr.candidate-item--focus")
+      //   .forEach(e => e.classList.remove('candidate-item--focus'));
+      //
+      // const newFocusItem = this.root.querySelector(`#candidate-item__${newIndex}`);
+      // if (newFocusItem != null) {
+      //   newFocusItem.classList.add('candidate-item--focus');
+      //   this.__focusIndex = newIndex;
+      // }
     }, 0);
   }
 
