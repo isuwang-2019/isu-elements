@@ -708,8 +708,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           items.splice(findIndex + 1, 1);
           this.items = items;
         } else {
-          this.items = items
-          if(this.value) this._getSelectedForItems()
+          this.value ? this._getSelectedForItems() : this.items = items;
         }
       })
       .catch(console.error);
@@ -891,8 +890,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   _switchFocusItemAt(index) {
     setTimeout(() => {
-      // const maxIndex = (this._displayItems || []).length;
-      // const newIndex = (maxIndex + index) % maxIndex;
+      const maxIndex = (this._displayItems || []).length;
+      const newIndex = (maxIndex + index) % maxIndex;
       // this.root.querySelectorAll("tr.candidate-item--focus")
       //   .forEach(e => e.classList.remove('candidate-item--focus'));
       //
