@@ -708,20 +708,20 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           items.splice(findIndex + 1, 1);
           this.items = items;
         } else {
-          this.value ? this._getSelectedForItems() : this.items = items;
+          this.value ? this._getSelectedForItems(items) : this.items = items;
         }
       })
       .catch(console.error);
   }
 
-  _getSelectedForItems() {
+  _getSelectedForItems(itemsArr) {
     const requestObj = this.fetchParam;
     const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value + '' || '');
     const request = this._mkRequest(this.queryByValueUrl, req);
     this._fetchUtil.fetchIt(request)
       .then(res => res.json())
       .then(data => {
-        const items = this.items || [];
+        const items = itemsArr || [];
         if (this.resultPath) {
           data = this.getValueByPath(data, this.resultPath, []);
         }
@@ -825,7 +825,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         let _selectedItem = this.items.filter(item => item[this.attrForValue] == value);
 
         if (!_selectedItem.length) {
-          this._getSelectedForItems();
+          this._getSelectedForItems(this.items);
           return;
         }
       }
