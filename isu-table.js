@@ -8,6 +8,8 @@ import '@polymer/paper-tooltip/paper-tooltip';
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
 import './isu-table-column'
+import './isu-table-column-sub'
+
 /**
  * `isu-table`
  * ```html
@@ -346,6 +348,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
                   <tr class="row__expansion row__expansion-hidden">
                     <td id="row_[[rowIndex]]" class="row__expansion-col" colspan$="[[ colspan ]]">
                       [[ computeExpansion(row, rowIndex) ]]
+                      -----------
                     </td>
                   </tr>
                 </template>
@@ -666,12 +669,12 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.domReady();
   }
 
-  __calShowExpansion([first] = [{}]) {
-    return first.type === 'expand'
+  __calShowExpansion(sub) {
+    return sub!=null && sub!=undefined
   }
 
-  __calShowSecondChildRow([first] = [{}], expandOnClickRow) {
-    return first.type === 'expand' || expandOnClickRow
+  __calShowSecondChildRow(sub, expandOnClickRow) {
+    return this.__calShowExpansion(sub) || expandOnClickRow
   }
 
   isDisabledSelection(row) {
@@ -688,10 +691,17 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   shareComputeExpansion(row, rowIndex, targetSelect) {
-    const [column] = this.columnInfos || [];
-    if ((column && column.type === 'expand') || this.expandOnClickRow) {
+    // const [column] = this.columnInfos || [];
+    if (this.subElement || this.expandOnClickRow) {
       setTimeout(() => {
-        this.__appendTmplContent(targetSelect, row, rowIndex, column);
+        // this.__appendSubTmplContent(targetSelect, row, rowIndex, subElement);
+          const parent = this.shadowRoot.querySelector(targetSelect);
+          const {root} = this.subElement.stampTemplate(row) || {};
+          if (root) {
+              parent.innerHTML = '';
+              parent.appendChild(root);
+          }
+
       }, 0, this);
     }
   }
@@ -709,8 +719,8 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   shareComputeContent(row, rowIndex, column, targetSelect) {
-    if (column.tmpl && column.type === 'operate') {
-
+    if (column.tmpl) {
+    // && column.type === 'operate'
       setTimeout(() => {
         this.__appendTmplContent(targetSelect, row, rowIndex, column);
       }, 0, this);
@@ -776,6 +786,9 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
         })
       }
 
+      // 展开模板
+      const subElement = e.target.assignedElements().find(_ => _.tagName.toLowerCase() === 'isu-table-column-sub');
+      this.set('subElement', subElement);
     });
 
     if (this.height) {
@@ -919,12 +932,12 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       __showExpansion: {
         type: Boolean,
-        computed: '__calShowExpansion(columnInfos)'
+        computed: '__calShowExpansion(subElement)'
       },
 
       __showSecondChildRow: {
         type: Boolean,
-        computed: '__calShowSecondChildRow(columnInfos, expandOnClickRow)'
+        computed: '__calShowSecondChildRow(subElement, expandOnClickRow)'
       },
 
       __selectedState: Boolean,
@@ -981,6 +994,14 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
+       /**
+        *The column infos of the table
+         *
+         * @type {array}
+         */
+       subElement: {
+           type: Object
+       },
     };
   }
 
