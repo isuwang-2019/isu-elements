@@ -411,22 +411,19 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         notify: true
       },
       /**
-       * A url for fetching local data, the response data of the request should be json.
+       * A url for searching data with user input keywords, the response data of the request should be json.
        * @type {string}
        */
       queryByKeywordUrl: {
         type: String
       },
+      /**
+       * A url for fetching data by value, the response data of the request should be json.
+       * @type {string}
+       */
       queryByValueUrl: {
         type: String
       },
-      /**
-       * A url for searching data with user input keywords, the response data of the request should be json.
-       * @type {string}
-       */
-      // keywordSearchSrc: {
-      //   type: String
-      // },
       /**
        * The candidate selection of this picker.
        * @type {array}
@@ -557,11 +554,16 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Object
       },
 
+      /**
+       * queryByKeywordUrl query params name ,default 'keyword',such as `/queryBykeyword?keyword = `
+       */
       keywordPath: {
         type: String,
         value: "keyword"
       },
-
+      /**
+       * queryByValueUrl query params name,default 'ids',such as `/queryByValues?ids = `
+       */
       valuePath: {
         type: String,
         value: "ids"

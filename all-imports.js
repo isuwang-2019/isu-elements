@@ -26,6 +26,7 @@ import './isu-radio';
 import './isu-select';
 import './isu-table';
 import './isu-table-column';
+import './isu-table-column-sub';
 import './isu-textarea';
 import './isu-tip';
 import './isu-tree';
