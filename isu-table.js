@@ -348,7 +348,6 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
                   <tr class="row__expansion row__expansion-hidden">
                     <td id="row_[[rowIndex]]" class="row__expansion-col" colspan$="[[ colspan ]]">
                       [[ computeExpansion(row, rowIndex) ]]
-                      -----------
                     </td>
                   </tr>
                 </template>
@@ -600,11 +599,10 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.__tableData = cache;
   }
 
-  __calColspan(columnInfos = []) {
-    const [first] = columnInfos;
+  __calColspan(columnInfos = [],sub) {
     let length = columnInfos.length;
 
-    if (first.type === 'expand' || this.selectable) length += 1;
+    if (this.__calShowExpansion(sub) || this.selectable) length += 1;
     if (this.showIndex) length += 1;
 
     return length;
@@ -861,7 +859,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       colspan: {
         type: Number,
-        computed: '__calColspan(columnInfos)'
+        computed: '__calColspan(columnInfos,subElement)'
       },
       /**
        *The column infos of the table
