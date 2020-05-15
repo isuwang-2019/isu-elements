@@ -38,7 +38,6 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <style include="isu-elements-shared-styles">
         :host {
           display: flex;
-          width: 300px;
           height: 34px;
           line-height: 34px;
           font-family: var(--isu-ui-font-family), sans-serif;
@@ -252,7 +251,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return [
       '_bindItemsChange(bindItems)',
       '_srcChanged(src)',
-      '_valueChanged(value)'
+      '_valueChanged(value, treeData)'
     ]
   }
 
@@ -312,7 +311,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return !!label ? '' : 'placeholder'
   }
 
-  _valueChanged(value) {
+  _valueChanged(value, treeData) {
     const self = this
     if (this.treeData.length > 0) {
       const getSuitIndex = function (items) {
