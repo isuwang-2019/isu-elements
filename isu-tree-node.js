@@ -60,7 +60,12 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .pitch-on {
         background: #FCE9BB;
         text-decoration: underline;
-        
+      }
+      .ellipsis {
+          white-space: nowrap;
+          overflow: hidden;
+          -o-text-overflow: ellipsis;
+          text-overflow: ellipsis;
       }
     </style>
     <template is="dom-if" if="{{node.visible}}">
@@ -101,7 +106,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
           <!--可自定义部分-->
           <slot name="before-label"></slot>
-          <span>[[node.label]]</span>
+          <span class="ellipsis">[[node.label]]</span>
           <!--可自定义部分-->
           <slot name="after-label"></slot>
         </div>
