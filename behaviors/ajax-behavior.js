@@ -287,7 +287,7 @@ const AjaxBehaviorImpl = {
   /**
    * 根据参数设置隐藏loading的方式
    */
-  hideLoadingByStatus: function({showLoading, type}) {
+  hideLoadingByStatus({showLoading, type}) {
     if(!showLoading) return
     switch (type) {
       case 'loading':
@@ -305,7 +305,7 @@ const AjaxBehaviorImpl = {
   /**
    * 根据参数设置显示loading的方式
    */
-  showLoadingByStatus: function({showLoading, type}) {
+  showLoadingByStatus({showLoading, type}) {
     if(!showLoading) return
     switch (type) {
       case 'loading':

@@ -8,8 +8,6 @@ import './behaviors/isu-elements-shared-styles.js';
 import {IsuFetch} from './isu-fetch';
 import {CacheSearchUtil} from './utils/cacheSearchUtil'
 import {PinyinUtil} from './utils/pinyinUtil';
-import throttle from 'lodash-es/throttle';
-
 
 /**
 
@@ -690,50 +688,37 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     };
   }
 
-  _queryByKeywordUrlChanged(queryByKeywordUrl) {
+  async _queryByKeywordUrlChanged (queryByKeywordUrl) {
     if (!queryByKeywordUrl) return;
     const requestObj = this.fetchParam;
     const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, '');
     const request = this._mkRequest(queryByKeywordUrl, req);
-    this._fetchUtil.fetchIt(request)
-      .then(res => res.json())
-      .then(data => {
-        let items;
-        if (this.resultPath) {
-          items = this.getValueByPath(data, this.resultPath, []);
-        } else {
-          items = data || [];
-        }
-        let findIndex = items.findIndex(item => item[this.attrForValue] == this.value);
-        if (findIndex >= 0) {
-          items = [items[findIndex]].concat(items);
-          items.splice(findIndex + 1, 1);
-          this.items = items;
-        } else {
-          this.value ? this._getSelectedForItems(items) : this.items = items;
-        }
-      })
-      .catch(console.error);
+    try {
+      const data = await this._fetchUtil.fetchIt(request).then(res => res.json());
+      let items = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || [];
+      this.value ? this._getSelectedForItems(items) : this.items = items;
+    }catch (error) {
+      console.error(error)
+    }
   }
 
-  _getSelectedForItems(itemsArr) {
-    const requestObj = this.fetchParam;
-    const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value + '' || '');
-    const request = this._mkRequest(this.queryByValueUrl, req);
-    this._fetchUtil.fetchIt(request)
-      .then(res => res.json())
-      .then(data => {
-        const items = itemsArr || [];
-        if (this.resultPath) {
-          data = this.getValueByPath(data, this.resultPath, []);
-        }
-
-        const addItems = data.filter(d => !items.find(i => i[this.attrForValue] === d[this.attrForValue]));
-        if (addItems.length > 0) {
-          this.items = items.concat(addItems);
-        }
-      })
-      .catch(err => console.error(err));
+  async _getSelectedForItems (itemsArr) {
+    try{
+      const requestObj = this.fetchParam;
+      const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value ? `${this.value}` : '');
+      const request = this._mkRequest(this.queryByValueUrl, req);
+      let data = await this._fetchUtil.fetchIt(request).then(res => res.json())
+      const items = itemsArr || [];
+      if (this.resultPath) {
+        data = this.getValueByPath(data, this.resultPath, []);
+      }
+      const addItems = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`));
+      if (addItems.length > 0) {
+        this.items = items.concat(addItems);
+      }
+    }catch (e) {
+      console.error(e)
+    }
   }
 
   _itemsChanged(items = []) {
@@ -748,50 +733,38 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     items.forEach(item => this._cacheSearchUtil.addCacheItem(item, this._loadPinyinKeys(item, this.fieldsForIndex)));
   }
 
-  _userInputKeywordChanged() {
-
+  _userInputKeywordChanged(_userInputKeyword) {
     if (this._userInputKeyword.length > 0) {
       this.displayCollapse(true);
     }
 
     const matched = this._cacheSearchUtil.search(this._userInputKeyword, " ");
     if (this.queryByKeywordUrl) {
-
-      if (!this.__fetchByKeyword) {
-        this.__fetchByKeyword = throttle(() => {
+      const __fetchByKeyword = async () => {
+        try {
           const requestObj = this.fetchParam;
-
           const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this._userInputKeyword);
-
           const request = this._mkRequest(this.queryByKeywordUrl, req);
-          this._fetchUtil.fetchIt(request)
-            .then((res => {
-              return res.json().catch(err => {
-                console.warn(`'${err}' happened, but no big deal!`);
-                return [];
-              });
-            }))
-            .then(data => {
-              let candidateItems = data || [];
-              if (this.resultPath) {
-                candidateItems = this.getValueByPath(data, this.resultPath, []);
-              }
-              let _displayItems = candidateItems;
-              candidateItems = candidateItems.filter(i => (this.items || []).every(old => old[this.attrForValue] != i[this.attrForValue]));
-              if (candidateItems.length > 0) {
-                // _displayItems will reset when items changed.
-                this.items = candidateItems.concat(this.items);
-              } else {
-                this._displayItems = _displayItems.slice(0, 9);
-              }
-
-              this._switchFocusItemAt(0);
-            })
-            .catch(err => console.error(err));
-        }, 1000);
+          let data = await this._fetchUtil.fetchIt(request).then((res => {
+            return res.json().catch(err => {
+              console.warn(`'${err}' happened, but no big deal!`);
+              return [];
+            });
+          }))
+          let candidateItems = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || [];
+          let _displayItems = candidateItems;
+          candidateItems = candidateItems.filter(i => (this.items || []).every(old => old[this.attrForValue] != i[this.attrForValue]));
+          if (candidateItems.length > 0) {
+            // _displayItems will reset when items changed.
+            this.items = candidateItems.concat(this.items);
+          } else {
+            this._displayItems = _displayItems.slice(0, 9);
+          }
+        }catch (err) {
+          console.error(err)
+        }
       }
-
-      this.__fetchByKeyword();
+      this.debounce('__debounceFetchByKeyword', __fetchByKeyword, 500);
 
     } else {
       this._displayItems = matched.slice(0, 9);
@@ -872,7 +845,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   _selectItem(item) {
     // not yet selected
-    if (!~(this.selectedValues || []).findIndex(selected => selected[this.attrForValue] == item[this.attrForValue])) {
+    if (!~(this.selectedValues || []).findIndex(selected => `${selected[this.attrForValue]}` === `${item[this.attrForValue]}`)) {
       if (this.multi && this.selectedValues) {
         this.push('selectedValues', item);
       } else {
@@ -919,7 +892,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
 
     this.displayCollapse(true);
-    this._switchFocusItemAt(0);
+    // this._switchFocusItemAt(0);
   }
 
   __collapsePosition() {

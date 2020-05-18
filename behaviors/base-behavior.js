@@ -161,7 +161,6 @@ export const BaseBehavior = {
    */
   setValueByPath(model, path, value) {
     const paths = String(path).split(".");
-
     let tmp = model, ctx, key;
     for (key of paths) {
       if (key in tmp) {
@@ -266,7 +265,7 @@ export const BaseBehavior = {
       // loadingDiv.withBackdrop = true;
       (ele || document.body).appendChild(loadingDiv);
     }
-    this.async(function () {
+    this.async( () => {
       loadingDiv.opened = true;
     }, 0);
   },
@@ -274,7 +273,7 @@ export const BaseBehavior = {
    * 消除loading
    */
   hideLoading(ele) {
-    this.async(function () {
+    this.async(() => {
       const loadingDiv = (ele || document.body).querySelector("#isu-loading");
       if (loadingDiv) {
         loadingDiv.opened = false
@@ -379,6 +378,7 @@ export const BaseBehavior = {
       return res;
     }, [[], []]);
   },
+
   /**
    * get date-invalid attribute
    *
@@ -388,6 +388,32 @@ export const BaseBehavior = {
   getInvalidAttribute() {
     !this.validate() ? this.setAttribute("data-invalid", "") : this.removeAttribute("data-invalid");
   },
+
+  /**
+   * set value to storage(sessionStorage or localStorage)
+   * @param key
+   * @param value
+   * @param sessionOnly, default true, if true ? sessionStorage, else localStorage
+   */
+  setStorageValue(key, value, sessionOnly=true) {
+    const storage = sessionOnly ? window.sessionStorage : window.localStorage
+    if (typeof value === 'undefined')
+      value = null;
+    storage.setItem(key, JSON.stringify(value));
+  },
+
+  /**
+   * get value from storage(sessionStorage or localStorage)
+   * @param key
+   * @param sessionOnly, default true, if true ? sessionStorage, else localStorage
+   * @returns {*}
+   */
+  getStorageValue(key, sessionOnly=true) {
+    const storage = sessionOnly ? window.sessionStorage : window.localStorage
+    const str = storage.getItem(key)
+    return this.resolveJsonValue(str)
+  },
+
   /**
    * check the validate, override by the child component
    *
