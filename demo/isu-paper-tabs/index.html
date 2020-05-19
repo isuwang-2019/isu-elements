@@ -78,13 +78,13 @@
               import "@polymer/iron-icons/communication-icons.js";
             </script>
             <template>
-                <isu-paper-tabs selected="0" id="iSuPaperTabs1"></isu-paper-tabs>
+                <isu-paper-tabs value="0" id="iSuPaperTabs1"></isu-paper-tabs>
                 <script>
                   iSuPaperTabs1.tabList = [
-                    {name: 'ITEM ONE',value:0,disabled:false,permission:true},
-                    {name: 'ITEM TWO',value:1,disabled:false,permission:true},
-                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
-                    {name: 'ITEM Four',value:3,disabled:false,permission:true}
+                    {label: 'ITEM ONE',value:0,disabled:false,permission:true},
+                    {label: 'ITEM TWO',value:1,disabled:false,permission:true},
+                    {label: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {label: 'ITEM Four',value:3,disabled:false,permission:true}
                   ];
                   iSuPaperTabs1.isClear = true
                 </script>
@@ -94,14 +94,14 @@
         <demo-snippet>
             <template>
 
-                <isu-paper-tabs selected="one" attr-for-selected="name"
+                <isu-paper-tabs value="one" attr-for-selected="name"
                                id="iSuPaperTabsRight" tab-position="right"></isu-paper-tabs>
                 <script>
                   iSuPaperTabsRight.tabList = [
-                    {name: 'ITEM ONE',value:'one',disabled:false,permission:true},
-                    {name: 'ITEM TWO',value:'two',disabled:false,permission:true},
-                    {name: 'ITEM Three',value:'three',disabled:false,permission:true},
-                    {name: 'ITEM Four',value:'four',disabled:false,permission:true}
+                    {label: 'ITEM ONE',name:'one',disabled:false,permission:true},
+                    {label: 'ITEM TWO',name:'two',disabled:false,permission:true},
+                    {label: 'ITEM Three',name:'three',disabled:false,permission:true},
+                    {label: 'ITEM Four',name:'four',disabled:false,permission:true}
                   ];
                 </script>
             </template>
@@ -110,13 +110,13 @@
         <demo-snippet>
             <template>
 
-                <isu-paper-tabs selected="0" id="iSuPaperTabsLeft" tab-position="left"></isu-paper-tabs>
+                <isu-paper-tabs value="0" id="iSuPaperTabsLeft" tab-position="left"></isu-paper-tabs>
                 <script>
                   iSuPaperTabsLeft.tabList = [
-                    {name: 'ITEM ONE',value:0,disabled:false,permission:true},
-                    {name: 'ITEM TWO',value:1,disabled:false,permission:true},
-                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
-                    {name: 'ITEM Four',value:3,disabled:false,permission:true}
+                    {label: 'ITEM ONE',value:0,disabled:false,permission:true},
+                    {label: 'ITEM TWO',value:1,disabled:false,permission:true},
+                    {label: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {label: 'ITEM Four',value:3,disabled:false,permission:true}
                   ];
                 </script>
             </template>
@@ -124,13 +124,13 @@
         <h3>Plain <code>isu-paper-tabs-position-bottom</code>.</h3>
         <demo-snippet>
             <template>
-                <isu-paper-tabs selected="0" id="iSuBottomPaperTabs" tab-position="bottom"></isu-paper-tabs>
+                <isu-paper-tabs value="0" id="iSuBottomPaperTabs" tab-position="bottom"></isu-paper-tabs>
                 <script>
                   iSuBottomPaperTabs.tabList = [
-                    {name: 'ITEM ONE',value:0,disabled:false,permission:true,iconName:'menu'},
-                    {name: 'ITEM TWO',value:1,disabled:false,permission:true,iconName:'menu'},
-                    {name: 'ITEM Three',value:2,disabled:false,permission:true,iconName:'menu'},
-                    {name: 'ITEM Four',value:3,disabled:false,permission:true,iconName:'menu'}
+                    {label: 'ITEM ONE',value:0,disabled:false,permission:true,iconName:'menu'},
+                    {label: 'ITEM TWO',value:1,disabled:false,permission:true,iconName:'menu'},
+                    {label: 'ITEM Three',value:2,disabled:false,permission:true,iconName:'menu'},
+                    {label: 'ITEM Four',value:3,disabled:false,permission:true,iconName:'menu'}
                   ];
                 </script>
             </template>
@@ -139,13 +139,13 @@
         <demo-snippet>
             <template>
 
-                <isu-paper-tabs selected="0" id="iSuCardPaperTabs" tab-type="card"></isu-paper-tabs>
+                <isu-paper-tabs value="0" id="iSuCardPaperTabs" tab-type="card"></isu-paper-tabs>
                 <script>
                   iSuCardPaperTabs.tabList = [
-                    {name: 'ITEM ONE',value:0,disabled:false,permission:false},
-                    {name: 'ITEM TWO',value:1,disabled:false,permission:false},
-                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
-                    {name: 'ITEM Four',value:3,disabled:false,permission:true }
+                    {label: 'ITEM ONE',value:0,disabled:false,permission:false},
+                    {label: 'ITEM TWO',value:1,disabled:false,permission:false},
+                    {label: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {label: 'ITEM Four',value:3,disabled:false,permission:true }
                   ];
                 </script>
             </template>
@@ -153,13 +153,13 @@
         <h3>Plain <code>isu-paper-tabs-border-card-type</code>.</h3>
         <demo-snippet>
             <template>
-                <isu-paper-tabs selected="0" id="iSuBorderCardPaperTabs" tab-type="border-card"></isu-paper-tabs>
+                <isu-paper-tabs value="0" id="iSuBorderCardPaperTabs" tab-type="border-card"></isu-paper-tabs>
                 <script>
                   iSuBorderCardPaperTabs.tabList = [
-                    {name: 'ITEM ONE',value:0,disabled:false,permission:true},
-                    {name: 'ITEM TWO',value:1,disabled:false,permission:true},
-                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
-                    {name: 'ITEM Four',value:3,disabled:false,permission:true}
+                    {label: 'ITEM ONE',value:0,disabled:false,permission:true},
+                    {label: 'ITEM TWO',value:1,disabled:false,permission:true},
+                    {label: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {label: 'ITEM Four',value:3,disabled:false,permission:true}
                   ];
                 </script>
             </template>
@@ -167,13 +167,13 @@
         <h3>Plain <code>isu-paper-tabs-width-bar</code>.</h3>
         <demo-snippet>
             <template>
-                <isu-paper-tabs selected="0" id="iSuWidthBarPaperTabs" tab-type="width-bar"></isu-paper-tabs>
+                <isu-paper-tabs value="0" id="iSuWidthBarPaperTabs" tab-type="width-bar"></isu-paper-tabs>
                 <script>
                   iSuWidthBarPaperTabs.tabList = [
-                    {name: 'ITEM ONE',value:0,disabled:false,permission:true},
-                    {name: 'ITEM TWO',value:1,disabled:false,permission:true},
-                    {name: 'ITEM Three',value:2,disabled:false,permission:true},
-                    {name: 'ITEM Four',value:3,disabled:false,permission:true}
+                    {label: 'ITEM ONE',value:0,disabled:false,permission:true},
+                    {label: 'ITEM TWO',value:1,disabled:false,permission:true},
+                    {label: 'ITEM Three',value:2,disabled:false,permission:true},
+                    {label: 'ITEM Four',value:3,disabled:false,permission:true}
                   ];
                 </script>
             </template>

@@ -163,17 +163,17 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       }
     </style>
         <div class$="[[getTabPositionClass(tabPosition)]] [[getTabTypeClass(tabType)]]">
-            <paper-tabs selected="{{selected}}" attr-for-selected="[[attrForSelected]]"  
+            <paper-tabs selected="{{value}}" attr-for-selected="[[__attrForSelected]]"  
             selected-item="{{selectedItem}}" noink="[[noink]]" align-bottom="[[alignBottom]]" no-bar="[[noBar]]" no-slide="[[noSlide]]"
             scrollable="[[scrollable]]" autoselect="[[autoSelect]]" autoselect-delay="[[autoSelectDelay]]"
             hide-scroll-buttons="[[hideScrollButtons]]" disable-drag="[[disableDrag]]">
                 <template is="dom-repeat" items="[[tabList]]">
                     <template is="dom-if" if="[[item.permission]]">
-                        <paper-tab name="[[item.value]]" disabled="[[item.disabled]]">
+                        <paper-tab name="[[__getForSelectedName(item, attrForSelected)]]" disabled="[[item.disabled]]">
                             <template is="dom-if" if="[[item.iconName]]">
                                 <iron-icon icon="[[item.iconName]]" class="paper-tab-iron-icon"></iron-icon>             
                             </template>
-                            [[item.name]]
+                            [[item.label]]
                             <template is="dom-if" if="[[_isAppearClearIcon(isClear,tabType)]]">
                                 <iron-icon icon="icons:clear" class="paper-tab-clear-icon" on-click="clearPaperTab" 
                                 data-args="[[item]]"></iron-icon>
@@ -193,14 +193,14 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       /**
        * TabList:Must-Pass,is a Array.
        * Child element
-       * requirements:{name:String,value:Number||String,permission:Boolean,iconName:String, disabled:Boolean}.
+       * requirements:{label:String,value:Number||String,permission:Boolean,iconName:String, disabled:Boolean}.
        * if permission === false ,paper-tab hidden.
        * if disabled === false,paper-tab can't click.
        */
       tabList: {
         type: Array,
         value: [
-          {name:'Paper-tab',value:0,permission:true,disabled:false}
+          {label:'Paper-tab',value:0,permission:true,disabled:false}
         ],
         notify: true
       },
@@ -208,10 +208,10 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
        * The selected value, if attrForSelected === 'name',the name of the selectedItem is returned,
        * otherwise the number is returned, the default value is 0
        */
-      selected: {
-        type: String,
+      value: {
+        type: String | Number,
         value: '0',
-        notify: true,
+        notify: true
       },
       /**
        * selectedItem
@@ -238,7 +238,19 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
         notify:true,
         observer:'_tabTypeChange'
       },
-      attrForSelected:{type:String, value:'', notify:true},
+      /**
+       * If you want to use an attribute value or property of an element for
+       * `selected` instead of the index, set this to the name of the attribute
+       * or property. Hyphenated values are converted to camel case when used to
+       * look up the property of a selectable element. Camel cased values are
+       * *not* converted to hyphenated values for attribute lookup. It's
+       * recommended that you provide the hyphenated form of the name so that
+       * selection works in both cases. (Use `attr-or-property-name` instead of
+       * `attrOrPropertyName`.)
+       */
+      attrForSelected:{type:String, notify:true},
+
+      __attrForSelected:{type: String, computed: '__attrForSelectedChanged(attrForSelected)'},
       /**
        * If true, ink ripple effect is disabled. When this property is changed,
        * all descendant `<paper-tab>` elements have their `noink` property
@@ -300,18 +312,8 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
     return 'isu-paper-tabs'
   }
 
-  connectedCallback(){
-    super.connectedCallback()
-  }
-
-  created() {
-    super.created();
-  }
-  attached(){
-    super.attached()
-  }
-  ready() {
-    super.ready();
+  __attrForSelectedChanged(attrForSelected) {
+    return attrForSelected ? 'name' : undefined
   }
   _selectedItemChange(newVal){
     if(newVal && ['left','right'].includes(this.tabPosition)){
@@ -367,6 +369,13 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
     this.set('tabList',this.tabList.filter(item => { return item.value !== data.value }))
     if(this.tabList.indexOf(item=>{item.value = this.selectedItem.value}) === -1){
       this.set('selected',this.attrForSelected?this.tabList[0].value:0)
+    }
+  }
+  __getForSelectedName(item, attrForSelected){
+    if(!item || !attrForSelected){
+      return undefined
+    } else {
+      return item[attrForSelected]
     }
   }
 }
