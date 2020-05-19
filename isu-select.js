@@ -107,6 +107,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
 
       .tag {
+        max-width: calc(100% - 14px);
         color: #fff;
         background: var(--isu-ui-bg);
         border-radius: 4px;
