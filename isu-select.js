@@ -205,8 +205,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         padding: 0 8px;
         margin-bottom: 1px;
         font-size: 12px;
-        /*white-space: nowrap;*/
-        word-break: break-all;
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         min-height: 22px;
