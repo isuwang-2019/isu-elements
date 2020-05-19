@@ -121,14 +121,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   
           margin: 2px;
           padding: 0 4px;
-          height: 22px;
+          min-height: 22px;
           line-height: 22px;
           /*max-width: calc(var(--isu-picker-width)- 30px);*/
   
           display: flex;
           font-size: 14px;
-          white-space: nowrap;
           cursor: default;
+          word-break: break-all;
           @apply --isu-picker-tag;
         }
   

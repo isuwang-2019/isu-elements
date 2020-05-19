@@ -115,6 +115,8 @@ const template = html`
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-align: right;
+        width: var(--isu-label-width, 120px);
         @apply --isu-label;
       }
     </style>
