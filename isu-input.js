@@ -29,6 +29,8 @@ import './behaviors/isu-elements-shared-styles.js';
  * |`--isu-input-label` | Mixin applied to the label of input | {}
  * |`--isu-input` | Mixin applied to the input | {}
  * |`--isu-input-unit` | Mixin applied to unit of the input value | {}
+ * |`--isu-input-width` | The width of the isu-input | 300px
+ *
  *
  * @customElement
  * @polymer
@@ -41,7 +43,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: 300px;
+        width: var(--isu-input-width, 300px);
         height: 34px;
         line-height: 34px;
         font-family: var(--isu-ui-font-family), sans-serif;

@@ -154,7 +154,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           display: flex;
           position: absolute;
           /*top: 100%;*/
-          width: 100%;
           margin-top: 1px;
           border-radius: 4px;
           font-size: 12px;

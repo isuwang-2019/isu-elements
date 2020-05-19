@@ -56,7 +56,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: 300px;
+        width: var(--isu-input-jedate-width, 300px);
         height: 34px;
         line-height: 34px;
         font-family: var(--isu-ui-font-family), sans-serif;

@@ -37,7 +37,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           flex-wrap: nowrap;
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
-          width: 400px;
+          width: var(--isu-textarea-width, 400px);
           height: 68px;
           position: relative;
           background: white;
