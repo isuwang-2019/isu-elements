@@ -4,6 +4,7 @@ import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
 import '@polymer/iron-icons/social-icons';
 import '@polymer/iron-selector/iron-selector';
+import '@polymer/iron-input/iron-input'
 import './behaviors/base-behavior.js';
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
@@ -148,14 +149,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         font-size: 16px;
         line-height: 28px;
         height: 28px;
-
-        @apply --isu-select-tag-cursor;
-
         border: none;
-        outline: none;
-        padding: 0;
-        margin: 0;
-        width: 1px;
+        @apply --isu-select-tag-cursor;
       }
 
       #select-collapse {
@@ -271,7 +266,6 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <div class="tags__container">
           <div id="placeholder">[[placeholder]]</div>
           <div id="tag-content">
-            <input class="tag-cursor" id="tag-cursor__-1" data-cursor-index="-1" on-keydown="_updatePressed" autocomplete="off">
             <template is="dom-repeat" items="[[ selectedValues ]]">
               <div class="tag">
                 <div class="tag-name" title="[[getValueByKey(item, attrForLabel)]]">
@@ -279,10 +273,9 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
                 </div>
                 <iron-icon class="tag-deleter" icon="icons:clear" data-args="[[getValueByKey(item, attrForValue)]]" on-click="_deleteTag"></iron-icon>
               </div>
-              <template is="dom-if" if="[[ isFocus ]]">
-                <input class="tag-cursor" id="tag-cursor__[[index]]" data-cursor-index$="[[index]]" on-keydown="_updatePressed" autocomplete="off">
-              </template>
             </template>
+            <input id="keywordInput" style="border: none; height: 28px; width: calc(100% - 14px)" 
+                          value="{{ keyword::input }}" autocomplete="off" on-focus="__focusOnKeywordInput">
           </div>
         </div>
         <iron-icon id="caret" icon="icons:expand-more"></iron-icon>
@@ -338,6 +331,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       items: {
         type: Array,
+        notify: true,
         value: []
       },
       /**
@@ -449,6 +443,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       multiLimit: {
         type: Number
       },
+      keyword: {
+        type: String,
+        notify: true
+      }
     };
   }
 
@@ -461,7 +459,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_valueChanged(value, items)',
       '_selectedValuesChanged(selectedValues.splices)',
       'selectedItemChanged(selectedItem)',
-      'getInvalidAttribute(required,value)'
+      'getInvalidAttribute(required,value)',
+      '_keywordChanged(keyword)'
     ];
   }
 
@@ -470,7 +469,6 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.addEventListener('blur', e => {
       this.closeCollapse();
     });
-    this.isFocus = !this.classList.contains('size-selector');
     let parent = this.offsetParent;
     while (parent) {
       parent.addEventListener('scroll', e => {
@@ -478,6 +476,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       });
       parent = parent.offsetParent;
     }
+  }
+
+  __focusOnKeywordInput() {
+    this.$.keywordInput.focus();
   }
 
   /**
@@ -490,7 +492,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (classList.contains('tag-deleter') || classList.contains('tag-cursor')) {
       return;
     }
-
+    this.__focusOnKeywordInput()
     this.toggleCollapse();
   }
 
@@ -508,7 +510,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
 
     this.$['select-collapse'].style['left'] = left + 'px';
-    this.$['select-collapse'].style['top'] = top + 'px';
+    this.$['select-collapse'].style['top'] = this.selectedValues.length === 0 ? (top + 'px') : (top + 40 + 'px');
     this.$['select-collapse'].style['width'] = this.$['select__container'].clientWidth + 'px';
   }
 
@@ -536,7 +538,9 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     } else {
       this.value = undefined;
     }
-    this.closeCollapse();
+    if (this.selectedValues.length !== 0) {
+      this.closeCollapse();
+    }
   }
 
   selectedItemChanged() {
@@ -570,17 +574,18 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         if (cursorIndex >= 0) {
           this.splice('selectedValues', cursorIndex, 1);
         }
+        if(!this.keyword || this.keyword.length === 0) {
+          if(this.selectedValues){//存在数据才抛出,解决新增时候数据为空时退格Array.length出错问题
+            this.pop("selectedValues");
+          }
+        }
         cursorIndex = cursorIndex > 0 ? --cursorIndex : -1;
         break;
     }
-
-    const currCursor = this.shadowRoot.querySelector(`#tag-cursor__${cursorIndex}`);
-    currCursor && currCursor.focus();
   }
 
   __focusOnLast() {
-    const lastCursor = this.shadowRoot.querySelector(`#tag-cursor__${this.selectedValues.length - 1}`);
-    lastCursor && lastCursor.focus();
+    this.set('keyword', null)
   }
 
   _displayPlaceholder(display) {
@@ -593,6 +598,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   openCollapse() {
     this.$["select-collapse"].setAttribute('data-collapse-open', '');
     this.opened = true;
+    this.$.keywordInput.style.display = 'block'
+    this.__focusOnKeywordInput()
   }
 
   /**
@@ -600,6 +607,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   closeCollapse() {
     this.$["select-collapse"].removeAttribute('data-collapse-open');
+    this.$.keywordInput.style.display = 'none'
     this.opened = false;
   }
 
@@ -608,12 +616,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   toggleCollapse() {
     if (this.$["select-collapse"].hasAttribute('data-collapse-open')) {
-      this.$["select-collapse"].removeAttribute('data-collapse-open');
+      this.closeCollapse()
     } else {
-      this.$["select-collapse"].setAttribute('data-collapse-open', '');
+      this.openCollapse()
     }
-    this.opened = !this.opened;
-    this.__focusOnLast();
   }
 
   /**
