@@ -113,13 +113,13 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
         margin: 3px 2px;
         padding: 0 4px;
-        height: 22px;
+        min-height: 22px;
         line-height: 22px;
         /*max-width: 200px;*/
 
         display: flex;
         font-size: 14px;
-        white-space: nowrap;
+        word-break: break-all;
         cursor: default;
         @apply --isu-select-tag;
       }
@@ -205,10 +205,11 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         padding: 0 8px;
         margin-bottom: 1px;
         font-size: 12px;
-        white-space: nowrap;
+        /*white-space: nowrap;*/
+        word-break: break-all;
         overflow: hidden;
         text-overflow: ellipsis;
-        height: 22px;
+        min-height: 22px;
         line-height: 22px;
         cursor: pointer;
       }
