@@ -25,6 +25,7 @@ import './isu-select';
  * |Custom property | Description | Default|
  * |----------------|-------------|----------|
  * |`--isu-input-date-label` | Mixin applied to the label of input | {}
+ * |`--isu-input-date-width` | The width of the isu-input-date | 380px
  *
  * @customElement
  * @polymer
@@ -36,7 +37,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: 380px;
+        width: var(--isu-input-date-width, 380px);
         height: 34px;
         line-height: 34px;
         font-family: var(--isu-ui-font-family), sans-serif;
