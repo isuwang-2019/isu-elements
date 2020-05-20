@@ -8,6 +8,8 @@ import '@polymer/iron-input/iron-input'
 import './behaviors/base-behavior.js';
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
+import {PinyinUtil} from "./utils/pinyinUtil";
+import {CacheSearchUtil} from "./utils/cacheSearchUtil";
 
 /**
  * `isu-select`
@@ -283,7 +285,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       <div id="select-collapse" on-click="__focusOnLast">
         <iron-selector class="selector-panel" multi="[[ multi ]]" selected="{{ selectedItem }}" selected-values="{{ selectedValues }}" attr-for-selected="candidate-item">
-          <template is="dom-repeat" items="[[items]]">
+          <template is="dom-repeat" items="[[_displayItems]]">
             <div class="candidate-item" candidate-item="[[item]]" title="[[getValueByKey(item, attrForLabel)]]">
               [[getValueByKey(item, attrForLabel)]]
             </div>
@@ -303,6 +305,26 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get properties() {
     return {
+      /**
+       * Chinese pinyin plugin
+       */
+      _pinyinUtil: {
+        type: Object,
+        readOnly: true,
+        value: function () {
+          return new PinyinUtil();
+        }
+      },
+      /**
+       * Cache search plugin
+       */
+      _cacheSearchUtil: {
+        type: Object,
+        readOnly: true,
+        value: function () {
+          return new CacheSearchUtil();
+        }
+      },
       /**
        * The selected value of this select,  if `multi` is true,
        * the value will join with comma ( `selectedValues.map(selected => selected[this.attrForValue]).join(',')` ).
@@ -446,6 +468,13 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       keyword: {
         type: String,
         notify: true
+      },
+      fieldsForIndex: {
+        type: Array
+      },
+      _displayItems: {
+        type: Array,
+        value: []
       }
     };
   }
@@ -456,7 +485,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get observers() {
     return [
-      '_valueChanged(value, items)',
+      '_valueChanged(value)',
+      '_itemsChanged(items)',
       '_selectedValuesChanged(selectedValues.splices)',
       'selectedItemChanged(selectedItem)',
       'getInvalidAttribute(required,value)',
@@ -514,22 +544,71 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$['select-collapse'].style['width'] = this.$['select__container'].clientWidth + 'px';
   }
 
-  _valueChanged(value, items = []) {
-    const values = String(value).split(",").map(str => str.trim());
-    const flatValues = [...(new Set(values))];
+  _itemsChanged (items) {
+    // 初始化一次选中项
+    if (this.value !== undefined && this.value !== null) {
+      this._valueChanged(this.value);
+    }
+    // 清空缓存插件的缓存
+    this._cacheSearchUtil.resetCache();
 
-    const dirty = (this.selectedValues || []).map(selected => selected[this.attrForValue]).join(',');
-    if (dirty !== value) {
-      this.selectedValues =
-        flatValues.map(val => items.find(item => item[this.attrForValue] == val))
-          .filter(selected => typeof selected !== 'undefined');
+    items.forEach(item => this._cacheSearchUtil.addCacheItem(item, this._loadPinyinKeys(item, this.fieldsForIndex)));
+    this._displayItems = items
+  }
 
-      if (!this.multi) {
-        this.selectedItem = items.find(item => item[this.attrForValue] == flatValues[0]);
+  _valueChanged(value) {
+    if (this.items && this.items.length) {
+      const values = String(value).split(",").map(str => str.trim());
+      const flatValues = [...(new Set(values))];
+
+      const dirty = (this.selectedValues || []).map(selected => selected[this.attrForValue]).join(',');
+      if (dirty !== value) {
+        this.selectedValues =
+          flatValues.map(val => items.find(item => item[this.attrForValue] == val))
+            .filter(selected => typeof selected !== 'undefined');
+
+        if (!this.multi) {
+          this.selectedItem = items.find(item => item[this.attrForValue] == flatValues[0]);
+        }
       }
     }
 
     this._displayPlaceholder(this.selectedValues.length === 0)
+  }
+
+  /**
+   * 给对象根据fieldsForIndex给对应的字段做拼音缓存（字段值，字段值全拼和拼音首字母）
+   */
+  _loadPinyinKeys(item, fieldsForIndex = []) {
+    let keys = [], values = fieldsForIndex.map(sf => item[sf]);
+
+    values = values.length === 0 ? Object.values(item) : values;
+
+    if (this.disablePinyinSearch) {
+      keys = values.map(value => String(value));
+    } else {
+      values.forEach(
+        value => {
+          keys = keys.concat(
+            String(value),
+            this._pinyinUtil.convert2CompletePinyin(value),
+            this._pinyinUtil.convert2PinyinAbbreviation(value)
+          );
+        }
+      );
+    }
+
+    return keys;
+  }
+
+
+  _keywordChanged(keyword) {
+    // if (this.keyword.length > 0) {
+    //   this.displayCollapse(true);
+    // }
+
+    this._displayItems = this._cacheSearchUtil.search(this.keyword, " ");
+    this._displayPlaceholder();
   }
 
   _selectedValuesChanged() {
@@ -585,7 +664,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __focusOnLast() {
-    this.set('keyword', null)
+    this.set('keyword', '')
   }
 
   _displayPlaceholder(display) {

@@ -19,7 +19,8 @@ class IsuSelectTest extends mixinBehaviors([AjaxBehavior], PolymerElement) {
           width: 500px;
         }
       </style>
-      <isu-select label="球员" placeholder="选择球员" multi="" keyword="{{keyword}}" items="{{items}}" show-all></isu-select>
+      <isu-select label="球员" placeholder="选择球员" multi="" items="{{allItems}}" show-all></isu-select>
+      <isu-select label="球员" placeholder="选择球员" items="{{allItems}}" show-all></isu-select>
     `
   }
 
@@ -40,26 +41,10 @@ class IsuSelectTest extends mixinBehaviors([AjaxBehavior], PolymerElement) {
           {"label": "保利尼奥", "value": 6},
           {"label": "内马尔", "value": 13}
         ]
-      },
-      keyword: {
-        type: String,
-        value: ''
       }
     };
   }
 
-  static get observers() {
-    return [
-      '__keywordChanged(keyword)',
-    ]
-  }
-
-  __keywordChanged(value) {
-    console.log('keyword', value)
-    const self = this
-    const itemsFilter = value ? self.allItems.filter(item => item.label.indexOf(value) !== -1) : self.allItems
-    self.set('items', itemsFilter)
-  }
 
   static get is() {
     return "isu-select-test";
