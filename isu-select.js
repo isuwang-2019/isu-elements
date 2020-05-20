@@ -163,7 +163,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         transition: max-height 200ms ease-in;
 
         max-height: 0;
-        position: fixed;
+        position: absolute;
         overflow-y: auto;
         z-index: 99;
         margin-top: 1px;
@@ -527,20 +527,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   refreshElemPos(){
-    const anchor = this.$['select__container'];
-    const {x: left, y} = anchor.getBoundingClientRect();
-
-    const collapseHeight = Math.min(this.items.length * 26, 300);
-    const totalHeight = y + collapseHeight;
-    let top;
-    if(totalHeight > document.documentElement.clientHeight) {
-      top = y - collapseHeight - 4;
-    } else {
-      top = y + this.clientHeight;
-    }
-
-    this.$['select-collapse'].style['left'] = left + 'px';
-    this.$['select-collapse'].style['top'] = this.selectedValues.length === 0 ? (top + 'px') : (top + 40 + 'px');
+    this.$['select-collapse'].style['top'] = this.selectedValues.length === 0 ? this.clientHeight + 'px' : (this.clientHeight + 30) + 'px';
     this.$['select-collapse'].style['width'] = this.$['select__container'].clientWidth + 'px';
   }
 
@@ -564,7 +551,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const dirty = (this.selectedValues || []).map(selected => selected[this.attrForValue]).join(',');
       if (dirty !== value) {
         this.selectedValues =
-          flatValues.map(val => items.find(item => item[this.attrForValue] == val))
+          flatValues.map(val => this.items.find(item => item[this.attrForValue] == val))
             .filter(selected => typeof selected !== 'undefined');
 
         if (!this.multi) {
@@ -601,12 +588,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return keys;
   }
 
-
   _keywordChanged(keyword) {
-    // if (this.keyword.length > 0) {
-    //   this.displayCollapse(true);
-    // }
-
     this._displayItems = this._cacheSearchUtil.search(this.keyword, " ");
     this._displayPlaceholder();
   }
