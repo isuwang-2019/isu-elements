@@ -273,7 +273,6 @@ const AjaxBehaviorImpl = {
         }
       } else {
         const err = await response.text()
-        this.isuTip.error(err)
         throw err;
       }
     }catch (e) {

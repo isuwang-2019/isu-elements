@@ -320,7 +320,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
             <tbody>
               <template is="dom-if" if="[[ isArrayEmpty(data) ]]">
                 <tr class="table__row">
-                  <td class="table__nodata" colspan$="[[ colspan ]]">无数据</td>
+                  <td class="table__nodata" colspan$="[[ colspan ]]">[[noDataMsg]]</td>
                 </tr>
               </template>
               
@@ -872,6 +872,14 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       assignedElements: {
         type: Object
+      },
+
+      /**
+       * Custom no data prompt, default is '无数据'
+       */
+      noDataMsg: {
+        type: String,
+        value: '无数据'
       },
 
       __tableData: {
