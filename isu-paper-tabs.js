@@ -210,7 +210,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
        */
       value: {
         type: String | Number,
-        value: '0',
+        value: 0,
         notify: true
       },
       /**
