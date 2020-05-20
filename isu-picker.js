@@ -70,6 +70,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           flex: 1;
           position: relative;
           display: flex;
+          min-width: 0px;
         }
   
         .input-container {
@@ -154,6 +155,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           display: flex;
           position: absolute;
           /*top: 100%;*/
+          min-width: 100%;
           margin-top: 1px;
           border-radius: 4px;
           font-size: 12px;
@@ -712,9 +714,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         data = this.getValueByPath(data, this.resultPath, []);
       }
       const addItems = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`));
-      if (addItems.length > 0) {
-        this.items = items.concat(addItems);
-      }
+      this.items = addItems.length > 0 ? items.concat(addItems) : items
     }catch (e) {
       console.error(e)
     }

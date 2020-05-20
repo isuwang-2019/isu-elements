@@ -449,11 +449,11 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: "label"
       },
       /**
-      * Whether the focus of the last virtual input box is needed
-      * @type {boolean}
-      * @default
-      *
-      * */
+       * Whether the focus of the last virtual input box is needed
+       * @type {boolean}
+       * @default
+       *
+       * */
       isFocus: {
         type: Boolean
       },
