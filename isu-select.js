@@ -555,7 +555,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
             .filter(selected => typeof selected !== 'undefined');
 
         if (!this.multi) {
-          this.selectedItem = items.find(item => item[this.attrForValue] == flatValues[0]);
+          this.selectedItem = this.items.find(item => item[this.attrForValue] == flatValues[0]);
         }
       }
     }
