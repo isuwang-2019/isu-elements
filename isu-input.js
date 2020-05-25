@@ -213,44 +213,46 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </template>
     
     <!--可编辑状态-->
-    <div class="input__container">
-      <template is="dom-if" if="[[prefixUnit]]">
-        <div class="prefix-unit input-unit">[[prefixUnit]]</div>
-      </template>
-      <iron-input bind-value="[[value]]" id="input" class="iron-input">
-        <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]"
-            maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
-        <div class="clear">
-          <template is="dom-if" if="[[ isExistTruthy(value) ]]">
-            <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
-          </template>
-        </div>
-        <div class="clear">
-          <template is="dom-if" if="[[ isExistTruthy(value) ]]">
-            <template is="dom-if" if="[[ togglePassword ]]">
-              <iron-icon class="icon-password" icon=icons:visibility on-click="showPassword"></iron-icon>
+    <div id="input__container" class="input__container">
+            <template is="dom-if" if="[[prefixUnit]]">
+              <div class="prefix-unit input-unit">[[prefixUnit]]</div>
             </template>
-            <template is="dom-if" if="[[ !togglePassword ]]">
-              <iron-icon class="icon-password" icon=icons:visibility-off on-click="showPassword"></iron-icon>
+            <iron-input bind-value="[[value]]" id="input" class="iron-input">
+              <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]"
+                  maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
+              <div class="clear">
+                <template is="dom-if" if="[[ isExistTruthy(value) ]]">
+                  <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
+                </template>
+              </div>
+              <div class="clear">
+                <template is="dom-if" if="[[ isExistTruthy(value) ]]">
+                  <template is="dom-if" if="[[ togglePassword ]]">
+                    <iron-icon class="icon-password" icon=icons:visibility on-click="showPassword"></iron-icon>
+                  </template>
+                  <template is="dom-if" if="[[ !togglePassword ]]">
+                    <iron-icon class="icon-password" icon=icons:visibility-off on-click="showPassword"></iron-icon>
+                  </template>
+                </template>
+              </div>
+            </iron-input>
+            <template is="dom-if" if="[[suffixUnit]]">
+              <div class="suffix-unit input-unit">[[suffixUnit]]</div>
             </template>
-          </template>
-        </div>
-      </iron-input>
-      <template is="dom-if" if="[[suffixUnit]]">
-        <div class="suffix-unit input-unit">[[suffixUnit]]</div>
-      </template>
-      
-      <div class="prompt-tip__container" data-prompt$="[[prompt]]">
-      <div class="prompt-tip">
-        <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
-        [[prompt]]
-      </div>
-    </div>
-    <!--add mask when the componet is disabled or readonly-->
-    <div class="mask"></div>
-    
-    </div>
-    
+            
+            <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+            <div class="prompt-tip">
+              <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+              [[prompt]]
+            </div>
+          </div>
+          <!--add mask when the componet is disabled or readonly-->
+          <div class="mask"></div>
+          
+          </div>
+    <template is="dom-if" if="[[isEqual(mode,'View')]]">
+      <div class="input__container">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
+    </template>
     
 `;
   }
@@ -380,6 +382,11 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
       togglePassword: {
         type: Boolean,
         value: false
+      },
+      mode: {
+        type: String,
+        value: 'Edit',
+        notify: true
       }
     };
   }
@@ -391,7 +398,8 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get observers() {
     return [
       'getInvalidAttribute(required, min, max, value)',
-      '__allowedPatternChanged(allowedPattern)'
+      '__allowedPatternChanged(allowedPattern)',
+      '__modeChanged(mode)'
     ];
   }
 
@@ -441,6 +449,10 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
   showPassword (e) {
     this.togglePassword = !this.togglePassword
     this.$.innerInput.type = this.togglePassword ? 'text' : 'password'
+  }
+
+  __modeChanged(mode) {
+    this.$['input__container'].style.display = mode === 'View' ? 'none' : 'block'
   }
 
   ready() {

@@ -314,19 +314,23 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _valueChanged(value, treeData) {
     const self = this
     if (this.treeData.length > 0) {
+      let flag = true
       const getSuitIndex = function (items) {
-        if (!items) return -1
-        let index = items.findIndex(item => item[self.attrForValue] == self.value)
-        if (index < 0) {
-          items.forEach(item => {
-            getSuitIndex(item.children)
-          })
+        if (flag) {
+          if (!items) return -1
+          let index = items.findIndex(item => item[self.attrForValue] == self.value)
+          if (index < 0) {
+            self.selectedItem = {}
+            items.forEach(item => {
+              getSuitIndex(item.children)
+            })
+          }
+          if (index >= 0) {
+            self.selectedItem = items[index]
+            flag = false
+          }
+          return index
         }
-        if (index >= 0) {
-          self.selectedItem = items[index]
-        }
-        return index
-
       }
       getSuitIndex(this.treeData)
     }

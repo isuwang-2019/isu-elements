@@ -355,7 +355,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polymer
 
   __loadFileData(blob) {
     if (this.__byteSize > 0 && blob.size > this.__byteSize) {
-      this.h2Tip.error(`上传图片不能超过${this.sizeLimit}`, 3000);
+      this.isuTip.error(`上传图片不能超过${this.sizeLimit}`, 3000);
       return;
     }
     const reader = new FileReader();

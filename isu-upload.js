@@ -188,9 +188,9 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
         this.set('files', []);
         this.$['file-chooser'].value = '';
         this.set('response', res);
-        this.h2Tip.success('导入成功', 2500);
+        this.isuTip.success('导入成功', 2500);
       } else {
-        this.h2Tip.error(res.error, 2500);
+        this.isuTip.error(res.error, 2500);
       }
     }).catch(err => {
       console.error(err);

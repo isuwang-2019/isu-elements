@@ -44,7 +44,7 @@ export const TipBehavior = {
      * @param {string|object} msgObj
      * @param {number=600000} duration
      */
-    error(msgObj, duration = 600000) {
+    error(msgObj, duration = 5000) {
       this.tip({msgObj, duration, type: 'error'});
     },
     

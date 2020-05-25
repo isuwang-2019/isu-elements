@@ -282,12 +282,12 @@
         });
         form.addEventListener('error', e => {
           console.log('error', e);
-          TipBehavior.h2Tip.error("保存失败");
+          TipBehavior.isuTip.error("保存失败");
         });
         form.addEventListener("response-body-changed", (e) => {
           alert(JSON.stringify(e.detail.value));
         });
-        TipBehavior.h2Tip.error("保存失败");
+        TipBehavior.isuTip.error("保存失败");
       </script>
     </template>
   </demo-snippet>
