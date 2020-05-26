@@ -300,6 +300,11 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </div>
       <div class="mask"></div>
     </div>
+    <template is="dom-if" if="[[isEqual(mode,'View')]]">
+      <div>
+         <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
+      </div>
+    </template>
 `;
   }
 
@@ -475,6 +480,20 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       _displayItems: {
         type: Array,
         value: []
+      },
+      /**
+       * The mode of the select component, eg: Edit/View
+       * */
+      mode: {
+        type: String,
+        value: 'Edit'
+      },
+      /**
+       * The connector to connect labels when the mode=View, eg: "苹果，香蕉，梨"
+       * */
+      joinConnector: {
+        type: String,
+        value: ','
       }
     };
   }
@@ -490,7 +509,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_selectedValuesChanged(selectedValues.splices)',
       'selectedItemChanged(selectedItem)',
       'getInvalidAttribute(required,value)',
-      '_keywordChanged(keyword)'
+      '_keywordChanged(keyword)',
+      '__modeChanged(mode)'
     ];
   }
 
@@ -688,6 +708,15 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   doFocus() {
     this.__focusOnLast();
+  }
+
+  getViewLabels (items, attrForLabel, connector) {
+    let labels = items.map(item=> item[attrForLabel])
+    return labels.join(connector)
+  }
+
+  __modeChanged(mode) {
+    this.$['select__container'].style.display = mode === 'View' ? 'none' : 'block'
   }
 
   /**
