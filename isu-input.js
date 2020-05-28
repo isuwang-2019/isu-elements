@@ -60,7 +60,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       :host([readonly]) .input__container {
         pointer-events: none;
-        opacity: 0.5;
+        opacity: 0.7;
         cursor: no-drop;
       }
 
@@ -250,7 +250,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
           <div class="mask"></div>
           
           </div>
-    <template is="dom-if" if="[[isEqual(mode,'View')]]">
+    <template is="dom-if" if="[[isView]]">
       <div class="input__container">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
     </template>
     
@@ -455,7 +455,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   __isViewChanged(isView) {
     if (this.readonly) {
-      this.$['input__container'].style.display = mode === 'View' ? 'none' : 'flex'
+      this.$['input__container'].style.display = isView ? 'none' : 'flex'
     }
   }
 

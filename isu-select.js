@@ -300,7 +300,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </div>
       <div class="mask"></div>
     </div>
-    <template is="dom-if" if="[[isEqual(mode,'View')]]">
+    <template is="dom-if" if="[[isView]]">
       <div>
          <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
       </div>
@@ -715,9 +715,9 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return labels.join(connector)
   }
 
-  __isViewChanged(mode) {
+  __isViewChanged(isView) {
     if (this.readonly) {
-      this.$['select__container'].style.display = mode === 'View' ? 'none' : 'flex'
+      this.$['select__container'].style.display = isView ? 'none' : 'flex'
     }
   }
 
