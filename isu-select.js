@@ -482,14 +482,18 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: []
       },
       /**
-       * 是否是文本模式
+       * The text mode display requires readonly=true to take effect
+       * @type {boolean}
+       * @default false
        * */
       isView: {
         type: Boolean,
         value: false
       },
       /**
-       * The connector to connect labels when the mode=View, eg: "苹果，香蕉，梨"
+       * The connector to connect labels when the isView=true, eg: "苹果，香蕉，梨"
+       * @type {string}
+       * @default ','
        * */
       joinConnector: {
         type: String,
