@@ -452,7 +452,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __modeChanged(mode) {
-    this.$['input__container'].style.display = mode === 'View' ? 'none' : 'block'
+    this.$['input__container'].style.display = mode === 'View' ? 'none' : 'flex'
   }
 
   ready() {
