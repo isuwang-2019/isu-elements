@@ -18,7 +18,7 @@ import './isu-tip';
  * ```html
  * <isu-image-upload label="上河图" value="{{file}}"></isu-image-upload>
  * <isu-image-upload size-limit="1.4M" value="{{file}}"></isu-image-upload>
- * <isu-image-upload label="上河图" mode="view" src="https://d1.awsstatic.com/product-marketing/Elastic%20Beanstalk/ElasticBeanstalk_Benefit_Productivity.5cd0e6aedfa2e3b2c05ed7f5faeb0fd215c9742b.png"></isu-image-upload>
+ * <isu-image-upload label="上河图" type="view" src="https://d1.awsstatic.com/product-marketing/Elastic%20Beanstalk/ElasticBeanstalk_Benefit_Productivity.5cd0e6aedfa2e3b2c05ed7f5faeb0fd215c9742b.png"></isu-image-upload>
  *
  * ```
  * ## Styling
@@ -30,8 +30,8 @@ import './isu-tip';
  * |`--isu-label` | Mixin applied to the label of image uploader | {}
  * |`--isu-image-upload-width` | The width of image uploader | 140px
  * |`--isu-image-upload-height` | The height of image uploader | 180px
- * |`--isu-image-upload-buttons` | Mixin applied to tool buttons of the uploader if mode is edit | {}
- * |`--isu-image-view-button` | Mixin applied to tool buttons of the uploader if mode is view | {}
+ * |`--isu-image-upload-buttons` | Mixin applied to tool buttons of the uploader if type is edit | {}
+ * |`--isu-image-view-button` | Mixin applied to tool buttons of the uploader if type is view | {}
  *
  *
  * @customElement
@@ -167,12 +167,12 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polymer
         </div>
 
         <div class="toolbar">
-          <template is="dom-if" if="[[__isEdit(mode)]]">
+          <template is="dom-if" if="[[__isEdit(type)]]">
             <isu-button title="点击选择文件" on-click="_triggerChooseFile">选择</isu-button>
             <isu-button id="cancel-btn" type="warning" on-click="cancelSelection">取消</isu-button>
           </template>
           <input type="file" on-change="_chooseFile" id="file-chooser" accept$="[[accept]]">
-          <template is="dom-if" if="[[!__isEdit(mode)]]">
+          <template is="dom-if" if="[[!__isEdit(type)]]">
             <isu-button class="isu-button-view" on-click="openViewZoom">查看大图</isu-button>
           </template>
         </div>
@@ -253,7 +253,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polymer
       /**
        * 模式：edit/view
        * */
-      mode: {
+      type: {
         type: String,
         value: 'edit'
       }
@@ -293,8 +293,8 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polymer
     ele.addEventListener('paste', dragHandler, false);
   }
 
-  __isEdit(mode) {
-    return mode === 'edit'
+  __isEdit(type) {
+    return type === 'edit'
   }
   __srcChanged(src) {
     const style = this.$["img__container"].style;

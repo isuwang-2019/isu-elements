@@ -383,10 +383,12 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
-      mode: {
-        type: String,
-        value: 'Edit',
-        notify: true
+      /**
+       * 是否是文本模式，需要在readonly=true的情况下才能生效
+       * */
+      isView: {
+        type: Boolean,
+        value: false,
       }
     };
   }
@@ -399,7 +401,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return [
       'getInvalidAttribute(required, min, max, value)',
       '__allowedPatternChanged(allowedPattern)',
-      '__modeChanged(mode)'
+      '__isViewChanged(isView)'
     ];
   }
 
@@ -451,8 +453,10 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$.innerInput.type = this.togglePassword ? 'text' : 'password'
   }
 
-  __modeChanged(mode) {
-    this.$['input__container'].style.display = mode === 'View' ? 'none' : 'flex'
+  __isViewChanged(isView) {
+    if (this.readonly) {
+      this.$['input__container'].style.display = mode === 'View' ? 'none' : 'flex'
+    }
   }
 
   ready() {

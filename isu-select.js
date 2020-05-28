@@ -482,11 +482,11 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: []
       },
       /**
-       * The mode of the select component, eg: Edit/View
+       * 是否是文本模式
        * */
-      mode: {
-        type: String,
-        value: 'Edit'
+      isView: {
+        type: Boolean,
+        value: false
       },
       /**
        * The connector to connect labels when the mode=View, eg: "苹果，香蕉，梨"
@@ -510,7 +510,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       'selectedItemChanged(selectedItem)',
       'getInvalidAttribute(required,value)',
       '_keywordChanged(keyword)',
-      '__modeChanged(mode)'
+      '__isViewChanged(isView)'
     ];
   }
 
@@ -715,8 +715,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return labels.join(connector)
   }
 
-  __modeChanged(mode) {
-    this.$['select__container'].style.display = mode === 'View' ? 'none' : 'block'
+  __isViewChanged(mode) {
+    if (this.readonly) {
+      this.$['select__container'].style.display = mode === 'View' ? 'none' : 'flex'
+    }
   }
 
   /**
