@@ -4276,7 +4276,7 @@
       "tagname": "isu-avatar"
     },
     {
-      "description": "`isu-button`\n\nExample:\n```html\n <div>\n  <isu-button>Enable</isu-button>\n  <isu-button disabled>Disabled</isu-button>\n </div>\n <div>\n  <isu-button size=\"small\">small</isu-button>\n  <isu-button size=\"normal\">normal</isu-button>\n  <isu-button size=\"large\">large</isu-button>\n </div>\n <div>\n   <isu-button>default</isu-button>\n   <isu-button type=\"success\">success</isu-button>\n   <isu-button type=\"primary\">primary</isu-button>\n   <isu-button type=\"warning\">warning</isu-button>\n   <isu-button type=\"danger\">danger</isu-button>\n </div>\n <div>\n  <isu-button><iron-icon icon=\"check\"></iron-icon>default</isu-button>\n  <isu-button type=\"success\"><iron-icon icon=\"check\"></iron-icon>success</isu-button>\n  <isu-button type=\"primary\"><iron-icon icon=\"check\"></iron-icon>primary</isu-button>\n  <isu-button type=\"warning\"><iron-icon icon=\"check\"></iron-icon>warning</isu-button>\n  <isu-button type=\"danger\"><iron-icon icon=\"check\"></iron-icon>danger</isu-button>\n </div>\n <div>\n  <isu-button round>default</isu-button>\n  <isu-button type=\"success\" round>success</isu-button>\n  <isu-button type=\"primary\" round>primary</isu-button>\n  <isu-button type=\"warning\" round>warning</isu-button>\n  <isu-button type=\"danger\" round>danger</isu-button>\n </div>\n <div>\n  <isu-button circle>1</isu-button>\n  <isu-button type=\"success\" circle>2</isu-button>\n  <isu-button type=\"primary\" circle>3</isu-button>\n  <isu-button type=\"warning\" circle>4</isu-button>\n  <isu-button type=\"danger\" circle>5</isu-button>\n  <isu-button id=\"btn4\" circle><iron-icon icon=\"check\"></iron-icon></isu-button>\n </div>\n```\n\n\n\n### Styling\n\n`<isu-button>` provides the following custom properties and mixins\nfor styling:\n\nCustom property | Description | Default\n----------------|-------------|----------\n`--isu-button` | Mixin applied to the button | {}\n`--isu-ui-primary` | Button type=primary style | {}\n`--isu-ui-warning` | Button type=warning style | {}\n`--isu-ui-danger` | Button type=danger style | {}\n`--isu-ui-success` | Button type=success style | {}",
+      "description": "`isu-button`\n\nExample:\n```html\n <div>\n  <isu-button>Enable</isu-button>\n  <isu-button disabled>Disabled</isu-button>\n </div>\n <div>\n  <isu-button size=\"small\">small</isu-button>\n  <isu-button size=\"normal\">normal</isu-button>\n  <isu-button size=\"large\">large</isu-button>\n </div>\n <div>\n   <isu-button>default</isu-button>\n   <isu-button type=\"success\">success</isu-button>\n   <isu-button type=\"primary\">primary</isu-button>\n   <isu-button type=\"warning\">warning</isu-button>\n   <isu-button type=\"danger\">danger</isu-button>\n </div>\n <div>\n  <isu-button><iron-icon icon=\"check\"></iron-icon>default</isu-button>\n  <isu-button type=\"success\"><iron-icon icon=\"check\"></iron-icon>success</isu-button>\n  <isu-button type=\"primary\"><iron-icon icon=\"check\"></iron-icon>primary</isu-button>\n  <isu-button type=\"warning\"><iron-icon icon=\"check\"></iron-icon>warning</isu-button>\n  <isu-button type=\"danger\"><iron-icon icon=\"check\"></iron-icon>danger</isu-button>\n </div>\n <div>\n  <isu-button round>default</isu-button>\n  <isu-button type=\"success\" round>success</isu-button>\n  <isu-button type=\"primary\" round>primary</isu-button>\n  <isu-button type=\"warning\" round>warning</isu-button>\n  <isu-button type=\"danger\" round>danger</isu-button>\n </div>\n <div>\n  <isu-button circle>1</isu-button>\n  <isu-button type=\"success\" circle>2</isu-button>\n  <isu-button type=\"primary\" circle>3</isu-button>\n  <isu-button type=\"warning\" circle>4</isu-button>\n  <isu-button type=\"danger\" circle>5</isu-button>\n  <isu-button id=\"btn4\" circle><iron-icon icon=\"check\"></iron-icon></isu-button>\n </div>\n```\n\n\n\n### Styling\n\n`<isu-button>` provides the following custom properties and mixins\nfor styling:\n\nCustom property | Description | Default\n----------------|-------------|----------\n`--isu-button` | Mixin applied to the button | {}\n`--isu-ui-default` | Button type=default style | {}\n`--isu-ui-primary` | Button type=primary style | {}\n`--isu-ui-warning` | Button type=warning style | {}\n`--isu-ui-danger` | Button type=danger style | {}\n`--isu-ui-success` | Button type=success style | {}",
       "summary": "",
       "path": "isu-button.js",
       "properties": [
@@ -4287,11 +4287,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 184,
+              "line": 187,
               "column": 6
             },
             "end": {
-              "line": 188,
+              "line": 191,
               "column": 7
             }
           },
@@ -4309,11 +4309,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 195,
+              "line": 198,
               "column": 6
             },
             "end": {
-              "line": 199,
+              "line": 202,
               "column": 7
             }
           },
@@ -4331,11 +4331,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 205,
+              "line": 208,
               "column": 6
             },
             "end": {
-              "line": 208,
+              "line": 211,
               "column": 7
             }
           },
@@ -4358,11 +4358,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 71,
+          "line": 72,
           "column": 0
         },
         "end": {
-          "line": 211,
+          "line": 214,
           "column": 1
         }
       },
@@ -4375,11 +4375,11 @@
           "description": "Properties can be selected as default, primary, warning, danger or success",
           "sourceRange": {
             "start": {
-              "line": 184,
+              "line": 187,
               "column": 6
             },
             "end": {
-              "line": 188,
+              "line": 191,
               "column": 7
             }
           },
@@ -4391,11 +4391,11 @@
           "description": "Properties can be selected as small, normal or large",
           "sourceRange": {
             "start": {
-              "line": 195,
+              "line": 198,
               "column": 6
             },
             "end": {
-              "line": 199,
+              "line": 202,
               "column": 7
             }
           },
@@ -4407,11 +4407,11 @@
           "description": "Set to true, if the input is readonly.",
           "sourceRange": {
             "start": {
-              "line": 205,
+              "line": 208,
               "column": 6
             },
             "end": {
-              "line": 208,
+              "line": 211,
               "column": 7
             }
           },
@@ -8584,27 +8584,26 @@
           "defaultValue": "false"
         },
         {
-          "name": "mode",
-          "type": "string | null | undefined",
-          "description": "",
+          "name": "isView",
+          "type": "boolean",
+          "description": "The text mode display requires readonly=true to take effect",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 385,
+              "line": 390,
               "column": 6
             },
             "end": {
-              "line": 389,
+              "line": 393,
               "column": 7
             }
           },
           "metadata": {
             "polymer": {
-              "notify": true,
-              "attributeType": "String"
+              "attributeType": "Boolean"
             }
           },
-          "defaultValue": "\"Edit\""
+          "defaultValue": "false"
         }
       ],
       "methods": [
@@ -8614,11 +8613,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 405,
+              "line": 409,
               "column": 2
             },
             "end": {
-              "line": 410,
+              "line": 414,
               "column": 3
             }
           },
@@ -8634,11 +8633,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 415,
+              "line": 419,
               "column": 2
             },
             "end": {
-              "line": 417,
+              "line": 421,
               "column": 3
             }
           },
@@ -8654,11 +8653,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 428,
+              "line": 432,
               "column": 2
             },
             "end": {
-              "line": 441,
+              "line": 445,
               "column": 3
             }
           },
@@ -8674,11 +8673,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 443,
+              "line": 447,
               "column": 2
             },
             "end": {
-              "line": 446,
+              "line": 450,
               "column": 3
             }
           },
@@ -8698,11 +8697,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 448,
+              "line": 452,
               "column": 2
             },
             "end": {
-              "line": 451,
+              "line": 455,
               "column": 3
             }
           },
@@ -8717,23 +8716,23 @@
           }
         },
         {
-          "name": "__modeChanged",
+          "name": "__isViewChanged",
           "description": "",
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 453,
+              "line": 457,
               "column": 2
             },
             "end": {
-              "line": 455,
+              "line": 461,
               "column": 3
             }
           },
           "metadata": {},
           "params": [
             {
-              "name": "mode"
+              "name": "isView"
             }
           ],
           "return": {
@@ -8746,11 +8745,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 457,
+              "line": 463,
               "column": 2
             },
             "end": {
-              "line": 475,
+              "line": 481,
               "column": 3
             }
           },
@@ -8770,7 +8769,7 @@
           "column": 0
         },
         "end": {
-          "line": 476,
+          "line": 482,
           "column": 1
         }
       },
@@ -9035,20 +9034,20 @@
           "type": "boolean | null | undefined"
         },
         {
-          "name": "mode",
-          "description": "",
+          "name": "is-view",
+          "description": "The text mode display requires readonly=true to take effect",
           "sourceRange": {
             "start": {
-              "line": 385,
+              "line": 390,
               "column": 6
             },
             "end": {
-              "line": 389,
+              "line": 393,
               "column": 7
             }
           },
           "metadata": {},
-          "type": "string | null | undefined"
+          "type": "boolean"
         }
       ],
       "events": [
@@ -9056,12 +9055,6 @@
           "type": "CustomEvent",
           "name": "value-changed",
           "description": "Fired when the `value` property changes.",
-          "metadata": {}
-        },
-        {
-          "type": "CustomEvent",
-          "name": "mode-changed",
-          "description": "Fired when the `mode` property changes.",
           "metadata": {}
         }
       ],
@@ -12020,39 +12013,39 @@
           "defaultValue": "[]"
         },
         {
-          "name": "mode",
-          "type": "string | null | undefined",
-          "description": "The mode of the select component, eg: Edit/View",
+          "name": "isView",
+          "type": "boolean",
+          "description": "The text mode display requires readonly=true to take effect",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 486,
+              "line": 488,
               "column": 6
             },
             "end": {
-              "line": 489,
+              "line": 491,
               "column": 7
             }
           },
           "metadata": {
             "polymer": {
-              "attributeType": "String"
+              "attributeType": "Boolean"
             }
           },
-          "defaultValue": "\"Edit\""
+          "defaultValue": "false"
         },
         {
           "name": "joinConnector",
-          "type": "string | null | undefined",
-          "description": "The connector to connect labels when the mode=View, eg: \"苹果，香蕉，梨\"",
+          "type": "string",
+          "description": "The connector to connect labels when the isView=true, eg: \"苹果，香蕉，梨\"",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 493,
+              "line": 497,
               "column": 6
             },
             "end": {
-              "line": 496,
+              "line": 500,
               "column": 7
             }
           },
@@ -12071,11 +12064,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 516,
+              "line": 520,
               "column": 2
             },
             "end": {
-              "line": 528,
+              "line": 532,
               "column": 3
             }
           },
@@ -12091,11 +12084,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 530,
+              "line": 534,
               "column": 2
             },
             "end": {
-              "line": 532,
+              "line": 536,
               "column": 3
             }
           },
@@ -12111,11 +12104,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 537,
+              "line": 541,
               "column": 2
             },
             "end": {
-              "line": 546,
+              "line": 550,
               "column": 3
             }
           },
@@ -12135,11 +12128,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 548,
+              "line": 552,
               "column": 2
             },
             "end": {
-              "line": 551,
+              "line": 555,
               "column": 3
             }
           },
@@ -12155,11 +12148,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 553,
+              "line": 557,
               "column": 2
             },
             "end": {
-              "line": 563,
+              "line": 567,
               "column": 3
             }
           },
@@ -12179,11 +12172,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 565,
+              "line": 569,
               "column": 2
             },
             "end": {
-              "line": 583,
+              "line": 587,
               "column": 3
             }
           },
@@ -12203,11 +12196,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 588,
+              "line": 592,
               "column": 2
             },
             "end": {
-              "line": 608,
+              "line": 612,
               "column": 3
             }
           },
@@ -12228,11 +12221,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 610,
+              "line": 614,
               "column": 2
             },
             "end": {
-              "line": 613,
+              "line": 617,
               "column": 3
             }
           },
@@ -12252,11 +12245,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 615,
+              "line": 619,
               "column": 2
             },
             "end": {
-              "line": 624,
+              "line": 628,
               "column": 3
             }
           },
@@ -12272,11 +12265,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 626,
+              "line": 630,
               "column": 2
             },
             "end": {
-              "line": 628,
+              "line": 632,
               "column": 3
             }
           },
@@ -12292,11 +12285,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 633,
+              "line": 637,
               "column": 2
             },
             "end": {
-              "line": 637,
+              "line": 641,
               "column": 3
             }
           },
@@ -12316,11 +12309,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 643,
+              "line": 647,
               "column": 2
             },
             "end": {
-              "line": 665,
+              "line": 669,
               "column": 3
             }
           },
@@ -12340,11 +12333,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 667,
+              "line": 671,
               "column": 2
             },
             "end": {
-              "line": 669,
+              "line": 673,
               "column": 3
             }
           },
@@ -12360,11 +12353,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 671,
+              "line": 675,
               "column": 2
             },
             "end": {
-              "line": 673,
+              "line": 677,
               "column": 3
             }
           },
@@ -12384,11 +12377,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 678,
+              "line": 682,
               "column": 2
             },
             "end": {
-              "line": 683,
+              "line": 687,
               "column": 3
             }
           },
@@ -12404,11 +12397,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 688,
+              "line": 692,
               "column": 2
             },
             "end": {
-              "line": 692,
+              "line": 696,
               "column": 3
             }
           },
@@ -12424,11 +12417,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 697,
+              "line": 701,
               "column": 2
             },
             "end": {
-              "line": 703,
+              "line": 707,
               "column": 3
             }
           },
@@ -12444,11 +12437,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 708,
+              "line": 712,
               "column": 2
             },
             "end": {
-              "line": 710,
+              "line": 714,
               "column": 3
             }
           },
@@ -12464,11 +12457,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 712,
+              "line": 716,
               "column": 2
             },
             "end": {
-              "line": 715,
+              "line": 719,
               "column": 3
             }
           },
@@ -12486,16 +12479,16 @@
           ]
         },
         {
-          "name": "__modeChanged",
+          "name": "__isViewChanged",
           "description": "",
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 717,
+              "line": 721,
               "column": 2
             },
             "end": {
-              "line": 719,
+              "line": 725,
               "column": 3
             }
           },
@@ -12515,11 +12508,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 725,
+              "line": 731,
               "column": 2
             },
             "end": {
-              "line": 727,
+              "line": 733,
               "column": 3
             }
           },
@@ -12544,7 +12537,7 @@
           "column": 0
         },
         "end": {
-          "line": 729,
+          "line": 735,
           "column": 1
         }
       },
@@ -12841,36 +12834,36 @@
           "type": "Array | null | undefined"
         },
         {
-          "name": "mode",
-          "description": "The mode of the select component, eg: Edit/View",
+          "name": "is-view",
+          "description": "The text mode display requires readonly=true to take effect",
           "sourceRange": {
             "start": {
-              "line": 486,
+              "line": 488,
               "column": 6
             },
             "end": {
-              "line": 489,
+              "line": 491,
               "column": 7
             }
           },
           "metadata": {},
-          "type": "string | null | undefined"
+          "type": "boolean"
         },
         {
           "name": "join-connector",
-          "description": "The connector to connect labels when the mode=View, eg: \"苹果，香蕉，梨\"",
+          "description": "The connector to connect labels when the isView=true, eg: \"苹果，香蕉，梨\"",
           "sourceRange": {
             "start": {
-              "line": 493,
+              "line": 497,
               "column": 6
             },
             "end": {
-              "line": 496,
+              "line": 500,
               "column": 7
             }
           },
           "metadata": {},
-          "type": "string | null | undefined"
+          "type": "string"
         }
       ],
       "events": [
@@ -31036,11 +31029,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 846,
+              "line": 847,
               "column": 6
             },
             "end": {
-              "line": 852,
+              "line": 853,
               "column": 7
             }
           },
@@ -31059,11 +31052,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 859,
+              "line": 860,
               "column": 6
             },
             "end": {
-              "line": 862,
+              "line": 863,
               "column": 7
             }
           },
@@ -31081,11 +31074,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 868,
+              "line": 869,
               "column": 6
             },
             "end": {
-              "line": 870,
+              "line": 871,
               "column": 7
             }
           },
@@ -31102,11 +31095,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 872,
+              "line": 873,
               "column": 6
             },
             "end": {
-              "line": 874,
+              "line": 875,
               "column": 7
             }
           },
@@ -31123,11 +31116,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 879,
+              "line": 880,
               "column": 6
             },
             "end": {
-              "line": 882,
+              "line": 883,
               "column": 7
             }
           },
@@ -31145,11 +31138,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 884,
+              "line": 885,
               "column": 6
             },
             "end": {
-              "line": 886,
+              "line": 887,
               "column": 7
             }
           },
@@ -31166,11 +31159,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 892,
+              "line": 893,
               "column": 6
             },
             "end": {
-              "line": 895,
+              "line": 896,
               "column": 7
             }
           },
@@ -31188,11 +31181,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 902,
+              "line": 903,
               "column": 6
             },
             "end": {
-              "line": 906,
+              "line": 907,
               "column": 7
             }
           },
@@ -31210,11 +31203,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 913,
+              "line": 914,
               "column": 6
             },
             "end": {
-              "line": 916,
+              "line": 917,
               "column": 7
             }
           },
@@ -31232,11 +31225,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 923,
+              "line": 924,
               "column": 6
             },
             "end": {
-              "line": 926,
+              "line": 927,
               "column": 7
             }
           },
@@ -31254,11 +31247,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 933,
+              "line": 934,
               "column": 6
             },
             "end": {
-              "line": 936,
+              "line": 937,
               "column": 7
             }
           },
@@ -31276,11 +31269,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 938,
+              "line": 939,
               "column": 6
             },
             "end": {
-              "line": 941,
+              "line": 942,
               "column": 7
             }
           },
@@ -31298,11 +31291,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 943,
+              "line": 944,
               "column": 6
             },
             "end": {
-              "line": 946,
+              "line": 947,
               "column": 7
             }
           },
@@ -31320,11 +31313,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 948,
+              "line": 949,
               "column": 6
             },
             "end": {
-              "line": 948,
+              "line": 949,
               "column": 30
             }
           },
@@ -31341,11 +31334,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 954,
+              "line": 955,
               "column": 6
             },
             "end": {
-              "line": 956,
+              "line": 957,
               "column": 7
             }
           },
@@ -31362,11 +31355,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 962,
+              "line": 963,
               "column": 6
             },
             "end": {
-              "line": 964,
+              "line": 965,
               "column": 7
             }
           },
@@ -31383,11 +31376,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 970,
+              "line": 971,
               "column": 6
             },
             "end": {
-              "line": 972,
+              "line": 973,
               "column": 7
             }
           },
@@ -31404,11 +31397,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 978,
+              "line": 979,
               "column": 6
             },
             "end": {
-              "line": 978,
+              "line": 979,
               "column": 30
             }
           },
@@ -31425,11 +31418,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 984,
+              "line": 985,
               "column": 6
             },
             "end": {
-              "line": 984,
+              "line": 985,
               "column": 29
             }
           },
@@ -31446,11 +31439,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 990,
+              "line": 991,
               "column": 6
             },
             "end": {
-              "line": 992,
+              "line": 993,
               "column": 7
             }
           },
@@ -31467,11 +31460,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 998,
+              "line": 999,
               "column": 6
             },
             "end": {
-              "line": 1001,
+              "line": 1002,
               "column": 7
             }
           },
@@ -31489,11 +31482,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1007,
+              "line": 1008,
               "column": 7
             },
             "end": {
-              "line": 1009,
+              "line": 1010,
               "column": 8
             }
           },
@@ -31511,11 +31504,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 552,
+              "line": 553,
               "column": 2
             },
             "end": {
-              "line": 599,
+              "line": 600,
               "column": 3
             }
           },
@@ -31535,11 +31528,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 601,
+              "line": 602,
               "column": 2
             },
             "end": {
-              "line": 608,
+              "line": 609,
               "column": 3
             }
           },
@@ -31560,11 +31553,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 610,
+              "line": 611,
               "column": 2
             },
             "end": {
-              "line": 614,
+              "line": 615,
               "column": 3
             }
           },
@@ -31590,11 +31583,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 616,
+              "line": 617,
               "column": 2
             },
             "end": {
-              "line": 620,
+              "line": 621,
               "column": 3
             }
           },
@@ -31614,11 +31607,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 622,
+              "line": 623,
               "column": 2
             },
             "end": {
-              "line": 627,
+              "line": 628,
               "column": 3
             }
           },
@@ -31638,11 +31631,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 629,
+              "line": 630,
               "column": 2
             },
             "end": {
-              "line": 633,
+              "line": 634,
               "column": 3
             }
           },
@@ -31662,11 +31655,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 635,
+              "line": 636,
               "column": 2
             },
             "end": {
-              "line": 637,
+              "line": 638,
               "column": 3
             }
           },
@@ -31686,11 +31679,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 639,
+              "line": 640,
               "column": 2
             },
             "end": {
-              "line": 647,
+              "line": 648,
               "column": 3
             }
           },
@@ -31710,11 +31703,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 649,
+              "line": 650,
               "column": 2
             },
             "end": {
-              "line": 653,
+              "line": 654,
               "column": 3
             }
           },
@@ -31730,11 +31723,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 655,
+              "line": 656,
               "column": 2
             },
             "end": {
-              "line": 662,
+              "line": 663,
               "column": 3
             }
           },
@@ -31763,11 +31756,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 664,
+              "line": 665,
               "column": 2
             },
             "end": {
-              "line": 667,
+              "line": 668,
               "column": 3
             }
           },
@@ -31788,11 +31781,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 669,
+              "line": 670,
               "column": 2
             },
             "end": {
-              "line": 671,
+              "line": 672,
               "column": 3
             }
           },
@@ -31809,11 +31802,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 673,
+              "line": 674,
               "column": 2
             },
             "end": {
-              "line": 675,
+              "line": 676,
               "column": 3
             }
           },
@@ -31833,11 +31826,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 677,
+              "line": 678,
               "column": 2
             },
             "end": {
-              "line": 680,
+              "line": 681,
               "column": 3
             }
           },
@@ -31854,11 +31847,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 686,
+              "line": 687,
               "column": 2
             },
             "end": {
-              "line": 688,
+              "line": 689,
               "column": 3
             }
           },
@@ -31874,11 +31867,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 690,
+              "line": 691,
               "column": 2
             },
             "end": {
-              "line": 704,
+              "line": 705,
               "column": 3
             }
           },
@@ -31904,11 +31897,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 706,
+              "line": 707,
               "column": 2
             },
             "end": {
-              "line": 708,
+              "line": 709,
               "column": 3
             }
           },
@@ -31931,11 +31924,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 710,
+              "line": 711,
               "column": 2
             },
             "end": {
-              "line": 712,
+              "line": 713,
               "column": 3
             }
           },
@@ -31958,11 +31951,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 714,
+              "line": 715,
               "column": 2
             },
             "end": {
-              "line": 716,
+              "line": 717,
               "column": 3
             }
           },
@@ -31985,11 +31978,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 718,
+              "line": 719,
               "column": 2
             },
             "end": {
-              "line": 737,
+              "line": 738,
               "column": 3
             }
           },
@@ -32015,11 +32008,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 739,
+              "line": 740,
               "column": 2
             },
             "end": {
-              "line": 741,
+              "line": 742,
               "column": 3
             }
           },
@@ -32045,11 +32038,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 743,
+              "line": 744,
               "column": 2
             },
             "end": {
-              "line": 745,
+              "line": 746,
               "column": 3
             }
           },
@@ -32075,11 +32068,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 747,
+              "line": 748,
               "column": 2
             },
             "end": {
-              "line": 749,
+              "line": 750,
               "column": 3
             }
           },
@@ -32105,11 +32098,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 751,
+              "line": 752,
               "column": 2
             },
             "end": {
-              "line": 794,
+              "line": 795,
               "column": 3
             }
           },
@@ -32125,11 +32118,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 796,
+              "line": 797,
               "column": 2
             },
             "end": {
-              "line": 836,
+              "line": 837,
               "column": 3
             }
           },
@@ -32154,7 +32147,7 @@
           "column": 0
         },
         "end": {
-          "line": 1016,
+          "line": 1017,
           "column": 1
         }
       },
@@ -32167,11 +32160,11 @@
           "description": "The data array of the table",
           "sourceRange": {
             "start": {
-              "line": 846,
+              "line": 847,
               "column": 6
             },
             "end": {
-              "line": 852,
+              "line": 853,
               "column": 7
             }
           },
@@ -32183,11 +32176,11 @@
           "description": "The colspan of the table",
           "sourceRange": {
             "start": {
-              "line": 859,
+              "line": 860,
               "column": 6
             },
             "end": {
-              "line": 862,
+              "line": 863,
               "column": 7
             }
           },
@@ -32199,11 +32192,11 @@
           "description": "The column infos of the table",
           "sourceRange": {
             "start": {
-              "line": 868,
+              "line": 869,
               "column": 6
             },
             "end": {
-              "line": 870,
+              "line": 871,
               "column": 7
             }
           },
@@ -32215,11 +32208,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 872,
+              "line": 873,
               "column": 6
             },
             "end": {
-              "line": 874,
+              "line": 875,
               "column": 7
             }
           },
@@ -32231,11 +32224,11 @@
           "description": "Custom no data prompt, default is '无数据'",
           "sourceRange": {
             "start": {
-              "line": 879,
+              "line": 880,
               "column": 6
             },
             "end": {
-              "line": 882,
+              "line": 883,
               "column": 7
             }
           },
@@ -32247,11 +32240,11 @@
           "description": "Is show summary, footer combined",
           "sourceRange": {
             "start": {
-              "line": 892,
+              "line": 893,
               "column": 6
             },
             "end": {
-              "line": 895,
+              "line": 896,
               "column": 7
             }
           },
@@ -32263,11 +32256,11 @@
           "description": "Whether to display tooltip information or not",
           "sourceRange": {
             "start": {
-              "line": 902,
+              "line": 903,
               "column": 6
             },
             "end": {
-              "line": 906,
+              "line": 907,
               "column": 7
             }
           },
@@ -32279,11 +32272,11 @@
           "description": "Whether to display the serial number",
           "sourceRange": {
             "start": {
-              "line": 913,
+              "line": 914,
               "column": 6
             },
             "end": {
-              "line": 916,
+              "line": 917,
               "column": 7
             }
           },
@@ -32295,11 +32288,11 @@
           "description": "If true, the items are selectable",
           "sourceRange": {
             "start": {
-              "line": 923,
+              "line": 924,
               "column": 6
             },
             "end": {
-              "line": 926,
+              "line": 927,
               "column": 7
             }
           },
@@ -32311,11 +32304,11 @@
           "description": "If true, you can only choose one. If you want to use this attribute, make sure selectable is true.",
           "sourceRange": {
             "start": {
-              "line": 933,
+              "line": 934,
               "column": 6
             },
             "end": {
-              "line": 936,
+              "line": 937,
               "column": 7
             }
           },
@@ -32327,11 +32320,11 @@
           "description": "The height of the table",
           "sourceRange": {
             "start": {
-              "line": 954,
+              "line": 955,
               "column": 6
             },
             "end": {
-              "line": 956,
+              "line": 957,
               "column": 7
             }
           },
@@ -32343,11 +32336,11 @@
           "description": "The css style of the table`s body",
           "sourceRange": {
             "start": {
-              "line": 962,
+              "line": 963,
               "column": 6
             },
             "end": {
-              "line": 964,
+              "line": 965,
               "column": 7
             }
           },
@@ -32359,11 +32352,11 @@
           "description": "The css style of the fixed table`s items",
           "sourceRange": {
             "start": {
-              "line": 984,
+              "line": 985,
               "column": 6
             },
             "end": {
-              "line": 984,
+              "line": 985,
               "column": 29
             }
           },
@@ -32375,11 +32368,11 @@
           "description": "The css style of the fixed table`s items in the right",
           "sourceRange": {
             "start": {
-              "line": 990,
+              "line": 991,
               "column": 6
             },
             "end": {
-              "line": 992,
+              "line": 993,
               "column": 7
             }
           },
@@ -32391,11 +32384,11 @@
           "description": "if true, the child row will expand when click the row",
           "sourceRange": {
             "start": {
-              "line": 998,
+              "line": 999,
               "column": 6
             },
             "end": {
-              "line": 1001,
+              "line": 1002,
               "column": 7
             }
           },
@@ -32407,11 +32400,11 @@
           "description": "The column infos of the table",
           "sourceRange": {
             "start": {
-              "line": 1007,
+              "line": 1008,
               "column": 7
             },
             "end": {
-              "line": 1009,
+              "line": 1010,
               "column": 8
             }
           },

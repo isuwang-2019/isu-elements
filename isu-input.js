@@ -384,7 +384,9 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false
       },
       /**
-       * 是否是文本模式，需要在readonly=true的情况下才能生效
+       * The text mode display requires readonly=true to take effect
+       * @type {boolean}
+       * @default false
        * */
       isView: {
         type: Boolean,
