@@ -60,6 +60,7 @@ import './behaviors/isu-elements-shared-styles.js';
  * Custom property | Description | Default
  * ----------------|-------------|----------
  * `--isu-button` | Mixin applied to the button | {}
+ * `--isu-ui-default` | Button type=default style | {}
  * `--isu-ui-primary` | Button type=primary style | {}
  * `--isu-ui-warning` | Button type=warning style | {}
  * `--isu-ui-danger` | Button type=danger style | {}
@@ -126,7 +127,9 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
       }
       
       :host([type=default]) .btn {
+        background-color: #fff;
         border: 1px solid lightgray;
+        @apply --isu-ui-default;
       }
       
       :host([type=primary]) .btn {

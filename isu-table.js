@@ -65,6 +65,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
         color: #909399;
         font-weight: 500;
         table-layout: fixed;
+        @apply --isu-table-head
       }
       
       .table__head th {
