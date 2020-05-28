@@ -31,7 +31,7 @@ const template = html`
         bottom: -1px;
         right: -1px;
         left: -1px;
-        background-color: transparent;
+        background-color: rgba(255, 255, 255, 0.3);
         z-index: 10;
       }
 

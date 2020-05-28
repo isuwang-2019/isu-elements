@@ -60,7 +60,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       :host([readonly]) .input__container {
         pointer-events: none;
-        opacity: 0.7;
+        /*opacity: 0.7;*/
         cursor: no-drop;
       }
 
