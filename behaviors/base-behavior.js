@@ -134,6 +134,22 @@ export const BaseBehavior = {
     return val;
   },
   /**
+   * 判断是否空对象, []、{}、null、undefined 皆为空对象，特殊的，function和数字0不是空对象
+   * @param entity
+   * @returns {boolean}
+   */
+  isEmptyObject (entity) {
+    if (Array.isArray(entity)) {
+      return entity.length === 0
+    } else if (Function.prototype.isPrototypeOf(entity)) {
+      return false
+    }else if (Object.prototype.isPrototypeOf(entity)) {
+      return Object.keys(entity).length === 0
+    } else {
+      return !entity && entity !== 0
+    }
+  },
+  /**
    * 通过路径获取对象字段值
    * @param {Object} model eg. { foo: { bar: 1} }
    * @param {String} path  eg. "foo.bar"
@@ -146,7 +162,7 @@ export const BaseBehavior = {
     const splits = path.split('.');
     let copy = model;
     for (let key of splits) {
-      if (!copy[key]) return this.resolveJsonValue(defVal);
+      if (this.isEmptyObject(copy[key])) return this.resolveJsonValue(defVal);
       copy = copy[key];
     }
     return copy;
