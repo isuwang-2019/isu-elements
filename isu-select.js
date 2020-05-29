@@ -41,6 +41,8 @@ import {CacheSearchUtil} from "./utils/cacheSearchUtil";
  * |`--isu-select-tag-deleter` | Mixin applied to the deleter of each tag| {}
  * |`--isu-select-tag-cursor` | Mixin applied to the cursor of the select | {}
  * |`--isu-select-dropdown` | Mixin applied to the dropdown snippet of the select | {}
+ * |`--isu-select-view-text` | Mixin applied to the view mode of the select when readonly=true and isView=true | {}
+ *
  *
  * @customElement
  * @polymer
@@ -59,6 +61,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         font-size: var(--isu-ui-font-size);
         position: relative;
         background: white;
+        @apply --isu-select
       }
 
       #select__container {
@@ -257,6 +260,9 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host([show-all]) {
         height: auto
       }
+      .view-text {
+         @apply --isu-select-view-text
+      }
     </style>
     
     <template is="dom-if" if="[[ toBoolean(label) ]]">
@@ -301,7 +307,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <div class="mask"></div>
     </div>
     <template is="dom-if" if="[[isView]]">
-      <div>
+      <div class="view-text">
          <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
       </div>
     </template>
