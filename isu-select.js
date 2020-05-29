@@ -624,13 +624,15 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _selectedValuesChanged() {
-    if (this.selectedValues.length > 0) {
-      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',');
-    } else {
-      this.value = undefined;
-    }
-    if (this.selectedValues.length !== 0) {
-      this.closeCollapse();
+    if (this.items && this.items.length) {
+      if (this.selectedValues.length > 0) {
+        this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',');
+      } else {
+        this.value = undefined;
+      }
+      if (this.selectedValues.length !== 0) {
+        this.closeCollapse();
+      }
     }
   }
 
