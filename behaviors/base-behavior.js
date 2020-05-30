@@ -134,7 +134,7 @@ export const BaseBehavior = {
     return val;
   },
   /**
-   * 判断是否空对象, []、{}、null、undefined 皆为空对象，特殊的，function和数字0不是空对象
+   * 判断是否空对象, []、{}、null、undefined、'' 皆为空对象，特殊的，function和0、'0'不属于空对象
    * @param entity
    * @returns {boolean}
    */
@@ -146,7 +146,7 @@ export const BaseBehavior = {
     }else if (Object.prototype.isPrototypeOf(entity)) {
       return Object.keys(entity).length === 0
     } else {
-      return !entity && entity !== 0
+      return entity === null || entity === undefined || entity === ''
     }
   },
   /**
