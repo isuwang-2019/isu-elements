@@ -2,9 +2,10 @@ import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
 import '@polymer/paper-tabs/paper-tabs';
 import '@polymer/paper-tabs/paper-tab';
-import '@polymer/paper-styles/color.js';
+import '@polymer/paper-styles/color';
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
+import './behaviors/isu-elements-shared-styles';
 
 
 /**
@@ -20,7 +21,7 @@ import '@polymer/iron-icons/iron-icons';
 class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
   static get template() {
     return html`
-      <style include="h2-elements-shared-styles">
+      <style include="isu-elements-shared-styles">
         :host {
         --paper-tabs:{
                 height: 100%;
