@@ -306,7 +306,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </div>
       <div class="mask"></div>
     </div>
-    <template is="dom-if" if="[[isView]]">
+    <template is="dom-if" if="[[_isView(isView, readonly)]]">
       <div class="view-text">
          <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
       </div>
@@ -731,6 +731,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.readonly) {
       this.$['select__container'].style.display = isView ? 'none' : 'flex'
     }
+  }
+
+  _isView(isView,readonly) {
+    return isView && readonly
   }
 
   /**

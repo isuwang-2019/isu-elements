@@ -250,7 +250,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
           <div class="mask"></div>
           
           </div>
-    <template is="dom-if" if="[[isView]]">
+    <template is="dom-if" if="[[_isView(isView,readonly)]]">
       <div class="input__container">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
     </template>
     
@@ -459,6 +459,10 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.readonly) {
       this.$['input__container'].style.display = isView ? 'none' : 'flex'
     }
+  }
+
+  _isView(isView,readonly) {
+    return isView && readonly
   }
 
   ready() {
