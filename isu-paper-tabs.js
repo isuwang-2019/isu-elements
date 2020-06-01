@@ -13,6 +13,13 @@ import './behaviors/isu-elements-shared-styles';
  *
  * Example:
  * ```html
+ *  <isu-paper-tabs value="0" id="iSuPaperTabs1"></isu-paper-tabs>
+ *  <isu-paper-tabs value="one" attr-for-selected="name"  id="iSuPaperTabsRight" tab-position="right"></isu-paper-tabs>
+ *  <isu-paper-tabs value="0" id="iSuPaperTabsLeft" tab-position="left"></isu-paper-tabs>
+ *  <isu-paper-tabs value="0" id="iSuBottomPaperTabs" tab-position="bottom"></isu-paper-tabs>
+ *  <isu-paper-tabs value="0" id="iSuCardPaperTabs" tab-type="card"></isu-paper-tabs>
+ *  <isu-paper-tabs value="0" id="iSuBorderCardPaperTabs" tab-type="border-card"></isu-paper-tabs>
+ *  <isu-paper-tabs value="0" id="iSuWidthBarPaperTabs" tab-type="width-bar"></isu-paper-tabs>
  * ```
  * @customElement
  * @polymer
