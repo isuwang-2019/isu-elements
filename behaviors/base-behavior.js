@@ -156,13 +156,12 @@ export const BaseBehavior = {
    * @param {*} defVal  如果传入的是符合json格式的字符串，会返回JSON.parse处理的结果
    * @returns {*}
    */
-  getValueByPath(model, path = '', defVal) {
+  getValueByPath (model, path = '', defVal) {
     if (!model) return this.resolveJsonValue(defVal);
-
-    const splits = path.split('.');
+    const splits = path.toString().split('.');
     let copy = model;
-    for (let key of splits) {
-      if (this.isEmptyObject(copy[key])) return this.resolveJsonValue(defVal);
+    for (const key of splits) {
+      if (this.isEmptyObject(copy[key])) return copy[key] || this.resolveJsonValue(defVal);
       copy = copy[key];
     }
     return copy;
