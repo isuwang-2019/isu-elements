@@ -464,10 +464,6 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return isView && readonly
   }
 
-  __readonlyChanged(readonly) {
-    console.log('readonly', readonly)
-  }
-
   ready() {
     super.ready()
     const self = this

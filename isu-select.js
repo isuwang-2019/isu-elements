@@ -437,7 +437,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Attribute name for value.
