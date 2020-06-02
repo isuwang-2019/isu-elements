@@ -508,7 +508,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * If true, multiple selections are allowed.

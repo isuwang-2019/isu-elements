@@ -317,7 +317,8 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Prefix unit to show（i.e. ￥$元吨托）
