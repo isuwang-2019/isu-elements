@@ -520,7 +520,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       'selectedItemChanged(selectedItem)',
       'getInvalidAttribute(required,value)',
       '_keywordChanged(keyword)',
-      '__isViewChanged(isView)'
+      '__isViewChanged(isView,readonly)'
     ];
   }
 
@@ -728,10 +728,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return labels.join(connector)
   }
 
-  __isViewChanged(isView) {
-    if (this.readonly) {
-      this.$['select__container'].style.display = isView ? 'none' : 'flex'
-    }
+  __isViewChanged(isView, readonly) {
+    this.$['input__container'].style.display = (this.readonly && isView) ? 'none' : 'flex'
   }
 
   _isView(isView,readonly) {

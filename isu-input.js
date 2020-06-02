@@ -404,7 +404,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return [
       'getInvalidAttribute(required, min, max, value)',
       '__allowedPatternChanged(allowedPattern)',
-      '__isViewChanged(isView)'
+      '__isViewChanged(isView,readonly)'
     ];
   }
 
@@ -456,14 +456,16 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$.innerInput.type = this.togglePassword ? 'text' : 'password'
   }
 
-  __isViewChanged(isView) {
-    if (this.readonly) {
-      this.$['input__container'].style.display = isView ? 'none' : 'flex'
-    }
+  __isViewChanged(isView, readonly) {
+    this.$['input__container'].style.display = (this.readonly && isView) ? 'none' : 'flex'
   }
 
   _isView(isView,readonly) {
     return isView && readonly
+  }
+
+  __readonlyChanged(readonly) {
+    console.log('readonly', readonly)
   }
 
   ready() {
