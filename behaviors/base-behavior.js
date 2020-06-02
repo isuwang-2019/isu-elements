@@ -1,4 +1,4 @@
-import '../isu-loading.js'
+import '../isu-loading.js';
 
 /**
  * @polymerBehavior
@@ -9,23 +9,23 @@ export const BaseBehavior = {
    * @param {...*} args
    * @return {boolean}
    */
-  isOneOf (...args) {
+  isOneOf(...args) {
     if (Array.isArray(args) && args.length > 0) {
-      const target = args[0]
-      return args.slice(1).some(arg => Object.is(arg, target))
+      const target = args[0];
+      return args.slice(1).some(arg => Object.is(arg, target));
     }
 
-    return false
+    return false;
   },
 
   /**
    * 判断两个值是否相等，使用 `Object.is` 判断。
    * @param {*} left
    * @param {*} right
-   * @return {boolean}
+   * @returns {Boolean}
    */
-  isEqual (left, right) {
-    return Object.is(left, right)
+  isEqual(left, right) {
+    return Object.is(left, right);
   },
 
   /**
@@ -33,11 +33,11 @@ export const BaseBehavior = {
    * @param args
    * @return {boolean}
    */
-  allEqual (...args) {
-    for (let i = 0, len = args.length; i < len; i = i + 2) {
-      if (i + 1 >= len || !Object.is(args[i], args[i + 1])) return false
+  allEqual(...args) {
+    for(let i = 0, len = args.length; i < len; i = i + 2) {
+      if(i + 1 >= len || !Object.is(args[i], args[i + 1])) return false;
     }
-    return true
+    return true;
   },
 
   /**
@@ -45,19 +45,19 @@ export const BaseBehavior = {
    * @param args
    * @return {boolean}
    */
-  someEqual (...args) {
-    for (let i = 0, len = args.length - 1; i < len; i = i + 2) {
-      if (Object.is(args[i], args[i + 1])) return true
+  someEqual(...args) {
+    for(let i = 0, len = args.length - 1; i < len; i = i + 2) {
+      if(Object.is(args[i], args[i + 1])) return true;
     }
-    return false
+    return false;
   },
   /**
    * 函数判断
    * @param {*} fn
-   * @return {boolean}
+   * @returns {Boolean}
    */
-  isFunction (fn) {
-    return Function.prototype.isPrototypeOf(fn)
+  isFunction(fn) {
+    return Function.prototype.isPrototypeOf(fn);
   },
 
   /**
@@ -70,60 +70,60 @@ export const BaseBehavior = {
    * orElse("bar", "foo")  // "bar"
    * ```
    * @param {...*} args
-   * @return {*}
+   * @returns {*}
    */
-  orElse (...args) {
-    const [first, ...rest] = args
-    return rest.length === 0 ? first : (first || this.orElse(...rest))
+  orElse(...args) {
+    const [first, ...rest] = args;
+    return rest.length === 0 ? first : (first || this.orElse(...rest));
   },
 
   /**
    * 通过key查询对象中的值
    * @param {Object} model
-   * @param {string} key
-   * @param {string} defVal  支持任何符合json格式的字符串
-   * @return {*}
+   * @param {String} key
+   * @param {String} defVal  支持任何符合json格式的字符串
+   * @returns {*}
    */
-  getValueByKey (model, key, defVal = '') {
-    return (model && (key in model)) ? model[key] : defVal
+  getValueByKey(model, key, defVal = "") {
+    return (model && (key in model)) ? model[key] : defVal;
   },
 
   /**
    * 等价于 model[key1 || key2 || ...]
    * @param {Object} model
-   * @param {...string} keys
-   * @return {*}
+   * @param {...String} keys
+   * @returns {*}
    */
-  getValueOrElse (model, ...keys) {
-    const key = this.orElse(...keys)
-    return this.getValueByKey(model, key)
+  getValueOrElse(model, ...keys) {
+    const key = this.orElse(...keys);
+    return this.getValueByKey(model, key);
   },
   /**
    * 等价于 model[key1 || key2 || ...] 如果找不到值，返回null
    * @param {Object} model
-   * @param {...string} keys
-   * @return {*}
+   * @param {...String} keys
+   * @returns {*}
    */
-  getValueOrElseNull (model, ...keys) {
-    const key = this.orElse(...keys)
-    return this.getValueByKey(model, key, null)
+  getValueOrElseNull(model, ...keys) {
+    const key = this.orElse(...keys);
+    return this.getValueByKey(model, key, null);
   },
   /**
    * 等价于 model[key1 || key2 || ...] 如果找不到值，返回 undefined
    * @param {Object} model
-   * @param {...string} keys
-   * @return {*}
+   * @param {...String} keys
+   * @returns {*}
    */
-  getValueOrElseUndefined (model, ...keys) {
-    const key = this.orElse(...keys)
-    return (model && (key in model)) ? model[key] : undefined
+  getValueOrElseUndefined(model, ...keys) {
+    const key = this.orElse(...keys);
+    return (model && (key in model)) ? model[key] : undefined;
   },
   /**
    * 解析json串，如果传入参数不符合json标准，则原样返回
    * @param val
    * @return {*}
    */
-  resolveJsonValue (val) {
+  resolveJsonValue(val) {
     try {
       if (typeof val === 'string') {
         return JSON.parse(val)
@@ -131,19 +131,19 @@ export const BaseBehavior = {
     } catch (e) {
     }
 
-    return val
+    return val;
   },
   /**
    * 判断是否空对象, []、{}、null、undefined、'' 皆为空对象，特殊的，function和0、'0'不属于空对象
    * @param entity
-   * @return {boolean}
+   * @returns {boolean}
    */
   isEmptyObject (entity) {
     if (Array.isArray(entity)) {
       return entity.length === 0
     } else if (Function.prototype.isPrototypeOf(entity)) {
       return false
-    } else if (Object.prototype.isPrototypeOf(entity)) {
+    }else if (Object.prototype.isPrototypeOf(entity)) {
       return Object.keys(entity).length === 0
     } else {
       return entity === null || entity === undefined || entity === ''
@@ -152,19 +152,19 @@ export const BaseBehavior = {
   /**
    * 通过路径获取对象字段值
    * @param {Object} model eg. { foo: { bar: 1} }
-   * @param {string} path  eg. "foo.bar"
+   * @param {String} path  eg. "foo.bar"
    * @param {*} defVal  如果传入的是符合json格式的字符串，会返回JSON.parse处理的结果
-   * @return {*}
+   * @returns {*}
    */
   getValueByPath (model, path = '', defVal) {
-    if (!model) return this.resolveJsonValue(defVal)
-    const splits = path.toString().split('.')
-    let copy = model
+    if (!model) return this.resolveJsonValue(defVal);
+    const splits = path.toString().split('.');
+    let copy = model;
     for (const key of splits) {
-      if (this.isEmptyObject(copy[key])) return copy[key] || this.resolveJsonValue(defVal)
-      copy = copy[key]
+      if (this.isEmptyObject(copy[key])) return copy[key] || this.resolveJsonValue(defVal);
+      copy = copy[key];
     }
-    return copy
+    return copy;
   },
 
   /**
@@ -174,20 +174,20 @@ export const BaseBehavior = {
    * @param value
    * @return {*}
    */
-  setValueByPath (model, path, value) {
-    const paths = String(path).split('.')
-    let tmp = model; let ctx; let key
+  setValueByPath(model, path, value) {
+    const paths = String(path).split(".");
+    let tmp = model, ctx, key;
     for (key of paths) {
       if (key in tmp) {
-        ctx = tmp
-        tmp = tmp[key]
+        ctx = tmp;
+        tmp = tmp[key];
       } else {
-        throw new Error(`path ${key} not found in the giving object`)
+        throw new Error(`path ${key} not found in the giving object`);
       }
     }
-    ctx[key] = value
+    ctx[key] = value;
 
-    return model
+    return model;
   },
 
   /**
@@ -195,73 +195,74 @@ export const BaseBehavior = {
    * @param path
    * @param target
    */
-  mkObject (path = '', target = {}) {
-    const paths = String(path).split('.')
+  mkObject(path = '', target = {}) {
+    const paths = String(path).split(".");
 
     if (String(path).length > 0) {
       paths.reduce((res, p) => {
-        if (!(p in res && typeof res[p] === 'object')) res[p] = {}
-        return res[p]
-      }, target)
+        if (!(p in res && typeof res[p] === 'object')) res[p] = {};
+        return res[p];
+      }, target);
     }
 
-    return target
+    return target;
   },
 
   /**
    * To boolean.
    * @param {*} val
    */
-  toBoolean (val) {
-    return !!val
+  toBoolean(val) {
+    return !!val;
   },
+
 
   /**
    * check if there's a truthy in the giving args
    * @param {*} val
    */
-  isExistTruthy (...args) {
+  isExistTruthy(...args) {
     return args.some(arg => !!arg)
   },
 
   /**
    * Check if an array is empty.
    * @param arr
-   * @return {boolean}
+   * @returns {boolean}
    */
-  isArrayEmpty (arr = []) {
-    return arr.length === 0
+  isArrayEmpty(arr = []) {
+    return arr.length === 0;
   },
   /**
    * 简单数学运算
    * @param first
    * @param op
    * @param nums
-   * @return {*}
+   * @returns {*}
    */
-  calc (first, op, ...nums) {
+  calc(first, op, ...nums) {
     switch (op) {
-    case '+':
-      return nums.reduce((res, num) => res + num, first)
-    case '-':
-      return nums.reduce((res, num) => res - num, first)
-    case '*':
-      return nums.reduce((res, num) => res * num, first)
-    case '/':
-      return nums.reduce((res, num) => res / num, first)
-    case '%':
-      return nums.reduce((res, num) => res % num, first)
-    default:
-      return ''
+      case '+':
+        return nums.reduce((res, num) => res + num, first);
+      case '-':
+        return nums.reduce((res, num) => res - num, first);
+      case '*':
+        return nums.reduce((res, num) => res * num, first);
+      case '/':
+        return nums.reduce((res, num) => res / num, first);
+      case '%':
+        return nums.reduce((res, num) => res % num, first);
+      default:
+        return '';
     }
   },
 
-  toggleClass (target, className) {
+  toggleClass(target, className) {
     if (target instanceof Element) {
       if (target.classList.contains(className)) {
-        target.classList.remove(className)
+        target.classList.remove(className);
       } else {
-        target.classList.add(className)
+        target.classList.add(className);
       }
     }
   },
@@ -269,68 +270,68 @@ export const BaseBehavior = {
   /**
    * 添加loading
    */
-  showLoading (ele) {
-    let loadingDiv = (ele || document.body).querySelector('#isu-loading')
+  showLoading(ele) {
+    let loadingDiv = (ele ||document.body).querySelector("#isu-loading");
     if (!loadingDiv) {
-      loadingDiv = document.createElement('isu-loading')
-      loadingDiv.setAttribute('id', 'isu-loading')
-      loadingDiv.noCancelOnOutsideClick = true
+      loadingDiv = document.createElement("isu-loading");
+      loadingDiv.setAttribute("id", "isu-loading");
+      loadingDiv.noCancelOnOutsideClick = true;
       loadingDiv.noCancelOnEscKey = true;
       // loadingDiv.withBackdrop = true;
-      (ele || document.body).appendChild(loadingDiv)
-      loadingDiv.style.top = -(loadingDiv.getBoundingClientRect().top)
+      (ele || document.body).appendChild(loadingDiv);
     }
-    this.async(() => {
-      loadingDiv.opened = true
-    }, 0)
+    this.async( () => {
+      loadingDiv.opened = true;
+      loadingDiv.style.position = 'fixed'
+    }, 0);
   },
   /**
    * 消除loading
    */
-  hideLoading (ele) {
+  hideLoading(ele) {
     this.async(() => {
-      const loadingDiv = (ele || document.body).querySelector('#isu-loading')
+      const loadingDiv = (ele || document.body).querySelector("#isu-loading");
       if (loadingDiv) {
         loadingDiv.opened = false
       }
-    }, 0)
+    }, 0);
   },
 
   /**
    * 添加Nprogress， loading的另一种表现形式
    */
-  showNprogress () {
-    const link = document.createElement('link')
-    link.type = 'text/css'
-    link.rel = 'stylesheet'
-    link.href = 'https://unpkg.com/nprogress@0.2.0/nprogress.css'
+  showNprogress() {
+    const link = document.createElement('link');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/nprogress@0.2.0/nprogress.css';
     const script = document.createElement('script')
     script.src = 'https://unpkg.com/nprogress@0.2.0/nprogress.js'
-    const head = document.getElementsByTagName('head')[0]
-    head.appendChild(script)
-    head.appendChild(link)
+    const head = document.getElementsByTagName('head')[0];
+    head.appendChild(script);
+    head.appendChild(link);
     this.async(this.startNprogress, 0)
   },
-  startNprogress () {
+  startNprogress() {
     NProgress.start()
   },
   /**
    * 消除Nprogress
    */
-  hideNprogress () {
+  hideNprogress() {
     NProgress.done()
   },
 
-  throwNotFoundError (string) {
-    throw new TypeError(string + ' should not be undefined.')
+  throwNotFoundError(string) {
+    throw new TypeError(string + " should not be undefined.")
   },
 
-  deepClone (obj) {
-    return obj == null || typeof (obj) !== 'object' ? obj : JSON.parse(JSON.stringify(obj))
+  deepClone(obj) {
+    return obj == null || typeof (obj) !== "object" ? obj : JSON.parse(JSON.stringify(obj));
   },
 
-  optional (bool, trueReturn, falseReturn = '') {
-    return bool ? trueReturn : falseReturn
+  optional(bool, trueReturn, falseReturn = '') {
+    return bool ? trueReturn : falseReturn;
   },
 
   /**
@@ -344,22 +345,22 @@ export const BaseBehavior = {
    * @param defaultGroup, 当指定的分组字段不存在时，归类到的默认分组
    * @return Object
    */
-  groupBy (array, iteratee, defaultGroup = 'wilding') {
-    let valueResolver, args
+  groupBy(array, iteratee, defaultGroup = 'wilding') {
+    let valueResolver, args;
     if (this.isFunction(iteratee)) {
-      valueResolver = iteratee
-      args = []
+      valueResolver = iteratee;
+      args = [];
     } else {
-      valueResolver = this.getValueByPath
-      args = [iteratee, defaultGroup]
+      valueResolver = this.getValueByPath;
+      args = [iteratee, defaultGroup];
     }
     return array.reduce((res, item) => {
-      const val = valueResolver.call(this, item, ...args)
-      const group = res[val] || []
-      group.push(item)
-      res[val] = group
-      return res
-    }, {})
+      const val = valueResolver.call(this, item, ...args);
+      const group = res[val] || [];
+      group.push(item);
+      res[val] = group;
+      return res;
+    }, {});
   },
 
   /**
@@ -372,26 +373,26 @@ export const BaseBehavior = {
    * @param predicate
    * @return
    */
-  partition (array, predicate) {
-    let _predicate
+  partition(array, predicate) {
+    let _predicate;
     if (this.isFunction(predicate)) {
-      _predicate = predicate
+      _predicate = predicate;
     } else if (Object.prototype.isPrototypeOf(predicate)) {
       _predicate = (item) => Object.entries(predicate).every(([key, value]) => item[key] === value)
     } else if (typeof predicate === 'string') {
-      _predicate = (item) => item[predicate]
+      _predicate = (item) => item[predicate];
     } else {
       throw new TypeError(`Unsupported predicate type ${typeof predicate}`)
     }
 
     return array.reduce((res, item) => {
       if (_predicate.call(this, item)) {
-        res[0].push(item)
+        res[0].push(item);
       } else {
-        res[1].push(item)
+        res[1].push(item);
       }
-      return res
-    }, [[], []])
+      return res;
+    }, [[], []]);
   },
 
   /**
@@ -400,8 +401,8 @@ export const BaseBehavior = {
    * @param
    * @return
    */
-  getInvalidAttribute () {
-    !this.validate() ? this.setAttribute('data-invalid', '') : this.removeAttribute('data-invalid')
+  getInvalidAttribute() {
+    !this.validate() ? this.setAttribute("data-invalid", "") : this.removeAttribute("data-invalid");
   },
 
   /**
@@ -410,19 +411,20 @@ export const BaseBehavior = {
    * @param value
    * @param sessionOnly, default true, if true ? sessionStorage, else localStorage
    */
-  setStorageValue (key, value, sessionOnly = true) {
+  setStorageValue(key, value, sessionOnly=true) {
     const storage = sessionOnly ? window.sessionStorage : window.localStorage
-    if (typeof value === 'undefined') { value = null }
-    storage.setItem(key, JSON.stringify(value))
+    if (typeof value === 'undefined')
+      value = null;
+    storage.setItem(key, JSON.stringify(value));
   },
 
   /**
    * get value from storage(sessionStorage or localStorage)
    * @param key
    * @param sessionOnly, default true, if true ? sessionStorage, else localStorage
-   * @return {*}
+   * @returns {*}
    */
-  getStorageValue (key, sessionOnly = true) {
+  getStorageValue(key, sessionOnly=true) {
     const storage = sessionOnly ? window.sessionStorage : window.localStorage
     const str = storage.getItem(key)
     return this.resolveJsonValue(str)
@@ -434,6 +436,6 @@ export const BaseBehavior = {
    * @param
    * @return
    */
-  validate () {
+  validate() {
   }
-}
+};
