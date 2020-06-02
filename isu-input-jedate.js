@@ -50,7 +50,7 @@ import {FormatBehavior} from "./behaviors/format-behavior";
  * @polymer
  * @demo demo/isu-input-date/index.html
  */
-class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], PolymerElement) {
+class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], PolymerElement) {
   static get template() {
     return html`
     <style include="isu-elements-shared-styles">
@@ -530,6 +530,21 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
     super.validate()
     return this.required ? this.value && this.value.length > 0 : true
   }
+
+  ready () {
+    super.ready()
+    let links = [...document.getElementsByTagName('link')]
+    const isJedateLink = links.some(item => item.href.includes('/utils/jedate/skin/jedate.css'))
+    if (!isJedateLink) {
+      const link = document.createElement('link')
+      link.type = 'text/css'
+      link.rel = 'stylesheet'
+      link.href = '/utils/jedate/skin/jedate.css'
+      const head = document.getElementsByTagName('head')[0]
+      head.appendChild(link)
+    }
+
+  }
 }
 
-window.customElements.define(H2InputDate.is, H2InputDate);
+window.customElements.define(IsuInputJedate.is, IsuInputJedate);
