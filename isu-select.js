@@ -283,7 +283,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
               </div>
             </template>
             <input id="keywordInput" style="border: none; height: 28px; width: calc(100% - 14px)" 
-                          value="{{ keyword::input }}" autocomplete="off" on-focus="__focusOnKeywordInput">
+                          value="{{ keyword::input }}" autocomplete="off" on-click="__focusOnKeywordInput">
           </div>
         </div>
         <iron-icon id="caret" icon="icons:expand-more"></iron-icon>
@@ -538,7 +538,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  __focusOnKeywordInput() {
+  __focusOnKeywordInput(e) {
+    e && e.stopPropagation()
     this.$.keywordInput.focus();
   }
 
