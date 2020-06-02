@@ -279,6 +279,7 @@ export const BaseBehavior = {
       loadingDiv.noCancelOnEscKey = true;
       // loadingDiv.withBackdrop = true;
       (ele || document.body).appendChild(loadingDiv);
+      loadingDiv.style.top = -(loadingDiv.getBoundingClientRect().top)
     }
     this.async( () => {
       loadingDiv.opened = true;
