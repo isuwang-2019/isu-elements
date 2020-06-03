@@ -245,7 +245,8 @@ class IsuMask extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * The attribute name of the item to display on mask.

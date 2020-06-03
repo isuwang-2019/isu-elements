@@ -60,6 +60,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
           position: absolute;
           left: -10px;
           line-height: inherit;
+          @apply --isu-required
         }
 
       .candidate__item:first-of-type {
@@ -149,7 +150,8 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the radio is readonly.

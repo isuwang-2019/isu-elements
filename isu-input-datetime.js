@@ -95,7 +95,8 @@ class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) 
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the input is readonly.

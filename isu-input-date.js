@@ -54,6 +54,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         position: absolute;
         left: -10px;
         line-height: inherit;
+        @apply --isu-required
       }
       
       :host([readonly]) .input__container {
@@ -423,7 +424,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the input is readonly.

@@ -245,6 +245,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           position: absolute;
           left: -10px;
           line-height: inherit;
+          @apply --isu-required
         }
         
         :host([data-invalid]) .tags-input {
@@ -499,7 +500,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the picker is readonly.

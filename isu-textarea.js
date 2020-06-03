@@ -193,7 +193,8 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
        * @type {boolean}
        */
       required: {
-        type: Boolean
+        type: Boolean,
+        reflectToAttribute: true
       },
 
       /**

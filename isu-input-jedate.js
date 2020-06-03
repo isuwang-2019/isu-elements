@@ -102,6 +102,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
         position: absolute;
         left: -10px;
         line-height: inherit;
+        @apply --isu-required
       }
       :host([readonly]) .jeinput {
         cursor: default;
@@ -160,7 +161,8 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the input is readonly.

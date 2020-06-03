@@ -215,7 +215,8 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polymer
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the select is readonly.
