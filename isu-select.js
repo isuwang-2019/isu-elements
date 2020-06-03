@@ -1,15 +1,15 @@
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {html, PolymerElement} from "@polymer/polymer";
-import '@polymer/iron-icon/iron-icon';
-import '@polymer/iron-icons/iron-icons';
-import '@polymer/iron-icons/social-icons';
-import '@polymer/iron-selector/iron-selector';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { html, PolymerElement } from '@polymer/polymer'
+import '@polymer/iron-icon/iron-icon'
+import '@polymer/iron-icons/iron-icons'
+import '@polymer/iron-icons/social-icons'
+import '@polymer/iron-selector/iron-selector'
 import '@polymer/iron-input/iron-input'
-import './behaviors/base-behavior.js';
-import {BaseBehavior} from "./behaviors/base-behavior";
-import './behaviors/isu-elements-shared-styles.js';
-import {PinyinUtil} from "./utils/pinyinUtil";
-import {CacheSearchUtil} from "./utils/cacheSearchUtil";
+import { BaseBehavior } from './behaviors/base-behavior.js'
+
+import './behaviors/isu-elements-shared-styles.js'
+import { PinyinUtil } from './utils/pinyinUtil'
+import { CacheSearchUtil } from './utils/cacheSearchUtil'
 
 /**
  * `isu-select`
@@ -49,7 +49,7 @@ import {CacheSearchUtil} from "./utils/cacheSearchUtil";
  * @demo demo/isu-select/index.html
  */
 class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -311,10 +311,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
          <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
       </div>
     </template>
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Chinese pinyin plugin
@@ -323,7 +323,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Object,
         readOnly: true,
         value: function () {
-          return new PinyinUtil();
+          return new PinyinUtil()
         }
       },
       /**
@@ -333,7 +333,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Object,
         readOnly: true,
         value: function () {
-          return new CacheSearchUtil();
+          return new CacheSearchUtil()
         }
       },
       /**
@@ -447,7 +447,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForValue: {
         type: String,
-        value: "value"
+        value: 'value'
       },
       /**
        *
@@ -458,7 +458,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForLabel: {
         type: String,
-        value: "label"
+        value: 'label'
       },
       /**
        * Whether the focus of the last virtual input box is needed
@@ -506,14 +506,14 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: ','
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-select";
+  static get is () {
+    return 'isu-select'
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '_valueChanged(value)',
       '_itemsChanged(items)',
@@ -522,72 +522,72 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       'getInvalidAttribute(required,value)',
       '_keywordChanged(keyword)',
       '__isViewChanged(isView,readonly)'
-    ];
+    ]
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  connectedCallback () {
+    super.connectedCallback()
     this.addEventListener('blur', e => {
-      this.closeCollapse();
-    });
-    let parent = this.offsetParent;
+      this.closeCollapse()
+    })
+    let parent = this.offsetParent
     while (parent) {
       parent.addEventListener('scroll', e => {
-        this.refreshElemPos();
-      });
-      parent = parent.offsetParent;
+        this.refreshElemPos()
+      })
+      parent = parent.offsetParent
     }
   }
 
-  __focusOnKeywordInput(e) {
+  __focusOnKeywordInput (e) {
     e && e.stopPropagation()
-    this.$.keywordInput.focus();
+    this.$.keywordInput.focus()
   }
 
   /**
    * 点击事件
    */
-  _onInputClick(e) {
+  _onInputClick (e) {
     if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
-    this.refreshElemPos();
-    const classList = e.target.classList;
+    this.refreshElemPos()
+    const classList = e.target.classList
     if (classList.contains('tag-deleter') || classList.contains('tag-cursor')) {
-      return;
+      return
     }
     this.__focusOnKeywordInput()
-    this.toggleCollapse();
+    this.toggleCollapse()
   }
 
-  refreshElemPos(){
-    this.$['select-collapse'].style['top'] = this.selectedValues.length === 0 ? this.clientHeight + 'px' : (this.clientHeight + 30) + 'px';
-    this.$['select-collapse'].style['width'] = this.$['select__container'].clientWidth + 'px';
+  refreshElemPos () {
+    this.$['select-collapse'].style.top = this.selectedValues.length === 0 ? this.clientHeight + 'px' : (this.clientHeight + 30) + 'px'
+    this.$['select-collapse'].style.width = this.$.select__container.clientWidth + 'px'
   }
 
   _itemsChanged (items) {
     // 初始化一次选中项
     if (this.value !== undefined && this.value !== null) {
-      this._valueChanged(this.value);
+      this._valueChanged(this.value)
     }
     // 清空缓存插件的缓存
-    this._cacheSearchUtil.resetCache();
+    this._cacheSearchUtil.resetCache()
 
-    items.forEach(item => this._cacheSearchUtil.addCacheItem(item, this._loadPinyinKeys(item, this.fieldsForIndex)));
+    items.forEach(item => this._cacheSearchUtil.addCacheItem(item, this._loadPinyinKeys(item, this.fieldsForIndex)))
     this._displayItems = items
   }
 
-  _valueChanged(value) {
+  _valueChanged (value) {
     if (this.items && this.items.length) {
-      const values = String(value).split(",").map(str => str.trim());
-      const flatValues = [...(new Set(values))];
+      const values = String(value).split(',').map(str => str.trim())
+      const flatValues = [...(new Set(values))]
 
-      const dirty = (this.selectedValues || []).map(selected => selected[this.attrForValue]).join(',');
+      const dirty = (this.selectedValues || []).map(selected => selected[this.attrForValue]).join(',')
       if (dirty !== value) {
         this.selectedValues =
           flatValues.map(val => this.items.find(item => item[this.attrForValue] == val))
-            .filter(selected => typeof selected !== 'undefined');
+            .filter(selected => typeof selected !== 'undefined')
 
         if (!this.multi) {
-          this.selectedItem = this.items.find(item => item[this.attrForValue] == flatValues[0]);
+          this.selectedItem = this.items.find(item => item[this.attrForValue] == flatValues[0])
         }
       }
     }
@@ -598,13 +598,13 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   /**
    * 给对象根据fieldsForIndex给对应的字段做拼音缓存（字段值，字段值全拼和拼音首字母）
    */
-  _loadPinyinKeys(item, fieldsForIndex = []) {
-    let keys = [], values = fieldsForIndex.map(sf => item[sf]);
+  _loadPinyinKeys (item, fieldsForIndex = []) {
+    let keys = []; let values = fieldsForIndex.map(sf => item[sf])
 
-    values = values.length === 0 ? Object.values(item) : values;
+    values = values.length === 0 ? Object.values(item) : values
 
     if (this.disablePinyinSearch) {
-      keys = values.map(value => String(value));
+      keys = values.map(value => String(value))
     } else {
       values.forEach(
         value => {
@@ -612,87 +612,87 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
             String(value),
             this._pinyinUtil.convert2CompletePinyin(value),
             this._pinyinUtil.convert2PinyinAbbreviation(value)
-          );
+          )
         }
-      );
+      )
     }
 
-    return keys;
+    return keys
   }
 
-  _keywordChanged(keyword) {
-    this._displayItems = this._cacheSearchUtil.search(this.keyword, " ");
-    this._displayPlaceholder();
+  _keywordChanged (keyword) {
+    this._displayItems = this._cacheSearchUtil.search(this.keyword, ' ')
+    this._displayPlaceholder()
   }
 
-  _selectedValuesChanged() {
+  _selectedValuesChanged () {
     if (this.items && this.items.length) {
       if (this.selectedValues.length > 0) {
-        this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',');
+        this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',')
       } else {
-        this.value = undefined;
+        this.value = undefined
       }
       if (this.selectedValues.length !== 0) {
-        this.closeCollapse();
+        this.closeCollapse()
       }
     }
   }
 
-  selectedItemChanged() {
-    this.selectedValues = this.selectedItem ? [this.selectedItem] : [];
+  selectedItemChanged () {
+    this.selectedValues = this.selectedItem ? [this.selectedItem] : []
   }
 
   /**
    * 删除Tag项，事件处理函数
    */
-  _deleteTag(e) {
-    let value = e.target.dataArgs;
-    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] == value);
-    this.splice("selectedValues", ind, 1);
+  _deleteTag (e) {
+    const value = e.target.dataArgs
+    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] == value)
+    this.splice('selectedValues', ind, 1)
   }
 
   /**
    * @param event
    * @private
    */
-  _updatePressed(event) {
-    let cursorIndex = event.target.dataset.cursorIndex;
+  _updatePressed (event) {
+    let cursorIndex = event.target.dataset.cursorIndex
     switch (event.key) {
-      case "ArrowLeft":
-        cursorIndex = cursorIndex > 0 ? --cursorIndex : -1;
-        break;
-      case "ArrowRight":
-        const max = this.selectedValues.length - 1;
-        cursorIndex = cursorIndex < max ? ++cursorIndex : max;
-        break;
-      case "Backspace":
-        if (cursorIndex >= 0) {
-          this.splice('selectedValues', cursorIndex, 1);
+    case 'ArrowLeft':
+      cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
+      break
+    case 'ArrowRight':
+      const max = this.selectedValues.length - 1
+      cursorIndex = cursorIndex < max ? ++cursorIndex : max
+      break
+    case 'Backspace':
+      if (cursorIndex >= 0) {
+        this.splice('selectedValues', cursorIndex, 1)
+      }
+      if (!this.keyword || this.keyword.length === 0) {
+        if (this.selectedValues) { // 存在数据才抛出,解决新增时候数据为空时退格Array.length出错问题
+          this.pop('selectedValues')
         }
-        if(!this.keyword || this.keyword.length === 0) {
-          if(this.selectedValues){//存在数据才抛出,解决新增时候数据为空时退格Array.length出错问题
-            this.pop("selectedValues");
-          }
-        }
-        cursorIndex = cursorIndex > 0 ? --cursorIndex : -1;
-        break;
+      }
+      cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
+      break
     }
   }
 
-  __focusOnLast() {
+  __focusOnLast () {
     this.set('keyword', '')
   }
 
-  _displayPlaceholder(display) {
-    this.$.placeholder.hidden = !display;
+  _displayPlaceholder (display) {
+    this.$.placeholder.hidden = !display
   }
 
   /**
    * Open collapse.
    */
-  openCollapse() {
-    this.$["select-collapse"].setAttribute('data-collapse-open', '');
-    this.opened = true;
+  openCollapse () {
+    this.$['select-collapse'].setAttribute('data-collapse-open', '')
+    this.opened = true
     this.$.keywordInput.style.display = 'block'
     this.__focusOnKeywordInput()
   }
@@ -700,17 +700,17 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   /**
    * Close collapse.
    */
-  closeCollapse() {
-    this.$["select-collapse"].removeAttribute('data-collapse-open');
+  closeCollapse () {
+    this.$['select-collapse'].removeAttribute('data-collapse-open')
     this.$.keywordInput.style.display = 'none'
-    this.opened = false;
+    this.opened = false
   }
 
   /**
    * Toggle collapse.
    */
-  toggleCollapse() {
-    if (this.$["select-collapse"].hasAttribute('data-collapse-open')) {
+  toggleCollapse () {
+    if (this.$['select-collapse'].hasAttribute('data-collapse-open')) {
       this.closeCollapse()
     } else {
       this.openCollapse()
@@ -720,31 +720,30 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   /**
    * Set focus to select.
    */
-  doFocus() {
-    this.__focusOnLast();
+  doFocus () {
+    this.__focusOnLast()
   }
 
   getViewLabels (items, attrForLabel, connector) {
-    let labels = items.map(item=> item[attrForLabel])
+    const labels = items.map(item => item[attrForLabel])
     return labels.join(connector)
   }
 
-  __isViewChanged(isView, readonly) {
-    this.$['input__container'].style.display = (this.readonly && isView) ? 'none' : 'flex'
+  __isViewChanged (isView, readonly) {
+    this.$.select__container.style.display = (this.readonly && isView) ? 'none' : 'flex'
   }
 
-  _isView(isView,readonly) {
+  _isView (isView, readonly) {
     return isView && readonly
   }
 
   /**
    * Validate, true if the select is set to be required and this.selectedValues.length > 0, or else false.
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
-    return this.required ? (this.selectedValues && this.selectedValues.length > 0) : true;
+  validate () {
+    return this.required ? (this.selectedValues && this.selectedValues.length > 0) : true
   }
-
 }
 
-window.customElements.define(IsuSelect.is, IsuSelect);
+window.customElements.define(IsuSelect.is, IsuSelect)
