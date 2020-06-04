@@ -528,6 +528,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   connectedCallback () {
     super.connectedCallback()
     this.addEventListener('blur', e => {
+      this.debounce('__debounceCloseCollapse', this.closeCollapse, 200)
       this.closeCollapse()
     })
     let parent = this.offsetParent
