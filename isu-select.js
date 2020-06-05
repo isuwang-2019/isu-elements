@@ -528,9 +528,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   connectedCallback () {
     super.connectedCallback()
     this.addEventListener('blur', e => {
-      setTimeout(() => {
-        this.closeCollapse()
-      }, 150)
+      setTimeout(this.closeCollapse, 150)
     })
     let parent = this.offsetParent
     while (parent) {
