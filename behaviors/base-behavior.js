@@ -134,22 +134,6 @@ export const BaseBehavior = {
     return val
   },
   /**
-   * 判断是否空对象, []、{}、null、undefined、'' 皆为空对象，特殊的，function和0、'0'不属于空对象
-   * @param entity
-   * @return {boolean}
-   */
-  isEmptyObject (entity) {
-    if (Array.isArray(entity)) {
-      return entity.length === 0
-    } else if (Function.prototype.isPrototypeOf(entity)) {
-      return false
-    } else if (Object.prototype.isPrototypeOf(entity)) {
-      return Object.keys(entity).length === 0
-    } else {
-      return entity === null || entity === undefined || entity === ''
-    }
-  },
-  /**
    * 通过路径获取对象字段值
    * @param {Object} model eg. { foo: { bar: 1} }
    * @param {string} path  eg. "foo.bar"
@@ -223,14 +207,40 @@ export const BaseBehavior = {
   isExistTruthy (...args) {
     return args.some(arg => !!arg)
   },
-
+  /**
+   * 移除字符串中所有的空格
+   * @param str
+   * @returns {*}
+   */
+  trimStr: function (str) {
+    if (str === null || str === undefined) {
+      return ''
+    }
+    return str.replace(/\s/g, '')
+  },
   /**
    * Check if an array is empty.
    * @param arr
    * @return {boolean}
    */
   isArrayEmpty (arr = []) {
-    return arr.length === 0
+    return arr && arr.length === 0
+  },
+  /**
+   * 判断是否空对象, []、{}、null、undefined、'' 皆为空对象，特殊的，function和0、'0'不属于空对象
+   * @param entity
+   * @return {boolean}
+   */
+  isEmptyObject (entity) {
+    if (Array.isArray(entity)) {
+      return entity.length === 0
+    } else if (Function.prototype.isPrototypeOf(entity)) {
+      return false
+    } else if (Object.prototype.isPrototypeOf(entity)) {
+      return Object.keys(entity).length === 0
+    } else {
+      return entity === null || entity === undefined || this.trimStr(entity) === ''
+    }
   },
   /**
    * 简单数学运算
