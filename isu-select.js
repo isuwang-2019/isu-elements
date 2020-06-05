@@ -292,7 +292,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <div id="select-collapse" on-click="__focusOnLast">
         <iron-selector class="selector-panel" multi="[[ multi ]]" selected="{{ selectedItem }}" selected-values="{{ selectedValues }}" attr-for-selected="candidate-item">
           <template is="dom-repeat" items="[[_displayItems]]">
-            <div class="candidate-item" candidate-item="[[item]]" title="[[getValueByKey(item, attrForLabel)]]">
+            <div class="candidate-item" candidate-item="{{item}}" title="[[getValueByKey(item, attrForLabel)]]">
               [[getValueByKey(item, attrForLabel)]]
             </div>
           </template>
@@ -528,8 +528,9 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   connectedCallback () {
     super.connectedCallback()
     this.addEventListener('blur', e => {
-      this.debounce('__debounceCloseCollapse', this.closeCollapse, 200)
-      this.closeCollapse()
+      setTimeout(() => {
+        this.closeCollapse()
+      }, 150)
     })
     let parent = this.offsetParent
     while (parent) {
