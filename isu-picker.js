@@ -649,6 +649,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       setTimeout(() => { // 解决blur事件和click事件冲突的问题
         if (this.shadowRoot.activeElement && this.shadowRoot.activeElement.id === 'keywordInput') return;
         this.displayCollapse(false);
+        this._userInputKeyword = '';
       }, 200);
     });
 
