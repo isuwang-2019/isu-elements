@@ -58,6 +58,7 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
         display: flex;
         flex-flow: row nowrap;
         flex: 1;
+        padding: 0 4px;
       }
 
       :host([type=warn]) #tip {
