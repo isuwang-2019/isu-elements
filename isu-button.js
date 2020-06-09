@@ -1,8 +1,8 @@
-import {html, PolymerElement} from "@polymer/polymer";
+import { html, PolymerElement } from '@polymer/polymer'
 import '@polymer/paper-button/paper-button'
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {PaperButtonBehavior} from "@polymer/paper-behaviors/paper-button-behavior";
-import './behaviors/isu-elements-shared-styles.js';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { PaperButtonBehavior } from '@polymer/paper-behaviors/paper-button-behavior'
+import './behaviors/isu-elements-shared-styles.js'
 
 /**
  *
@@ -71,7 +71,7 @@ import './behaviors/isu-elements-shared-styles.js';
  * @demo demo/isu-button/index.html
  */
 class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -80,7 +80,7 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
         font-size: var(--isu-ui-font-size);
         border-radius: 4px;
         outline: none;
-        height: 34px;
+        height: var(--isu-button-height, 34px) sans-serif;
       }
 
       :host([hidden]) {
@@ -170,15 +170,15 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
     <paper-button class="btn" disabled="[[disabled]]" noink>
       <slot></slot>
     </paper-button>
-`;
+`
   }
 
-  constructor() {
-    super();
-    this.noink = true;
+  constructor () {
+    super()
+    this.noink = true
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Properties can be selected as default, primary, warning, danger or success
@@ -215,4 +215,4 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
   }
 }
 
-window.customElements.define('isu-button', IsuButton);
+window.customElements.define('isu-button', IsuButton)
