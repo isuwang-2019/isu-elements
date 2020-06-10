@@ -529,7 +529,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     super.connectedCallback()
     this.addEventListener('blur', e => {
       setTimeout(this.closeCollapse.bind(this), 150)
-      this.keyword = ''
+
     })
     let parent = this.offsetParent
     while (parent) {
@@ -704,6 +704,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   closeCollapse () {
     this.$['select-collapse'].removeAttribute('data-collapse-open')
     this.$.keywordInput.style.display = 'none'
+    this.keyword = ''
     this.opened = false
   }
 
