@@ -1,11 +1,9 @@
-
-import { BaseBehavior } from './behaviors/base-behavior.js'
-
 import { html, PolymerElement } from '@polymer/polymer'
-
+import { BaseBehavior } from './behaviors/base-behavior.js'
 import { TipBehavior } from './behaviors/tip-behavior'
-import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 import { AjaxBehavior } from './behaviors/ajax-behavior'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+
 import '@polymer/paper-dialog'
 import './behaviors/isu-elements-shared-styles.js'
 import './isu-button.js'
@@ -390,9 +388,8 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
     if (this.uploadImgUrl) {
       const formData = new FormData()
       formData.append(this.uploadFileName, blob)
-      await this.post({ url: this.uploadImgUrl, data: formData }).then((data) => {
-        this.uploadCallback && this.uploadCallback(data)
-      })
+      const data = await this.post({ url: this.uploadImgUrl, data: formData })
+      this.uploadCallback && this.isFunction(this.uploadCallback) && this.uploadCallback(data)
     }
   }
 
