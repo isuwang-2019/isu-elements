@@ -225,7 +225,8 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
 
       /**
