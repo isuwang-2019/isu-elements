@@ -6,6 +6,7 @@ import '@polymer/paper-checkbox/paper-checkbox';
 import '@polymer/paper-tooltip/paper-tooltip';
 
 import {BaseBehavior} from "./behaviors/base-behavior";
+import {AjaxBehavior} from "./behaviors/ajax-behavior";
 import './behaviors/isu-elements-shared-styles.js';
 import './isu-table-column'
 import './isu-table-column-sub'
@@ -19,7 +20,7 @@ import './isu-table-column-sub'
  * @polymer
  * @demo demo/isu-table/index.html
  */
-class IsuTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
+class IsuTable extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerElement) {
   static get template() {
     return html`
       <style include="isu-elements-shared-styles">

@@ -7,7 +7,6 @@ import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 import {BaseBehavior} from "./behaviors/base-behavior";
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import './isu-fetch.js';
-import schema from 'async-validator';
 /**
  * `isu-form`
  *

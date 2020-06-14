@@ -237,7 +237,8 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       }
     };
   }
