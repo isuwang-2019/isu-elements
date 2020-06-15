@@ -138,10 +138,14 @@ export const BaseBehavior = {
    * @param {Object} model eg. { foo: { bar: 1} }
    * @param {string} path  eg. "foo.bar"
    * @param {*} defVal  如果传入的是符合json格式的字符串，会返回JSON.parse处理的结果
+   * @param {function} format  添加格式化函数支持
    * @return {*}
    */
-  getValueByPath (model, path = '', defVal) {
+  getValueByPath (model, path = '', defVal, format) {
     if (!model) return this.resolveJsonValue(defVal)
+    if (format) {
+      return format(model)
+    }
     const splits = path.toString().split('.')
     let copy = model
     for (const key of splits) {
@@ -210,7 +214,7 @@ export const BaseBehavior = {
   /**
    * 移除字符串中所有的空格
    * @param str
-   * @returns {*}
+   * @return {*}
    */
   trimStr: function (str) {
     if (str === null || str === undefined) {
@@ -238,8 +242,6 @@ export const BaseBehavior = {
       return false
     } else if (Object.prototype.isPrototypeOf(entity)) {
       return Object.keys(entity).length === 0
-    } else if (Number.isFinite(entity)) {
-      return false
     } else {
       return entity === null || entity === undefined || this.trimStr(entity) === ''
     }
@@ -431,7 +433,7 @@ export const BaseBehavior = {
   /**
    * get value from storage(sessionStorage or localStorage)
    * @param key
-   * @param sessionOnly, default true, if true ? sessionStorage, else localStorage
+   * @param {boolean} sessionOnly, default true, if true ? sessionStorage, else localStorage
    * @return {*}
    */
   getStorageValue (key, sessionOnly = true) {

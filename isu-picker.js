@@ -1,13 +1,13 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import '@polymer/iron-icon/iron-icon';
-import '@polymer/iron-icons/iron-icons';
-import '@polymer/iron-icons/social-icons';
-import {BaseBehavior} from "./behaviors/base-behavior";
-import './behaviors/isu-elements-shared-styles.js';
-import {IsuFetch} from './isu-fetch';
-import {CacheSearchUtil} from './utils/cacheSearchUtil'
-import {PinyinUtil} from './utils/pinyinUtil';
+import { html, PolymerElement } from '@polymer/polymer'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@polymer/iron-icon/iron-icon'
+import '@polymer/iron-icons/iron-icons'
+import '@polymer/iron-icons/social-icons'
+import { BaseBehavior } from './behaviors/base-behavior'
+import './behaviors/isu-elements-shared-styles.js'
+import { IsuFetch } from './isu-fetch'
+import { CacheSearchUtil } from './utils/cacheSearchUtil'
+import { PinyinUtil } from './utils/pinyinUtil'
 
 /**
 
@@ -52,7 +52,7 @@ import {PinyinUtil} from './utils/pinyinUtil';
  * @demo demo/isu-picker/index.html
  */
 class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
       <style include="isu-elements-shared-styles">
         :host {
@@ -318,7 +318,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
             <template is="dom-repeat" items="[[_displayItems]]" as="row">
               <tr id="candidate-item__[[index]]" on-click="_selectCollapseItem">
                 <template is="dom-repeat" items="[[pickerMeta]]" as="col">
-                  <td class="collapse-table__cell">[[ getValueByPath(row, col.field) ]]</td>
+                  <td class="collapse-table__cell">[[ getValueByPath(row, col.field, '', col.format) ]]</td>
                 </template>
                 <template is="dom-if" if="[[ enableHotkey ]]">
                   <td class="collapse-table__cell table-hotkey">[[_getHotKey(index)]]</td>
@@ -335,10 +335,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </div>
         </div>
       </div>
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Chinese pinyin plugin
@@ -347,7 +347,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Object,
         readOnly: true,
         value: function () {
-          return new PinyinUtil();
+          return new PinyinUtil()
         }
       },
       /**
@@ -357,7 +357,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Object,
         readOnly: true,
         value: function () {
-          return new CacheSearchUtil();
+          return new CacheSearchUtil()
         }
       },
       /**
@@ -367,7 +367,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Object,
         readOnly: true,
         value: function () {
-          return new IsuFetch();
+          return new IsuFetch()
         }
       },
       /**
@@ -461,7 +461,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       pickerMeta: {
         type: Array,
         value: function () {
-          return [{"field": "label", "label": "选项"}];
+          return [{ field: 'label', label: '选项' }]
         }
       },
       /**
@@ -471,7 +471,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForValue: {
         type: String,
-        value: "value"
+        value: 'value'
       },
       /**
        * Attribute name for label.
@@ -480,7 +480,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForLabel: {
         type: Object,
-        value: "label"
+        value: 'label'
       },
       /**
        * Whether to disable pinyin search or not
@@ -561,14 +561,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       keywordPath: {
         type: String,
-        value: "keyword"
+        value: 'keyword'
       },
       /**
        * queryByValueUrl query params name,default 'ids',such as `/queryByValues?ids = `
        */
       valuePath: {
         type: String,
-        value: "ids"
+        value: 'ids'
       },
 
       resultPath: {
@@ -617,15 +617,15 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       method: {
         type: String,
         value: 'GET'
-      },
-    };
+      }
+    }
   }
 
-  static get is() {
-    return "isu-picker";
+  static get is () {
+    return 'isu-picker'
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '_queryByKeywordUrlChanged(queryByKeywordUrl)',
       '_itemsChanged(items)',
@@ -636,209 +636,208 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     ]
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  connectedCallback () {
+    super.connectedCallback()
 
-    this.$.keywordInput.addEventListener("keydown", this._keyDownHandler.bind(this));
-    this.$.keywordInput.addEventListener("compositionstart", () => this.inputChinese = true);
-    this.$.keywordInput.addEventListener("compositionend", () => this.inputChinese = false);
+    this.$.keywordInput.addEventListener('keydown', this._keyDownHandler.bind(this))
+    this.$.keywordInput.addEventListener('compositionstart', () => { this.inputChinese = true })
+    this.$.keywordInput.addEventListener('compositionend', () => { this.inputChinese = false })
 
-    this.addEventListener("blur", e => {
-      e.stopPropagation();
+    this.addEventListener('blur', e => {
+      e.stopPropagation()
       // if (!this.value) this.text = this._userInputKeyword;
       setTimeout(() => { // 解决blur事件和click事件冲突的问题
-        if (this.shadowRoot.activeElement && this.shadowRoot.activeElement.id === 'keywordInput') return;
-        this.displayCollapse(false);
-        this._userInputKeyword = '';
-      }, 200);
-    });
+        if (this.shadowRoot.activeElement && this.shadowRoot.activeElement.id === 'keywordInput') return
+        this.displayCollapse(false)
+        this._userInputKeyword = ''
+      }, 200)
+    })
 
-    let parent = this.offsetParent;
+    let parent = this.offsetParent
     while (parent) {
       parent.addEventListener('scroll', e => {
         this.__collapsePosition()
-      });
-      parent = parent.offsetParent;
+      })
+      parent = parent.offsetParent
     }
   }
 
-  __calcTagName(item) {
+  __calcTagName (item) {
     if (Function.prototype.isPrototypeOf(this.attrForLabel)) {
-      return this.attrForLabel.call(this, item);
+      return this.attrForLabel.call(this, item)
     }
-    return this.getValueByKey(item, this.attrForLabel);
+    return this.getValueByKey(item, this.attrForLabel)
   }
 
-  _mkRequest(url, data) {
+  _mkRequest (url, data) {
     if (this.method === 'GET') {
       return {
         url: url,
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Cache-Control": "no-cache"
+          'Cache-Control': 'no-cache'
         },
-        credentials: "include",
+        credentials: 'include',
         body: JSON.stringify(data)
       }
     }
     return {
       url: url,
-      method: "POST",
+      method: 'POST',
       headers: {
-        "content-type": "application/json;charset=utf-8",
-        "Cache-Control": "no-cache"
+        'content-type': 'application/json;charset=utf-8',
+        'Cache-Control': 'no-cache'
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify(data)
-    };
+    }
   }
 
   async _queryByKeywordUrlChanged (queryByKeywordUrl) {
-    if (!queryByKeywordUrl) return;
-    const requestObj = this.fetchParam;
-    const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, '');
-    const request = this._mkRequest(queryByKeywordUrl, req);
+    if (!queryByKeywordUrl) return
+    const requestObj = this.fetchParam
+    const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, '')
+    const request = this._mkRequest(queryByKeywordUrl, req)
     try {
-      const data = await this._fetchUtil.fetchIt(request).then(res => res.json());
-      let items = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || [];
-      this.value ? this._getSelectedForItems(items) : this.items = items;
-    }catch (error) {
+      const data = await this._fetchUtil.fetchIt(request).then(res => res.json())
+      const items = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || []
+      this.value ? this._getSelectedForItems(items) : this.items = items
+    } catch (error) {
       console.error(error)
     }
   }
 
   async _getSelectedForItems (itemsArr) {
-    try{
-      const requestObj = this.fetchParam;
-      const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value ? `${this.value}` : '');
-      const request = this._mkRequest(this.queryByValueUrl, req);
+    try {
+      const requestObj = this.fetchParam
+      const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value ? `${this.value}` : '')
+      const request = this._mkRequest(this.queryByValueUrl, req)
       let data = await this._fetchUtil.fetchIt(request).then(res => res.json())
-      const items = itemsArr || [];
+      const items = itemsArr || []
       if (this.resultPath) {
-        data = this.getValueByPath(data, this.resultPath, []);
+        data = this.getValueByPath(data, this.resultPath, [])
       }
-      const addItems = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`));
+      const addItems = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
       this.items = addItems.length > 0 ? items.concat(addItems) : items
-    }catch (e) {
+    } catch (e) {
       console.error(e)
     }
   }
 
-  _itemsChanged(items = []) {
-    this._displayItems = items.slice(0, 9);
+  _itemsChanged (items = []) {
+    this._displayItems = items.slice(0, 9)
     // 初始化一次选中项
     if (this.value !== undefined && this.value !== null) {
-      this._valueChanged(this.value);
+      this._valueChanged(this.value)
     }
     // 清空缓存插件的缓存
-    this._cacheSearchUtil.resetCache();
+    this._cacheSearchUtil.resetCache()
 
-    items.forEach(item => this._cacheSearchUtil.addCacheItem(item, this._loadPinyinKeys(item, this.fieldsForIndex)));
+    items.forEach(item => this._cacheSearchUtil.addCacheItem(item, this._loadPinyinKeys(item, this.fieldsForIndex)))
   }
 
-  _userInputKeywordChanged(_userInputKeyword) {
+  _userInputKeywordChanged (_userInputKeyword) {
     if (this._userInputKeyword.length > 0) {
-      this.displayCollapse(true);
+      this.displayCollapse(true)
     }
 
-    const matched = this._cacheSearchUtil.search(this._userInputKeyword, " ");
+    const matched = this._cacheSearchUtil.search(this._userInputKeyword, ' ')
     if (this.queryByKeywordUrl) {
       const __fetchByKeyword = async () => {
         try {
-          const requestObj = this.fetchParam;
-          const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this._userInputKeyword);
-          const request = this._mkRequest(this.queryByKeywordUrl, req);
-          let data = await this._fetchUtil.fetchIt(request).then((res => {
+          const requestObj = this.fetchParam
+          const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this._userInputKeyword)
+          const request = this._mkRequest(this.queryByKeywordUrl, req)
+          const data = await this._fetchUtil.fetchIt(request).then(res => {
             return res.json().catch(err => {
-              console.warn(`'${err}' happened, but no big deal!`);
-              return [];
-            });
-          }))
-          let candidateItems = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || [];
-          let _displayItems = candidateItems;
-          candidateItems = candidateItems.filter(i => (this.items || []).every(old => old[this.attrForValue] != i[this.attrForValue]));
+              console.warn(`'${err}' happened, but no big deal!`)
+              return []
+            })
+          })
+          let candidateItems = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || []
+          const _displayItems = candidateItems
+          candidateItems = candidateItems.filter(i => (this.items || []).every(old => old[this.attrForValue] != i[this.attrForValue]))
           if (candidateItems.length > 0) {
             // _displayItems will reset when items changed.
-            this.items = candidateItems.concat(this.items);
+            this.items = candidateItems.concat(this.items)
           } else {
-            this._displayItems = _displayItems.slice(0, 9);
+            this._displayItems = _displayItems.slice(0, 9)
           }
-        }catch (err) {
+        } catch (err) {
           console.error(err)
         }
       }
-      this.debounce('__debounceFetchByKeyword', __fetchByKeyword, 500);
-
+      this.debounce('__debounceFetchByKeyword', __fetchByKeyword, 500)
     } else {
-      this._displayItems = matched.slice(0, 9);
-      this._switchFocusItemAt(0);
+      this._displayItems = matched.slice(0, 9)
+      this._switchFocusItemAt(0)
     }
-    this._displayPlaceholder();
+    this._displayPlaceholder()
   }
 
-  _selectedValuesChanged() {
+  _selectedValuesChanged () {
     if (this.selectedValues.length > 0) {
-      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',');
-      this.selectedItem = this.selectedValues[this.selectedValues.length - 1];
+      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',')
+      this.selectedItem = this.selectedValues[this.selectedValues.length - 1]
     } else {
-      this.value = null;
-      this.selectedItem = undefined;
+      this.value = null
+      this.selectedItem = undefined
     }
-    if (this.mode === 'text') this.text = this.value && !this.multi ? this.value : this._userInputKeyword;
-    this.displayCollapse(false);
+    if (this.mode === 'text') this.text = this.value && !this.multi ? this.value : this._userInputKeyword
+    this.displayCollapse(false)
   }
 
   /**
    * value属性变化监听函数
    */
-  _valueChanged(value) {
+  _valueChanged (value) {
     // 本地模式，或远程数据已经就位
     if (this.items && this.items.length) {
-      const flatValues = [...(new Set(String(value).split(",")))];
-      const selectedValues = this.selectedValues || [];
-      const dirty = selectedValues.map(selected => selected[this.attrForValue]).join(',');
+      const flatValues = [...(new Set(String(value).split(',')))]
+      const selectedValues = this.selectedValues || []
+      const dirty = selectedValues.map(selected => selected[this.attrForValue]).join(',')
       // this.set('_userInputKeyword', '')
 
       if (value && this.queryByKeywordUrl && !this.multi) {
-        let _selectedItem = this.items.filter(item => item[this.attrForValue] == value);
+        const _selectedItem = this.items.filter(item => item[this.attrForValue] == value)
 
         if (!_selectedItem.length) {
-          this._getSelectedForItems(this.items);
-          return;
+          this._getSelectedForItems(this.items)
+          return
         }
       }
 
       if (dirty !== value) {
-        const tmp = [...selectedValues, ...this.items];
+        const tmp = [...selectedValues, ...this.items]
         this.selectedValues =
           flatValues.map(val => tmp.find(item => item[this.attrForValue] == val))
-            .filter(selected => !!selected);
+            .filter(selected => !!selected)
       }
 
-      this._displayPlaceholder();
+      this._displayPlaceholder()
     }
 
-    this.getInvalidAttribute(value);
+    this.getInvalidAttribute(value)
   }
 
-  __textChanged(text) {
+  __textChanged (text) {
     if (this.items && this.items.some(val => val[this.attrForValue] == text)) {
       this.set('value', text)
     } else if (this.mode === 'text') {
-      this.set('_userInputKeyword', text ? text : '');
-      this.set('value', text ? text : '');
+      this.set('_userInputKeyword', text || '')
+      this.set('value', text || '')
     }
-    this.getInvalidAttribute();
+    this.getInvalidAttribute()
   }
 
-  _displayPlaceholder() {
-    this.$.placeholder.hidden = this.value || (this.mode && this.text) || this._userInputKeyword;
+  _displayPlaceholder () {
+    this.$.placeholder.hidden = this.value || (this.mode && this.text) || this._userInputKeyword
   }
 
-  _selectItemAt(index) {
+  _selectItemAt (index) {
     if (index >= 0 && index < this._displayItems.length) {
-      this._switchFocusItemAt(index);
-      this._selectItem(this._displayItems[index]);
+      this._switchFocusItemAt(index)
+      this._selectItem(this._displayItems[index])
     }
   }
 
@@ -846,19 +845,19 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * 选择选项
    * @param item
    */
-  _selectItem(item) {
+  _selectItem (item) {
     // not yet selected
     if (!~(this.selectedValues || []).findIndex(selected => `${selected[this.attrForValue]}` === `${item[this.attrForValue]}`)) {
       if (this.multi && this.selectedValues) {
-        this.push('selectedValues', item);
+        this.push('selectedValues', item)
       } else {
-        this.selectedValues = [item];
+        this.selectedValues = [item]
       }
     }
 
-    this.displayCollapse(false);
-    if (this.multi) this.__focusOnKeywordInput();
-    this._userInputKeyword = "";
+    this.displayCollapse(false)
+    if (this.multi) this.__focusOnKeywordInput()
+    this._userInputKeyword = ''
   }
 
   /**
@@ -866,10 +865,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @param index
    * @private
    */
-  _switchFocusItemAt(index) {
+  _switchFocusItemAt (index) {
     setTimeout(() => {
-      const maxIndex = (this._displayItems || []).length;
-      const newIndex = (maxIndex + index) % maxIndex;
+      const maxIndex = (this._displayItems || []).length
+      const newIndex = (maxIndex + index) % maxIndex
       // this.root.querySelectorAll("tr.candidate-item--focus")
       //   .forEach(e => e.classList.remove('candidate-item--focus'));
       //
@@ -878,59 +877,57 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       //   newFocusItem.classList.add('candidate-item--focus');
       //   this.__focusIndex = newIndex;
       // }
-    }, 0);
+    }, 0)
   }
 
-  _isPickerCollapseHidden() {
-    return this.$["picker-collapse"].hidden;
+  _isPickerCollapseHidden () {
+    return this.$['picker-collapse'].hidden
   }
 
-  __openCollapse({target: {classList}}) {
-    if (classList.contains('tag-deleter')) return;
+  __openCollapse ({ target: { classList } }) {
+    if (classList.contains('tag-deleter')) return
 
-    this.__focusOnKeywordInput();
+    this.__focusOnKeywordInput()
   }
 
-  __inputFocus() {
+  __inputFocus () {
     if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
 
-    this.displayCollapse(true);
+    this.displayCollapse(true)
     // this._switchFocusItemAt(0);
   }
 
-  __collapsePosition() {
-    const {left, top} = this.__getElemPos(this);
-    this.$['picker-collapse'].style['top'] = this.clientHeight + 'px';
+  __collapsePosition () {
+    this.$['picker-collapse'].style.top = this.clientHeight + 'px'
     // 当页面中存在isu-dialog时，打开picker列表碰到dialog的右边边缘，则向列表向左移
     const dialog = document.querySelector('isu-dialog')
-    if(dialog) {
+    if (dialog) {
       const dialogPos = this.__getElemPos(dialog.$.dialog)
       const collapse = this.$['picker-collapse']
       const collapsePos = this.__getElemPos(collapse)
       if (dialogPos.left + dialog.$.dialog.clientWidth < collapsePos.left + collapse.clientWidth) {
-        this.$['picker-collapse'].style['left'] = (dialogPos.left + dialog.$.dialog.clientWidth) - (collapsePos.left + collapse.clientWidth) - 20 + 'px'
+        this.$['picker-collapse'].style.left = (dialogPos.left + dialog.$.dialog.clientWidth) - (collapsePos.left + collapse.clientWidth) - 20 + 'px'
       }
     }
   }
 
-
-  __getElemPos(obj) {
-    const {x, y} = obj.getBoundingClientRect();
+  __getElemPos (obj) {
+    const { x, y } = obj.getBoundingClientRect()
     return {
       left: x,
       top: y + 2
     }
   }
 
-  __focusOnKeywordInput() {
-    this.$.keywordInput.focus();
+  __focusOnKeywordInput () {
+    this.$.keywordInput.focus()
   }
 
-  _selectCollapseItem(event) {
-    event.stopPropagation();
-    this._selectItem(event.model.row);
+  _selectCollapseItem (event) {
+    event.stopPropagation()
+    this._selectItem(event.model.row)
     this.displayCollapse(false)
-    this.blur();
+    this.blur()
   }
 
   /**
@@ -938,46 +935,46 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @param event
    * @private
    */
-  _keyDownHandler(event) {
-    if (this.inputChinese) return;
-    if (this.shortcutKey !== event.key && !this.$["picker-collapse"].hidden) event.stopPropagation();
+  _keyDownHandler (event) {
+    if (this.inputChinese) return
+    if (this.shortcutKey !== event.key && !this.$['picker-collapse'].hidden) event.stopPropagation()
 
-    const key = event.key;
+    const key = event.key
     if (event.altKey || key === this.shortcutKey) {
-      event.preventDefault();
+      event.preventDefault()
     }
 
-    const collapseOpend = !this._isPickerCollapseHidden();
+    const collapseOpend = !this._isPickerCollapseHidden()
     if (collapseOpend && this.enableHotkey && event.altKey) {
-      const ind = event.code.replace(/[A-Za-z]*/g, '') - 1;
-      this._selectItemAt(ind);
+      const ind = event.code.replace(/[A-Za-z]*/g, '') - 1
+      this._selectItemAt(ind)
     } else {
       switch (key) {
-        case 'ArrowUp':
-          collapseOpend && this._switchFocusItemAt(this.__focusIndex - 1);
-          break;
+      case 'ArrowUp':
+        collapseOpend && this._switchFocusItemAt(this.__focusIndex - 1)
+        break
 
-        case 'ArrowDown':
-          if (collapseOpend) {
-            this._switchFocusItemAt(this.__focusIndex + 1);
-          } else {
-            this._switchFocusItemAt(0);
-            this.displayCollapse(true);
-          }
-          break;
+      case 'ArrowDown':
+        if (collapseOpend) {
+          this._switchFocusItemAt(this.__focusIndex + 1)
+        } else {
+          this._switchFocusItemAt(0)
+          this.displayCollapse(true)
+        }
+        break
 
-        case this.shortcutKey:
-          if (collapseOpend && this._displayItems.length > 0 && this.__focusIndex < this._displayItems.length) {
-            this._selectItemAt(this.__focusIndex);
-          }
-          break;
+      case this.shortcutKey:
+        if (collapseOpend && this._displayItems.length > 0 && this.__focusIndex < this._displayItems.length) {
+          this._selectItemAt(this.__focusIndex)
+        }
+        break
 
-        case 'Backspace':
-          if (this._userInputKeyword == undefined || this._userInputKeyword.length === 0) {
-            this.deleteLastTag();
-          }
+      case 'Backspace':
+        if (this._userInputKeyword === undefined || this._userInputKeyword.length === 0) {
+          this.deleteLastTag()
+        }
 
-          break;
+        break
       }
     }
   }
@@ -985,13 +982,13 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   /**
    * 给对象根据fieldsForIndex给对应的字段做拼音缓存（字段值，字段值全拼和拼音首字母）
    */
-  _loadPinyinKeys(item, fieldsForIndex = []) {
-    let keys = [], values = fieldsForIndex.map(sf => item[sf]);
+  _loadPinyinKeys (item, fieldsForIndex = []) {
+    let keys = []; let values = fieldsForIndex.map(sf => item[sf])
 
-    values = values.length === 0 ? Object.values(item) : values;
+    values = values.length === 0 ? Object.values(item) : values
 
     if (this.disablePinyinSearch) {
-      keys = values.map(value => String(value));
+      keys = values.map(value => String(value))
     } else {
       values.forEach(
         value => {
@@ -999,78 +996,78 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
             String(value),
             this._pinyinUtil.convert2CompletePinyin(value),
             this._pinyinUtil.convert2PinyinAbbreviation(value)
-          );
+          )
         }
-      );
+      )
     }
 
-    return keys;
+    return keys
   }
 
   /**
    * Delete the last selected tag.
    */
-  deleteLastTag() {
+  deleteLastTag () {
     if (this.selectedValues && this.selectedValues.length > 0) {
-      this.pop("selectedValues");
+      this.pop('selectedValues')
     }
   }
 
   /**
    * 删除Tag项，事件处理函数
    */
-  _deleteTag(e) {
-    let value = e.target.dataArgs;
-    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] == value);
-    this.splice("selectedValues", ind, 1);
-    if (!this.multi || (this.multi && this.selectedValues.length === 0)) this._userInputKeyword = '';
+  _deleteTag (e) {
+    const value = e.target.dataArgs
+    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] == value)
+    this.splice('selectedValues', ind, 1)
+    if (!this.multi || (this.multi && this.selectedValues.length === 0)) this._userInputKeyword = ''
   }
 
-  _getHotKey(index) {
-    return 'Alt+' + (index + 1);
+  _getHotKey (index) {
+    return 'Alt+' + (index + 1)
   }
 
   /**
    * Open or close the collapse
    * @param {boolean} display  true to open the collapse.
    */
-  displayCollapse(display) {
-    this.$["picker-collapse"].hidden = !display;
-    if (this.$["picker-collapse"].hidden === false) this.__collapsePosition();
+  displayCollapse (display) {
+    this.$['picker-collapse'].hidden = !display
+    if (this.$['picker-collapse'].hidden === false) this.__collapsePosition()
   }
 
   /**
    * Toggle collapse. Side effect: the picker input will get a focus.
    */
-  toggleCollapse() {
-    const hidden = this.$["picker-collapse"].hidden;
-    this.$["picker-collapse"].hidden = !hidden;
-    this.__focusOnKeywordInput();
+  toggleCollapse () {
+    const hidden = this.$['picker-collapse'].hidden
+    this.$['picker-collapse'].hidden = !hidden
+    this.__focusOnKeywordInput()
   }
 
   /**
    * Set focus to picker.
    */
-  doFocus() {
-    this.__focusOnKeywordInput();
+  doFocus () {
+    this.__focusOnKeywordInput()
   }
 
   /**
    * Validate, true if the select is set to be required and this.selectedValues.length > 0, or else false.
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
+  validate () {
     if (this.mode === 'text') {
-      return this.required ? this.text : true;
+      return this.required ? this.text : true
     } else {
-      return this.required ? (this.selectedValues && this.selectedValues.length > 0) : true;
+      return this.required ? (this.selectedValues && this.selectedValues.length > 0) : true
     }
   }
 
-  clear(e) {
-    e.stopPropagation();
-    this._userInputKeyword = '';
+  clear (e) {
+    e.stopPropagation()
+    this._userInputKeyword = ''
   }
 }
 
-window.customElements.define(IsuPicker.is, IsuPicker);
+window.customElements.define(IsuPicker.is, IsuPicker)
