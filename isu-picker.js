@@ -335,6 +335,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </div>
         </div>
       </div>
+      <template is="dom-if" if="[[_isView(isView, readonly)]]">
+      <div class="view-text">
+         <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
+      </div>
+    </template>
 `
   }
 
@@ -617,6 +622,24 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       method: {
         type: String,
         value: 'GET'
+      },
+      /**
+       * The text mode display requires readonly=true to take effect
+       * @type {boolean}
+       * @default false
+       * */
+      isView: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * The connector to connect labels when the isView=true, eg: "苹果，香蕉，梨"
+       * @type {string}
+       * @default ','
+       * */
+      joinConnector: {
+        type: String,
+        value: ','
       }
     }
   }
@@ -632,7 +655,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_userInputKeywordChanged(_userInputKeyword)',
       '_selectedValuesChanged(selectedValues.splices)',
       '_valueChanged(value)',
-      'getInvalidAttribute(required, value)'
+      'getInvalidAttribute(required, value)',
+      '__isViewChanged(isView,readonly)'
     ]
   }
 
@@ -660,6 +684,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       })
       parent = parent.offsetParent
     }
+  }
+
+  getViewLabels (items, attrForLabel, connector) {
+    const labels = items.map(item => item[attrForLabel])
+    return labels.join(connector)
   }
 
   __calcTagName (item) {
@@ -1062,6 +1091,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     } else {
       return this.required ? (this.selectedValues && this.selectedValues.length > 0) : true
     }
+  }
+
+  __isViewChanged (isView, readonly) {
+    this.$.select__container.style.display = (this.readonly && isView) ? 'none' : 'flex'
+  }
+
+  _isView (isView, readonly) {
+    return isView && readonly
   }
 
   clear (e) {
