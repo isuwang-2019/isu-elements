@@ -336,10 +336,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
-      <div class="view-text">
-         <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
-      </div>
-    </template>
+        <div class="view-text">
+           <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
+        </div>
+      </template>
 `
   }
 
@@ -687,7 +687,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   getViewLabels (items, attrForLabel, connector) {
-    const labels = items.map(item => item[attrForLabel])
+    const labels = items ? items.map(item => item[attrForLabel]) : []
     return labels.join(connector)
   }
 

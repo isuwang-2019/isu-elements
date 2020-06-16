@@ -242,6 +242,8 @@ export const BaseBehavior = {
       return false
     } else if (Object.prototype.isPrototypeOf(entity)) {
       return Object.keys(entity).length === 0
+    } else if (Number.isFinite(entity)) {
+      return false
     } else {
       return entity === null || entity === undefined || this.trimStr(entity) === ''
     }
