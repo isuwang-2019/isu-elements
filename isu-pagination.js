@@ -1,9 +1,9 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import '@polymer/iron-icon';
-import '@polymer/iron-icons';
+import { html, PolymerElement } from '@polymer/polymer'
+import '@polymer/iron-icon'
+import '@polymer/iron-icons'
 
-import './behaviors/isu-elements-shared-styles';
-import './isu-select';
+import './behaviors/isu-elements-shared-styles'
+import './isu-select'
 
 /**
  * `isu-pagination`
@@ -32,7 +32,7 @@ import './isu-select';
  * @demo demo/isu-pagination/index.html
  */
 class IsuPagination extends PolymerElement {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -186,7 +186,7 @@ class IsuPagination extends PolymerElement {
         <div on-click="last" id="last"><template is="dom-if" if="[[!isMini(size)]]">最后一页</template><iron-icon icon="icons:last-page"></iron-icon></div>
       </li>
       <li>
-        <div>共 <div class="page-count">[[ totalPageSize ]]</div>页 [[ total ]] 条</div>
+        <div>共 <div class="page-count">[[ totalPageSize ]]</div>页 [[ total ]] 条,每页 [[ limit ]] 条</div>
       </li>
       <template is="dom-if" if="[[!hidePageSelect]]">
         <li>
@@ -195,14 +195,14 @@ class IsuPagination extends PolymerElement {
       </template>
       
     </ul>
-`;
+`
   }
 
-  static get is() {
-    return "isu-pagination";
+  static get is () {
+    return 'isu-pagination'
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Max count of single page.
@@ -266,12 +266,12 @@ class IsuPagination extends PolymerElement {
       pageSizes: {
         type: Array,
         value: function () {
-          return [20, 40, 60];
+          return [20, 40, 60]
         }
       },
 
       __pageIndex: {
-        type: Number,
+        type: Number
       },
       /**
        * The start page of the pagination
@@ -280,7 +280,7 @@ class IsuPagination extends PolymerElement {
        */
       start: {
         type: Number,
-        observer: '_pageStartChanged'
+        notify: true
       },
 
       __pageSize: {
@@ -291,38 +291,36 @@ class IsuPagination extends PolymerElement {
       __limit: {
         type: String
       }
-    };
-  }
-
-  __computedPageSize(pageSizes = []) {
-    return pageSizes.map(ps => ({value: ps, label: `${ps}条/页`}))
-  }
-
-  static get observers() {
-    return [
-      '_pageIndexChanged(__pageIndex)',
-      '__limitChanged(__limit)',
-      '_totalChanged(total)'
-      // '_pageStartChanged(start)',
-    ];
-  }
-
-  _pageStartChanged(start, oldStart) {
-    if(start >= 0) {
-      const pageIndex = Math.floor(start / this.limit) + 1;
-      if (pageIndex !== this.__pageIndex) {
-        this.__pageIndex = pageIndex;
-      }
-
-      // would not dispatch event when at initial phase
-      if (oldStart !== undefined) {
-        this.dispatchEvent(new CustomEvent("start-changed", {detail: {value: start}}));
-      }
     }
   }
 
-  _totalChanged(total) {
-    if (total <=1 && this.hideOnSinglePage) {
+  __computedPageSize (pageSizes = []) {
+    return pageSizes.map(ps => ({ value: ps, label: `${ps}条/页` }))
+  }
+
+  static get observers () {
+    return [
+      '_pageIndexChanged(__pageIndex)',
+      '__limitChanged(__limit)',
+      '_totalChanged(total)',
+      '_pageStartChanged(start)'
+    ]
+  }
+
+  _pageStartChanged (start) {
+    if (start >= 0) {
+      const pageIndex = Math.floor(start / this.limit) + 1
+      if (pageIndex !== this.__pageIndex) {
+        this.__pageIndex = pageIndex
+      }
+
+      // would not dispatch event when at initial phase
+      this.dispatchEvent(new CustomEvent('start-changed', { detail: { value: start }, bubbles: true, composed: true }))
+    }
+  }
+
+  _totalChanged (total) {
+    if (total <= 1 && this.hideOnSinglePage) {
       this.style.display = 'none'
     }
   }
@@ -331,65 +329,67 @@ class IsuPagination extends PolymerElement {
     this.start = (this.__pageIndex - 1) * this.limit;
   }
 
-  _limitChanged(limit, oldLimit) {
-    const totalPage = Math.floor(this.total / limit) + 1;
+  _limitChanged (limit, oldLimit) {
+    const totalPage = Math.floor(this.total / limit) + 1
     if (totalPage < this.__pageIndex) {
-      this.__pageIndex = totalPage;
+      this.__pageIndex = totalPage
     } else {
-      this.start = (this.__pageIndex - 1) * limit || 0;
+      this.start = (this.__pageIndex - 1) * limit || 0
     }
 
     // would not dispatch event when at initial phase
     if (oldLimit !== undefined) {
-      this.dispatchEvent(new CustomEvent("limit-changed", {detail: {value: limit}}));
+      this.dispatchEvent(new CustomEvent('limit-changed', { detail: { value: limit } }))
     }
 
-    this.__limit = limit.toString();
+    this.__limit = limit.toString()
   }
 
-  __limitChanged(limit) {
-    this.limit = parseInt(limit);
+  __limitChanged (limit) {
+    if (limit) {
+      this.limit = parseInt(limit)
+    }
   }
 
-  _calTotalPageSize(total, limit) {
-    return Math.ceil((total || 0) / limit);
+  _calTotalPageSize (total, limit) {
+    return Math.ceil((total || 0) / limit)
   }
 
   /**
    * Go to the first page.
    */
-  first() {
-    this.__pageIndex = 1;
+  first () {
+    this.__pageIndex = 1
   }
 
   /**
    * Go to previous page.
    */
-  prev() {
+  prev () {
     if (this.__pageIndex > 1) {
-      this.__pageIndex--;
+      this.__pageIndex--
     }
   }
 
   /**
    * Go to next page.
    */
-  next() {
+  next () {
     if (this.__pageIndex < this.totalPageSize) {
-      this.__pageIndex++;
+      this.__pageIndex++
     }
   }
 
   /**
    * Go to the last page.
    */
-  last() {
-    this.__pageIndex = this.totalPageSize;
+  last () {
+    this.__pageIndex = this.totalPageSize
   }
 
-  isMini(size) {
+  isMini (size) {
     return size === 'mini'
   }
 }
 
-window.customElements.define(IsuPagination.is, IsuPagination);
+window.customElements.define(IsuPagination.is, IsuPagination)
