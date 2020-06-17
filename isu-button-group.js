@@ -1,9 +1,9 @@
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {BaseBehavior} from "./behaviors/base-behavior";
-import {html, PolymerElement} from "@polymer/polymer";
-import '@polymer/iron-collapse';
-import './behaviors/isu-elements-shared-styles';
-import './isu-button';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { BaseBehavior } from './behaviors/base-behavior'
+import { html, PolymerElement } from '@polymer/polymer'
+import '@polymer/iron-collapse'
+import './behaviors/isu-elements-shared-styles'
+import './isu-button'
 /**
  *
  * `isu-button-group`
@@ -41,7 +41,7 @@ import './isu-button';
  * @demo demo/isu-button-group/index.html
  */
 class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -163,10 +163,10 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
        <slot id="itemSlot"></slot>
       </div>
     </iron-collapse>
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Size of the action group button.options:small/medium/large.Default option:medium
@@ -214,7 +214,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForLabel: {
         type: String,
-        value: "label"
+        value: 'label'
       },
       /**
        * The Function called when user click on every item on dropdownlist.
@@ -242,78 +242,78 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-button-group";
+  static get is () {
+    return 'isu-button-group'
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  connectedCallback () {
+    super.connectedCallback()
     window.addEventListener('scroll', e => {
-      this.close();
-    });
+      this.close()
+    })
   }
 
   /**
    * Expand the group.
    */
-  open() {
-    this.opened = true;
+  open () {
+    this.opened = true
   }
 
   /**
    * Collpase the group.
    */
-  close() {
-    this.opened = false;
+  close () {
+    this.opened = false
   }
 
   /**
    * Toggle the group.
    */
-  toggle(e) {
+  toggle (e) {
     if (!this.disabled) {
-      const {top, left} = this.getElemPos(this);
-      const collapseHeight = (this.items || []).length * 30 + 2;
-      const totalHeight = top + collapseHeight;
-      let _top;
-      if(totalHeight > document.documentElement.clientHeight) {
-        _top = top - collapseHeight - 4;
+      const { top, left } = this.getElemPos(this)
+      const collapseHeight = (this.items || []).length * 30 + 2
+      const totalHeight = top + collapseHeight
+      let _top
+      if (totalHeight > document.documentElement.clientHeight) {
+        _top = top - collapseHeight - 4
       } else {
-        _top = top + this.clientHeight;
+        _top = top + this.clientHeight
       }
-      this.$.collapse.style.top = _top + 'px';
-      this.$.collapse.style.left = left + 'px';
-      this.$.collapse.style.width = this.clientWidth + 'px';
-      this.opened = !this.opened;
+      this.$.collapse.style.top = _top + 'px'
+      this.$.collapse.style.left = left + 'px'
+      // 当外界设置了下拉框的宽度时，取外界的宽度，否则取按钮的宽度
+      this.$.collapse.style.width = (window.getComputedStyle(this.$.collapse).inlineSize !== 'auto') ? window.getComputedStyle(this.$.collapse).inlineSize : this.clientWidth + 'px'
+      this.opened = !this.opened
     }
-
   }
 
-  getElemPos(obj) {
-    const {x, y} = obj.getBoundingClientRect();
-    return {top: y + 2, left: x};
+  getElemPos (obj) {
+    const { x, y } = obj.getBoundingClientRect()
+    return { top: y + 2, left: x }
   }
 
-  _onButtonDropdownClick(e) {
-    const target = e.target,
-      bindItem = e.target.bindItem || e.target.getAttribute('bind-item');
+  _onButtonDropdownClick (e) {
+    const target = e.target
+    const bindItem = e.target.bindItem || e.target.getAttribute('bind-item')
 
     if (this.hideItemsOnClick) {
-      this.opened = false;
+      this.opened = false
     }
-    this.dispatchEvent(new CustomEvent('item-click', {detail: {target, bindItem}}));
+    this.dispatchEvent(new CustomEvent('item-click', { detail: { target, bindItem } }))
   }
 
   /**
    * Whether the item has the permission to show or not
    * */
-  _hasPermission(item) {
+  _hasPermission (item) {
     const permission = 'permission' in item
-    return !permission || (permission && item['permission'])
+    return !permission || (permission && item.permission)
   }
 }
 
-window.customElements.define(IsuButtonGroup.is, IsuButtonGroup);
+window.customElements.define(IsuButtonGroup.is, IsuButtonGroup)
