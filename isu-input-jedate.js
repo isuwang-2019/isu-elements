@@ -109,11 +109,14 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       :host([readonly]) .jeinput {
         cursor: default;
       }
+      .view-text {
+        @apply --isu-input-jedate-view-text
+      }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
         <div class="isu-label">[[label]]</div>
       </template>
-    <div class="input__container">
+    <div class="input__container" id="input__jedate">
        <div class="jeinpbox"><input type="text" id$="[[id]]" class="jeinput" readonly$="[[readonly]]" placeholder$="[[placeholder]]" value$="{{value}}"></div>
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
@@ -122,6 +125,11 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
           </div>
       </div>
     </div>
+    <template is="dom-if" if="[[_isView(isView, readonly)]]">
+      <div class="view-text">
+         <span>{{value}}</span>
+      </div>
+    </template>
   `
   }
 
@@ -139,7 +147,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
        * The value of the input, return a timestamp
        * @type {Number}
        */
-      bindData: {
+      timestamp: {
         type: String,
         notify: true
       },
@@ -173,7 +181,8 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * The minimum date which can be chosen. It should be a string format to `YYYY-MM-DD`.
@@ -428,8 +437,16 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       promptPosition: {
         type: String,
         value: ''
+      },
+      /**
+       * The text mode display requires readonly=true to take effect
+       * @type {boolean}
+       * @default false
+       * */
+      isView: {
+        type: Boolean,
+        value: false
       }
-
     }
   }
 
@@ -437,7 +454,8 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
     return [
       '_idChanged(id)',
       '_valueChanged(value)',
-      'getInvalidAttribute(required, value)'
+      'getInvalidAttribute(required, value)',
+      '__isViewChanged(isView,readonly)'
     ]
   }
 
@@ -447,16 +465,18 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
 
   _valueChanged (value) {
     if (this.format.indexOf('YYYY') !== -1) {
-      const dateArray = this.dateArray.map(item => {
-        let date = `${item.YYYY}-${item.MM}`
-        date += this.format.indexOf('DD') !== -1 ? `-${item.DD}` : ''
-        date += this.format.indexOf('hh') !== -1 ? ` ${item.hh}` : ''
-        date += this.format.indexOf('mm') !== -1 ? `:${item.mm}` : ''
-        date += this.format.indexOf('ss') !== -1 ? `:${item.ss}` : ''
-        return +new Date(date)
-      })
-      this.set('bindData', dateArray[0])
-      this.set('selectedItems', dateArray)
+      if (this.dateArray.length > 0) {
+        const dateArray = this.dateArray.map(item => {
+          let date = `${item.YYYY}-${item.MM}`
+          date += this.format.indexOf('DD') !== -1 ? `-${item.DD}` : ''
+          date += this.format.indexOf('hh') !== -1 ? ` ${item.hh}` : ''
+          date += this.format.indexOf('mm') !== -1 ? `:${item.mm}` : ''
+          date += this.format.indexOf('ss') !== -1 ? `:${item.ss}` : ''
+          return +new Date(date)
+        })
+        this.set('timestamp', dateArray[0])
+        this.set('selectedItems', dateArray)
+      }
     }
   }
 
@@ -477,7 +497,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
   }
 
   _idChanged (id) {
-    const convertDate = this.bindData ? FormatBehavior.formatDate(this.bindData, this.format) : null
+    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
     if (!this.readonly) {
       const self = this
       const enLang = {
@@ -523,7 +543,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       if (this.language === 'en') {
         options.language = enLang
       }
-      this.bindData ? jeDate(self.root.querySelector(`#${self.id}`), options).setValue(convertDate) : jeDate(self.root.querySelector(`#${self.id}`), options)
+      this.timestamp ? jeDate(self.root.querySelector(`#${self.id}`), options).setValue(convertDate) : jeDate(self.root.querySelector(`#${self.id}`), options)
     }
     this.set('value', convertDate)
   }
@@ -531,6 +551,14 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
   validate () {
     super.validate()
     return this.required ? this.value && this.value.length > 0 : true
+  }
+
+  __isViewChanged (isView, readonly) {
+    this.$.input__jedate.style.display = (this.readonly && isView) ? 'none' : 'flex'
+  }
+
+  _isView (isView, readonly) {
+    return isView && readonly
   }
 
   ready () {

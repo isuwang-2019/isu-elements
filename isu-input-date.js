@@ -292,7 +292,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <template is="dom-if" if="[[ toBoolean(label) ]]">
       <div class="isu-label">[[label]]</div>
     </template>
-    <div class="input__container" on-click="openDialog">
+    <div id="input__date" class="input__container" on-click="openDialog">
       <iron-icon class="date-range" icon=icons:date-range></iron-icon>
       <template is="dom-if" if="[[ isOneOf(type, 'dateRange', 'datetimeRange') ]]">
         <div class="item-date">
@@ -385,7 +385,11 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </div>
     </paper-dialog>
-   
+    <template is="dom-if" if="[[_isView(isView, readonly)]]">
+      <div class="view-text">
+         <span>{{value}}</span>
+      </div>
+    </template>
 `
   }
 
@@ -436,7 +440,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * The minimum date which can be chosen. It should be a string format to `yyyy-MM-dd`.
@@ -511,6 +516,15 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       promptPosition: {
         type: String,
         value: ''
+      },
+      /**
+       * The text mode display requires readonly=true to take effect
+       * @type {boolean}
+       * @default false
+       * */
+      isView: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -528,7 +542,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_startTimestampChanged(startTimestamp)',
       '_endTimestampChanged(endTimestamp)',
       '_minmaxChanged(min, max)',
-      'getInvalidAttribute(required, min, max, value)'
+      'getInvalidAttribute(required, min, max, value)',
+      '__isViewChanged(isView,readonly)'
     ]
   }
 
@@ -909,6 +924,14 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       validate = validate && (!this.rangeList.includes(this.type) ? maxTimestamp > this.timestamp : maxTimestamp > this.endTimestamp)
     }
     return this.required ? validate : true
+  }
+
+  __isViewChanged (isView, readonly) {
+    this.$.input__date.style.display = (this.readonly && isView) ? 'none' : 'flex'
+  }
+
+  _isView (isView, readonly) {
+    return isView && readonly
   }
 }
 
