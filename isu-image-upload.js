@@ -389,7 +389,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
       const formData = new FormData()
       formData.append(this.uploadFileName, blob)
       const data = await this.post({ url: this.uploadImgUrl, data: formData })
-      this.uploadCallback && this.isFunction(this.uploadCallback) && this.uploadCallback(data)
+      this.uploadCallback && this.isFunction(this.uploadCallback) && this.uploadCallback.call(this.domHost, data, this.uploadFileName)
     }
   }
 
