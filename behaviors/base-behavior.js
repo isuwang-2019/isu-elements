@@ -216,7 +216,7 @@ export const BaseBehavior = {
    * @param str
    * @return {*}
    */
-  trimStr: function (str) {
+  trimStr: function (str = '') {
     if (str === null || str === undefined) {
       return ''
     }
