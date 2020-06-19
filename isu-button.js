@@ -210,8 +210,30 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
       disabled: {
         type: Boolean,
         value: false
+      },
+      /**
+       * If true hides the component， default false
+       */
+      hidden: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      },
+      /**
+       * If you do not have permissions, the component does not display
+       * @type Boolean
+       * @default true
+       */
+      permission: {
+        type: Boolean,
+        value: true,
+        observer: '_permissionChange'
       }
     }
+  }
+
+  _permissionChange(permission) {
+    this.set('hidden', !permission)
   }
 }
 

@@ -36,7 +36,6 @@ import './behaviors/isu-elements-shared-styles.js';
  * @polymer
  * @demo demo/isu-input/index.html
  */
-
 class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
     return html`
@@ -394,6 +393,24 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
       isView: {
         type: Boolean,
         value: false,
+      },
+      /**
+       * If true hides the component， default false
+       */
+      hidden: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      },
+      /**
+       * If you do not have permissions, the component does not display
+       * @type Boolean
+       * @default true
+       */
+      permission: {
+        type: Boolean,
+        value: true,
+        observer: '_permissionChange'
       }
     };
   }
@@ -464,6 +481,10 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _isView(isView,readonly) {
     return isView && readonly
+  }
+
+  _permissionChange(permission) {
+    this.set('hidden', !permission)
   }
 
   ready() {

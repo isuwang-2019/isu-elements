@@ -640,6 +640,24 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       joinConnector: {
         type: String,
         value: ','
+      },
+      /**
+       * If true hides the component， default false
+       */
+      hidden: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      },
+      /**
+       * If you do not have permissions, the component does not display
+       * @type Boolean
+       * @default true
+       */
+      permission: {
+        type: Boolean,
+        value: true,
+        observer: '_permissionChange'
       }
     }
   }
@@ -1099,6 +1117,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _isView (isView, readonly) {
     return isView && readonly
+  }
+
+  _permissionChange(permission) {
+    this.set('hidden', !permission)
   }
 
   clear (e) {
