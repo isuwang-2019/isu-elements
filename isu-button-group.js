@@ -276,14 +276,8 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
   toggle (e) {
     if (!this.disabled) {
       const { top, left } = this.getElemPos(this)
-      const collapseHeight = (this.items || []).length * 30 + 2
-      const totalHeight = top + collapseHeight
-      let _top
-      if (totalHeight > document.documentElement.clientHeight) {
-        _top = top - collapseHeight - 4
-      } else {
-        _top = top + this.clientHeight
-      }
+      const _top = top + this.clientHeight
+
       this.$.collapse.style.top = _top + 'px'
       this.$.collapse.style.left = left + 'px'
       // 当外界设置了下拉框的宽度时，取外界的宽度，否则取按钮的宽度
