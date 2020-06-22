@@ -57,6 +57,11 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
         position: relative;
       }
       
+      :host .input__container__view{
+        @apply --isu-container-view
+        
+      }
+      
       :host([readonly]) .input__container {
         pointer-events: none;
         /*opacity: 0.7;*/
@@ -214,44 +219,44 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     
     <!--可编辑状态-->
     <div id="input__container" class="input__container">
-            <template is="dom-if" if="[[prefixUnit]]">
-              <div class="prefix-unit input-unit">[[prefixUnit]]</div>
+        <template is="dom-if" if="[[prefixUnit]]">
+          <div class="prefix-unit input-unit">[[prefixUnit]]</div>
+        </template>
+        <iron-input bind-value="{{value}}" id="input" class="iron-input">
+          <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]"
+              maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
+          <div class="clear">
+            <template is="dom-if" if="[[ isExistTruthy(value) ]]">
+              <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
             </template>
-            <iron-input bind-value="{{value}}" id="input" class="iron-input">
-              <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]"
-                  maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
-              <div class="clear">
-                <template is="dom-if" if="[[ isExistTruthy(value) ]]">
-                  <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
-                </template>
-              </div>
-              <div class="clear">
-                <template is="dom-if" if="[[ isExistTruthy(value) ]]">
-                  <template is="dom-if" if="[[ togglePassword ]]">
-                    <iron-icon class="icon-password" icon=icons:visibility on-click="showPassword"></iron-icon>
-                  </template>
-                  <template is="dom-if" if="[[ !togglePassword ]]">
-                    <iron-icon class="icon-password" icon=icons:visibility-off on-click="showPassword"></iron-icon>
-                  </template>
-                </template>
-              </div>
-            </iron-input>
-            <template is="dom-if" if="[[suffixUnit]]">
-              <div class="suffix-unit input-unit">[[suffixUnit]]</div>
-            </template>
-            
-            <div class="prompt-tip__container" data-prompt$="[[prompt]]">
-            <div class="prompt-tip">
-              <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
-              [[prompt]]
-            </div>
           </div>
-          <!--add mask when the componet is disabled or readonly-->
-          <div class="mask"></div>
+          <div class="clear">
+            <template is="dom-if" if="[[ isExistTruthy(value) ]]">
+              <template is="dom-if" if="[[ togglePassword ]]">
+                <iron-icon class="icon-password" icon=icons:visibility on-click="showPassword"></iron-icon>
+              </template>
+              <template is="dom-if" if="[[ !togglePassword ]]">
+                <iron-icon class="icon-password" icon=icons:visibility-off on-click="showPassword"></iron-icon>
+              </template>
+            </template>
+          </div>
+        </iron-input>
+        <template is="dom-if" if="[[suffixUnit]]">
+          <div class="suffix-unit input-unit">[[suffixUnit]]</div>
+        </template>
+        
+        <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+        <div class="prompt-tip">
+          <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+          [[prompt]]
+        </div>
+      </div>
+      <!--add mask when the componet is disabled or readonly-->
+      <div class="mask"></div>
           
-          </div>
+      </div>
     <template is="dom-if" if="[[_isView(isView,readonly)]]">
-      <div class="input__container">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
+      <div class="input__container input__container__view">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
     </template>
     
 `;
@@ -476,7 +481,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __isViewChanged(isView, readonly) {
-    this.$['input__container'].style.display = (this.readonly && isView) ? 'none' : 'flex'
+    this.$['input__container'].style.display = (readonly && isView) ? 'none' : 'flex'
   }
 
   _isView(isView,readonly) {
