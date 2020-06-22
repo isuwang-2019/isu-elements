@@ -110,7 +110,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
         cursor: default;
       }
       .view-text {
-        @apply --isu-input-jedate-view-text
+        @apply --isu-view-text
       }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">

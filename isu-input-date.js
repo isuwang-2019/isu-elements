@@ -26,6 +26,7 @@ import './isu-select'
  * |----------------|-------------|----------|
  * |`--isu-input-date-label` | Mixin applied to the label of input | {}
  * |`--isu-input-date-width` | The width of the isu-input-date | 380px
+ * |`--isu-view-text` | Mixin applied to the text when the readonly and is-view is true | {}
  *
  * @customElement
  * @polymer
@@ -286,6 +287,10 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       .disabled > div {
         pointer-events: none;
+      }
+     
+      .view-text {
+         @apply --isu-input-date-view-text
       }
 
     </style>

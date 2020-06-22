@@ -41,7 +41,7 @@ import { CacheSearchUtil } from './utils/cacheSearchUtil'
  * |`--isu-select-tag-deleter` | Mixin applied to the deleter of each tag| {}
  * |`--isu-select-tag-cursor` | Mixin applied to the cursor of the select | {}
  * |`--isu-select-dropdown` | Mixin applied to the dropdown snippet of the select | {}
- * |`--isu-select-view-text` | Mixin applied to the view mode of the select when readonly=true and isView=true | {}
+ * |`--isu-view-text` | Mixin applied to the view mode of the select when readonly=true and isView=true | {}
  *
  *
  * @customElement
@@ -261,7 +261,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         height: auto
       }
       .view-text {
-         @apply --isu-select-view-text
+         @apply --isu-view-text
       }
     </style>
     

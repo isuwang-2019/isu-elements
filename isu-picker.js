@@ -46,6 +46,7 @@ import { PinyinUtil } from './utils/pinyinUtil'
  |`--isu-select-tag-deleter` | Mixin applied to the selected tag's delete tag | {}
  |`--isu-picker-dropdown` | Mixin applied to the dropdown table | {}
  |`--collapase-table-cell` | Mixin applied to the dropdown table's cell | {}
+ |`--isu-view-text` | Mixin applied to the text when the readonly and is-view is true | {}
 
  * @customElement
  * @polymer
@@ -274,6 +275,9 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         :host([clearable]) .input-wrap:hover .icon-clear {
           display: inline-block;
         }
+        .view-text {
+          @apply --isu-view-text
+       }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
          <div class="isu-label">[[label]]</div>

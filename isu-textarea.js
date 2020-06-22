@@ -22,6 +22,7 @@ import { BaseBehavior } from './behaviors/base-behavior'
  * |----------------|-------------|----------|
  * |`--isu-textarea` | Mixin applied to the textarea | {}
  * |`--isu-textarea-placeholder` | Mixin applied to placeholder of the textarea | {}
+ * |`--isu-view-text` | Mixin applied to the text when the readonly and is-view is true | {}
  *
  * @customElement
  * @polymer
@@ -91,6 +92,10 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           color: #999;
           @apply --isu-textarea-placeholder;
         }
+        
+       .view-text {
+         @apply --isu-textarea-view-text
+       }
   
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
