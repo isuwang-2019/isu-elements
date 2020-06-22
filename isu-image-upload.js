@@ -276,6 +276,13 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
        * */
       uploadCallback: {
         type: Function
+      },
+      /**
+       * Parse the format of the return data when the uploadImgUrl is not empty, eg: text|json|blob|formData|arrayBuffer
+       * */
+      handleAs: {
+        type: String,
+        value: 'json'
       }
     }
   }
@@ -369,7 +376,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
   }
 
   __readDataTransfer (dataTransfer) {
-    const source = [].find.call(dataTransfer.items, item => item.kind === 'file' && item.type.startsWith('image'))
+    const source = [].find.call(dataTransfer.items, item => item.kind === 'file')
     source && this.__loadFileData(source.getAsFile())
   }
 
@@ -388,7 +395,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
     if (this.uploadImgUrl) {
       const formData = new FormData()
       formData.append(this.uploadFileName, blob)
-      const data = await this.post({ url: this.uploadImgUrl, data: formData })
+      const data = await this.post({ url: this.uploadImgUrl, data: formData, handleAs: this.handleAs })
       this.uploadCallback && this.isFunction(this.uploadCallback) && this.uploadCallback.call(this.domHost, data, this.uploadFileName)
     }
   }
