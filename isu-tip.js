@@ -149,8 +149,8 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </div>
       <isu-input id="remark-input" value="{{ remark }}"></isu-input>
       <div id="operate-panel">
-        <isu-button on-click="_cancel" type="[[orElse(config.cancelBtnType, 'warning')]]" size="small">[[orElse(config.cancelBtnLabel, '取消')]]</isu-button>
-        <isu-button on-click="_confirm" type="[[orElse(config.confirmBtnType, 'default')]]" size="small">[[orElse(config.confirmBtnLabel, '确定')]]</isu-button>
+        <isu-button on-click="_confirm" type="[[orElse(config.confirmBtnType, 'primary')]]" size="small">[[orElse(config.confirmBtnLabel, '确定')]]</isu-button>
+        <isu-button on-click="_cancel" type="[[orElse(config.cancelBtnType, 'default')]]" size="small">[[orElse(config.cancelBtnLabel, '取消')]]</isu-button>
       </div>
     </isu-dialog>
 `
