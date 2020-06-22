@@ -752,7 +752,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     try {
       const data = await this._fetchUtil.fetchIt(request).then(res => res.json())
       const items = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || []
-      this.value ? this._getSelectedForItems(items) : this.items = items
+      this.value ? await this._getSelectedForItems(items) : this.items = items
     } catch (error) {
       console.error(error)
     }
@@ -828,10 +828,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _selectedValuesChanged () {
     if (this.selectedValues.length > 0) {
-      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',')
+      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).filter(item => item).join(',')
       this.selectedItem = this.selectedValues[this.selectedValues.length - 1]
     } else {
-      this.value = null
+      this.value = undefined
       this.selectedItem = undefined
     }
     if (this.mode === 'text') this.text = this.value && !this.multi ? this.value : this._userInputKeyword
