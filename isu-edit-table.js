@@ -1,6 +1,5 @@
 import {html, PolymerElement} from "@polymer/polymer";
 import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 import {BaseBehavior} from "./behaviors/base-behavior";
 import './behaviors/isu-elements-shared-styles.js';
 import './isu-input';
@@ -15,7 +14,7 @@ import './isu-button';
  * ```
  * @customElement
  * @polymer
- * @demo demo/isu-table/index.html
+ * @demo demo/isu-edit-table/index.html
  */
 class IsuEditTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template() {
