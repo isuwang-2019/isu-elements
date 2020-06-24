@@ -1,5 +1,6 @@
 import { html, PolymerElement } from '@polymer/polymer'
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
 import '@polymer/iron-icons/social-icons'

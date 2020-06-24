@@ -1,12 +1,12 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import '@polymer/paper-tabs/paper-tabs';
-import '@polymer/paper-tabs/paper-tab';
-import '@polymer/paper-styles/color';
-import '@polymer/iron-icon/iron-icon';
-import '@polymer/iron-icons/iron-icons';
-import './behaviors/isu-elements-shared-styles';
-
+import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@polymer/paper-tabs/paper-tabs'
+import '@polymer/paper-tabs/paper-tab'
+import '@polymer/paper-styles/color'
+import '@polymer/iron-icon/iron-icon'
+import '@polymer/iron-icons/iron-icons'
+import './behaviors/isu-elements-shared-styles'
 
 /**
  * `isu-paper-tabs`
@@ -25,8 +25,8 @@ import './behaviors/isu-elements-shared-styles';
  * @polymer
  * @demo demo/isu-paper-tabs/index.html
  */
-class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
-  static get template() {
+class IsuPaperTabs extends mixinBehaviors([], PolymerElement) {
+  static get template () {
     return html`
       <style include="isu-elements-shared-styles">
         :host {
@@ -195,8 +195,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       `
   }
 
-  static get properties() {
-
+  static get properties () {
     return {
       /**
        * TabList:Must-Pass,is a Array.
@@ -208,7 +207,7 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       tabList: {
         type: Array,
         value: [
-          {label:'Paper-tab',value:0,permission:true,disabled:false}
+          { label: 'Paper-tab', value: 0, permission: true, disabled: false }
         ],
         notify: true
       },
@@ -224,27 +223,27 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
       /**
        * selectedItem
        */
-      selectedItem:{
-        type:Object,
-        observer:'_selectedItemChange'
+      selectedItem: {
+        type: Object,
+        observer: '_selectedItemChange'
       },
       /**
        * Tab position, the default value is top, there are three types:top/left/right/bottom
        */
-      tabPosition:{
-        type:String,
-        value:'top',
-        notify:true,
+      tabPosition: {
+        type: String,
+        value: 'top',
+        notify: true,
         observer: '_tabPositionChange'
       },
       /**
        * tab type, the default value is card, there are three types:card/border-card/width-bar
        */
-      tabType:{
-        type:String,
-        value:'card',
-        notify:true,
-        observer:'_tabTypeChange'
+      tabType: {
+        type: String,
+        value: 'card',
+        notify: true,
+        observer: '_tabTypeChange'
       },
       /**
        * If you want to use an attribute value or property of an element for
@@ -256,131 +255,138 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
        * selection works in both cases. (Use `attr-or-property-name` instead of
        * `attrOrPropertyName`.)
        */
-      attrForSelected:{type:String, notify:true},
+      attrForSelected: { type: String, notify: true },
 
-      __attrForSelected:{type: String, computed: '__attrForSelectedChanged(attrForSelected)'},
+      __attrForSelected: { type: String, computed: '__attrForSelectedChanged(attrForSelected)' },
       /**
        * If true, ink ripple effect is disabled. When this property is changed,
        * all descendant `<paper-tab>` elements have their `noink` property
        * changed to the new value as well.
        */
-      noink:{type:Boolean, value:true, notify:true},
+      noink: { type: Boolean, value: true, notify: true },
       /**
        * If true, the bottom bar to indicate the selected tab will not be shown.
        */
-      noBar:{type:Boolean, value:true, notify:true},
+      noBar: { type: Boolean, value: true, notify: true },
       /**
        * If true, the slide effect for the bottom bar is disabled.
        */
-      noSlide:{type:Boolean, value:true, notify:true},
+      noSlide: { type: Boolean, value: true, notify: true },
       /**
        * If true, tabs are scrollable and the tab width is based on the label
        * width.
        */
-      scrollable:{type:Boolean, value:false, notify:true},
+      scrollable: { type: Boolean, value: false, notify: true },
       /**
        * If true, tabs expand to fit their container. This currently only applies
        * when scrollable is true.
        */
-      fitContainer:{type:Boolean, value:false, notify:true},
+      fitContainer: { type: Boolean, value: false, notify: true },
       /**
        * If true, the tabs are aligned to bottom (the selection bar appears at the
        * top).
        */
-      alignBottom:{type:Boolean, value:false, notify:true},
+      alignBottom: { type: Boolean, value: false, notify: true },
       /**
        * If true, tabs are automatically selected when focused using the
        * keyboard.
        */
-      autoSelect:{type:Boolean, value:false, notify:true},
+      autoSelect: { type: Boolean, value: false, notify: true },
       /**
        * The delay (in milliseconds) between when the user stops interacting
        * with the tabs through the keyboard and when the focused item is
        * automatically selected (if `autoselect` is true).
        */
-      autoSelectDelay:{type:Number, value:0, notify:true},
+      autoSelectDelay: { type: Number, value: 0, notify: true },
       /**
        * If true, dragging on the tabs to scroll is disabled.
        */
-      disableDrag: {type: Boolean, value: false},
+      disableDrag: { type: Boolean, value: false },
 
       /**
        * If true, scroll buttons (left/right arrow) will be hidden for scrollable
        * tabs.
        */
-      hideScrollButtons: {type: Boolean, value: false},
+      hideScrollButtons: { type: Boolean, value: false },
       /**
        * If true, the paper-tab will have clear icon.On click it,can clear this paper-tab.
        */
-      isClear:{type:Boolean, value:false}
+      isClear: { type: Boolean, value: false }
     }
   }
 
-  static get is() {
+  static get is () {
     return 'isu-paper-tabs'
   }
 
-  __attrForSelectedChanged(attrForSelected) {
+  __attrForSelectedChanged (attrForSelected) {
     return attrForSelected ? 'name' : undefined
   }
-  _selectedItemChange(newVal){
-    if(newVal && ['left','right'].includes(this.tabPosition)){
+
+  _selectedItemChange (newVal) {
+    if (newVal && ['left', 'right'].includes(this.tabPosition)) {
       return Promise.resolve(this._computedPositionSelectionBarHeight(newVal))
     }
   }
-  _computedPositionSelectionBarHeight(selectedItem){
+
+  _computedPositionSelectionBarHeight (selectedItem) {
     const tab = selectedItem.offsetTop
     const paperTabs = this.shadowRoot.querySelector('paper-tabs').offsetTop
-    const translateTop = tab-paperTabs
-    return this.transform( `translateY(${ translateTop }px)scaleY(1)`,this.shadowRoot.querySelector("#positionSelectionBar"))
+    const translateTop = tab - paperTabs
+    return this.transform(`translateY(${translateTop}px)scaleY(1)`, this.shadowRoot.querySelector('#positionSelectionBar'))
   }
 
-  _tabPositionChange(newVal){
-    if(newVal !== 'top'){
-      this.set('tabType','')
+  _tabPositionChange (newVal) {
+    if (newVal !== 'top') {
+      this.set('tabType', '')
     }
-    if(newVal === 'bottom'){
-      this.set('alignBottom',true)
-      this.set('noBar',false)
+    if (newVal === 'bottom') {
+      this.set('alignBottom', true)
+      this.set('noBar', false)
     }
-    if(['left','right'].includes(newVal)){
-      this.set('noBar',true)
+    if (['left', 'right'].includes(newVal)) {
+      this.set('noBar', true)
     }
   }
 
-  _tabTypeChange(newVal){
-    if(newVal === 'width-bar'){
+  _tabTypeChange (newVal) {
+    if (newVal === 'width-bar') {
       return this.noBar = false
     }
   }
-  getTabPositionClass(type){
+
+  getTabPositionClass (type) {
     const tabPositionObj = {
-      left:'tab-position-left-right tab-position-left',
-      right:'tab-position-left-right tab-position-right',
-      top:'tab-position-top'
+      left: 'tab-position-left-right tab-position-left',
+      right: 'tab-position-left-right tab-position-right',
+      top: 'tab-position-top'
     }
-    return typeof tabPositionObj[type] !== 'undefined'? tabPositionObj[type] :''
+    return typeof tabPositionObj[type] !== 'undefined' ? tabPositionObj[type] : ''
   }
-  getTabTypeClass(type){
+
+  getTabTypeClass (type) {
     const typeClassObj = {
-      'card':'paper-tabs-card',
-      'border-card':'paper-tabs-card-border-card',
-      'width-bar':''
+      card: 'paper-tabs-card',
+      'border-card': 'paper-tabs-card-border-card',
+      'width-bar': ''
     }
     return typeClassObj[type]
   }
-  _isAppearClearIcon(isClear,tabType){
+
+  _isAppearClearIcon (isClear, tabType) {
     return isClear && tabType === 'card'
   }
-  clearPaperTab(e){
+
+  clearPaperTab (e) {
     const data = e.currentTarget.dataArgs
-    this.set('tabList',this.tabList.filter(item => { return item.value !== data.value }))
-    if(this.tabList.indexOf(item=>{item.value = this.selectedItem.value}) === -1){
-      this.set('selected',this.attrForSelected?this.tabList[0].value:0)
+    this.set('tabList', this.tabList.filter(item => { return item.value !== data.value }))
+    if (this.tabList.indexOf(item => { item.value = this.selectedItem.value }) === -1) {
+      this.set('selected', this.attrForSelected ? this.tabList[0].value : 0)
     }
   }
-  __getForSelectedName(item, attrForSelected){
-    if(!item || !attrForSelected){
+
+  __getForSelectedName (item, attrForSelected) {
+    if (!item || !attrForSelected) {
       return undefined
     } else {
       return item[attrForSelected]
@@ -388,5 +394,4 @@ class IsuPaperTabs extends mixinBehaviors([],PolymerElement) {
   }
 }
 
-window.customElements.define(IsuPaperTabs.is, IsuPaperTabs);
-
+window.customElements.define(IsuPaperTabs.is, IsuPaperTabs)

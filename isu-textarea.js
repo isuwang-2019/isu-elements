@@ -3,6 +3,7 @@ import '@polymer/iron-icon'
 import '@polymer/iron-icons/social-icons'
 import './behaviors/isu-elements-shared-styles.js'
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import { BaseBehavior } from './behaviors/base-behavior'
 /**
  * `isu-textarea`

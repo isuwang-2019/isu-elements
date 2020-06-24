@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import '@polymer/paper-dialog'
 import './isu-grid-layout'
 import './behaviors/isu-elements-shared-styles'

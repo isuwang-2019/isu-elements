@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import { BaseBehavior } from './behaviors/base-behavior.js'
 import { TipBehavior } from './behaviors/tip-behavior'
 import { AjaxBehavior } from './behaviors/ajax-behavior'
@@ -325,7 +326,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
   }
 
   __srcChanged (src) {
-    const style = this.$['img__container'].style
+    const style = this.$.img__container.style
     const viewerStyle = this.$['viewer-img'].style
 
     if (src) {
@@ -350,15 +351,15 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
 
     const bits = sizeLimit.replace(reg, (match, size, unit) => {
       switch (unit.toUpperCase()) {
-        case 'GB':
-        case 'G':
-          return size * Math.pow(1024, 3)
-        case 'MB':
-        case 'M':
-          return size * Math.pow(1024, 2)
-        case 'KB':
-        case 'K':
-          return size * 1024
+      case 'GB':
+      case 'G':
+        return size * Math.pow(1024, 3)
+      case 'MB':
+      case 'M':
+        return size * Math.pow(1024, 2)
+      case 'KB':
+      case 'K':
+        return size * 1024
       }
     })
 

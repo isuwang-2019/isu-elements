@@ -1,11 +1,12 @@
-import {html, PolymerElement} from "@polymer/polymer";
+import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import '@polymer/paper-button/paper-button'
-import './behaviors/isu-elements-shared-styles.js';
-import '@polymer/iron-input';
-import '@polymer/iron-icon';
-import '@polymer/iron-icons';
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {BaseBehavior} from "./behaviors/base-behavior";
+import './behaviors/isu-elements-shared-styles.js'
+import '@polymer/iron-input'
+import '@polymer/iron-icon'
+import '@polymer/iron-icons'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { BaseBehavior } from './behaviors/base-behavior'
 
 /**
  *
@@ -43,7 +44,7 @@ import {BaseBehavior} from "./behaviors/base-behavior";
  * @demo demo/isu-input-number/index.html
  */
 class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -111,14 +112,14 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <button id="addButton" class="box icon-box" on-click="add" data-args="[[step]]" disabled="[[disabled]]">
       <iron-icon class="icon" icon="icons:add"></iron-icon>
     </button>
-`;
+`
   }
 
-  constructor() {
-    super();
+  constructor () {
+    super()
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The value of the input number
@@ -208,11 +209,11 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       stepStrictly: {
         type: Boolean,
         value: false
-      },
+      }
     }
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '_valueChanged(value)',
       '_noControlsChanged(noControls)',
@@ -220,7 +221,7 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
     ]
   }
 
-  connectedCallback() {
+  connectedCallback () {
     super.connectedCallback()
 
     if (this.stepStrictly) {
@@ -230,11 +231,9 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.precision) {
       this.set('value', Number(this.value).toFixed(this.precision))
     }
-
-
   }
 
-  _valueChanged(value) {
+  _valueChanged (value) {
     if (this.min !== null && this.min !== undefined) {
       if (value <= this.min) {
         this.set('value', this.min)
@@ -252,56 +251,56 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     }
   }
-  _precisionChanged(precision) {
+
+  _precisionChanged (precision) {
     if (precision) {
       this.set('value', Number(this.value).toFixed(this.precision))
     }
   }
 
-
-  _noControlsChanged(noControls) {
+  _noControlsChanged (noControls) {
     if (noControls) {
       this.$.removeButton.classList.add('hidden')
       this.$.addButton.classList.add('hidden')
     }
   }
 
-  minus(e) {
+  minus (e) {
     this.value = this.calculate(this.value, e.currentTarget.dataArgs, '-')
   }
 
-  add(e) {
+  add (e) {
     this.value = this.calculate(this.value, e.currentTarget.dataArgs, '+')
   }
 
-  calculate(oldValue, step, operator) {
+  calculate (oldValue, step, operator) {
     let value = oldValue
     if (this.stepStrictly) {
       value = Math.ceil(value / step) * step
     }
-    const decimal = step.toString().split(".")[1]
-    let digit = decimal ? decimal.length : 1
+    const decimal = step.toString().split('.')[1]
+    const digit = decimal ? decimal.length : 1
     const pow = Math.pow(10, digit)
     switch (operator) {
-      case '+':
-        const numAdd = Math.round((Number(value)*pow + step*pow)) / pow
-        return this.precision ? numAdd.toFixed(this.precision) : numAdd
-      case '-':
-        const numMinus =  Math.round((Number(value)*pow - step*pow)) / pow
-        return this.precision ? numMinus.toFixed(this.precision) : numMinus
+    case '+':
+      const numAdd = Math.round((Number(value) * pow + step * pow)) / pow
+      return this.precision ? numAdd.toFixed(this.precision) : numAdd
+    case '-':
+      const numMinus = Math.round((Number(value) * pow - step * pow)) / pow
+      return this.precision ? numMinus.toFixed(this.precision) : numMinus
     }
   }
 
-  checkNum(e) {
-    const decimal = this.value.toString().split(".")[1]
+  checkNum (e) {
+    const decimal = this.value.toString().split('.')[1]
     const length = decimal ? decimal.length : 0
     if (this.stepStrictly) {
       this.set('value', Math.ceil(this.value / this.step) * this.step)
     }
-    if(this.precision && length !== this.precision) {
+    if (this.precision && length !== this.precision) {
       this.set('value', Number(this.value).toFixed(this.precision))
     }
   }
 }
 
-window.customElements.define('isu-input-number', IsuInputNumber);
+window.customElements.define('isu-input-number', IsuInputNumber)

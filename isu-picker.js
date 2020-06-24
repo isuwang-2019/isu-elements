@@ -1,5 +1,6 @@
 import { html, PolymerElement } from '@polymer/polymer'
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
 import '@polymer/iron-icons/social-icons'
@@ -1123,7 +1124,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return isView && readonly
   }
 
-  _permissionChange(permission) {
+  _permissionChange (permission) {
     this.set('hidden', !permission)
   }
 

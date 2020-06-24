@@ -1,12 +1,13 @@
 
-import {html, PolymerElement} from "@polymer/polymer";
-import './behaviors/isu-tree-shared-styles.js';
-import '@polymer/paper-styles/default-theme.js';
-import '@polymer/paper-checkbox';
-import {BaseBehavior} from "./behaviors/base-behavior";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import '@polymer/paper-radio-button';
-import Node from "./utils/tree/node";
+import { html, PolymerElement } from '@polymer/polymer'
+import './behaviors/isu-tree-shared-styles.js'
+import '@polymer/paper-styles/default-theme.js'
+import '@polymer/paper-checkbox'
+import { BaseBehavior } from './behaviors/base-behavior'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import '@polymer/paper-radio-button'
+import Node from './utils/tree/node'
 /**
  *
  * `isu-tree-node`
@@ -21,8 +22,7 @@ import Node from "./utils/tree/node";
  * @demo demo/isu-tree/index.html
  */
 class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
-
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-tree-shared-styles">
       .black-span {
@@ -132,10 +132,10 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </div>
     </template>
     
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       tree: Object,
       /**
@@ -214,7 +214,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       level: {
         type: Number
       }, // 当前层级
-      node: {// 子节点数据
+      node: { // 子节点数据
         type: Node,
         notify: true,
         reflectToAttribute: true
@@ -254,11 +254,11 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  static get is() {
-    return "isu-tree-node";
+  static get is () {
+    return 'isu-tree-node'
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '_defaultExpandAllChanged(defaultExpandAll)',
       '_searchWordChanged(searchWord)',
@@ -270,8 +270,8 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     ]
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  connectedCallback () {
+    super.connectedCallback()
     const parent = this.parentNode.host || this.parentNode
     if (parent.isTree) {
       this.tree = parent
@@ -280,18 +280,18 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  _isFirst(isFirst) {
-    if(!this.defaultExpandAll) {
+  _isFirst (isFirst) {
+    if (!this.defaultExpandAll) {
       this.set('isShow', isFirst)
       this.set('rotate', isFirst ? 0 : -90)
     }
   }
 
-  getHalfClass(isIndeterminate) {
+  getHalfClass (isIndeterminate) {
     return isIndeterminate === true ? 'half' : ''
   }
 
-  _isIndeterminateChanged(isIndeterminate) {
+  _isIndeterminateChanged (isIndeterminate) {
     if (!this.node.disabled && isIndeterminate) {
       this.set('isIndeterminate', isIndeterminate)
       this.set('node.indeterminate', isIndeterminate)
@@ -300,20 +300,20 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _childNodesChanged (target) {
     this._showNodeFilter()
-    const {path, value} = target
-    if(path.includes('checked')) {
+    const { path, value } = target
+    if (path.includes('checked')) {
       this.__setNodeChecked(this)
     }
   }
 
-  _searchWordChanged(searchWord) {
+  _searchWordChanged (searchWord) {
     this._showNodeFilter()
   }
 
-  __isShowChanged(isShow) {
+  __isShowChanged (isShow) {
     const self = this
     // 这里是从父节点对下面的所有子孙节点手动添加监听，防止节点折叠的时候选择父节点，子孙节点选择错误的问题。后面需要再优化
-    if(isShow) {
+    if (isShow) {
       const recursionNotifyNodeChecked = (prefixKey, curNode) => {
         self.notifyPath(`${prefixKey}.childNodes.splices`)
         self.notifyPath(`${prefixKey}.checked`)
@@ -332,7 +332,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     self.set('node.visible', visible)
   }
 
-  filterNode(searchWord, node) {
+  filterNode (searchWord, node) {
     if (!node) {
       return false
     }
@@ -340,7 +340,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       return true
     }
     const self = this
-    const {data, childNodes} = node
+    const { data, childNodes } = node
     const selfVisible = data.label.includes(searchWord)
     const childVisilbe = childNodes.some(childNode => {
       return self.filterNode(searchWord, childNode)
@@ -348,24 +348,25 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return selfVisible || childVisilbe
   }
 
-  _defaultExpandAllChanged(defaultExpandAll) {
+  _defaultExpandAllChanged (defaultExpandAll) {
     if (defaultExpandAll) {
       this.isShow = true
       this.rotate = 0
     }
   }
-  _getNextLevel(level) {
+
+  _getNextLevel (level) {
     return level + 1
   }
 
-  _clickCheckOnClickNode() {
+  _clickCheckOnClickNode () {
     if (this.checkOnClickNode) {
       const dhtTreeNodeContentList = this.getAllQulifyingElements(document.querySelectorAll('*'), 'className', 'dht-tree-node-content')
       dhtTreeNodeContentList.forEach(el => {
         el.classList.remove('pitch-on')
       })
       this.shadowRoot.querySelector('.dht-tree-node-content') && this.shadowRoot.querySelector('.dht-tree-node-content').classList.add('pitch-on')
-      this.dispatchEvent(new CustomEvent("single-check", {detail: {data: this.node.data}, bubbles: true, composed: true}));
+      this.dispatchEvent(new CustomEvent('single-check', { detail: { data: this.node.data }, bubbles: true, composed: true }))
     }
   }
 
@@ -373,7 +374,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     e.stopPropagation()
     if (this.node.childNodes.length <= 0) return false
 
-    this.dispatchEvent(new CustomEvent('arrow-check', {detail: {data: null}, bubbles: true, composed: true}));
+    this.dispatchEvent(new CustomEvent('arrow-check', { detail: { data: null }, bubbles: true, composed: true }))
     const parent = this.parentNode.host || this.parentNode
     if (this.isShow) {
       this.isShow = false
@@ -381,88 +382,86 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       return
     }
 
-    //如果开启了手风琴模式，一次展示一个层级
+    // 如果开启了手风琴模式，一次展示一个层级
     if (this.accordion) {
       parent.shadowRoot.querySelectorAll('isu-tree-node').forEach(el => {
         el.isShow = false
         el.rotate = -90
       })
     }
-    //操作子元素方式开启关闭
+    // 操作子元素方式开启关闭
     this.isShow = true
     this.rotate = 0
   }
 
-  _getDataLocation(index) {
+  _getDataLocation (index) {
     return [this.level + 1, index]
   }
 
-  _getIndentStyle(level, indent) {
-    return `padding-left: ${ level * indent }px`
+  _getIndentStyle (level, indent) {
+    return `padding-left: ${level * indent}px`
   }
 
-  _getRotateStyle(rotate) {
-    return `transform: rotate(${ rotate }deg)`
+  _getRotateStyle (rotate) {
+    return `transform: rotate(${rotate}deg)`
   }
 
   getNodeKey (node, index) {
     return node.id ? node.id : index
   }
 
-  __checkedRadioChangeHandler(e) {
+  __checkedRadioChangeHandler (e) {
     e.stopPropagation()
     const isChecked = e.target.checked
     const allPaperRadioButton = this.getAllQulifyingElements(document.querySelectorAll('*'), 'localName', 'paper-radio-button')
-    allPaperRadioButton.forEach(item => item.checked = false )
+    allPaperRadioButton.forEach(item => item.checked = false)
     this.isChecked = isChecked
     this.set('node.checked', isChecked)
 
     const store = this.tree.store
-    let param = {
+    const param = {
       checkedNodes: store.getCheckedNodes(),
       checkedKeys: store.getCheckedKeys(),
       halfCheckedNodes: store.getHalfCheckedNodes(),
       halfCheckedKeys: store.getHalfCheckedKeys()
     }
-    this.dispatchEvent(new CustomEvent("check", {detail: {data: this.node.data, ...param}, bubbles: true, composed: true}));
+    this.dispatchEvent(new CustomEvent('check', { detail: { data: this.node.data, ...param }, bubbles: true, composed: true }))
   }
 
-  __checkedChangeHandler(e) {
+  __checkedChangeHandler (e) {
     e.stopPropagation()
     const isChecked = e.target.checked
-    if(this.isIndeterminate && isChecked) {
+    if (this.isIndeterminate && isChecked) {
       this.__setNodeChecked(this)
     }
     this._notifyDataChanged(isChecked)
-
   }
 
-  _notifyDataChanged(isChecked) {
+  _notifyDataChanged (isChecked) {
     const self = this
-    if(isChecked === undefined || isChecked === null) {
+    if (isChecked === undefined || isChecked === null) {
       return
     }
 
-    if(this.tree) {
+    if (this.tree) {
       const store = this.tree.store
-      let param = {
+      const param = {
         checkedNodes: store.getCheckedNodes(),
         checkedKeys: store.getCheckedKeys(),
         halfCheckedNodes: store.getHalfCheckedNodes(),
         halfCheckedKeys: store.getHalfCheckedKeys()
       }
-      this.dispatchEvent(new CustomEvent("check-button", {detail: {data: this.node.data, ...param}, bubbles: true, composed: true}))
+      this.dispatchEvent(new CustomEvent('check-button', { detail: { data: this.node.data, ...param }, bubbles: true, composed: true }))
     }
-
   }
 
   __notifyDataChangedByHalfHandler (isChecked, isHalfCheck) {
-    if(!isHalfCheck) { //  全选递归选中/取消选中子节点
+    if (!isHalfCheck) { //  全选递归选中/取消选中子节点
       this._notifyDataChanged(isChecked)
     }
   }
 
-  __getChecked(node) {
+  __getChecked (node) {
     if (!node) return false
     const checked = node.childNodes.every(childNode => childNode.checked == true)
     const childrenChecked = node.childNodes.every(childNode => {
@@ -470,46 +469,46 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     })
     return checked && childrenChecked
   }
+
   /**
    * 拿到所有符合条件的元素
    * */
-  getAllQulifyingElements(nodes, attribute, elementName) {
+  getAllQulifyingElements (nodes, attribute, elementName) {
     // 拿到所有的paper-radio-button按钮
-    let allCustomElements = [];
+    const allCustomElements = []
 
     const findAllQulifyingElements = (nodes, attribute, elementName) => {
-
       for (let i = 0, el; el = nodes[i]; ++i) {
         if (el[attribute] === elementName) {
-          allCustomElements.push(el);
+          allCustomElements.push(el)
         }
         // 如果元素有shadow DOM, 那么就继续深入
         if (el.shadowRoot) {
-          findAllQulifyingElements(el.shadowRoot.querySelectorAll('*'));
+          findAllQulifyingElements(el.shadowRoot.querySelectorAll('*'))
         }
       }
     }
 
-    findAllQulifyingElements(nodes, attribute, elementName);
+    findAllQulifyingElements(nodes, attribute, elementName)
     return allCustomElements
   }
+
   /**
    * 拿到所有符合条件的元素
    * */
   findAllQulifyingElements (nodes, attribute, elementName) {
-
     for (let i = 0, el; el = nodes[i]; ++i) {
       if (el[attribute] === elementName) {
-        allCustomElements.push(el);
+        allCustomElements.push(el)
       }
       // 如果元素有shadow DOM, 那么就继续深入
       if (el.shadowRoot) {
-        findAllPaperRadioButton(el.shadowRoot.querySelectorAll('*'));
+        findAllPaperRadioButton(el.shadowRoot.querySelectorAll('*'))
       }
     }
   }
 
-  __setNodeChecked(ele) {
+  __setNodeChecked (ele) {
     const node = ele.node
     const noneChecked = this.__noneCheckedFn(node)
     const allChecked = this.__allCheckedFn(node)
@@ -532,11 +531,11 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  __checkedRadioClickedHandler(e) {
+  __checkedRadioClickedHandler (e) {
     e.stopPropagation()
   }
 
-  __checkedClickedHandler(e) {
+  __checkedClickedHandler (e) {
     e.stopPropagation()
     const self = this
     const isChecked = e.target.checked
@@ -548,35 +547,35 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     // })
     const recursionCheckedChildNode = (prefixKey, childNodes) => {
       childNodes.forEach((node, index) => {
-        if(!node.disabled) {
+        if (!node.disabled) {
           const key = `${prefixKey}.${index}.checked`
           self.set(key, isChecked)
           recursionCheckedChildNode(`${prefixKey}.${index}.childNodes`, node.childNodes)
         }
       })
     }
-    const prefixKey = `node.childNodes`
+    const prefixKey = 'node.childNodes'
     const childNodes = this.node.childNodes
     recursionCheckedChildNode(prefixKey, childNodes)
     this._notifyDataChanged(isChecked)
   }
 
-  __noneCheckedFn(node) {
+  __noneCheckedFn (node) {
     const self = this
-    return node.childNodes.every(childNode => !childNode.checked  && self.__noneCheckedFn(childNode))
+    return node.childNodes.every(childNode => !childNode.checked && self.__noneCheckedFn(childNode))
   }
 
-  __allCheckedFn(node) {
+  __allCheckedFn (node) {
     const self = this
-    if(node.childNodes.length === 0) {
+    if (node.childNodes.length === 0) {
       return true
     }
-    return node.childNodes.every(childNode => childNode.checked  && self.__allCheckedFn(childNode))
+    return node.childNodes.every(childNode => childNode.checked && self.__allCheckedFn(childNode))
   }
-  __CheckHalfCheckededFn(node) {
+
+  __CheckHalfCheckededFn (node) {
     return !this.__noneCheckedFn(node) && !this.__allCheckedFn(node)
   }
-
 }
 
-window.customElements.define(IsuTreeNode.is, IsuTreeNode);
+window.customElements.define(IsuTreeNode.is, IsuTreeNode)

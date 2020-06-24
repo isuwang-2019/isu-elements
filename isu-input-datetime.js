@@ -1,10 +1,10 @@
 
-import './behaviors/format-behavior.js';
+import { FormatBehavior } from './behaviors/format-behavior.js'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import './isu-input.js'
+import { html, PolymerElement } from '@polymer/polymer'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 
-import './isu-input.js';
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {FormatBehavior} from "./behaviors/format-behavior";
 /**
  * `isu-input-datetime`
  *
@@ -30,7 +30,7 @@ import {FormatBehavior} from "./behaviors/format-behavior";
  *
  */
 class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style>
       :host {
@@ -57,10 +57,10 @@ class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) 
     </style>
     <isu-input id="input" value="{{value}}" label="[[label]]" placeholder="[[placeholder]]" required="[[required]]" min="[[min]]" max="[[max]]" readonly$="[[readonly]]" type="datetime-local">
     </isu-input>
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The value of the input, return a date string format to `yyyy-MM-ddTHH:mm`. i.e. 2017-10-26T12:20
@@ -121,59 +121,60 @@ class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) 
       max: {
         type: String
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-input-datetime";
+  static get is () {
+    return 'isu-input-datetime'
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '_valueChanged(value)',
       '_timestampChanged(timestamp)'
-    ];
+    ]
   }
+
   /**
    * @param value
    * @private
    */
-  _valueChanged(value) {
+  _valueChanged (value) {
     if (!this.value) {
-      this.set("timestamp", undefined);
-      return;
+      this.set('timestamp', undefined)
+      return
     }
-    const time = new Date(value).getTime();
-    this.set("timestamp", time);
+    const time = new Date(value).getTime()
+    this.set('timestamp', time)
   }
 
   /**
    * @param timestamp
    * @private
    */
-  _timestampChanged(timestamp) {
+  _timestampChanged (timestamp) {
     if (!timestamp) {
-      this.set("value", undefined);
-      return;
+      this.set('value', undefined)
+      return
     }
-    const date = new Date(timestamp);
-    this.set("value", this.formatDate(date, "yyyy-MM-ddTHH:mm"));
+    const date = new Date(timestamp)
+    this.set('value', this.formatDate(date, 'yyyy-MM-ddTHH:mm'))
   }
 
   /**
    * Set focus to input.
    */
-  doFocus() {
-    this.$.input.doFocus();
+  doFocus () {
+    this.$.input.doFocus()
   }
 
   /**
    * Validates the input element.
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
-    return this.$.input.validate();
+  validate () {
+    return this.$.input.validate()
   }
 }
 
-window.customElements.define(IsuInputDatetime.is, IsuInputDatetime);
+window.customElements.define(IsuInputDatetime.is, IsuInputDatetime)

@@ -1,8 +1,9 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {BaseBehavior} from "./behaviors/base-behavior";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import '@polymer/iron-selector/iron-selector';
-import './behaviors/isu-elements-shared-styles.js';
+import { html, PolymerElement } from '@polymer/polymer'
+import { BaseBehavior } from './behaviors/base-behavior'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import '@polymer/iron-selector/iron-selector'
+import './behaviors/isu-elements-shared-styles.js'
 /**
  * `isu-radio`
  *
@@ -24,7 +25,7 @@ import './behaviors/isu-elements-shared-styles.js';
  * @demo demo/isu-radio/index.html
  */
 class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -113,10 +114,10 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
         
       </div>
     </div>
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The label of the radio.
@@ -170,7 +171,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForValue: {
         type: String,
-        value: "value"
+        value: 'value'
       },
       /**
        * Attribute name for label.
@@ -179,35 +180,35 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForLabel: {
         type: String,
-        value: "label"
+        value: 'label'
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-radio";
+  static get is () {
+    return 'isu-radio'
   }
 
-  static get observers() {
+  static get observers () {
     return [
-      '_requiredChanged(value, required, items)',
-    ];
+      '_requiredChanged(value, required, items)'
+    ]
   }
 
-  _requiredChanged(value, required, items = []) {
-    if(required && items.length > 0 && value == undefined) {
+  _requiredChanged (value, required, items = []) {
+    if (required && items.length > 0 && value == undefined) {
       // 如果必填， 默认选中第一项
-      this.value = items[0][this.attrForValue];
+      this.value = items[0][this.attrForValue]
     }
   }
 
   /**
    * Always return true.
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
-    return true;
+  validate () {
+    return true
   }
 }
 
-window.customElements.define(IsuRadio.is, IsuRadio);
+window.customElements.define(IsuRadio.is, IsuRadio)

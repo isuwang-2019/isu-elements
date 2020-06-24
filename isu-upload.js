@@ -8,16 +8,16 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import {html, PolymerElement} from "@polymer/polymer/polymer-element";
-import './behaviors/isu-elements-shared-styles.js';
-import '@polymer/iron-icons';
-import '@polymer/iron-icon';
-import './isu-button';
-import {IsuFetch} from './isu-fetch';
-import './isu-tip';
-import { TipBehavior } from './behaviors/tip-behavior';
-import { BaseBehavior } from './behaviors/base-behavior';
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
+import { html, PolymerElement } from '@polymer/polymer/polymer-element'
+import './behaviors/isu-elements-shared-styles.js'
+import '@polymer/iron-icons'
+import '@polymer/iron-icon'
+import './isu-button'
+import { IsuFetch } from './isu-fetch'
+import './isu-tip'
+import { TipBehavior } from './behaviors/tip-behavior'
+import { BaseBehavior } from './behaviors/base-behavior'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 
 /**
  *
@@ -33,8 +33,7 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
  * @demo demo/isu-upload/index.html
  */
 export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerElement) {
-
-  static get template() {
+  static get template () {
     return html`
 <style include="isu-elements-shared-styles">
   :host {
@@ -99,10 +98,10 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
     <slot name="list"></slot>
   </div>
 </div>
-        `;
-  };
+        `
+  }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Specifies a filter for what file types the user can pick from the file input dialog box
@@ -138,68 +137,68 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
         type: Object,
         notify: true
       }
-    };
-  };
-
-  static get observers() {
-    return []
-  };
-
-  ready() {
-    super.ready();
-  };
-
-  _triggerChooseFile() {
-    const fileChooser = this.$['file-chooser'];
-    fileChooser && fileChooser['click']();
-  };
-
-  _chooseFile(e) {
-    if (!this.multiple) {
-      this.set('files', [e.target.files[0]]);
-    } else {
-      this.files = Array.prototype.slice.call(e.target.files).concat(this.files);
     }
-    this.set('response', null);
-  };
+  }
 
-  delete({model: {index}}) {
-    this.$['file-chooser'].value = '';
-    this.splice('files', index, 1);
-  };
+  static get observers () {
+    return []
+  }
 
-  upload() {
-    const fetchApi = new IsuFetch();
-    let form = new FormData();
+  ready () {
+    super.ready()
+  }
+
+  _triggerChooseFile () {
+    const fileChooser = this.$['file-chooser']
+    fileChooser && fileChooser.click()
+  }
+
+  _chooseFile (e) {
     if (!this.multiple) {
-      form.append("file", this.files[0]);
+      this.set('files', [e.target.files[0]])
     } else {
-      form.append("file", this.files);
+      this.files = Array.prototype.slice.call(e.target.files).concat(this.files)
+    }
+    this.set('response', null)
+  }
+
+  delete ({ model: { index } }) {
+    this.$['file-chooser'].value = ''
+    this.splice('files', index, 1)
+  }
+
+  upload () {
+    const fetchApi = new IsuFetch()
+    const form = new FormData()
+    if (!this.multiple) {
+      form.append('file', this.files[0])
+    } else {
+      form.append('file', this.files)
     }
     if (this.request) {
-      for (let key in this.request) {
+      for (const key in this.request) {
         form.append(key, this.request[key])
       }
     }
-    fetchApi.fetchIt({method: "post", body: form, url: this.src}, {loading: true}).then(res => {
-      return res.json();
+    fetchApi.fetchIt({ method: 'post', body: form, url: this.src }, { loading: true }).then(res => {
+      return res.json()
     }).then(res => {
       if (res.status === 1) {
-        this.set('files', []);
-        this.$['file-chooser'].value = '';
-        this.set('response', res);
-        this.isuTip.success('导入成功', 2500);
+        this.set('files', [])
+        this.$['file-chooser'].value = ''
+        this.set('response', res)
+        this.isuTip.success('导入成功', 2500)
       } else {
-        this.isuTip.error(res.error, 2500);
+        this.isuTip.error(res.error, 2500)
       }
     }).catch(err => {
-      console.error(err);
+      console.error(err)
     })
-  };
+  }
 
-  static get is() {
-    return "isu-upload";
+  static get is () {
+    return 'isu-upload'
   }
 }
 
-window.customElements.define(IsuUpload.is, IsuUpload);
+window.customElements.define(IsuUpload.is, IsuUpload)

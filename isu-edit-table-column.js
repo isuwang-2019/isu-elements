@@ -1,6 +1,6 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {Templatizer} from '@polymer/polymer/lib/legacy/templatizer-behavior.js';
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
+import { html, PolymerElement } from '@polymer/polymer'
+import { Templatizer } from '@polymer/polymer/lib/legacy/templatizer-behavior.js'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 /**
  * `isu-table-column`
  *
@@ -13,11 +13,11 @@ import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
  * @demo demo/isu-table-column/index.html
  */
 class IsuEditTableColumn extends mixinBehaviors([Templatizer], PolymerElement) {
-  static get template() {
-    return null;
+  static get template () {
+    return null
   }
 
-  static get properties() {
+  static get properties () {
     return {
       prop: {
         type: String
@@ -34,17 +34,16 @@ class IsuEditTableColumn extends mixinBehaviors([Templatizer], PolymerElement) {
       type: {
         type: String
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-edit-table-column";
+  static get is () {
+    return 'isu-edit-table-column'
   }
 
-  constructor() {
-    super();
+  constructor () {
+    super()
   }
-
 }
 
-window.customElements.define(IsuEditTableColumn.is, IsuEditTableColumn);
+window.customElements.define(IsuEditTableColumn.is, IsuEditTableColumn)

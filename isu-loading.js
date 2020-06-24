@@ -1,8 +1,8 @@
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {html, PolymerElement} from "@polymer/polymer";
-import {IronOverlayBehavior} from "@polymer/iron-overlay-behavior";
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { html, PolymerElement } from '@polymer/polymer'
+import { IronOverlayBehavior } from '@polymer/iron-overlay-behavior'
 
-import './behaviors/isu-elements-shared-styles.js';
+import './behaviors/isu-elements-shared-styles.js'
 
 /**
  * `isu-loading`
@@ -21,7 +21,7 @@ import './behaviors/isu-elements-shared-styles.js';
  * @demo demo/isu-loading/index.html
  */
 class IsuLoading extends mixinBehaviors([IronOverlayBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -83,10 +83,10 @@ class IsuLoading extends mixinBehaviors([IronOverlayBehavior], PolymerElement) {
         <span class="span-text">[[text]]</span>
       </template>
     </div>
- `;
+ `
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * 遮罩背景色
@@ -108,23 +108,23 @@ class IsuLoading extends mixinBehaviors([IronOverlayBehavior], PolymerElement) {
         type: String,
         notify: true
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-loading";
+  static get is () {
+    return 'isu-loading'
   }
 
-  static get observers() {
+  static get observers () {
     return ['_backgroundChanged(background)', '_targetChanged(target)']
   }
 
-  _backgroundChanged(background) {
+  _backgroundChanged (background) {
     if (background) document.querySelector('isu-loading').style.backgroundColor = background
   }
 
-  _targetChanged(target) {
-    let loading = document.createElement('isu-loading')
+  _targetChanged (target) {
+    const loading = document.createElement('isu-loading')
     if (this.background) loading.style.backgroundColor = this.background
     loading.text = this.text
     document.querySelector(target).appendChild(loading)
@@ -132,8 +132,7 @@ class IsuLoading extends mixinBehaviors([IronOverlayBehavior], PolymerElement) {
       document.querySelector(target).lastChild.style.display = ''
       this.set('opened', false)
     }
-
   }
 }
 
-window.customElements.define(IsuLoading.is, IsuLoading);
+window.customElements.define(IsuLoading.is, IsuLoading)

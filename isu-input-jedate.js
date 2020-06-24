@@ -3,6 +3,7 @@ import '@polymer/paper-dialog'
 import './behaviors/isu-elements-shared-styles.js'
 import './isu-grid-layout'
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import { BaseBehavior } from './behaviors/base-behavior'
 import '@polymer/iron-icon'
 import '@polymer/iron-icons'
@@ -454,6 +455,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
     return [
       '_idChanged(id)',
       '_valueChanged(value)',
+      '_timestampChanged(timestamp)',
       'getInvalidAttribute(required, value)',
       '__isViewChanged(isView,readonly)'
     ]
@@ -494,6 +496,11 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
   }
 
   succeed () {
+  }
+
+  _timestampChanged(timestamp) {
+    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
+    this.set('value', convertDate)
   }
 
   _idChanged (id) {

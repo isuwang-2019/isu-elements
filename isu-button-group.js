@@ -1,4 +1,5 @@
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import { BaseBehavior } from './behaviors/base-behavior'
 import { html, PolymerElement } from '@polymer/polymer'
 import '@polymer/iron-collapse'

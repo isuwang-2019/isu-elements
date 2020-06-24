@@ -1,12 +1,12 @@
 
+import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import * as Gestures from '@polymer/polymer/lib/utils/gestures.js'
 
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
-
-import {BaseBehavior} from "./behaviors/base-behavior";
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import './isu-fetch.js';
+import { BaseBehavior } from './behaviors/base-behavior'
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
+import './isu-fetch.js'
 /**
  * `isu-form`
  *
@@ -35,7 +35,7 @@ import './isu-fetch.js';
  * @demo demo/isu-form/index.html
  */
 class IsuForm extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
       <style>
         :host {
@@ -72,10 +72,10 @@ class IsuForm extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <slot name="form-btn"></slot>
       </div>
       <isu-fetch id="fetch" handle-response-as="[[handleResponseAs]]"></isu-fetch>
-  `;
+  `
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Head title of the form
@@ -90,7 +90,7 @@ class IsuForm extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       method: {
         type: String,
-        value: "POST"
+        value: 'POST'
       },
 
       /**
@@ -118,112 +118,109 @@ class IsuForm extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-form";
+  static get is () {
+    return 'isu-form'
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  connectedCallback () {
+    super.connectedCallback()
     Gestures.addListener(this, 'tap', e => {
-      const path = dom(e).path;
-      const submit = path.find(target => target.hasAttribute && (target.hasAttribute('form-submit')));
-      submit && this.submit();
-    });
+      const path = dom(e).path
+      const submit = path.find(target => target.hasAttribute && (target.hasAttribute('form-submit')))
+      submit && this.submit()
+    })
   }
 
   /**
    * Summit the form to server.
    */
-  submit() {
+  submit () {
     const namedFieldNode = this.$['form-fields'].assignedNodes()
-      .filter(node => node.hasAttribute && node.hasAttribute("name"));
+      .filter(node => node.hasAttribute && node.hasAttribute('name'))
 
-    const allValid = this.novalidate || namedFieldNode.every(node => node.validate ? node.validate() : true);
+    const allValid = this.novalidate || namedFieldNode.every(node => node.validate ? node.validate() : true)
 
     if (allValid) {
       const reqData = namedFieldNode.reduce((result, node) => {
-        const key = node.getAttribute('name');
-        const value = node.value;
-        result[key] = value;
-        return result;
-      }, {});
-      const method = (this.method || '').toUpperCase();
-      if(method === 'GET') {
-        this._get(reqData);
-      } else if(method === 'POST') {
-        this._post(reqData);
+        const key = node.getAttribute('name')
+        const value = node.value
+        result[key] = value
+        return result
+      }, {})
+      const method = (this.method || '').toUpperCase()
+      if (method === 'GET') {
+        this._get(reqData)
+      } else if (method === 'POST') {
+        this._post(reqData)
       } else {
-        throw new TypeError(`Unsupported method: ${this.method}`);
+        throw new TypeError(`Unsupported method: ${this.method}`)
       }
     }
   }
 
-  _get(reqData) {
-    const reqUrl = new URL(this.action, window.location.href);
+  _get (reqData) {
+    const reqUrl = new URL(this.action, window.location.href)
     Object.keys(reqData)
-      .forEach((key) => reqUrl.searchParams.append(key, reqData[key] || ''));
+      .forEach((key) => reqUrl.searchParams.append(key, reqData[key] || ''))
 
     this.$.fetch.fetchIt({
       url: reqUrl,
       method: this.method,
-      credentials: "include",
+      credentials: 'include'
     }).then(this._successHandler.bind(this))
       .catch(this._errorHandler.bind(this))
   }
 
-  _post(reqData) {
-    const enctype = (this.enctype || '').toLowerCase();
-    const headers = {};
-    let body;
+  _post (reqData) {
+    const enctype = (this.enctype || '').toLowerCase()
+    const headers = {}
+    let body
 
     if (~enctype.indexOf('application/json')) {
-      headers['content-type'] = this.enctype;
-      body = JSON.stringify(reqData);
-
+      headers['content-type'] = this.enctype
+      body = JSON.stringify(reqData)
     } else if (~enctype.indexOf('application/x-www-form-urlencoded')) {
-      const searchParams = new URLSearchParams();
-      Object.keys(reqData).forEach((key) => searchParams.append(key, reqData[key]));
-      body = searchParams;
-
+      const searchParams = new URLSearchParams()
+      Object.keys(reqData).forEach((key) => searchParams.append(key, reqData[key]))
+      body = searchParams
     } else if (~enctype.indexOf('multipart/form-data')) {
-      const formData = new FormData();
-      Object.keys(reqData).forEach((key) => formData.append(key, reqData[key]));
-      body = formData;
-
+      const formData = new FormData()
+      Object.keys(reqData).forEach((key) => formData.append(key, reqData[key]))
+      body = formData
     } else {
-      throw new TypeError(`Unsupported enctype: ${this.enctype}`);
+      throw new TypeError(`Unsupported enctype: ${this.enctype}`)
     }
 
     this.$.fetch.fetchIt({
       url: this.action,
       method: this.method,
-      credentials: "include",
+      credentials: 'include',
       headers,
       body
     }).then(this._successHandler.bind(this))
       .catch(this._errorHandler.bind(this))
   }
 
-  _successHandler(response) {
-    if(response.ok) {
-      this.dispatchEvent(new CustomEvent("submitted", {
+  _successHandler (response) {
+    if (response.ok) {
+      this.dispatchEvent(new CustomEvent('submitted', {
         bubbles: true,
         composed: true
-      }));
+      }))
     } else {
-      this._errorHandler();
+      this._errorHandler()
     }
   }
 
-  _errorHandler() {
-    this.dispatchEvent(new CustomEvent("error", {
+  _errorHandler () {
+    this.dispatchEvent(new CustomEvent('error', {
       bubbles: true,
-      composed: true,
-    }));
+      composed: true
+    }))
   }
 }
 
-window.customElements.define(IsuForm.is, IsuForm);
+window.customElements.define(IsuForm.is, IsuForm)

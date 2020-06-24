@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import '@polymer/paper-button/paper-button'
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 import { PaperButtonBehavior } from '@polymer/paper-behaviors/paper-button-behavior'
@@ -232,7 +233,7 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
     }
   }
 
-  _permissionChange(permission) {
+  _permissionChange (permission) {
     this.set('hidden', !permission)
   }
 }

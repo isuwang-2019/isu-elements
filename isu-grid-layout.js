@@ -1,9 +1,10 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import './behaviors/isu-elements-shared-styles.js';
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {BaseBehavior} from "./behaviors/base-behavior";
-import '@polymer/iron-icon/iron-icon';
-import '@polymer/iron-icons/iron-icons';
+import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import './behaviors/isu-elements-shared-styles.js'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { BaseBehavior } from './behaviors/base-behavior'
+import '@polymer/iron-icon/iron-icon'
+import '@polymer/iron-icons/iron-icons'
 
 /**
  * `isu-grid-layout`
@@ -71,7 +72,7 @@ import '@polymer/iron-icons/iron-icons';
  * @demo demo/isu-grid-layout/index.html
  */
 class IsuGridLayout extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -135,7 +136,7 @@ class IsuGridLayout extends mixinBehaviors([BaseBehavior], PolymerElement) {
     `
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Number of columns
@@ -198,7 +199,7 @@ class IsuGridLayout extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '__columnsChange(columns)',
       '__columnGapChange(columnGap)',
@@ -207,54 +208,53 @@ class IsuGridLayout extends mixinBehaviors([BaseBehavior], PolymerElement) {
     ]
   }
 
-  __columnsChange(columns) {
+  __columnsChange (columns) {
     if (!this.templateColumns) {
-      this.$['isu-grid-layout'].style['grid-template-columns'] = `repeat(${columns}, 1fr)`;
+      this.$['isu-grid-layout'].style['grid-template-columns'] = `repeat(${columns}, 1fr)`
     }
   }
 
-  __columnGapChange(columnGap) {
-    this.$['isu-grid-layout'].style['grid-column-gap'] = `${columnGap}px`;
+  __columnGapChange (columnGap) {
+    this.$['isu-grid-layout'].style['grid-column-gap'] = `${columnGap}px`
   }
 
-  __rowGapChange(rowGap) {
-    this.$['isu-grid-layout'].style['grid-row-gap'] = `${rowGap}px`;
+  __rowGapChange (rowGap) {
+    this.$['isu-grid-layout'].style['grid-row-gap'] = `${rowGap}px`
   }
 
-  __templateColumnsChange(templateColumns) {
+  __templateColumnsChange (templateColumns) {
     if (this.templateColumns) {
-      this.$['isu-grid-layout'].style['grid-template-columns'] = templateColumns;
+      this.$['isu-grid-layout'].style['grid-template-columns'] = templateColumns
     }
   }
 
-  __handler() {
-    this.opened = !this.opened;
+  __handler () {
+    this.opened = !this.opened
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  connectedCallback () {
+    super.connectedCallback()
     this.$.layout.addEventListener('slotchange', e => {
-      const assignedElements = e.target.assignedElements();
+      const assignedElements = e.target.assignedElements()
 
       assignedElements.filter(_ => _.hasAttribute('layout-colspan')).forEach(item => {
         item.style['grid-column-end'] = `span ${item.getAttribute('layout-colspan')}`
-      });
+      })
 
       assignedElements.filter(_ => _.hasAttribute('layout-rowspan')).forEach(item => {
         item.style['grid-row-end'] = `span ${item.getAttribute('layout-rowspan')}`
-      });
+      })
 
-      const columnSpans = !this.templateColumns ? this.columns : this.templateColumns.split(/\s+/g).length;
+      const columnSpans = !this.templateColumns ? this.columns : this.templateColumns.split(/\s+/g).length
       assignedElements.filter(_ => _.hasAttribute('full-colspan')).forEach(item => {
         item.style['grid-column-end'] = `span ${columnSpans}`
-      });
-
-    });
+      })
+    })
   }
 
-  static get is() {
-    return "isu-grid-layout";
+  static get is () {
+    return 'isu-grid-layout'
   }
 }
 
-window.customElements.define(IsuGridLayout.is, IsuGridLayout);
+window.customElements.define(IsuGridLayout.is, IsuGridLayout)

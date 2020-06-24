@@ -1,13 +1,14 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import '@polymer/iron-icon';
-import '@polymer/iron-icons';
-import '@polymer/paper-checkbox/paper-checkbox';
-import '@polymer/paper-tooltip/paper-tooltip';
+import { html, PolymerElement } from '@polymer/polymer'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import '@polymer/iron-icon'
+import '@polymer/iron-icons'
+import '@polymer/paper-checkbox/paper-checkbox'
+import '@polymer/paper-tooltip/paper-tooltip'
 
-import {BaseBehavior} from "./behaviors/base-behavior";
-import {AjaxBehavior} from "./behaviors/ajax-behavior";
-import './behaviors/isu-elements-shared-styles.js';
+import { BaseBehavior } from './behaviors/base-behavior'
+import { AjaxBehavior } from './behaviors/ajax-behavior'
+import './behaviors/isu-elements-shared-styles.js'
 import './isu-table-column'
 import './isu-table-column-sub'
 
@@ -21,7 +22,7 @@ import './isu-table-column-sub'
  * @demo demo/isu-table/index.html
  */
 class IsuTable extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
       <style include="isu-elements-shared-styles">
       :host {
@@ -549,272 +550,270 @@ class IsuTable extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerEleme
         </div>
       </template>
     </div>
- `;
+ `
   }
 
-  __sortTheColumn({currentTarget: container, model}) {
-    const ASCENDING = 'ascending';
-    const DESCENDING = 'descending';
+  __sortTheColumn ({ currentTarget: container, model }) {
+    const ASCENDING = 'ascending'
+    const DESCENDING = 'descending'
 
-    const sortableContainers = this.shadowRoot.querySelectorAll('.table__sort__icons');
+    const sortableContainers = this.shadowRoot.querySelectorAll('.table__sort__icons')
 
     // clear other sortable states.
     Array.from(sortableContainers).filter(node => node !== container)
-      .forEach(node => node.classList.remove(ASCENDING, DESCENDING));
+      .forEach(node => node.classList.remove(ASCENDING, DESCENDING))
 
-    let direction;
+    let direction
     if (container.classList.contains(ASCENDING)) {
-      container.classList.remove(ASCENDING);
-      container.classList.add(DESCENDING);
-      direction = DESCENDING;
+      container.classList.remove(ASCENDING)
+      container.classList.add(DESCENDING)
+      direction = DESCENDING
     } else if (container.classList.contains(DESCENDING)) {
-      container.classList.remove(DESCENDING);
-      direction = null;
+      container.classList.remove(DESCENDING)
+      direction = null
     } else {
-      container.classList.add(ASCENDING);
-      direction = ASCENDING;
+      container.classList.add(ASCENDING)
+      direction = ASCENDING
     }
 
-    let cmpFn;
-    const cache = this.data.slice();
-    let isNum = cache.every(item => {
+    let cmpFn
+    const cache = this.data.slice()
+    const isNum = cache.every(item => {
       return typeof item[model.column.prop] === 'number'
     })
 
     switch (direction) {
-      case DESCENDING:
-        cmpFn = field => {
-          return isNum ? (a, b) => (b[field] || '') - (a[field] || '') : (a, b) => (b[field] || '').toString().localeCompare((a[field] || '').toString())
-        };
-        break;
-      case ASCENDING:
-        cmpFn = field => {
-          return isNum ? (a, b) => (a[field] || '') - (b[field] || '') : (a, b) => (a[field] || '').toString().localeCompare((b[field] || '').toString())
-        };
-        break;
-      default:
-        cmpFn = () => undefined;
-        break;
+    case DESCENDING:
+      cmpFn = field => {
+        return isNum ? (a, b) => (b[field] || '') - (a[field] || '') : (a, b) => (b[field] || '').toString().localeCompare((a[field] || '').toString())
+      }
+      break
+    case ASCENDING:
+      cmpFn = field => {
+        return isNum ? (a, b) => (a[field] || '') - (b[field] || '') : (a, b) => (a[field] || '').toString().localeCompare((b[field] || '').toString())
+      }
+      break
+    default:
+      cmpFn = () => undefined
+      break
     }
 
-    cache.sort(cmpFn(model.column.prop));
-    this.__tableData = cache;
+    cache.sort(cmpFn(model.column.prop))
+    this.__tableData = cache
   }
 
-  __calColspan(columnInfos = [],sub) {
-    let length = columnInfos.length;
+  __calColspan (columnInfos = [], sub) {
+    let length = columnInfos.length
 
-    if (this.__calShowExpansion(sub) || this.selectable) length += 1;
-    if (this.showIndex) length += 1;
+    if (this.__calShowExpansion(sub) || this.selectable) length += 1
+    if (this.showIndex) length += 1
 
-    return length;
+    return length
   }
 
-  __shareOpenExpanderHandler(icon, rowIndex, target) {
-    this.toggleClass(icon, 'expand-icon_opened');
-    const expansion = this.shadowRoot.querySelector(target).parentElement;
-    this.toggleClass(expansion, 'row__expansion-hidden');
+  __shareOpenExpanderHandler (icon, rowIndex, target) {
+    this.toggleClass(icon, 'expand-icon_opened')
+    const expansion = this.shadowRoot.querySelector(target).parentElement
+    this.toggleClass(expansion, 'row__expansion-hidden')
   }
 
-  __openExpanderHandler(e) {
+  __openExpanderHandler (e) {
     e.stopPropagation()
-    let {path: [icon], model: {rowIndex}} = e
-    this.__shareOpenExpanderHandler(icon, rowIndex, `#row_${rowIndex}`);
+    const { path: [icon], model: { rowIndex } } = e
+    this.__shareOpenExpanderHandler(icon, rowIndex, `#row_${rowIndex}`)
   }
 
-  __operateTableRow({path: [icon], model: {rowIndex}}) {
+  __operateTableRow ({ path: [icon], model: { rowIndex } }) {
     if (this.expandOnClickRow) {
-      const expansion = this.shadowRoot.querySelector(`#row_${rowIndex}`).parentElement;
-      this.toggleClass(expansion, 'row__expansion-hidden');
+      const expansion = this.shadowRoot.querySelector(`#row_${rowIndex}`).parentElement
+      this.toggleClass(expansion, 'row__expansion-hidden')
     }
   }
 
-  __openExpanderHandlerFixed({path: [icon], model: {rowIndex}}) {
-    this.__shareOpenExpanderHandler(icon, rowIndex, `#row_${rowIndex}`);
-    if (this.__tableFixed.length) this.__shareOpenExpanderHandler(icon, rowIndex, `#fixed_row_${rowIndex}`);
-    if (this.__tableFixedRight.length) this.__shareOpenExpanderHandler(icon, rowIndex, `#fixed_right_row_${rowIndex}`);
+  __openExpanderHandlerFixed ({ path: [icon], model: { rowIndex } }) {
+    this.__shareOpenExpanderHandler(icon, rowIndex, `#row_${rowIndex}`)
+    if (this.__tableFixed.length) this.__shareOpenExpanderHandler(icon, rowIndex, `#fixed_row_${rowIndex}`)
+    if (this.__tableFixedRight.length) this.__shareOpenExpanderHandler(icon, rowIndex, `#fixed_right_row_${rowIndex}`)
   }
 
-  __openExpanderHandlerFixedRight({path: [icon], model: {rowIndex}}) {
-    this.__shareOpenExpanderHandler(icon, rowIndex, `#fixed_right_row_${rowIndex}`);
+  __openExpanderHandlerFixedRight ({ path: [icon], model: { rowIndex } }) {
+    this.__shareOpenExpanderHandler(icon, rowIndex, `#fixed_right_row_${rowIndex}`)
   }
 
-  __rowSelecttion({model: {row, rowIndex}}) {
+  __rowSelecttion ({ model: { row, rowIndex } }) {
     if (this.radio) {
-      const findIndex = this.__tableData.findIndex(val => val.__selected);
-      this.__tableData = this.__tableData.map(val => Object.assign({}, val, {__selected: false}));
-      this.set(`__tableData.${rowIndex}.__selected`, findIndex > -1);
+      const findIndex = this.__tableData.findIndex(val => val.__selected)
+      this.__tableData = this.__tableData.map(val => Object.assign({}, val, { __selected: false }))
+      this.set(`__tableData.${rowIndex}.__selected`, findIndex > -1)
     }
-    if (!this.radio) this.__selectedState = this.__tableData.some(d => d.__selected);
-    this.dispatchEvent(new CustomEvent('row-selection-changed', {detail: {row, selected: row.__selected}}));
+    if (!this.radio) this.__selectedState = this.__tableData.some(d => d.__selected)
+    this.dispatchEvent(new CustomEvent('row-selection-changed', { detail: { row, selected: row.__selected } }))
   }
 
-  __rowSelecttionAll() {
+  __rowSelecttionAll () {
     this.__tableData =
-      this.__tableData.map(d => Object.assign({}, d, {__selected: this.__selectedState}));
-    this.dispatchEvent(new CustomEvent('rows-all-selection-changed', {detail: {selectedRows: this.getSelectedRows()}}));
+      this.__tableData.map(d => Object.assign({}, d, { __selected: this.__selectedState }))
+    this.dispatchEvent(new CustomEvent('rows-all-selection-changed', { detail: { selectedRows: this.getSelectedRows() } }))
   }
 
-  __appendTmplContent(targetSelector, model, rowIndex, columnTag) {
-    const parent = this.shadowRoot.querySelector(targetSelector);
-    const {root} = columnTag.stampTemplate(model) || {};
+  __appendTmplContent (targetSelector, model, rowIndex, columnTag) {
+    const parent = this.shadowRoot.querySelector(targetSelector)
+    const { root } = columnTag.stampTemplate(model) || {}
     if (root) {
-      parent.innerHTML = '';
-      parent.appendChild(root);
+      parent.innerHTML = ''
+      parent.appendChild(root)
     }
   }
 
-  __dataChanged(data = []) {
-    this.__tableData = data.slice();
-    this.domReady();
+  __dataChanged (data = []) {
+    this.__tableData = data.slice()
+    this.domReady()
   }
 
-  __calShowExpansion(sub) {
-    return sub!=null && sub!=undefined
+  __calShowExpansion (sub) {
+    return sub != null && sub != undefined
   }
 
-  __calShowSecondChildRow(sub, expandOnClickRow) {
+  __calShowSecondChildRow (sub, expandOnClickRow) {
     return this.__calShowExpansion(sub) || expandOnClickRow
   }
 
-  isDisabledSelection(row) {
-    if(!this.selectionFilter) return false;
-    return this.selectionFilter(row);
+  isDisabledSelection (row) {
+    if (!this.selectionFilter) return false
+    return this.selectionFilter(row)
   }
 
   /**
    * 获取选中的行
    * @return {any}
    */
-  getSelectedRows() {
-    return this.selectable ? (this.__tableData || []).filter(d => d.__selected) : [];
+  getSelectedRows () {
+    return this.selectable ? (this.__tableData || []).filter(d => d.__selected) : []
   }
 
-  shareComputeExpansion(row, rowIndex, targetSelect) {
+  shareComputeExpansion (row, rowIndex, targetSelect) {
     // const [column] = this.columnInfos || [];
     if (this.subElement || this.expandOnClickRow) {
       setTimeout(() => {
         // this.__appendSubTmplContent(targetSelect, row, rowIndex, subElement);
-          const parent = this.shadowRoot.querySelector(targetSelect);
-          const {root} = this.subElement.stampTemplate(row) || {};
-          if (root) {
-              parent.innerHTML = '';
-              parent.appendChild(root);
-          }
-
-      }, 0, this);
+        const parent = this.shadowRoot.querySelector(targetSelect)
+        const { root } = this.subElement.stampTemplate(row) || {}
+        if (root) {
+          parent.innerHTML = ''
+          parent.appendChild(root)
+        }
+      }, 0, this)
     }
   }
 
-  computeExpansion(row, rowIndex) {
-    this.shareComputeExpansion(row, rowIndex, `#row_${rowIndex}`);
+  computeExpansion (row, rowIndex) {
+    this.shareComputeExpansion(row, rowIndex, `#row_${rowIndex}`)
   }
 
-  computeExpansionFixed(row, rowIndex) {
-    this.shareComputeExpansion(row, rowIndex, `#fixed_row_${rowIndex}`);
+  computeExpansionFixed (row, rowIndex) {
+    this.shareComputeExpansion(row, rowIndex, `#fixed_row_${rowIndex}`)
   }
 
-  computeExpansionFixedRight(row, rowIndex) {
-    this.shareComputeExpansion(row, rowIndex, `#fixed_right_row_${rowIndex}`);
+  computeExpansionFixedRight (row, rowIndex) {
+    this.shareComputeExpansion(row, rowIndex, `#fixed_right_row_${rowIndex}`)
   }
 
-  shareComputeContent(row, rowIndex, column, targetSelect) {
+  shareComputeContent (row, rowIndex, column, targetSelect) {
     if (column.tmpl) {
     // && column.type === 'operate'
       setTimeout(() => {
-        this.__appendTmplContent(targetSelect, row, rowIndex, column);
-      }, 0, this);
+        this.__appendTmplContent(targetSelect, row, rowIndex, column)
+      }, 0, this)
 
-      return null;
+      return null
     }
 
     if (column.props) {
-      return column.props.split(",").map(p => this.getValueByKey(row, p.trim())).join(column.separator || ',');
+      return column.props.split(',').map(p => this.getValueByKey(row, p.trim())).join(column.separator || ',')
     }
 
     if (Function.prototype.isPrototypeOf(column.formatter)) {
-      return column.formatter.call(this, this.getValueByKey(row, column.prop, column.defaultValue));
+      return column.formatter.call(this, this.getValueByKey(row, column.prop, column.defaultValue))
     }
 
-    return this.getValueByKey(row, column.prop, column.defaultValue);
+    return this.getValueByKey(row, column.prop, column.defaultValue)
   }
 
-  computeContent(row, rowIndex, column, columnIndex) {
+  computeContent (row, rowIndex, column, columnIndex) {
     return this.shareComputeContent(row, rowIndex, column, `#row_${rowIndex}_column_${columnIndex}`)
   }
 
-  computeContentFixed(row, rowIndex, column, columnIndex) {
-    return this.shareComputeContent(row, rowIndex, column, `#fixed_row_${rowIndex}_column_${columnIndex}`);
+  computeContentFixed (row, rowIndex, column, columnIndex) {
+    return this.shareComputeContent(row, rowIndex, column, `#fixed_row_${rowIndex}_column_${columnIndex}`)
   }
 
-  computeContentFixedRight(row, rowIndex, column, columnIndex) {
-    return this.shareComputeContent(row, rowIndex, column, `#fixed_right_row_${rowIndex}_column_${columnIndex}`);
+  computeContentFixedRight (row, rowIndex, column, columnIndex) {
+    return this.shareComputeContent(row, rowIndex, column, `#fixed_right_row_${rowIndex}_column_${columnIndex}`)
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  connectedCallback () {
+    super.connectedCallback()
     this.$.columnSlot.addEventListener('slotchange', e => {
       const columnInfos = e.target.assignedElements()
-        .filter(_ => _.tagName.toLowerCase() === 'isu-table-column');
-      const __tableFixed = columnInfos.filter(itm => itm.fixed === "");
-      const __tableFixedRight = columnInfos.filter(itm => itm.fixed === "right");
-      const columnInfosSort = __tableFixed.concat(columnInfos.filter(itm => itm.fixed !== '' && itm.fixed !== 'right')).concat(__tableFixedRight);
-      this.set('columnInfos', columnInfosSort);
-      this.set('__tableFixed', __tableFixed);
-      this.set('__tableFixedRight', __tableFixedRight);
+        .filter(_ => _.tagName.toLowerCase() === 'isu-table-column')
+      const __tableFixed = columnInfos.filter(itm => itm.fixed === '')
+      const __tableFixedRight = columnInfos.filter(itm => itm.fixed === 'right')
+      const columnInfosSort = __tableFixed.concat(columnInfos.filter(itm => itm.fixed !== '' && itm.fixed !== 'right')).concat(__tableFixedRight)
+      this.set('columnInfos', columnInfosSort)
+      this.set('__tableFixed', __tableFixed)
+      this.set('__tableFixedRight', __tableFixedRight)
 
-      const tableBodyFixed = this.shadowRoot.querySelector('#tableBodyFixed');
-      const tableBodyFixedRight = this.shadowRoot.querySelector('#tableBodyFixedRight');
+      const tableBodyFixed = this.shadowRoot.querySelector('#tableBodyFixed')
+      const tableBodyFixedRight = this.shadowRoot.querySelector('#tableBodyFixedRight')
 
       this.$.tableBody.addEventListener('scroll', () => {
-        this.$.tableHeader.scrollLeft = this.$.tableBody.scrollLeft;
-        if (tableBodyFixed) tableBodyFixed.scrollTop = this.$.tableBody.scrollTop;
-        if (tableBodyFixedRight) tableBodyFixedRight.scrollTop = this.$.tableBody.scrollTop;
-      });
+        this.$.tableHeader.scrollLeft = this.$.tableBody.scrollLeft
+        if (tableBodyFixed) tableBodyFixed.scrollTop = this.$.tableBody.scrollTop
+        if (tableBodyFixedRight) tableBodyFixedRight.scrollTop = this.$.tableBody.scrollTop
+      })
 
       if (__tableFixed.length > 0) {
         tableBodyFixed && tableBodyFixed.addEventListener('scroll', () => {
-          this.$.tableBody.scrollTop = tableBodyFixed.scrollTop;
-          if (tableBodyFixedRight) tableBodyFixedRight.scrollTop = tableBodyFixed.scrollTop;
-        });
+          this.$.tableBody.scrollTop = tableBodyFixed.scrollTop
+          if (tableBodyFixedRight) tableBodyFixedRight.scrollTop = tableBodyFixed.scrollTop
+        })
       }
 
       if (__tableFixedRight.length > 0) {
         tableBodyFixedRight && tableBodyFixedRight.addEventListener('scroll', () => {
-          this.$.tableBody.scrollTop = tableBodyFixedRight.scrollTop;
-          if (tableBodyFixed) tableBodyFixed.scrollTop = tableBodyFixedRight.scrollTop;
+          this.$.tableBody.scrollTop = tableBodyFixedRight.scrollTop
+          if (tableBodyFixed) tableBodyFixed.scrollTop = tableBodyFixedRight.scrollTop
         })
       }
 
       // 展开模板
-      const subElement = e.target.assignedElements().find(_ => _.tagName.toLowerCase() === 'isu-table-column-sub');
-      this.set('subElement', subElement);
-    });
+      const subElement = e.target.assignedElements().find(_ => _.tagName.toLowerCase() === 'isu-table-column-sub')
+      this.set('subElement', subElement)
+    })
 
     if (this.height) {
       this.set('tableBodyStyle', `overflow: auto; height: ${this.height - 68}px;`)
     }
   }
 
-  domReady() {
+  domReady () {
     // super.ready();
     // 计算固定列总宽度
     setTimeout(() => {
-
       // const tableBodyFixed = this.shadowRoot.querySelector('#tableBodyFixed');
       // const tableBodyFixedRight = this.shadowRoot.querySelector('#tableBodyFixedRight');
 
       if (this.__tableFixed.length > 0) {
-        let width = 0;
+        let width = 0
         for (let i = 0; i < this.__tableFixed.length; i++) {
-          const domItem = this.shadowRoot.querySelector(`#row_0_column_${i}`);
-          width += (domItem && domItem.offsetWidth) || 0;
+          const domItem = this.shadowRoot.querySelector(`#row_0_column_${i}`)
+          width += (domItem && domItem.offsetWidth) || 0
         }
-        if (this.selectable) width += this.shadowRoot.querySelector('#selectable').offsetWidth;
-        if (this.__showExpansion) width += this.shadowRoot.querySelector('#__showExpansion').offsetWidth;
-        if (this.showIndex) width += this.shadowRoot.querySelector('#showIndex').offsetWidth;
-        const tableFixedStyle = `width: ${width}px`;
-        this.set('tableFixedStyle', tableFixedStyle);
+        if (this.selectable) width += this.shadowRoot.querySelector('#selectable').offsetWidth
+        if (this.__showExpansion) width += this.shadowRoot.querySelector('#__showExpansion').offsetWidth
+        if (this.showIndex) width += this.shadowRoot.querySelector('#showIndex').offsetWidth
+        const tableFixedStyle = `width: ${width}px`
+        this.set('tableFixedStyle', tableFixedStyle)
 
         // tableBodyFixed && tableBodyFixed.addEventListener('scroll', () => {
         //   this.$.tableBody.scrollTop = tableBodyFixed.scrollTop;
@@ -822,23 +821,23 @@ class IsuTable extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerEleme
         // });
       }
       if (this.__tableFixedRight.length > 0) {
-        let width = 0;
+        let width = 0
         for (let i = this.columnInfos.length - 1; i > this.columnInfos.length - this.__tableFixedRight.length - 1; i--) {
-          const domItem = this.shadowRoot.querySelector(`#row_0_column_${i}`);
-          width += (domItem && domItem.offsetWidth) || 0;
+          const domItem = this.shadowRoot.querySelector(`#row_0_column_${i}`)
+          width += (domItem && domItem.offsetWidth) || 0
         }
-        const tableFixedRightStyle = `width: ${width}px`;
-        this.set('tableFixedRightStyle', tableFixedRightStyle);
+        const tableFixedRightStyle = `width: ${width}px`
+        this.set('tableFixedRightStyle', tableFixedRightStyle)
 
         // tableBodyFixedRight && tableBodyFixedRight.addEventListener('scroll', () => {
         //   this.$.tableBody.scrollTop = tableBodyFixedRight.scrollTop;
         //   if (tableBodyFixed) tableBodyFixed.scrollTop = tableBodyFixedRight.scrollTop;
         // })
       }
-    }, 10);
+    }, 10)
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        *The data array of the table
@@ -850,7 +849,7 @@ class IsuTable extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerEleme
         type: Array,
         observer: '__dataChanged',
         value: function () {
-          return [];
+          return []
         }
       },
       /**
@@ -1002,20 +1001,20 @@ class IsuTable extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerEleme
         type: Boolean,
         value: false
       },
-       /**
+      /**
         *The column infos of the table
          *
          * @type {array}
          */
-       subElement: {
-           type: Object
-       },
-    };
+      subElement: {
+        type: Object
+      }
+    }
   }
 
-  static get is() {
-    return "isu-table";
+  static get is () {
+    return 'isu-table'
   }
 }
 
-window.customElements.define(IsuTable.is, IsuTable);
+window.customElements.define(IsuTable.is, IsuTable)

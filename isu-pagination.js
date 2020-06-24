@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import '@polymer/iron-icon'
 import '@polymer/iron-icons'
 
@@ -325,8 +326,8 @@ class IsuPagination extends PolymerElement {
     }
   }
 
-  _pageIndexChanged() {
-    this.start = (this.__pageIndex - 1) * this.limit;
+  _pageIndexChanged () {
+    this.start = (this.__pageIndex - 1) * this.limit
   }
 
   _limitChanged (limit, oldLimit) {
