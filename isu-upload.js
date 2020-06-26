@@ -25,7 +25,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
  *
  * Example:
  * ```html
- *
+ *  <isu-upload accept="" multiple src="src" id="upload"></isu-upload>
  * ```
  *
  * @customElement
