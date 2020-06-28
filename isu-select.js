@@ -1,6 +1,5 @@
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 import { html, PolymerElement } from '@polymer/polymer'
-import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
 import '@polymer/iron-icons/social-icons'
@@ -524,6 +523,11 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: true,
         observer: '_permissionChange'
+      },
+      showAll: {
+        type: Boolean,
+        value: true,
+        reflectToAttribute: true
       }
     }
   }
@@ -578,7 +582,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   refreshElemPos () {
-    this.$['select-collapse'].style.top = this.selectedValues.length === 0 ? this.clientHeight + 'px' : (this.clientHeight + 30) + 'px'
+    this.$['select-collapse'].style.top = (this.selectedValues.length === 0 || !this.showAll) ? this.clientHeight + 'px' : (this.clientHeight + 30) + 'px'
     this.$['select-collapse'].style.width = this.$.select__container.clientWidth + 'px'
   }
 
