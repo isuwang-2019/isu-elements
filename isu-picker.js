@@ -751,7 +751,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, '')
     const request = this._mkRequest(queryByKeywordUrl, req)
     try {
-      const data = await this._fetchUtil.fetchIt(request).then(res => res.json())
+      const data = await this._fetchUtil.fetchIt(request).then(res => {
+        return res.text().then(text => {
+          return text ? JSON.parse(text) : {}
+        })
+      })
       const items = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || []
       this.value ? await this._getSelectedForItems(items) : this.items = items
     } catch (error) {
@@ -764,12 +768,20 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const requestObj = this.fetchParam
       const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value ? `${this.value}` : '')
       const request = this._mkRequest(this.queryByValueUrl, req)
-      let data = await this._fetchUtil.fetchIt(request).then(res => res.json())
+      let data = await this._fetchUtil.fetchIt(request).then(res => {
+        return res.text().then(text => {
+          return text ? JSON.parse(text) : {}
+        })
+      })
       const items = itemsArr || []
       if (this.resultPath) {
         data = this.getValueByPath(data, this.resultPath, [])
       }
-      const addItems = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
+      let addItems = []
+      if (JSON.stringify(data) !== '{}') {
+        addItems = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
+      }
+
       this.items = addItems.length > 0 ? items.concat(addItems) : items
     } catch (e) {
       console.error(e)
