@@ -844,8 +844,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.value = this.selectedValues.map(selected => selected[this.attrForValue]).filter(item => item).join(',')
       this.selectedItem = this.selectedValues[this.selectedValues.length - 1]
     } else {
-      this.value = undefined
-      this.selectedItem = undefined
+      this.value = ''
+      this.selectedItem = ''
     }
     if (this.mode === 'text') this.text = this.value && !this.multi ? this.value : this._userInputKeyword
     this.displayCollapse(false)
