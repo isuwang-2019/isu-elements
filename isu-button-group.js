@@ -242,12 +242,32 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       hideItemsOnClick: {
         type: Boolean,
         value: false
+      },
+      /**
+       * Whether to show itself or not
+       */
+      hasShow: {
+        type: String,
+        value: 'true'
       }
     }
   }
 
+  static get observers () {
+    return ['_hasShow(hasShow, items)']
+  }
+
   static get is () {
     return 'isu-button-group'
+  }
+
+  _hasShow (hasShow, items) {
+    let flag = (hasShow === 'true') && items.length > 0
+    if (flag) {
+      // 如果selectItems里面的每一项都是false,那么整个按钮组影藏
+      flag = !items.every(e => ('permission' in e) && !e.permission)
+    }
+    this.style.display = !flag ? 'none' : 'inline-block'
   }
 
   connectedCallback () {
