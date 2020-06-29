@@ -1,7 +1,7 @@
 import { html, PolymerElement } from '@polymer/polymer'
 
 /**
- 
+
  Example:
  ```html
   <isu-progress percentage="50" show-text></isu-progress>

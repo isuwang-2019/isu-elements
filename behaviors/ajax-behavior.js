@@ -1,5 +1,5 @@
-import {BaseBehavior} from "./base-behavior";
-import {TipBehavior} from "./tip-behavior"
+import { BaseBehavior } from './base-behavior'
+import { TipBehavior } from './tip-behavior'
 /**
  *  @polymerBehavior
  */
@@ -37,31 +37,26 @@ const AjaxBehaviorImpl = {
    *
    * @param input
    * @param loadConfig => default: { showLoading: true, type: 'loading' }
-   * @returns {*}
+   * @return {*}
    */
-  query(input, loadConfig = { showLoading: true, type: 'loading'}) {
-    let url,
-      data = {},
-      handleAs = 'json';
+  query (input, loadConfig = { showLoading: true, type: 'loading' }) {
+    let url
+    let data = {}
+    let handleAs = 'json'
 
     if (Request.prototype.isPrototypeOf(input)) {
-
-      return this.__fetch(handleAs, input, loadConfig);
-
+      return this.__fetch(handleAs, input, loadConfig)
     } else if (Object.prototype.isPrototypeOf(input)) {
-
       ({
-        url = this.throwNotFoundError("url"),
+        url = this.throwNotFoundError('url'),
         data = {},
-        handleAs = "json"
-      } = input);
-
+        handleAs = 'json'
+      } = input)
     } else {
-      url = String(input);
+      url = String(input)
     }
 
-    return this.__get(handleAs, {url, data}, loadConfig);
-
+    return this.__get(handleAs, { url, data }, loadConfig)
   },
 
   /**
@@ -111,31 +106,26 @@ const AjaxBehaviorImpl = {
    * @param loadConfig
    * @return {*}
    */
-  post(input, loadConfig = { showLoading: true, type: 'loading'}) {
-
-    let url,
-      data = {},
-      handleAs = 'json',
-      sendAsJson = false;
+  post (input, loadConfig = { showLoading: true, type: 'loading' }) {
+    let url
+    let data = {}
+    let handleAs = 'json'
+    let sendAsJson = false
 
     if (Request.prototype.isPrototypeOf(input)) {
-
-      return this.__fetch(handleAs, input, loadConfig);
-
+      return this.__fetch(handleAs, input, loadConfig)
     } else if (Object.prototype.isPrototypeOf(input)) {
-
       ({
-        url = this.throwNotFoundError("url"),
+        url = this.throwNotFoundError('url'),
         data = {},
-        handleAs = "json",
-        sendAsJson = false,
-      } = input);
-
+        handleAs = 'json',
+        sendAsJson = false
+      } = input)
     } else {
-      url = String(input);
+      url = String(input)
     }
 
-    return this.__post(handleAs, {url, data, sendAsJson}, loadConfig);
+    return this.__post(handleAs, { url, data, sendAsJson }, loadConfig)
   },
 
   /**
@@ -171,81 +161,73 @@ const AjaxBehaviorImpl = {
    * @param loadConfig => default: { showLoading: true, type: 'loading' }
    * @return
    */
-  delete(input, loadConfig = { showLoading: true, type: 'loading'}) {
-    let url,
-      data = {},
-      handleAs = 'json';
+  delete (input, loadConfig = { showLoading: true, type: 'loading' }) {
+    let url
+    let data = {}
+    let handleAs = 'json'
 
     if (Request.prototype.isPrototypeOf(input)) {
-
-      return this.__fetch(handleAs, input, loadConfig);
-
+      return this.__fetch(handleAs, input, loadConfig)
     } else if (Object.prototype.isPrototypeOf(input)) {
-
       ({
-        url = this.throwNotFoundError("url"),
+        url = this.throwNotFoundError('url'),
         data = {},
-        handleAs = "json"
-      } = input);
-
+        handleAs = 'json'
+      } = input)
     } else {
-      url = String(input);
+      url = String(input)
     }
 
-    return this.__delete(handleAs, {url, data}, loadConfig);
-
+    return this.__delete(handleAs, { url, data }, loadConfig)
   },
 
-
-  __get(handleAs, {url, data}, loadConfig) {
-
-    const reqUrl = new URL(window.location.origin + url);
-    Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]));
+  __get (handleAs, { url, data }, loadConfig) {
+    const reqUrl = new URL(window.location.origin + url)
+    Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]))
 
     const req = new Request(reqUrl, {
-      method: "GET",
-      credentials: "include"
-    });
+      method: 'GET',
+      credentials: 'include'
+    })
 
-    return this.__fetch(handleAs, req, loadConfig);
+    return this.__fetch(handleAs, req, loadConfig)
   },
 
-  __post(handleAs, {url, data, sendAsJson}, loadConfig) {
-    let body, headers;
+  __post (handleAs, { url, data, sendAsJson }, loadConfig) {
+    let body, headers
     if (sendAsJson) {
       headers = {
         'content-type': 'application/json;charset=utf-8'
-      };
-      body = JSON.stringify(data);
+      }
+      body = JSON.stringify(data)
     } else if (data instanceof FormData) {
-      body = data;
+      body = data
     } else {
-      const searchParams = new URLSearchParams();
-      Object.keys(data).forEach((key) => searchParams.append(key, data[key]));
-      body = searchParams;
+      const searchParams = new URLSearchParams()
+      Object.keys(data).forEach((key) => searchParams.append(key, data[key]))
+      body = searchParams
     }
 
     const req = new Request(url, {
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include',
       headers,
       body
-    });
+    })
 
-    return this.__fetch(handleAs, req, loadConfig);
+    return this.__fetch(handleAs, req, loadConfig)
   },
 
-  __delete(handleAs, {url, data}, loadConfig) {
-
-    const reqUrl = new URL(window.location.origin + url);
-    Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]));
+  __delete (handleAs, { url, data }, loadConfig) {
+    const reqUrl = new URL(window.location.origin + url)
+    Object.keys(data).filter(key => data[key] != undefined).forEach((key) => reqUrl.searchParams.append(key, data[key]))
 
     const req = new Request(reqUrl, {
-      method: "DELETE",
-      credentials: "include"
-    });
+      method: 'DELETE',
+      credentials: 'include'
+    })
 
-    return this.__fetch(handleAs, req, loadConfig);
+    return this.__fetch(handleAs, req, loadConfig)
   },
 
   /**
@@ -259,65 +241,64 @@ const AjaxBehaviorImpl = {
    * @param loadConfig => default: { showLoading: true, type: 'loading' }
    * @private
    */
-  async __fetch(handleAs, request, loadConfig = {showLoading: true, type: 'loading'}) {
+  async __fetch (handleAs, request, loadConfig = { showLoading: true, type: 'loading' }) {
     try {
-      this.showLoadingByStatus(loadConfig);
+      this.showLoadingByStatus(loadConfig)
       const response = await window.fetch(request)
-      this.hideLoadingByStatus(loadConfig);
-      if(response.ok) {
-        if (response.headers.has('Content-length')
-          && Number(response.headers.get('Content-length')) === 0) {
+      this.hideLoadingByStatus(loadConfig)
+      if (response.ok) {
+        if (response.headers.has('Content-length') &&
+          Number(response.headers.get('Content-length')) === 0) {
           return Promise.resolve()
         } else {
-          return response[handleAs]();
+          return response[handleAs]()
         }
       } else {
         const err = await response.text()
-        throw err;
+        throw err
       }
-    }catch (e) {
-      this.hideLoadingByStatus(loadConfig);
+    } catch (e) {
+      this.hideLoadingByStatus(loadConfig)
       this.isuTip.error(e)
       return await Promise.reject(e)
     }
-
   },
 
   /**
    * 根据参数设置隐藏loading的方式
    */
-  hideLoadingByStatus({showLoading, type}) {
-    if(!showLoading) return
+  hideLoadingByStatus ({ showLoading, type }) {
+    if (!showLoading) return
     switch (type) {
-      case 'loading':
-        this.hideLoading();
-        break;
-      case 'nprogress':
-        this.hideNprogress();
-        break;
-      default:
-        this.hideLoading();
-        break;
+    case 'loading':
+      this.hideLoading()
+      break
+    case 'nprogress':
+      this.hideNprogress()
+      break
+    default:
+      this.hideLoading()
+      break
     }
   },
 
   /**
    * 根据参数设置显示loading的方式
    */
-  showLoadingByStatus({showLoading, type}) {
-    if(!showLoading) return
+  showLoadingByStatus ({ showLoading, type }) {
+    if (!showLoading) return
     switch (type) {
-      case 'loading':
-        this.showLoading();
-        break;
-      case 'nprogress':
-        this.showNprogress()
-        break;
-      default:
-        this.showLoading();
-        break;
+    case 'loading':
+      this.showLoading()
+      break
+    case 'nprogress':
+      this.showNprogress()
+      break
+    default:
+      this.showLoading()
+      break
     }
   }
-};
+}
 
-export const AjaxBehavior = [BaseBehavior, TipBehavior, AjaxBehaviorImpl];
+export const AjaxBehavior = [BaseBehavior, TipBehavior, AjaxBehaviorImpl]

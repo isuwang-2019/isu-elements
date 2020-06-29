@@ -1,9 +1,10 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import '@polymer/iron-icon';
-import '@polymer/iron-icons/social-icons';
-import './behaviors/isu-elements-shared-styles.js';
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {BaseBehavior} from "./behaviors/base-behavior";
+import { html, PolymerElement } from '@polymer/polymer'
+import '@polymer/iron-icon'
+import '@polymer/iron-icons/social-icons'
+import './behaviors/isu-elements-shared-styles.js'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import { BaseBehavior } from './behaviors/base-behavior'
 /**
  * `isu-textarea`
  *
@@ -22,6 +23,7 @@ import {BaseBehavior} from "./behaviors/base-behavior";
  * |----------------|-------------|----------|
  * |`--isu-textarea` | Mixin applied to the textarea | {}
  * |`--isu-textarea-placeholder` | Mixin applied to placeholder of the textarea | {}
+ * |`--isu-view-text` | Mixin applied to the text when the readonly and is-view is true | {}
  *
  * @customElement
  * @polymer
@@ -29,7 +31,7 @@ import {BaseBehavior} from "./behaviors/base-behavior";
  *
  */
 class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
       <style include="isu-elements-shared-styles">
         :host {
@@ -38,7 +40,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
           width: var(--isu-textarea-width, 400px);
-          height: 68px;
+          /*height: 68px;*/
           position: relative;
           background: white;
         }
@@ -91,6 +93,10 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           color: #999;
           @apply --isu-textarea-placeholder;
         }
+        
+       .view-text {
+         @apply --isu-textarea-view-text
+       }
   
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
@@ -109,10 +115,15 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           [[prompt]]
         </div>
       </div>
-`;
+      <template is="dom-if" if="[[_isView(isView, readonly)]]">
+        <div class="view-text">
+           <span>[[value]]</span>
+        </div>
+     </template>
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The value of the textarea.
@@ -193,7 +204,8 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
        * @type {boolean}
        */
       required: {
-        type: Boolean
+        type: Boolean,
+        reflectToAttribute: true
       },
 
       /**
@@ -234,62 +246,73 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
         type: String,
         value: ''
       },
-    };
+      /**
+       * The text mode display requires readonly=true to take effect
+       * @type {boolean}
+       * @default false
+       * */
+      isView: {
+        type: Boolean,
+        value: false
+      }
+    }
   }
 
-  static get is() {
-    return "isu-textarea";
+  static get is () {
+    return 'isu-textarea'
   }
-  static get observers() {
+
+  static get observers () {
     return [
       '__refreshUIState(required)',
-      '__refreshUIState(value)'
-    ];
+      '__refreshUIState(value)',
+      '__isViewChanged(isView,readonly)'
+    ]
   }
 
   /**
    * Returns the underlying textarea.
    * @type HTMLTextAreaElement
    */
-  get textarea() {
-    return this.$.textarea;
+  get textarea () {
+    return this.$.textarea
   }
 
   /**
    * Returns textarea's selection start.
    * @type Number
    */
-  get selectionStart() {
-    return this.$.textarea.selectionStart;
+  get selectionStart () {
+    return this.$.textarea.selectionStart
   }
 
   /**
    * Returns textarea's selection end.
    * @type Number
    */
-  get selectionEnd() {
-    return this.$.textarea.selectionEnd;
+  get selectionEnd () {
+    return this.$.textarea.selectionEnd
   }
 
   /**
    * Sets the textarea's selection start.
    */
-  set selectionStart(value) {
-    this.$.textarea.selectionStart = value;
+  set selectionStart (value) {
+    this.$.textarea.selectionStart = value
   }
 
   /**
    * Sets the textarea's selection end.
    */
-  set selectionEnd(value) {
-    this.$.textarea.selectionEnd = value;
+  set selectionEnd (value) {
+    this.$.textarea.selectionEnd = value
   }
 
-  __refreshUIState() {
+  __refreshUIState () {
     if (!this.validate()) {
-      this.setAttribute("data-invalid", "");
+      this.setAttribute('data-invalid', '')
     } else {
-      this.removeAttribute("data-invalid");
+      this.removeAttribute('data-invalid')
     }
   }
 
@@ -298,16 +321,24 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
    *
    * @return {boolean} True if the value is valid.
    */
-  validate() {
-    return this.$.textarea.validity.valid;
+  validate () {
+    return this.$.textarea.validity.valid
+  }
+
+  __isViewChanged (isView, readonly) {
+    this.$['textarea-wrapper'].style.display = (this.readonly && isView) ? 'none' : 'flex'
+  }
+
+  _isView (isView, readonly) {
+    return isView && readonly
   }
 
   /**
    * Set focus to textarea.
    */
-  doFocus() {
-    this.$.textarea.focus();
+  doFocus () {
+    this.$.textarea.focus()
   }
 }
 
-window.customElements.define(IsuTextarea.is, IsuTextarea);
+window.customElements.define(IsuTextarea.is, IsuTextarea)

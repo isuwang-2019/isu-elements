@@ -26,67 +26,66 @@ export const TipBehavior = {
      * @param {string|object} msgObj
      * @param {number=1500} duration
      */
-    success(msgObj, duration = 1500) {
-      this.tip({msgObj, duration, type: 'success'});
+    success (msgObj, duration = 1500) {
+      this.tip({ msgObj, duration, type: 'success' })
     },
-    
+
     /**
      * 警告提示框
      * @param {string|object} msgObj
      * @param {number=5000} duration
      */
-    warn(msgObj, duration = 5000) {
-      this.tip({msgObj, duration, type: 'warn'});
+    warn (msgObj, duration = 5000) {
+      this.tip({ msgObj, duration, type: 'warn' })
     },
-    
+
     /**
      * 错误提示框
      * @param {string|object} msgObj
      * @param {number=600000} duration
      */
-    error(msgObj, duration = 5000) {
-      this.tip({msgObj, duration, type: 'error'});
+    error (msgObj, duration = 5000) {
+      this.tip({ msgObj, duration, type: 'error' })
     },
-    
+
     /**
      * 确认提示框
-     * @param {string|object} msgObj
+     * @param {string|Object} msgObj
      * @param {function} confirmCallback
      * @param {function} cancelCallback
      */
-    confirm(msgObj, confirmCallback, cancelCallback) {
-      this.tip({msgObj, type: 'confirm', confirmCallback, cancelCallback});
+    confirm (msgObj, confirmCallback, cancelCallback) {
+      this.tip({ msgObj, type: 'confirm', confirmCallback, cancelCallback })
     },
-    
-    
+
     /**
      * 确认提示框（带备注）
-     * @param {string|object} msgObj
+     * @param {string|Object} msgObj
      * @param {function} confirmCallback
      * @param {function} cancelCallback
      */
-    prompt(msgObj, confirmCallback, cancelCallback) {
-      this.tip({msgObj, type: 'prompt', confirmCallback, cancelCallback});
+    prompt (msgObj, confirmCallback, cancelCallback) {
+      this.tip({ msgObj, type: 'prompt', confirmCallback, cancelCallback })
     },
-    
+
     /**
      * @param {{msgObj:string|object, type:string, duration:number = 0, confirmCallback:function, cancelCallback:function}}
      */
-    tip({msgObj, type, duration = 0, confirmCallback, cancelCallback}) {
-      
-      let {message, title, width, height, cancelBtnLabel, confirmBtnLabel} = (typeof msgObj === 'object') ? msgObj : {message: msgObj};
-      
-      const tip = document.createElement('isu-tip');
-      tip.setAttribute('type', type);
-      tip.message = message;
-      tip.title = title;
-      tip.width = width;
-      tip.height = height;
-      tip.duration = duration;
-      tip.autoDetach = true;
-      tip.config = {cancelBtnLabel, confirmBtnLabel, title};
-      document.body.appendChild(tip);
-      tip.open(confirmCallback, cancelCallback);
+    tip ({ msgObj, type, duration = 0, confirmCallback, cancelCallback }) {
+      const { message, title, width, height, cancelBtnLabel, confirmBtnLabel, cancelBtnType, confirmBtnType, center } = (typeof msgObj === 'object') ? msgObj : { message: msgObj }
+
+      const tip = document.createElement('isu-tip')
+      tip.setAttribute('type', type)
+      tip.message = message
+      tip.title = title
+      tip.width = width
+      tip.height = height
+      tip.duration = duration
+      tip.autoDetach = true
+      tip.center = center
+      tip.config = { cancelBtnLabel, confirmBtnLabel, title, cancelBtnType, confirmBtnType }
+      document.body.appendChild(tip)
+      tip.open(confirmCallback, cancelCallback)
     }
   }
-};
+}

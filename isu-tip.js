@@ -1,11 +1,12 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {BaseBehavior} from "./behaviors/base-behavior";
-import '@polymer/iron-icons';
-import '@polymer/iron-icon';
-import './behaviors/isu-elements-shared-styles';
-import './isu-button.js';
-import './isu-input.js';
+import { html, PolymerElement } from '@polymer/polymer'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import { BaseBehavior } from './behaviors/base-behavior'
+import '@polymer/iron-icons'
+import '@polymer/iron-icon'
+import './behaviors/isu-elements-shared-styles'
+import './isu-button.js'
+import './isu-input.js'
 import './isu-dialog.js'
 /**
  * `isu-tip`
@@ -26,7 +27,7 @@ import './isu-dialog.js'
  * @demo demo/isu-tip/index.html
  */
 class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -58,6 +59,7 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
         display: flex;
         flex-flow: row nowrap;
         flex: 1;
+        padding: 0 4px;
       }
 
       :host([type=warn]) #tip {
@@ -148,25 +150,25 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </div>
       <isu-input id="remark-input" value="{{ remark }}"></isu-input>
       <div id="operate-panel">
-        <isu-button on-click="_cancel" type="warning" size="small">[[orElse(config.cancelBtnLabel, '取消')]]</isu-button>
-        <isu-button on-click="_confirm" size="small">[[orElse(config.confirmBtnLabel, '确定')]]</isu-button>
+        <isu-button on-click="_confirm" type="[[orElse(config.confirmBtnType, 'primary')]]" size="small">[[orElse(config.confirmBtnLabel, '确定')]]</isu-button>
+        <isu-button on-click="_cancel" type="[[orElse(config.cancelBtnType, 'default')]]" size="small">[[orElse(config.cancelBtnLabel, '取消')]]</isu-button>
       </div>
     </isu-dialog>
-`;
+`
   }
 
-  static get is() {
-    return "isu-tip";
+  static get is () {
+    return 'isu-tip'
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Message of the tip.
        * @type {string}
        */
       message: {
-        type: String,
+        type: String
       },
       /**
        * Tip type [success | warn | error | confirm | prompt]
@@ -248,14 +250,14 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String
       },
       /**
-       * Custom configuration.eg: {"title":"Notice!!!", "cancelBtnLabel": "NO", "confirmBtnLabel": "YES"}
+       * Custom configuration.eg: {"title":"Notice!!!", "cancelBtnLabel": "NO", "confirmBtnLabel": "YES", "cancelBtnType": "warning", "confirmBtnType": "default"}
        *
        * @type {string}
        */
       config: {
         type: Object,
-        value: function() {
-          return {};
+        value: function () {
+          return {}
         }
       },
       /**
@@ -265,43 +267,55 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * */
       iconClass: {
         type: String
+      },
+      /**
+       * Whether the tip content is centered or not
+       *
+       * @type {boolean}
+       * @default false
+       * */
+      center: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
       }
 
-    };
+    }
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '__sizeChanged(width, "width")',
       '__sizeChanged(height, "height")',
       '__messageChanged(message)'
-    ];
+    ]
   }
 
-  __sizeChanged(size, sizeAttr) {
-    if(size) {
-      this.$.dialog.updateStyles({["--isu-dialog-" + sizeAttr]: size});
+  __sizeChanged (size, sizeAttr) {
+    if (size) {
+      this.$.dialog.updateStyles({ ['--isu-dialog-' + sizeAttr]: size })
     }
   }
 
-  __messageChanged(message) {
-    this.$.messageContainer.innerHTML = message;
+  __messageChanged (message) {
+    this.$.messageContainer.innerHTML = message
   }
+
   /**
    * Cancel handler
    */
-  _cancel() {
-    this.close();
-    this.isFunction(this._cancelCallback) && this._cancelCallback();
+  _cancel () {
+    this.close()
+    this.isFunction(this._cancelCallback) && this._cancelCallback()
   }
 
   /**
    * Confirm handler
    */
-  _confirm() {
-    this.close();
-    const cbParam = this.type === 'prompt' ? {remark: this.remark} : null;
-    this.isFunction(this._confirmCallback) && this._confirmCallback(cbParam);
+  _confirm () {
+    this.close()
+    const cbParam = this.type === 'prompt' ? { remark: this.remark } : null
+    this.isFunction(this._confirmCallback) && this._confirmCallback(cbParam)
   }
 
   /**
@@ -314,24 +328,24 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
    *   - open(confirmCallback, cancelCallback)
    * @param args
    */
-  open(...args) {
-    let confirmCallback, cancelCallback, duration = this.duration;
+  open (...args) {
+    let confirmCallback; let cancelCallback; let duration = this.duration
     if (args.length > 0 && typeof args[0] === 'function') {
-      confirmCallback = args.shift();
+      confirmCallback = args.shift()
     }
 
     if (args.length > 0 && typeof args[0] === 'function') {
-      cancelCallback = args.shift();
+      cancelCallback = args.shift()
     }
 
     if (args.length > 0 && (typeof args[0] === 'number' || typeof args[0] === 'string')) {
-      duration = Number(args[0]);
+      duration = Number(args[0])
     }
 
-    this._confirmCallback = confirmCallback;
-    this._cancelCallback = cancelCallback;
+    this._confirmCallback = confirmCallback
+    this._cancelCallback = cancelCallback
 
-    this.$.dialog.open();
+    this.$.dialog.open()
 
     if (this.type !== 'confirm' && this.type !== 'prompt') {
       if (!this.noDuration) {
@@ -339,19 +353,18 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
           this.close()
         }, duration)
       }
-
     }
   }
 
   /**
    * Hide the tip.
    */
-  close() {
-    this.$.dialog.close();
+  close () {
+    this.$.dialog.close()
     if (this.autoDetach && this.parentElement && this.parentElement.removeChild) {
-      this.parentElement.removeChild(this);
+      this.parentElement.removeChild(this)
     }
   }
 }
 
-window.customElements.define(IsuTip.is, IsuTip);
+window.customElements.define(IsuTip.is, IsuTip)

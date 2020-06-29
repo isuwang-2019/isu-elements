@@ -1,12 +1,13 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import '@polymer/iron-icon';
-import '@polymer/iron-icons';
-import '@polymer/paper-dialog';
-import {IsuFetch} from './isu-fetch';
+import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@polymer/iron-icon'
+import '@polymer/iron-icons'
+import '@polymer/paper-dialog'
+import { IsuFetch } from './isu-fetch'
 
-import {BaseBehavior} from "./behaviors/base-behavior";
-import './behaviors/isu-elements-shared-styles.js';
+import { BaseBehavior } from './behaviors/base-behavior'
+import './behaviors/isu-elements-shared-styles.js'
 
 /**
  * `isu-cascading`
@@ -21,7 +22,7 @@ import './behaviors/isu-elements-shared-styles.js';
  * @demo demo/isu-cascading/index.html
  */
 class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
       <style include="isu-elements-shared-styles">
         :host {
@@ -154,6 +155,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
           position: absolute;
           left: -10px;
           line-height: inherit;
+          @apply --isu-required
         }
         
         :host([data-invalid]) .cascading__container {
@@ -232,10 +234,10 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </div>
          </div>
       </div>
-    `;
+    `
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Label of the cascading element
@@ -284,7 +286,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Object,
         readOnly: true,
         value: function () {
-          return new IsuFetch();
+          return new IsuFetch()
         }
       },
       /**
@@ -338,7 +340,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForValue: {
         type: String,
-        value: "value"
+        value: 'value'
       },
       /**
        * The prompt tip to show when input is invalid.
@@ -365,7 +367,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForLabel: {
         type: String,
-        value: "label"
+        value: 'label'
       },
       /**
        *
@@ -387,7 +389,8 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        *
@@ -398,7 +401,8 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        *
@@ -468,133 +472,133 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Object,
         notify: true
       }
-    };
+    }
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '__itemsChanged(items)',
       '__valueChanged(value)',
       '__treeItemsChanged(treeItems)',
       '__srcChanged(src)'
-    ];
+    ]
   }
 
-  __itemsChanged() {
-    if (this.items.length) this.set('treeItems', [this.items]);
+  __itemsChanged () {
+    if (this.items.length) this.set('treeItems', [this.items])
   }
 
-  __valueChanged(value) {
+  __valueChanged (value) {
     this.getInvalidAttribute()
 
     if (this.treeItems && this.treeItems.length && !this.lazy && value) {
-      let treeItems = [].concat(this.treeItems), selectedValues = []
+      const treeItems = [].concat(this.treeItems); const selectedValues = []
       value.forEach((item, index) => {
-        const findIndex = treeItems[index].findIndex(itm => itm[this.attrForValue] === item);
-        treeItems[index][findIndex].__select = true;
-        selectedValues.push(treeItems[index][findIndex]);
-        if (treeItems[index][findIndex].children) treeItems.push(treeItems[index][findIndex].children);
-      });
-      this.set('selectedValues', selectedValues);
-      this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator));
-      this.set('treeItems', treeItems);
-      let lastLevelValue = (selectedValues.length > 0 && selectedValues[selectedValues.length-1][this.attrForLabel]) || ''
+        const findIndex = treeItems[index].findIndex(itm => itm[this.attrForValue] === item)
+        treeItems[index][findIndex].__select = true
+        selectedValues.push(treeItems[index][findIndex])
+        if (treeItems[index][findIndex].children) treeItems.push(treeItems[index][findIndex].children)
+      })
+      this.set('selectedValues', selectedValues)
+      this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator))
+      this.set('treeItems', treeItems)
+      const lastLevelValue = (selectedValues.length > 0 && selectedValues[selectedValues.length - 1][this.attrForLabel]) || ''
       this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
       this.$.placeholder.hidden = lastLevelValue
     }
   }
 
-  __treeItemsChanged(treeItems) {
+  __treeItemsChanged (treeItems) {
     if (treeItems && treeItems.length && this.lazy && this.value) {
-      let selectedValues = [];
+      const selectedValues = []
       this.value.forEach((item, index) => {
-        const findIndex = treeItems[index].findIndex(itm => itm[this.attrForValue] === item);
+        const findIndex = treeItems[index].findIndex(itm => itm[this.attrForValue] === item)
         if (treeItems[index] && treeItems[index].length && findIndex >= 0) {
-          treeItems[index][findIndex].__select = true;
-          selectedValues.push(treeItems[index][findIndex]);
+          treeItems[index][findIndex].__select = true
+          selectedValues.push(treeItems[index][findIndex])
         }
-      });
-      this.set('selectedValues', selectedValues);
-      this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator));
-      this.set('treeItems', treeItems);
-      let lastLevelValue = selectedValues.length && selectedValues[selectedValues.length-1][this.attrForLabel]
+      })
+      this.set('selectedValues', selectedValues)
+      this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator))
+      this.set('treeItems', treeItems)
+      const lastLevelValue = selectedValues.length && selectedValues[selectedValues.length - 1][this.attrForLabel]
       this.$.placeholder.hidden = lastLevelValue
       this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
     }
   }
 
-  _mkRequest(data, src) {
+  _mkRequest (data, src) {
     return {
       url: src,
-      method: "POST",
+      method: 'POST',
       headers: {
-        "content-type": "application/json;charset=utf-8",
-        "Cache-Control": "no-cache"
+        'content-type': 'application/json;charset=utf-8',
+        'Cache-Control': 'no-cache'
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify(data)
-    };
+    }
   }
 
-  __srcChanged(src) {
-    if (!src) return;
-    const request = this._mkRequest(this.fetchParam, src);
+  __srcChanged (src) {
+    if (!src) return
+    const request = this._mkRequest(this.fetchParam, src)
     this._fetchUtil.fetchIt(request)
       .then(res => res.json())
       .then(data => {
-        let items;
+        let items
         if (this.resultPath) {
-          items = this.getValueByPath(data, this.resultPath, []);
+          items = this.getValueByPath(data, this.resultPath, [])
         } else {
-          items = data || [];
+          items = data || []
         }
-        let findIndex = items.findIndex(item => item[this.attrForValue] == this.value);
+        const findIndex = items.findIndex(item => item[this.attrForValue] == this.value)
         if (findIndex >= 0) {
-          items = [items[findIndex]].concat(items);
-          items.splice(findIndex + 1, 1);
+          items = [items[findIndex]].concat(items)
+          items.splice(findIndex + 1, 1)
         }
-        this.items = items;
+        this.items = items
       })
-      .catch(console.error);
+      .catch(console.error)
   }
 
-  __setViewClass(select) {
+  __setViewClass (select) {
     return select ? 'view-item-active' : ''
   }
 
-  __onInputClick() {
-    this.opened = !this.opened;
-    this.$.boxDialog.positionTarget = this.$.targetDialog;
-    this.opened ? this.$.boxDialog.open() : this.$.boxDialog.close();
+  __onInputClick () {
+    this.opened = !this.opened
+    this.$.boxDialog.positionTarget = this.$.targetDialog
+    this.opened ? this.$.boxDialog.open() : this.$.boxDialog.close()
   }
 
-  __cancelClick() {
-    this.opened = !this.opened;
+  __cancelClick () {
+    this.opened = !this.opened
   }
 
-  __viewItemClick(e) {
+  __viewItemClick (e) {
     // 解决外部动态插入数据时loading的显示问题
-    if(this.isDynamicAppendData) {
+    if (this.isDynamicAppendData) {
       this.showLoading(parentElement)
     }
 
-    const {model} = e
-    const {index, item, parentModel} = model;
-    let treeItems = this.treeItems.slice(0, parentModel.treeIndex + 1);
-    const treeItem = parentModel.tree.map((itm, idx) => Object.assign({}, itm, {__select: idx === index}));
-    treeItems[parentModel.treeIndex] = treeItem;
+    const { model } = e
+    const { index, item, parentModel } = model
+    const treeItems = this.treeItems.slice(0, parentModel.treeIndex + 1)
+    const treeItem = parentModel.tree.map((itm, idx) => Object.assign({}, itm, { __select: idx === index }))
+    treeItems[parentModel.treeIndex] = treeItem
     if (item.children) {
-      parentModel.treeIndex + 1 >= this.treeItems.length ? treeItems.push(item.children) : treeItems.splice(parentModel.treeIndex + 1, 1, item.children);
+      parentModel.treeIndex + 1 >= this.treeItems.length ? treeItems.push(item.children) : treeItems.splice(parentModel.treeIndex + 1, 1, item.children)
     }
-    let selectedValues = this.selectedValues.slice(0, parentModel.treeIndex + 1);
-    selectedValues[parentModel.treeIndex] = item;
-    this.set('selectedValues', selectedValues);
+    const selectedValues = this.selectedValues.slice(0, parentModel.treeIndex + 1)
+    selectedValues[parentModel.treeIndex] = item
+    this.set('selectedValues', selectedValues)
     if (!item.children) {
-      this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator));
-      this.set('value', selectedValues.map(itm => itm[this.attrForValue]));
+      this.set('valueLabel', selectedValues.map(itm => itm[this.attrForLabel]).join(this.separator))
+      this.set('value', selectedValues.map(itm => itm[this.attrForValue]))
     }
-    this.set('treeItems', treeItems);
-    let lastLevelValue = selectedValues.length && selectedValues[selectedValues.length-1][this.attrForLabel]
+    this.set('treeItems', treeItems)
+    const lastLevelValue = selectedValues.length && selectedValues[selectedValues.length - 1][this.attrForLabel]
     this.$.placeholder.hidden = lastLevelValue
     this.showLabel = this.showAllLevels ? this.valueLabel : lastLevelValue
     // 解决外部动态插入数据时loading的隐藏问题
@@ -605,17 +609,18 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.__getInnerDynamicAppendData(parentElement)
     }
   }
+
   /**
    * 内部动态获取数据
    * */
-  __getInnerDynamicAppendData(element) {
+  __getInnerDynamicAppendData (element) {
     const self = this
     self.showLoading(element)
-    const requestObj = self.fetchParam;
-    const req = self.setValueByPath(self.mkObject(self.keywordPath, requestObj), self.keywordPath, self.value[self.value.length-1] + '');
+    const requestObj = self.fetchParam
+    const req = self.setValueByPath(self.mkObject(self.keywordPath, requestObj), self.keywordPath, self.value[self.value.length - 1] + '')
     // 拼接url，参数名从外界传入，参数值为当前value数组中的最后一个值
-    const src = `${self.src}?${self.keywordPath}=${self.value[self.value.length-1]}`
-    const request = self._mkRequest(req, src);
+    const src = `${self.src}?${self.keywordPath}=${self.value[self.value.length - 1]}`
+    const request = self._mkRequest(req, src)
     self._fetchUtil.fetchIt(request)
       .then(res => res.json())
       .then(data => {
@@ -629,20 +634,20 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .catch(e => {
         console.error
         self.hideLoading(element)
-      });
+      })
   }
 
-  close() {
+  close () {
     this.$.boxDialog.close()
   }
 
-  clear(e) {
-    e.stopPropagation();
-    let treeItems = [].concat(this.treeItems)
+  clear (e) {
+    e.stopPropagation()
+    const treeItems = [].concat(this.treeItems)
     const chosedStrs = this.valueLabel.split(this.separator)
     if (chosedStrs) {
-      chosedStrs.forEach((str, index)=> {
-        const findIndex = treeItems[index].findIndex(item=> item[this.attrForLabel] === str)
+      chosedStrs.forEach((str, index) => {
+        const findIndex = treeItems[index].findIndex(item => item[this.attrForLabel] === str)
         delete treeItems[index][findIndex].__select
       })
     }
@@ -650,28 +655,27 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
     Array.prototype.forEach.call(this.root.querySelectorAll('.view-item'), function (item) {
       item.classList.remove('view-item-active')
     })
-    this.set('value', []);
-    this.set('valueLabel', null);
-    this.set('treeItems', treeItems);
-
+    this.set('value', [])
+    this.set('valueLabel', null)
+    this.set('treeItems', treeItems)
   }
 
   /**
    * Validate, true if the select is set to be required and this.selectedValues.length > 0, or else false.
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
+  validate () {
     super.validate()
-    return this.required ? !!(this.value && this.value.length) : true;
+    return this.required ? !!(this.value && this.value.length) : true
   }
 
-  __isHover(expandTrigger) {
+  __isHover (expandTrigger) {
     return expandTrigger === 'hover'
   }
 
-  static get is() {
-    return "isu-cascading";
+  static get is () {
+    return 'isu-cascading'
   }
 }
 
-window.customElements.define(IsuCascading.is, IsuCascading);
+window.customElements.define(IsuCascading.is, IsuCascading)

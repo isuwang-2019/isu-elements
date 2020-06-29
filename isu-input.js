@@ -1,12 +1,13 @@
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {html, PolymerElement} from "@polymer/polymer";
-import '@polymer/iron-input';
-import '@polymer/iron-icon';
-import '@polymer/iron-icons';
-import '@polymer/iron-icons/social-icons';
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import { html, PolymerElement } from '@polymer/polymer'
+import '@polymer/iron-input'
+import '@polymer/iron-icon'
+import '@polymer/iron-icons'
+import '@polymer/iron-icons/social-icons'
 
-import {BaseBehavior} from "./behaviors/base-behavior";
-import './behaviors/isu-elements-shared-styles.js';
+import { BaseBehavior } from './behaviors/base-behavior'
+import './behaviors/isu-elements-shared-styles.js'
 /**
  *
  * Example:
@@ -36,9 +37,8 @@ import './behaviors/isu-elements-shared-styles.js';
  * @polymer
  * @demo demo/isu-input/index.html
  */
-
 class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -56,6 +56,11 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
         line-height: inherit;
         min-width: 0;
         position: relative;
+      }
+      
+      :host .input__container__view{
+        @apply --isu-container-view
+        
       }
       
       :host([readonly]) .input__container {
@@ -172,6 +177,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
         position: absolute;
         left: -10px;
         line-height: inherit;
+        @apply --isu-required
       }
 
       :host([data-invalid]) #innerInput {
@@ -214,50 +220,50 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     
     <!--可编辑状态-->
     <div id="input__container" class="input__container">
-            <template is="dom-if" if="[[prefixUnit]]">
-              <div class="prefix-unit input-unit">[[prefixUnit]]</div>
+        <template is="dom-if" if="[[prefixUnit]]">
+          <div class="prefix-unit input-unit">[[prefixUnit]]</div>
+        </template>
+        <iron-input bind-value="{{value}}" id="input" class="iron-input">
+          <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]"
+              maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
+          <div class="clear">
+            <template is="dom-if" if="[[ isExistTruthy(value) ]]">
+              <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
             </template>
-            <iron-input bind-value="[[value]]" id="input" class="iron-input">
-              <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]"
-                  maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
-              <div class="clear">
-                <template is="dom-if" if="[[ isExistTruthy(value) ]]">
-                  <iron-icon class="icon-clear" icon=icons:clear on-click="clear"></iron-icon>
-                </template>
-              </div>
-              <div class="clear">
-                <template is="dom-if" if="[[ isExistTruthy(value) ]]">
-                  <template is="dom-if" if="[[ togglePassword ]]">
-                    <iron-icon class="icon-password" icon=icons:visibility on-click="showPassword"></iron-icon>
-                  </template>
-                  <template is="dom-if" if="[[ !togglePassword ]]">
-                    <iron-icon class="icon-password" icon=icons:visibility-off on-click="showPassword"></iron-icon>
-                  </template>
-                </template>
-              </div>
-            </iron-input>
-            <template is="dom-if" if="[[suffixUnit]]">
-              <div class="suffix-unit input-unit">[[suffixUnit]]</div>
-            </template>
-            
-            <div class="prompt-tip__container" data-prompt$="[[prompt]]">
-            <div class="prompt-tip">
-              <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
-              [[prompt]]
-            </div>
           </div>
-          <!--add mask when the componet is disabled or readonly-->
-          <div class="mask"></div>
+          <div class="clear">
+            <template is="dom-if" if="[[ isExistTruthy(value) ]]">
+              <template is="dom-if" if="[[ togglePassword ]]">
+                <iron-icon class="icon-password" icon=icons:visibility on-click="showPassword"></iron-icon>
+              </template>
+              <template is="dom-if" if="[[ !togglePassword ]]">
+                <iron-icon class="icon-password" icon=icons:visibility-off on-click="showPassword"></iron-icon>
+              </template>
+            </template>
+          </div>
+        </iron-input>
+        <template is="dom-if" if="[[suffixUnit]]">
+          <div class="suffix-unit input-unit">[[suffixUnit]]</div>
+        </template>
+        
+        <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+        <div class="prompt-tip">
+          <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+          [[prompt]]
+        </div>
+      </div>
+      <!--add mask when the componet is disabled or readonly-->
+      <div class="mask"></div>
           
-          </div>
-    <template is="dom-if" if="[[isView]]">
-      <div class="input__container">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
+      </div>
+    <template is="dom-if" if="[[_isView(isView,readonly)]]">
+      <div class="input__container input__container__view">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
     </template>
     
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The label of the input.
@@ -284,7 +290,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       type: {
         type: String,
-        value: "text"
+        value: 'text'
       },
       /**
        * A regexp to validate user input.
@@ -308,7 +314,8 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the input is readonly.
@@ -317,7 +324,8 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Prefix unit to show（i.e. ￥$元吨托）
@@ -390,35 +398,53 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * */
       isView: {
         type: Boolean,
+        value: false
+      },
+      /**
+       * If true hides the component， default false
+       */
+      hidden: {
+        type: Boolean,
         value: false,
+        reflectToAttribute: true
+      },
+      /**
+       * If you do not have permissions, the component does not display
+       * @type Boolean
+       * @default true
+       */
+      permission: {
+        type: Boolean,
+        value: true,
+        observer: '_permissionChange'
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-input";
+  static get is () {
+    return 'isu-input'
   }
 
-  static get observers() {
+  static get observers () {
     return [
       'getInvalidAttribute(required, min, max, value)',
       '__allowedPatternChanged(allowedPattern)',
-      '__isViewChanged(isView)'
-    ];
+      '__isViewChanged(isView,readonly)'
+    ]
   }
 
-  __allowedPatternChanged() {
+  __allowedPatternChanged () {
     if (this.allowedPattern) {
-      this._patternRegExp = new RegExp(this.allowedPattern);
-      this.getInvalidAttribute();
+      this._patternRegExp = new RegExp(this.allowedPattern)
+      this.getInvalidAttribute()
     }
   }
 
   /**
    * Set focus to input.
    */
-  doFocus() {
-    this.root.querySelector("#innerInput").focus();
+  doFocus () {
+    this.root.querySelector('#innerInput').focus()
   }
 
   /**
@@ -428,26 +454,26 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * Then if required = true check (value != undefined && value !== '')
    * And if allowPattern is defined , use the regexp to test the value
    *
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
+  validate () {
     super.validate()
-    let valid = this.root.querySelector("#input").validate();
+    let valid = this.root.querySelector('#input').validate()
 
     if (this.required) {
-      valid = valid && (this.value != undefined && this.value !== '');
+      valid = valid && (this.value != undefined && this.value !== '')
     }
 
     if (this._patternRegExp) {
-      valid = valid && this._patternRegExp.test(this.value);
+      valid = valid && this._patternRegExp.test(this.value)
     }
 
-    return valid;
+    return valid
   }
 
-  clear(e) {
-    e.stopPropagation();
-    this.value = '';
+  clear (e) {
+    e.stopPropagation()
+    this.value = ''
   }
 
   showPassword (e) {
@@ -455,13 +481,19 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$.innerInput.type = this.togglePassword ? 'text' : 'password'
   }
 
-  __isViewChanged(isView) {
-    if (this.readonly) {
-      this.$['input__container'].style.display = isView ? 'none' : 'flex'
-    }
+  __isViewChanged (isView, readonly) {
+    this.$.input__container.style.display = (readonly && isView) ? 'none' : 'flex'
   }
 
-  ready() {
+  _isView (isView, readonly) {
+    return isView && readonly
+  }
+
+  _permissionChange (permission) {
+    this.set('hidden', !permission)
+  }
+
+  ready () {
     super.ready()
     const self = this
     let cpLock = true
@@ -473,13 +505,13 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     })
 
     this.$.innerInput.addEventListener('input', function () {
-      setTimeout(function(){
-        if(cpLock) {
+      setTimeout(function () {
+        if (cpLock) {
           self.value = self.$.input.value
         }
-      },1)
+      }, 1)
     })
   }
 }
 
-window.customElements.define(IsuInput.is, IsuInput);
+window.customElements.define(IsuInput.is, IsuInput)

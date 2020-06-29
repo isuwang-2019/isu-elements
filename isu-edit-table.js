@@ -1,10 +1,9 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
-import {BaseBehavior} from "./behaviors/base-behavior";
-import './behaviors/isu-elements-shared-styles.js';
-import './isu-input';
-import './isu-button';
+import { html, PolymerElement } from '@polymer/polymer'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { BaseBehavior } from './behaviors/base-behavior'
+import './behaviors/isu-elements-shared-styles.js'
+import './isu-input'
+import './isu-button'
 
 /**
  * `isu-table`
@@ -15,10 +14,10 @@ import './isu-button';
  * ```
  * @customElement
  * @polymer
- * @demo demo/isu-table/index.html
+ * @demo demo/isu-edit-table/index.html
  */
 class IsuEditTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -132,50 +131,49 @@ class IsuEditTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </tbody>
       </table>
     </div>
-`;
+`
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    const columnInfos = [...this.children];
-    this.set('columnInfos', columnInfos);
+  connectedCallback () {
+    super.connectedCallback()
+    const columnInfos = [...this.children]
+    this.set('columnInfos', columnInfos)
   }
 
-  delete({model: {rowIndex}}) {
-    this.splice('data', rowIndex, 1);
+  delete ({ model: { rowIndex } }) {
+    this.splice('data', rowIndex, 1)
   }
 
-  add({model: {rowIndex}}) {
+  add ({ model: { rowIndex } }) {
     this.splice('data', rowIndex + 1, 0, {})
   }
 
-  __appendTmplContent(targetSelector, model, rowIndex,  columnTag) {
-    const parent = this.shadowRoot.querySelector(targetSelector);
-    const {root} = columnTag.stampTemplate(model) || {};
+  __appendTmplContent (targetSelector, model, rowIndex, columnTag) {
+    const parent = this.shadowRoot.querySelector(targetSelector)
+    const { root } = columnTag.stampTemplate(model) || {}
     if (root) {
-      parent.innerHTML = '';
-      parent.appendChild(root);
+      parent.innerHTML = ''
+      parent.appendChild(root)
     }
   }
 
-  computeContent(row, rowIndex, column, columnIndex) {
+  computeContent (row, rowIndex, column, columnIndex) {
     if (column.tmpl && column.type === 'operate') {
-
       setTimeout(() => {
-        this.__appendTmplContent(`#row_${rowIndex}_column_${columnIndex}`, row, rowIndex, column);
-      }, 0, this);
+        this.__appendTmplContent(`#row_${rowIndex}_column_${columnIndex}`, row, rowIndex, column)
+      }, 0, this)
 
-      return null;
+      return null
     }
 
-    if(column.props) {
-      return column.props.split(",").map(p => this.getValueByKey(row, p.trim())).join(column.separator || ',');
+    if (column.props) {
+      return column.props.split(',').map(p => this.getValueByKey(row, p.trim())).join(column.separator || ',')
     }
 
-    return this.getValueByKey(row, column.prop);
+    return this.getValueByKey(row, column.prop)
   }
 
-  static get properties() {
+  static get properties () {
     return {
       data: {
         type: Array,
@@ -184,12 +182,12 @@ class IsuEditTable extends mixinBehaviors([BaseBehavior], PolymerElement) {
       columnInfos: {
         type: Array
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-edit-table";
+  static get is () {
+    return 'isu-edit-table'
   }
 }
 
-window.customElements.define(IsuEditTable.is, IsuEditTable);
+window.customElements.define(IsuEditTable.is, IsuEditTable)

@@ -1,13 +1,13 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import '@polymer/iron-icon/iron-icon';
-import '@polymer/iron-icons/iron-icons';
-import '@polymer/iron-icons/social-icons';
-import {BaseBehavior} from "./behaviors/base-behavior";
-import './behaviors/isu-elements-shared-styles.js';
-import {IsuFetch} from './isu-fetch';
+import { html, PolymerElement } from '@polymer/polymer'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import '@polymer/iron-icon/iron-icon'
+import '@polymer/iron-icons/iron-icons'
+import '@polymer/iron-icons/social-icons'
+import { BaseBehavior } from './behaviors/base-behavior'
+import './behaviors/isu-elements-shared-styles.js'
+import { IsuFetch } from './isu-fetch'
 import './isu-tree.js'
-
 
 /**
 
@@ -33,7 +33,7 @@ import './isu-tree.js'
  * @demo demo/isu-org-tree/index.html
  */
 class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
       <style include="isu-elements-shared-styles">
         :host {
@@ -100,10 +100,10 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </div>
         </div>
       </div>
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * 发送请求和模拟数据的组件
@@ -112,7 +112,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Object,
         readOnly: true,
         value: function () {
-          return new IsuFetch();
+          return new IsuFetch()
         }
       },
       /**
@@ -168,7 +168,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       attrForValue: {
         type: String,
-        value: "id"
+        value: 'id'
       },
 
       /**
@@ -178,7 +178,8 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the select tree is readonly.
@@ -238,16 +239,17 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @type {array}
        */
       bindItems: {
-        type: Array
+        type: Array,
+        value: []
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-select-tree";
+  static get is () {
+    return 'isu-select-tree'
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '_bindItemsChange(bindItems)',
       '_srcChanged(src)',
@@ -255,16 +257,16 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     ]
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  connectedCallback () {
+    super.connectedCallback()
     const self = this
-    self.$.keywordInput.addEventListener("blur", e => {
+    self.$.keywordInput.addEventListener('blur', e => {
       // e.stopPropagation();
       setTimeout(() => { // 解决blur事件和click事件冲突的问题
-        if (self.shadowRoot.activeElement && self.shadowRoot.activeElement.id === 'keywordInput') return;
-        self._displayCollapse(false);
-      }, 200);
-    });
+        if (self.shadowRoot.activeElement && self.shadowRoot.activeElement.id === 'keywordInput') return
+        self._displayCollapse(false)
+      }, 200)
+    })
     this.addEventListener('click', e => {
       const minWidth = this.$['collapse-tree'].offsetLeft
       const maxWidth = minWidth + this.$['collapse-tree'].offsetWidth
@@ -277,48 +279,48 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.addEventListener('tree-arrow-check', (e) => {
       this.selectedItem = e.detail.selectedItem
       this.$.keywordInput.focus()
-    });
+    })
   }
 
-  _bindItemsChange(bindItems) {
+  _bindItemsChange (bindItems) {
     if (bindItems) {
       this.selectedItem = bindItems[0]
       this.value = this.selectedItem && this.selectedItem[this.attrForValue]
     }
   }
 
-  _inputFocus() {
+  _inputFocus () {
     this._displayCollapse(true)
   }
 
-  _displayCollapse(display) {
+  _displayCollapse (display) {
     this.$['collapse-tree'].hidden = !display
   }
 
   /**
    * Validate, true if the select is set to be required and this.selectedValues.length > 0, or else false.
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
-    return this.required ? !!this.value.trim() : true;
+  validate () {
+    return this.required ? !!this.value.trim() : true
   }
 
-  getValued(label, placeholder) {
-    return !!label ? label : placeholder
+  getValued (label, placeholder) {
+    return label || placeholder
   }
 
-  getPlaceholderClass(label, placeholder) {
-    return !!label ? '' : 'placeholder'
+  getPlaceholderClass (label, placeholder) {
+    return label ? '' : 'placeholder'
   }
 
-  _valueChanged(value, treeData) {
+  _valueChanged (value, treeData) {
     const self = this
     if (this.treeData.length > 0) {
       let flag = true
       const getSuitIndex = function (items) {
         if (flag) {
           if (!items) return -1
-          let index = items.findIndex(item => item[self.attrForValue] == self.value)
+          const index = items.findIndex(item => item[self.attrForValue] == self.value)
           if (index < 0) {
             self.selectedItem = {}
             items.forEach(item => {
@@ -327,6 +329,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
           }
           if (index >= 0) {
             self.selectedItem = items[index]
+            self.push('bindItems', self.selectedItem)
             flag = false
           }
           return index
@@ -334,27 +337,26 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
       getSuitIndex(this.treeData)
     }
-
   }
 
-  _srcChanged(src) {
+  _srcChanged (src) {
     const self = this
-    if (!src) return;
-    this.fetchParam = {id: this.value}
-    const request = this._mkRequest(this.fetchParam);
+    if (!src) return
+    this.fetchParam = { id: this.value }
+    const request = this._mkRequest(this.fetchParam)
     this._fetchUtil.fetchIt(request)
       .then(res => res.json())
       .then(data => {
-        let items;
+        let items
         if (this.resultPath) {
-          items = this.getValueByPath(data, this.resultPath, []);
+          items = this.getValueByPath(data, this.resultPath, [])
         } else {
-          items = data || [];
+          items = data || []
         }
         // let findIndex = items.findIndex(item => item[this.attrForValue] == this.value);
         const getSuitIndex = function (items) {
           if (!items) return -1
-          let index = items.findIndex(item => item[self.attrForValue] == self.value)
+          const index = items.findIndex(item => item[self.attrForValue] == self.value)
           if (index < 0) {
             items.forEach(item => {
               getSuitIndex(item.children)
@@ -364,30 +366,25 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
             self.selectedItem = items[index]
           }
           return index
-
         }
-        let findIndex = getSuitIndex(items)
-        // if (findIndex >= 0) {
-        //   this.selectedItem = items[findIndex]
-        // }
+        getSuitIndex(items)
         this.set('treeData', items)
       })
-      .catch(console.error);
+      .catch(console.error)
   }
 
-  _mkRequest(data) {
+  _mkRequest (data) {
     return {
       url: this.src,
-      method: "POST",
+      method: 'POST',
       headers: {
-        "content-type": "application/json;charset=utf-8",
-        "Cache-Control": "no-cache"
+        'content-type': 'application/json;charset=utf-8',
+        'Cache-Control': 'no-cache'
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify(data)
-    };
+    }
   }
-
 }
 
-window.customElements.define(IsuSelectTree.is, IsuSelectTree);
+window.customElements.define(IsuSelectTree.is, IsuSelectTree)

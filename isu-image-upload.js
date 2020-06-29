@@ -1,16 +1,15 @@
+import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import { BaseBehavior } from './behaviors/base-behavior.js'
+import { TipBehavior } from './behaviors/tip-behavior'
+import { AjaxBehavior } from './behaviors/ajax-behavior'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 
-
-import './behaviors/base-behavior.js';
-
-import {html, PolymerElement} from "@polymer/polymer";
-import {BaseBehavior} from "./behaviors/base-behavior";
-import {TipBehavior} from "./behaviors/tip-behavior";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import '@polymer/paper-dialog';
-import './behaviors/isu-elements-shared-styles.js';
-import './isu-button.js';
-import './isu-dialog';
-import './isu-tip';
+import '@polymer/paper-dialog'
+import './behaviors/isu-elements-shared-styles.js'
+import './isu-button.js'
+import './isu-dialog'
+import './isu-tip'
 /**
  * `isu-image-upload`
  *
@@ -38,8 +37,8 @@ import './isu-tip';
  * @polymer
  * @demo demo/isu-image-upload/index.html
  */
-class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerElement) {
-  static get template() {
+class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBehavior], PolymerElement) {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -182,10 +181,10 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polymer
     <paper-dialog id="viewer-dialog" on-click="closeViewZoom">
       <div id="viewer-img"></div>
     </paper-dialog>
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The remote uri of image.
@@ -215,7 +214,8 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polymer
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the select is readonly.
@@ -224,7 +224,8 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polymer
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
 
       /**
@@ -256,148 +257,182 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polymer
       type: {
         type: String,
         value: 'edit'
+      },
+      /**
+       * Url for uploading the image，if it exit, image will be uploaded directly.
+       * */
+      uploadImgUrl: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Custom your uploadFile`s name
+       * */
+      uploadFileName: {
+        type: String,
+        value: 'imageFile'
+      },
+      /**
+       * The callback function after upload the image
+       * */
+      uploadCallback: {
+        type: Function
+      },
+      /**
+       * Parse the format of the return data when the uploadImgUrl is not empty, eg: text|json|blob|formData|arrayBuffer
+       * */
+      handleAs: {
+        type: String,
+        value: 'json'
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-image-upload";
+  static get is () {
+    return 'isu-image-upload'
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '__srcChanged(src)'
     ]
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    const ele = this.$['paste-panel'];
+  connectedCallback () {
+    super.connectedCallback()
+    const ele = this.$['paste-panel']
 
     const dragHandler = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+      e.preventDefault()
+      e.stopPropagation()
 
-      if (this.readonly) return;
-      if (e.type === "drop") {
-        this.__readDataTransfer(e.dataTransfer);
+      if (this.readonly) return
+      if (e.type === 'drop') {
+        this.__readDataTransfer(e.dataTransfer)
       } else if (e.type === 'paste') {
-        this.__readDataTransfer(e.clipboardData);
+        this.__readDataTransfer(e.clipboardData)
       }
-    };
+    }
 
-    ele.addEventListener("dragenter", dragHandler, false);
-    ele.addEventListener("dragleave", dragHandler, false);
-    ele.addEventListener('dragover', dragHandler, false);
-    ele.addEventListener('drop', dragHandler, false);
-    ele.addEventListener('paste', dragHandler, false);
+    ele.addEventListener('dragenter', dragHandler, false)
+    ele.addEventListener('dragleave', dragHandler, false)
+    ele.addEventListener('dragover', dragHandler, false)
+    ele.addEventListener('drop', dragHandler, false)
+    ele.addEventListener('paste', dragHandler, false)
   }
 
-  __isEdit(type) {
+  __isEdit (type) {
     return type === 'edit'
   }
-  __srcChanged(src) {
-    const style = this.$["img__container"].style;
-    const viewerStyle = this.$['viewer-img'].style;
+
+  __srcChanged (src) {
+    const style = this.$.img__container.style
+    const viewerStyle = this.$['viewer-img'].style
 
     if (src) {
-      this.setAttribute('data-has-src', '');
+      this.setAttribute('data-has-src', '')
 
-      style.background = `url(${src}) no-repeat center`;
-      style.backgroundSize = "contain";
-      viewerStyle.background = `url(${src}) no-repeat center`;
-      viewerStyle.backgroundSize = "contain";
-
+      style.background = `url(${src}) no-repeat center`
+      style.backgroundSize = 'contain'
+      viewerStyle.background = `url(${src}) no-repeat center`
+      viewerStyle.backgroundSize = 'contain'
     } else {
-      this.removeAttribute('data-has-src');
+      this.removeAttribute('data-has-src')
 
-      style.background = "none";
-      viewerStyle.background = "none";
+      style.background = 'none'
+      viewerStyle.background = 'none'
     }
   }
 
-  __parseSizeLimit(sizeLimit) {
-    const reg = /^((?:\d*\.)?\d+)([GgMmKk][Bb]?$)/g;
+  __parseSizeLimit (sizeLimit) {
+    const reg = /^((?:\d*\.)?\d+)([GgMmKk][Bb]?$)/g
 
-    if (!reg.test(sizeLimit)) return 0;
+    if (!reg.test(sizeLimit)) return 0
 
     const bits = sizeLimit.replace(reg, (match, size, unit) => {
       switch (unit.toUpperCase()) {
-        case 'GB':
-        case 'G':
-          return size * Math.pow(1024, 3);
-        case 'MB':
-        case 'M':
-          return size * Math.pow(1024, 2);
-        case 'KB':
-        case 'K':
-          return size * 1024;
+      case 'GB':
+      case 'G':
+        return size * Math.pow(1024, 3)
+      case 'MB':
+      case 'M':
+        return size * Math.pow(1024, 2)
+      case 'KB':
+      case 'K':
+        return size * 1024
       }
-    });
+    })
 
-    return bits | 0;
+    return bits | 0
   }
 
-  _triggerChooseFile() {
-    const fileChooser = this.$['file-chooser'];
-    fileChooser && fileChooser.click();
+  _triggerChooseFile () {
+    const fileChooser = this.$['file-chooser']
+    fileChooser && fileChooser.click()
   }
 
-  _chooseFile(e) {
-    const file = e.target.files[0];
-    file && this.__loadFileData(file);
+  _chooseFile (e) {
+    const file = e.target.files[0]
+    file && this.__loadFileData(file)
   }
 
-  __readDataTransfer(dataTransfer) {
-    const source = [].find.call(dataTransfer.items, item => item.kind === 'file' && item.type.startsWith("image"));
-    source && this.__loadFileData(source.getAsFile());
+  __readDataTransfer (dataTransfer) {
+    const source = [].find.call(dataTransfer.items, item => item.kind === 'file')
+    source && this.__loadFileData(source.getAsFile())
   }
 
-  __loadFileData(blob) {
+  async __loadFileData (blob) {
     if (this.__byteSize > 0 && blob.size > this.__byteSize) {
-      this.isuTip.error(`上传图片不能超过${this.sizeLimit}`, 3000);
-      return;
+      this.isuTip.error(`上传图片不能超过${this.sizeLimit}`, 3000)
+      return
     }
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = (e) => {
-      this.src = e.target.result;
-      this.value = blob;
-    };
-    reader.readAsDataURL(blob);
+      this.src = e.target.result
+      this.value = blob
+    }
+    reader.readAsDataURL(blob)
+    /* 如果有上传文件的url，则直接上传到对应的服务器 */
+    if (this.uploadImgUrl) {
+      const formData = new FormData()
+      formData.append(this.uploadFileName, blob)
+      const data = await this.post({ url: this.uploadImgUrl, data: formData, handleAs: this.handleAs })
+      this.uploadCallback && this.isFunction(this.uploadCallback) && this.uploadCallback.call(this.domHost, data, this.uploadFileName)
+    }
   }
 
   /**
    * Cancel selection of the image.It will clear the `src` and `value`.
    * */
-  cancelSelection() {
-    this.src = null;
-    this.value = null;
-    this.$['file-chooser'].value = '';
+  cancelSelection () {
+    this.src = null
+    this.value = null
+    this.$['file-chooser'].value = ''
   }
 
   /**
    * Open the view zoom
    */
-  openViewZoom() {
+  openViewZoom () {
     if (this.src) {
-      this.$['viewer-dialog'].open();
+      this.$['viewer-dialog'].open()
     }
   }
 
   /**
    * Close the view zoom.
    */
-  closeViewZoom() {
-    this.$['viewer-dialog'].close();
+  closeViewZoom () {
+    this.$['viewer-dialog'].close()
   }
 
   /**
    * Validate, true if the select is set to be required and this.value is a truth-value or else false.
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
-    return this.required ? !!this.value : true;
+  validate () {
+    return this.required ? !!this.value : true
   }
 }
 
-window.customElements.define(IsuImageUpload.is, IsuImageUpload);
+window.customElements.define(IsuImageUpload.is, IsuImageUpload)

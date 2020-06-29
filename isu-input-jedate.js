@@ -1,14 +1,15 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import '@polymer/paper-dialog';
-import './behaviors/isu-elements-shared-styles.js';
-import './isu-grid-layout';
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {BaseBehavior} from "./behaviors/base-behavior";
-import '@polymer/iron-icon';
-import '@polymer/iron-icons';
-import './isu-select';
+import { html, PolymerElement } from '@polymer/polymer'
+import '@polymer/paper-dialog'
+import './behaviors/isu-elements-shared-styles.js'
+import './isu-grid-layout'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import { BaseBehavior } from './behaviors/base-behavior'
+import '@polymer/iron-icon'
+import '@polymer/iron-icons'
+import './isu-select'
 import './utils/jedate/js/jedate'
-import {FormatBehavior} from "./behaviors/format-behavior";
+import { FormatBehavior } from './behaviors/format-behavior'
 
 /**
  *
@@ -16,6 +17,8 @@ import {FormatBehavior} from "./behaviors/format-behavior";
  *
  * Example:
  * ```html
+ * if you want to use this component, you need to import jedate.css in the host html document manually. It`s relative path is ./utils/jedate/skin/jedate.css
+ *
  * <isu-input-jedate class="input-date multi" label="年选择" format="YYYY" placeholder="YYYY" required></isu-input-jedate>
  * <isu-input-jedate class="input-date multi" label="年月选择" format="YYYY-MM" placeholder="YYYY-MM"></isu-input-jedate>
  * <isu-input-jedate class="input-date multi" label="年月日选择" format="MM-DD-YYYY" placeholder="MM-DD-YYYY"></isu-input-jedate>
@@ -50,8 +53,8 @@ import {FormatBehavior} from "./behaviors/format-behavior";
  * @polymer
  * @demo demo/isu-input-date/index.html
  */
-class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], PolymerElement) {
-  static get template() {
+class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], PolymerElement) {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -102,15 +105,19 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
         position: absolute;
         left: -10px;
         line-height: inherit;
+        @apply --isu-required
       }
       :host([readonly]) .jeinput {
         cursor: default;
+      }
+      .view-text {
+        @apply --isu-view-text
       }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
         <div class="isu-label">[[label]]</div>
       </template>
-    <div class="input__container">
+    <div class="input__container" id="input__jedate">
        <div class="jeinpbox"><input type="text" id$="[[id]]" class="jeinput" readonly$="[[readonly]]" placeholder$="[[placeholder]]" value$="{{value}}"></div>
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
@@ -119,10 +126,15 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
           </div>
       </div>
     </div>
-  `;
+    <template is="dom-if" if="[[_isView(isView, readonly)]]">
+      <div class="view-text">
+         <span>{{value}}</span>
+      </div>
+    </template>
+  `
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The value of the input, return a date string format to `yyyy-MM-dd`.
@@ -136,7 +148,7 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
        * The value of the input, return a timestamp
        * @type {Number}
        */
-      bindData: {
+      timestamp: {
         type: String,
         notify: true
       },
@@ -160,7 +172,8 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the input is readonly.
@@ -169,7 +182,8 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * The minimum date which can be chosen. It should be a string format to `YYYY-MM-DD`.
@@ -425,111 +439,148 @@ class H2InputDate extends mixinBehaviors([BaseBehavior, FormatBehavior], Polymer
         type: String,
         value: ''
       },
-
-    };
-  }
-
-  static get observers() {
-    return [
-      '_idChanged(id)',
-      '_valueChanged(value)',
-      'getInvalidAttribute(required, value)'
-    ]
-  }
-
-  static get is() {
-    return "isu-input-jedate";
-  }
-
-  _valueChanged(value) {
-    if (this.format.indexOf('YYYY') !== -1) {
-      const dateArray = this.dateArray.map(item => {
-        let date = `${item.YYYY}-${item.MM}`
-        date += this.format.indexOf('DD') !== -1 ? `-${item.DD}` : ''
-        date += this.format.indexOf('hh') !== -1 ? ` ${item.hh}` : ''
-        date += this.format.indexOf('mm') !== -1 ? `:${item.mm}` : ''
-        date += this.format.indexOf('ss') !== -1 ? `:${item.ss}` : ''
-        return +new Date(date)
-      })
-      this.set('bindData', dateArray[0])
-      this.set('selectedItems', dateArray)
+      /**
+       * The text mode display requires readonly=true to take effect
+       * @type {boolean}
+       * @default false
+       * */
+      isView: {
+        type: Boolean,
+        value: false
+      }
     }
   }
 
-  donefun(e) {
+  static get observers () {
+    return [
+      '_idChanged(id)',
+      '_valueChanged(value)',
+      '_timestampChanged(timestamp)',
+      'getInvalidAttribute(required, value)',
+      '__isViewChanged(isView,readonly)'
+    ]
+  }
+
+  static get is () {
+    return 'isu-input-jedate'
+  }
+
+  _valueChanged (value) {
+    if (this.format.indexOf('YYYY') !== -1) {
+      if (this.dateArray.length > 0) {
+        const dateArray = this.dateArray.map(item => {
+          let date = `${item.YYYY}-${item.MM}`
+          date += this.format.indexOf('DD') !== -1 ? `-${item.DD}` : ''
+          date += this.format.indexOf('hh') !== -1 ? ` ${item.hh}` : ''
+          date += this.format.indexOf('mm') !== -1 ? `:${item.mm}` : ''
+          date += this.format.indexOf('ss') !== -1 ? `:${item.ss}` : ''
+          return +new Date(date)
+        })
+        this.set('timestamp', dateArray[0])
+        this.set('selectedItems', dateArray)
+      }
+    }
+  }
+
+  donefun (e) {
     this.set('dateArray', e.date)
     this.set('value', e.val)
   }
 
-  clearfun() {
+  clearfun () {
     this.set('dateArray', [])
-    this.set('value',null)
+    this.set('value', null)
   }
 
-  before() {
+  before () {
   }
 
-  succeed() {
+  succeed () {
   }
 
-  _idChanged(id) {
-    const convertDate = this.bindData ? FormatBehavior.formatDate(this.bindData, this.format) : null
+  _timestampChanged(timestamp) {
+    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
+    this.set('value', convertDate)
+  }
+
+  _idChanged (id) {
+    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
     if (!this.readonly) {
       const self = this
       const enLang = {
-        name: "en",
-        month: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
-        weeks: ["SUN", "MON", "TUR", "WED", "THU", "FRI", "SAT"],
-        times: ["Hour", "Minute", "Second"],
-        timetxt: ["Time", "Start Time", "End Time"],
-        backtxt: "Back",
-        clear: "Clear",
-        today: "Now",
-        yes: "Confirm",
-        close: "Close"
+        name: 'en',
+        month: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+        weeks: ['SUN', 'MON', 'TUR', 'WED', 'THU', 'FRI', 'SAT'],
+        times: ['Hour', 'Minute', 'Second'],
+        timetxt: ['Time', 'Start Time', 'End Time'],
+        backtxt: 'Back',
+        clear: 'Clear',
+        today: 'Now',
+        yes: 'Confirm',
+        close: 'Close'
       }
       const options = {
-        festival: this.festival,
-        minDate: this.min,              //最小日期
-        maxDate: this.max,              //最大日期
+        minDate: this.min, // 最小日期
+        maxDate: this.max, // 最大日期
         format: this.format,
-        isShow: this.isShow,                //是否显示为固定日历，为false的时候固定显示
-        multiPane: this.multiPane,             //是否为双面板，为false是展示双面板
-        onClose: this.onClose,               //是否为选中日期后关闭弹层，为false时选中日期后关闭弹层
-        range: this.range,                //如果不为空且不为false，则会进行区域选择，例如 " 至 "，" ~ "，" To "
-        trigger: this.trigger,            //是否为内部触发事件，默认为内部触发事件
-        position: this.position,                //自定义日期弹层的偏移位置，长度为0，弹层自动查找位置
-        valiDate: this.valiDate,                //有效日期与非有效日期，例如 ["0[4-7]$,1[1-5]$,2[58]$",true]
-        isinitVal: this.isinitVal,            //是否初始化时间，默认不初始化时间
-        initDate: this.initDate,                //初始化时间，加减 天 时 分
-        isTime: this.isTime,                //是否开启时间选择
-        isClear: this.isClear,               //是否显示清空按钮
-        isToday: this.isToday,               //是否显示今天或本月按钮
-        isYes: this.isYes,                 //是否显示确定按钮
-        festival: this.festival,             //是否显示农历节日
-        fixed: this.fixed,                 //是否静止定位，为true时定位在输入框，为false时居中定位
-        zIndex: this.zIndex,                //弹出层的层级高度
-        method: this.method,                 //自定义方法
-        theme: this.theme,                   //自定义主题色
-        shortcut: this.shortcut,                //日期选择的快捷方式
-        donefun: this.donefun.bind(this),                //选中日期完成的回调
-        clearfun: this.clearfun.bind(this),     // 清空日期后的回调
-        before: this.before,                //在界面加载之前执行
-        succeed: this.succeed                //在界面加载之后执行
+        isShow: this.isShow, // 是否显示为固定日历，为false的时候固定显示
+        multiPane: this.multiPane, // 是否为双面板，为false是展示双面板
+        onClose: this.onClose, // 是否为选中日期后关闭弹层，为false时选中日期后关闭弹层
+        range: this.range, // 如果不为空且不为false，则会进行区域选择，例如 " 至 "，" ~ "，" To "
+        trigger: this.trigger, // 是否为内部触发事件，默认为内部触发事件
+        position: this.position, // 自定义日期弹层的偏移位置，长度为0，弹层自动查找位置
+        valiDate: this.valiDate, // 有效日期与非有效日期，例如 ["0[4-7]$,1[1-5]$,2[58]$",true]
+        isinitVal: this.isinitVal, // 是否初始化时间，默认不初始化时间
+        initDate: this.initDate, // 初始化时间，加减 天 时 分
+        isTime: this.isTime, // 是否开启时间选择
+        isClear: this.isClear, // 是否显示清空按钮
+        isToday: this.isToday, // 是否显示今天或本月按钮
+        isYes: this.isYes, // 是否显示确定按钮
+        festival: this.festival, // 是否显示农历节日
+        fixed: this.fixed, // 是否静止定位，为true时定位在输入框，为false时居中定位
+        zIndex: this.zIndex, // 弹出层的层级高度
+        method: this.method, // 自定义方法
+        theme: this.theme, // 自定义主题色
+        shortcut: this.shortcut, // 日期选择的快捷方式
+        donefun: this.donefun.bind(this), // 选中日期完成的回调
+        clearfun: this.clearfun.bind(this), // 清空日期后的回调
+        before: this.before, // 在界面加载之前执行
+        succeed: this.succeed // 在界面加载之后执行
       }
       if (this.language === 'en') {
         options.language = enLang
       }
-      const jeDateObj = jeDate(self.root.querySelector(`#${self.id}`), options)
-      this.bindData ? jeDate(self.root.querySelector(`#${self.id}`), options).setValue(convertDate) : jeDate(self.root.querySelector(`#${self.id}`), options)
+      this.timestamp ? jeDate(self.root.querySelector(`#${self.id}`), options).setValue(convertDate) : jeDate(self.root.querySelector(`#${self.id}`), options)
     }
     this.set('value', convertDate)
   }
 
-  validate() {
+  validate () {
     super.validate()
     return this.required ? this.value && this.value.length > 0 : true
   }
+
+  __isViewChanged (isView, readonly) {
+    this.$.input__jedate.style.display = (this.readonly && isView) ? 'none' : 'flex'
+  }
+
+  _isView (isView, readonly) {
+    return isView && readonly
+  }
+
+  ready () {
+    super.ready()
+    const links = [...document.getElementsByTagName('link')]
+    const isJedateLink = links.some(item => item.href.includes('/utils/jedate/skin/jedate.css'))
+    if (!isJedateLink) {
+      const link = document.createElement('link')
+      link.type = 'text/css'
+      link.rel = 'stylesheet'
+      link.href = '/utils/jedate/skin/jedate.css'
+      const head = document.getElementsByTagName('head')[0]
+      head.appendChild(link)
+    }
+  }
 }
 
-window.customElements.define(H2InputDate.is, H2InputDate);
+window.customElements.define(IsuInputJedate.is, IsuInputJedate)

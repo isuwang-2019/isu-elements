@@ -1,12 +1,13 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import '@polymer/paper-dialog';
-import '@polymer/neon-animation/animations/scale-up-animation.js';
-import '@polymer/neon-animation/animations/fade-out-animation.js';
-import '@polymer/iron-icon';
-import '@polymer/iron-icons';
-import {BaseBehavior} from "./behaviors/base-behavior";
-import './behaviors/isu-elements-shared-styles.js';
+import { html, PolymerElement } from '@polymer/polymer'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import '@polymer/paper-dialog'
+import '@polymer/neon-animation/animations/scale-up-animation.js'
+import '@polymer/neon-animation/animations/fade-out-animation.js'
+import '@polymer/iron-icon'
+import '@polymer/iron-icons'
+import { BaseBehavior } from './behaviors/base-behavior'
+import './behaviors/isu-elements-shared-styles.js'
 
 /**
  * `isu-dialog`
@@ -40,7 +41,7 @@ import './behaviors/isu-elements-shared-styles.js';
  * @demo demo/isu-dialog/index.html
  */
 class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -131,10 +132,10 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </paper-dialog>
     
     <div class="backdrop"></div>
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * Title of the dialog
@@ -217,32 +218,32 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       }
-    };
+    }
   }
 
-  static get observers() {
+  static get observers () {
     return ['_positionChanged(top, left)']
   }
 
-  static get is() {
-    return "isu-dialog";
+  static get is () {
+    return 'isu-dialog'
   }
 
-  _positionChanged(top, left) {
+  _positionChanged (top, left) {
     if (top) this.$.dialog.style.top = `${top}px`
     if (left) this.$.dialog.style.left = `${left}px`
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  connectedCallback () {
+    super.connectedCallback()
 
     /**
      * @listens iron-overlay-closed
      */
     this.addEventListener('iron-overlay-closed', e => {
       // ignore 'iron-overlay-closed' event fired by other element
-      if (e.path[0] != this.$.dialog) return;
-      e.stopPropagation();
+      if (e.path[0] != this.$.dialog) return
+      e.stopPropagation()
       /**
        * @event isu-dialog-closed
        * Fired when the dialog closed.
@@ -250,51 +251,49 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this.dispatchEvent(new CustomEvent('isu-dialog-closed'), {
         composed: true,
         bubbles: true
-      });
+      })
 
       if (!this.stopAutoDismiss) {
         setTimeout(() => {
-          this.parentElement && this.parentElement.removeChild(this);
-        }, 100);
+          this.parentElement && this.parentElement.removeChild(this)
+        }, 100)
       }
-    });
+    })
 
     /**
      * @listens isu-dialog-dismiss
      */
-    this.addEventListener('isu-dialog-dismiss', this.close);
-
-
+    this.addEventListener('isu-dialog-dismiss', this.close)
   }
 
   /**
    * Open the dialog.
    */
-  open() {
-    this.style.display = 'flex';
-    this.$.dialog.open();
-    if (this.lockScroll ) document.body.style['overflow-y'] = 'hidden'
+  open () {
+    this.style.display = 'flex'
+    this.$.dialog.open()
+    if (this.lockScroll) document.body.style['overflow-y'] = 'hidden'
   }
 
   /**
    * Close the dialog.
    */
-  close() {
-    this.style.display = 'none';
-    this.$.dialog.close();
+  close () {
+    this.style.display = 'none'
+    this.$.dialog.close()
     if (this.lockScroll) document.body.style['overflow-y'] = 'auto'
   }
 
-  openedChanged({detail: {value}}) {
-    if (!value) this.close();
+  openedChanged ({ detail: { value } }) {
+    if (!value) this.close()
   }
 
-  modalChanged(modal) {
-    if(modal) {
-      this.noCancelOnOutsideClick = true;
-      this.noCancelOnEscKey = true;
+  modalChanged (modal) {
+    if (modal) {
+      this.noCancelOnOutsideClick = true
+      this.noCancelOnEscKey = true
     }
   }
 }
 
-window.customElements.define(IsuDialog.is, IsuDialog);
+window.customElements.define(IsuDialog.is, IsuDialog)

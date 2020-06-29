@@ -1,12 +1,13 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import '@polymer/paper-dialog';
-import './isu-grid-layout';
-import './behaviors/isu-elements-shared-styles';
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
-import {BaseBehavior} from "./behaviors/base-behavior";
-import '@polymer/iron-icon';
-import '@polymer/iron-icons';
-import './isu-select';
+import { html, PolymerElement } from '@polymer/polymer'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
+import '@polymer/paper-dialog'
+import './isu-grid-layout'
+import './behaviors/isu-elements-shared-styles'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { BaseBehavior } from './behaviors/base-behavior'
+import '@polymer/iron-icon'
+import '@polymer/iron-icons'
+import './isu-select'
 
 /**
  * `isu-input-date`
@@ -26,13 +27,14 @@ import './isu-select';
  * |----------------|-------------|----------|
  * |`--isu-input-date-label` | Mixin applied to the label of input | {}
  * |`--isu-input-date-width` | The width of the isu-input-date | 380px
+ * |`--isu-view-text` | Mixin applied to the text when the readonly and is-view is true | {}
  *
  * @customElement
  * @polymer
  * @demo demo/isu-input-date/index.html
  */
 class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
@@ -54,6 +56,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         position: absolute;
         left: -10px;
         line-height: inherit;
+        @apply --isu-required
       }
       
       :host([readonly]) .input__container {
@@ -76,6 +79,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         padding: 2px 5px;
         position: relative;
         cursor: pointer;
+        @apply --isu-input-date-contaniner
       }
       
       :host([type='dateRange']) .input__container {
@@ -122,6 +126,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         flex: 1;
         padding: 0 5px;
         text-align: center;
+        @apply --isu-input-item-date
       }
       
       .box-value {
@@ -284,12 +289,16 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .disabled > div {
         pointer-events: none;
       }
+     
+      .view-text {
+         @apply --isu-input-date-view-text
+      }
 
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
       <div class="isu-label">[[label]]</div>
     </template>
-    <div class="input__container" on-click="openDialog">
+    <div id="input__date" class="input__container" on-click="openDialog">
       <iron-icon class="date-range" icon=icons:date-range></iron-icon>
       <template is="dom-if" if="[[ isOneOf(type, 'dateRange', 'datetimeRange') ]]">
         <div class="item-date">
@@ -382,11 +391,15 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </div>
     </paper-dialog>
-   
-`;
+    <template is="dom-if" if="[[_isView(isView, readonly)]]">
+      <div class="view-text">
+         <span>{{value}}</span>
+      </div>
+    </template>
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The value of the input, return a date string format to `yyyy-MM-dd`.
@@ -423,7 +436,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * Set to true, if the input is readonly.
@@ -432,7 +446,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * The minimum date which can be chosen. It should be a string format to `yyyy-MM-dd`.
@@ -508,14 +523,23 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: ''
       },
-    };
+      /**
+       * The text mode display requires readonly=true to take effect
+       * @type {boolean}
+       * @default false
+       * */
+      isView: {
+        type: Boolean,
+        value: false
+      }
+    }
   }
 
-  static get is() {
-    return "isu-input-date";
+  static get is () {
+    return 'isu-input-date'
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '_valueChanged(value)',
       '_timestampChanged(timestamp)',
@@ -524,144 +548,144 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_startTimestampChanged(startTimestamp)',
       '_endTimestampChanged(endTimestamp)',
       '_minmaxChanged(min, max)',
-      'getInvalidAttribute(required, min, max, value)'
-    ];
+      'getInvalidAttribute(required, min, max, value)',
+      '__isViewChanged(isView,readonly)'
+    ]
   }
 
   /**
    * @param value
    * @private
    */
-  _valueChanged(value) {
-    this.getInvalidAttribute();
+  _valueChanged (value) {
+    this.getInvalidAttribute()
     if (!this.value && !this.rangeList.includes(this.type)) {
-      this.set("timestamp", undefined);
-      return;
+      this.set('timestamp', undefined)
+      return
     }
     if (!this.rangeList.includes(this.type)) {
-      let time = new Date(`${value}${this.type.includes('time') ? '' : ' 00:00:00'}`).getTime();
-      this.set("timestamp", time);
+      const time = new Date(`${value}${this.type.includes('time') ? '' : ' 00:00:00'}`).getTime()
+      this.set('timestamp', time)
     }
-    this.getDayList();
+    this.getDayList()
   }
 
-  _minmaxChanged() {
-    this.getInvalidAttribute();
+  _minmaxChanged () {
+    this.getInvalidAttribute()
   }
 
   /**
    * @param time
    * @private
    */
-  _timestampChanged(time) {
+  _timestampChanged (time) {
     if (!time) {
-      if (!this.rangeList.includes(this.type)) this.set("value", undefined);
-      return;
+      if (!this.rangeList.includes(this.type)) this.set('value', undefined)
+      return
     }
-    let value = this._getTimestampToDate(time);
+    const value = this._getTimestampToDate(time)
 
-    if (this.type === 'datetime') this.getTimeList(value, 'start');
-    this.set("value", value);
-
+    if (this.type === 'datetime') this.getTimeList(value, 'start')
+    this.set('value', value)
   }
 
-  _getTimestampToDate(timestamp) {
-    const date = new Date(timestamp);
-    let value = this._getTimestampTo(timestamp);
-    if (this.type.includes('time')) value += ` ${this.getTime(date)}`;
-    return value;
+  _getTimestampToDate (timestamp) {
+    const date = new Date(timestamp)
+    let value = this._getTimestampTo(timestamp)
+    if (this.type.includes('time')) value += ` ${this.getTime(date)}`
+    return value
   }
 
-  _getTimestampTo(timestamp) {
-    const date = new Date(timestamp);
-    return `${date.getFullYear()}-${this._preReplenish(date.getMonth() + 1, 2, "0")}-${this._preReplenish(date.getDate(), 2, "0")}`;
+  _getTimestampTo (timestamp) {
+    const date = new Date(timestamp)
+    return `${date.getFullYear()}-${this._preReplenish(date.getMonth() + 1, 2, '0')}-${this._preReplenish(date.getDate(), 2, '0')}`
   }
 
-  _startDateChanged(startDate) {
-    if (!startDate) return;
-    this.getTimeList(startDate, 'start');
-    let time = new Date(`${startDate}${this.type.includes('time') ? '' : ' 00:00:00'}`).getTime();
-    this.set("startTimestamp", time);
+  _startDateChanged (startDate) {
+    if (!startDate) return
+    this.getTimeList(startDate, 'start')
+    const time = new Date(`${startDate}${this.type.includes('time') ? '' : ' 00:00:00'}`).getTime()
+    this.set('startTimestamp', time)
   }
 
-  _endDateChanged(endDate) {
-    this.getInvalidAttribute();
-    if (!endDate) return;
-    this.getTimeList(endDate, 'end');
-    let time = new Date(`${endDate}${this.type.includes('time') ? '' : ' 23:59:59:999'}`).getTime();
-    this.set("endTimestamp", time);
-    this.getDayList();
+  _endDateChanged (endDate) {
+    this.getInvalidAttribute()
+    if (!endDate) return
+    this.getTimeList(endDate, 'end')
+    const time = new Date(`${endDate}${this.type.includes('time') ? '' : ' 23:59:59:999'}`).getTime()
+    this.set('endTimestamp', time)
+    this.getDayList()
   }
 
-  _startTimestampChanged(startTimestamp) {
+  _startTimestampChanged (startTimestamp) {
     if (!startTimestamp) {
-      this.set("startDate", undefined);
-      return;
+      this.set('startDate', undefined)
+      return
     }
-    let value = this._getTimestampToDate(startTimestamp);
-    this.getTimeList(value, 'start');
-    if (this.type.includes('time')) value = this.startDateTimeList.find(item => item.timestamp >= startTimestamp).value;
-    this.set('startDate', value);
+    let value = this._getTimestampToDate(startTimestamp)
+    this.getTimeList(value, 'start')
+    if (this.type.includes('time')) value = this.startDateTimeList.find(item => item.timestamp >= startTimestamp).value
+    this.set('startDate', value)
   }
 
-  _endTimestampChanged(endTimestamp) {
-    this.getInvalidAttribute();
+  _endTimestampChanged (endTimestamp) {
+    this.getInvalidAttribute()
     if (!endTimestamp) {
-      this.set("endDate", undefined);
-      return;
+      this.set('endDate', undefined)
+      return
     }
-    let value = this._getTimestampToDate(endTimestamp);
-    this.getTimeList(value, 'end');
-    if (this.type.includes('time')) value = this.endDateTimeList.find(item => item.timestamp >= endTimestamp).value;
-    this.set('endDate', value);
-    if (this.type !== 'datetimeRange') this.$.dateBox.close();
+    let value = this._getTimestampToDate(endTimestamp)
+    this.getTimeList(value, 'end')
+    if (this.type.includes('time')) value = this.endDateTimeList.find(item => item.timestamp >= endTimestamp).value
+    this.set('endDate', value)
+    if (this.type !== 'datetimeRange') this.$.dateBox.close()
   }
 
-  getTime(date) {
+  getTime (date) {
     return `${this._preReplenish(date.getHours(), 2, '0')}:${this._preReplenish(date.getMinutes(), 2, '0')}:${this._preReplenish(date.getSeconds(), 2, '0')}`
   }
 
-  getTimeList(date, type) {
-    const endTimeArr = this.endTime.split(':');
-    const listLength = !this.type.includes('time') ? 24 / (this.stepTime / 60) : Math.ceil((endTimeArr[0] * 60 + +endTimeArr[1] + (+endTimeArr[2] / 60)) / this.stepTime);
-    const startTimeArr = this.startTime.split(':');
-    const timeI = !this.type.includes('time') ? 0 : Math.floor((startTimeArr[0] * 60 + +startTimeArr[1] + (+startTimeArr[2] / 60)) / this.stepTime);
-    let startDateTimeList = [];
+  getTimeList (date, type) {
+    const endTimeArr = this.endTime.split(':')
+    const listLength = !this.type.includes('time') ? 24 / (this.stepTime / 60) : Math.ceil((endTimeArr[0] * 60 + +endTimeArr[1] + (+endTimeArr[2] / 60)) / this.stepTime)
+    const startTimeArr = this.startTime.split(':')
+    const timeI = !this.type.includes('time') ? 0 : Math.floor((startTimeArr[0] * 60 + +startTimeArr[1] + (+startTimeArr[2] / 60)) / this.stepTime)
+    const startDateTimeList = []
     for (let i = timeI; i <= listLength; i++) {
-      const datetime = new Date(0, 0, 0, 0, i * this.stepTime);
-      const value = `${date.split(' ')[0]} ${this.getTime(datetime)}`;
-      const timestamp = new Date(value).getTime();
-      startDateTimeList.push({value, label: value, timestamp})
+      const datetime = new Date(0, 0, 0, 0, i * this.stepTime)
+      const value = `${date.split(' ')[0]} ${this.getTime(datetime)}`
+      const timestamp = new Date(value).getTime()
+      startDateTimeList.push({ value, label: value, timestamp })
     }
-    this.set(`${type}DateTimeList`, startDateTimeList);
+    this.set(`${type}DateTimeList`, startDateTimeList)
   }
 
-  clear(e) {
-    e.stopPropagation();
+  clear (e) {
+    e.stopPropagation()
     if (this.rangeList.includes(this.type)) {
-      this.startDate = null;
-      this.endDate = null;
-      this.startTimestamp = null;
-      this.endTimestamp = null;
+      this.startDate = null
+      this.endDate = null
+      this.startTimestamp = null
+      this.endTimestamp = null
     }
-    this.value = '';
+    this.value = ''
   }
 
   /*
   * 单个日期class控制
   * */
-  selectDate(item) {
-    let classStr = item.select ? 'select-item' : '';
-    classStr += this.startDate && item.position === 'start' ? ' select-start' : '';
-    classStr += this.endDate && item.position === 'end' ? ' select-end' : '';
-    return classStr;
+  selectDate (item) {
+    let classStr = item.select ? 'select-item' : ''
+    classStr += this.startDate && item.position === 'start' ? ' select-start' : ''
+    classStr += this.endDate && item.position === 'end' ? ' select-end' : ''
+    return classStr
   }
 
-  optionalClass(item) {
-    let str = item.currMonth ? 'item-day' : 'item-day currMonth';
-    str += item.disabled ? ' disabled' : '';
-    str += item.select && this.rangeList.includes(this.type) && this.startDate && this.endDate && item.position !== 'start' && item.position !== 'end' && item.position !== 'all' ? ' select-range' : '';
-    return str;
+  optionalClass (item) {
+    let str = item.currMonth ? 'item-day' : 'item-day currMonth'
+    str += item.disabled ? ' disabled' : ''
+    str += item.select && this.rangeList.includes(this.type) && this.startDate && this.endDate && item.position !== 'start' && item.position !== 'end' && item.position !== 'all' ? ' select-range' : ''
+    return str
   }
 
   /**
@@ -670,217 +694,216 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @param {number} totalLen 填充后的长度
    * @param {string} replenisher 填充的字符
    */
-  _preReplenish(str, totalLen = 0, replenisher = "") {
-    return `${String(replenisher).repeat(Number(totalLen) - String(str).length)}${String(str)}`;
+  _preReplenish (str, totalLen = 0, replenisher = '') {
+    return `${String(replenisher).repeat(Number(totalLen) - String(str).length)}${String(str)}`
   }
 
   /**
    * Set focus to input.
    */
-  doFocus() {
-    this.$.input.doFocus();
+  doFocus () {
+    this.$.input.doFocus()
   }
 
-  openDialog() {
-    this.$.dateBox.positionTarget = this.$.targetDate;
-    const date = this.value && !this.rangeList.includes(this.type) ? new Date(this.value) : (this.startDate && this.endDate) && this.rangeList.includes(this.type) ? new Date(this.startDate) : this.min ? new Date(this.min) : this.max ? new Date(this.max) : new Date();
-    this.year = date.getFullYear();
-    this.month = date.getMonth() + 1;
-    this.date = date.getDate();
-    this.getDayList();
-    this.$.dateBox.open();
+  openDialog () {
+    this.$.dateBox.positionTarget = this.$.targetDate
+    const date = this.value && !this.rangeList.includes(this.type) ? new Date(this.value) : (this.startDate && this.endDate) && this.rangeList.includes(this.type) ? new Date(this.startDate) : this.min ? new Date(this.min) : this.max ? new Date(this.max) : new Date()
+    this.year = date.getFullYear()
+    this.month = date.getMonth() + 1
+    this.date = date.getDate()
+    this.getDayList()
+    this.$.dateBox.open()
   }
 
-  yearOpen() {
-    let yearList = [];
-    const year = this.year;
+  yearOpen () {
+    const yearList = []
+    const year = this.year
     for (let i = year - 5, max = year + 6; i <= max; i++) {
-      yearList.push(i);
+      yearList.push(i)
     }
-    this.set('showDashboard', 'year');
-    this.set('yearList', yearList);
+    this.set('showDashboard', 'year')
+    this.set('yearList', yearList)
   }
 
-  monthOpen() {
-    this.set('showDashboard', 'month');
+  monthOpen () {
+    this.set('showDashboard', 'month')
     if (this.min) {
-      if (this.month < this.min.split('-')[1] && this.year <= this.min.split('-')[0]) this.month = this.min.split('-')[1];
+      if (this.month < this.min.split('-')[1] && this.year <= this.min.split('-')[0]) this.month = this.min.split('-')[1]
     }
     if (this.max) {
-      if (this.month > this.max.split('-')[1] && this.year >= this.max.split('-')[0]) this.month = this.max.split('-')[1];
+      if (this.month > this.max.split('-')[1] && this.year >= this.max.split('-')[0]) this.month = this.max.split('-')[1]
     }
-    this.set('yearList', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    this.set('yearList', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
   }
 
-  getDayList() {
-    const totalDays = new Date(this.year, this.month, 0).getDate();
-    const min = 1 - (new Date(this.year, this.month - 1, 1).getDay() || 7);
-    const max = min + 42;
-    this.dayList = [];
-    let minTimestamp, maxTimestamp, startDate, endDate;
-    if (this.min) minTimestamp = new Date(this.min).getTime();
-    if (this.max) maxTimestamp = new Date(this.max).getTime();
-    if (this.startDate) startDate = new Date(this.startDate.indexOf(':') > -1 ? this.startDate : this.startDate + ' 00:00');
-    if (this.endDate) endDate = new Date(this.endDate.indexOf(':') > -1 ? this.endDate : this.endDate + ' 00:00');
-    const days = [];
+  getDayList () {
+    const totalDays = new Date(this.year, this.month, 0).getDate()
+    const min = 1 - (new Date(this.year, this.month - 1, 1).getDay() || 7)
+    const max = min + 42
+    this.dayList = []
+    let minTimestamp, maxTimestamp, startDate, endDate
+    if (this.min) minTimestamp = new Date(this.min).getTime()
+    if (this.max) maxTimestamp = new Date(this.max).getTime()
+    if (this.startDate) startDate = new Date(this.startDate.indexOf(':') > -1 ? this.startDate : this.startDate + ' 00:00')
+    if (this.endDate) endDate = new Date(this.endDate.indexOf(':') > -1 ? this.endDate : this.endDate + ' 00:00')
+    const days = []
     for (let i = min; i < max; i++) {
-      const obj = new Date(this.year, this.month - 1, i);
-      const startObj = new Date(this.year, this.month - 1, i + 1) - 1;
-      const currMonth = i > 0 && i <= totalDays;
-      let select = !this.rangeList.includes(this.type) ? obj.getDate() === this.date && this.value && currMonth : (this.startDate && startDate <= startObj && this.endDate && endDate >= obj);
+      const obj = new Date(this.year, this.month - 1, i)
+      const startObj = new Date(this.year, this.month - 1, i + 1) - 1
+      const currMonth = i > 0 && i <= totalDays
+      const select = !this.rangeList.includes(this.type) ? obj.getDate() === this.date && this.value && currMonth : (this.startDate && startDate <= startObj && this.endDate && endDate >= obj)
       days.push({
         date: obj.getDate(),
         currMonth,
         select,
         disabled: minTimestamp > obj.getTime() || maxTimestamp < obj.getTime()
-      });
+      })
     }
 
-    this.set('dayList', days);
+    this.set('dayList', days)
 
     if (this.startDate && this.endDate && this.rangeList.includes(this.type)) {
-      const dayList = this.dayList.slice();
-      const startIndex = dayList.findIndex(val => val.select);
-      const endIndex = dayList.length - 1 - dayList.reverse().findIndex(val => val.select);
+      const dayList = this.dayList.slice()
+      const startIndex = dayList.findIndex(val => val.select)
+      const endIndex = dayList.length - 1 - dayList.reverse().findIndex(val => val.select)
       if (startIndex === endIndex) {
-        this.set(`dayList.${startIndex}`, Object.assign({position: 'all'}, this.dayList[startIndex]));
-        return;
+        this.set(`dayList.${startIndex}`, Object.assign({ position: 'all' }, this.dayList[startIndex]))
+        return
       }
-      this.set(`dayList.${startIndex}`, Object.assign({position: 'start'}, this.dayList[startIndex]));
-      this.set(`dayList.${endIndex}`, Object.assign({position: 'end'}, this.dayList[endIndex]));
+      this.set(`dayList.${startIndex}`, Object.assign({ position: 'start' }, this.dayList[startIndex]))
+      this.set(`dayList.${endIndex}`, Object.assign({ position: 'end' }, this.dayList[endIndex]))
     }
   }
 
-  yearMinus() {
-    const min = this.min ? this.min.split('-')[0] : 1970;
-    this.year > min && this.year--;
-    if (this.showDashboard === 'year' && this.yearList[0] > this.year) this.yearOpen();
-    if (!this.showDashboard) this.getDayList();
+  yearMinus () {
+    const min = this.min ? this.min.split('-')[0] : 1970
+    this.year > min && this.year--
+    if (this.showDashboard === 'year' && this.yearList[0] > this.year) this.yearOpen()
+    if (!this.showDashboard) this.getDayList()
   }
 
-  yearAdd() {
-    const max = this.max ? this.max.split('-')[0] : 9999;
-    this.year < max && this.year++;
-    if (this.showDashboard === 'year' && this.yearList[11] < this.year) this.yearOpen();
-    if (!this.showDashboard) this.getDayList();
+  yearAdd () {
+    const max = this.max ? this.max.split('-')[0] : 9999
+    this.year < max && this.year++
+    if (this.showDashboard === 'year' && this.yearList[11] < this.year) this.yearOpen()
+    if (!this.showDashboard) this.getDayList()
   }
 
-  optionalClassYM(item, year, month) {
-    let str = 'item-y-m';
+  optionalClassYM (item, year, month) {
+    let str = 'item-y-m'
     if (this.min) {
-      str += item <= 12 && item < this.min.split('-')[1] && this.year <= this.min.split('-')[0] ? ' disabled' : '';
-      str += item > 12 && item < this.min.split('-')[0] ? ' disabled' : '';
+      str += item <= 12 && item < this.min.split('-')[1] && this.year <= this.min.split('-')[0] ? ' disabled' : ''
+      str += item > 12 && item < this.min.split('-')[0] ? ' disabled' : ''
     }
     if (this.max) {
-      str += item <= 12 && item > this.max.split('-')[1] && this.year >= this.max.split('-')[0] ? ' disabled' : '';
-      str += item > 12 && item > this.max.split('-')[0] ? ' disabled' : '';
+      str += item <= 12 && item > this.max.split('-')[1] && this.year >= this.max.split('-')[0] ? ' disabled' : ''
+      str += item > 12 && item > this.max.split('-')[0] ? ' disabled' : ''
     }
-    str += item === year || item === month ? ' select-item' : '';
-    return str;
+    str += item === year || item === month ? ' select-item' : ''
+    return str
   }
 
-  monthMinus() {
-    const min = this.min ? this.min.split('-')[1] : 0;
+  monthMinus () {
+    const min = this.min ? this.min.split('-')[1] : 0
     if (this.month === 1) {
-      this.month = 12;
-      this.yearMinus();
+      this.month = 12
+      this.yearMinus()
     } else if (this.month > min || (this.min && this.year > this.min.split('-')[0])) {
-      this.month--;
-      this.getDayList();
+      this.month--
+      this.getDayList()
     }
   }
 
-  monthAdd() {
-    const max = this.max ? this.max.split('-')[1] : 13;
+  monthAdd () {
+    const max = this.max ? this.max.split('-')[1] : 13
     if (this.month === 12) {
-      this.month = 1;
-      this.yearAdd();
+      this.month = 1
+      this.yearAdd()
     } else if (this.month < max || (this.max && this.year < this.max.split('-')[0])) {
-      this.month++;
-      this.getDayList();
+      this.month++
+      this.getDayList()
     }
   }
 
-  selectDay({model: {item, index}}) {
-    this.clearDate();
+  selectDay ({ model: { item, index } }) {
+    this.clearDate()
     if (!this.rangeList.includes(this.type)) {
-      const findIndex = this.dayList.findIndex(val => val.select);
-      if (findIndex > -1) this.set(`dayList.${findIndex}`, Object.assign({}, item, {select: false}));
+      const findIndex = this.dayList.findIndex(val => val.select)
+      if (findIndex > -1) this.set(`dayList.${findIndex}`, Object.assign({}, item, { select: false }))
     }
-    this.set(`dayList.${index}`, Object.assign({}, item, {select: true}));
-    this.date = item.date;
-    const month = item.currMonth ? this.month - 1 : item.date >= 24 ? this.month - 2 : this.month;
+    this.set(`dayList.${index}`, Object.assign({}, item, { select: true }))
+    this.date = item.date
+    const month = item.currMonth ? this.month - 1 : item.date >= 24 ? this.month - 2 : this.month
 
-    const transientDate = this._getTimestampTo(new Date(this.year, month, this.date));
+    const transientDate = this._getTimestampTo(new Date(this.year, month, this.date))
     // const timestamp = new Date(this.year, month, this.date).getTime();
-    this.setTimestamp(transientDate);
+    this.setTimestamp(transientDate)
 
     if (!this.rangeList.includes(this.type) && !item.currMonth) {
-      item.date >= 24 ? this.monthMinus() : this.monthAdd();
+      item.date >= 24 ? this.monthMinus() : this.monthAdd()
     }
   }
 
-  clearDate() {
+  clearDate () {
     if (this.rangeList.includes(this.type) && (this.startDate && this.endDate)) {
-      this.set('startDate', undefined);
-      this.set('endDate', undefined);
-      this.set('startTimestamp', undefined);
-      this.set('endTimestamp', undefined);
-      this.getDayList();
+      this.set('startDate', undefined)
+      this.set('endDate', undefined)
+      this.set('startTimestamp', undefined)
+      this.set('endTimestamp', undefined)
+      this.getDayList()
     }
   }
 
-  selectYearOrMonth({model: {item}}) {
-    this[this.showDashboard] = item;
+  selectYearOrMonth ({ model: { item } }) {
+    this[this.showDashboard] = item
     if (this.showDashboard === 'year') {
-      this.monthOpen();
+      this.monthOpen()
       return
     }
     if (this.showDashboard === 'month') {
-      this.showDashboard = '';
-      this.getDayList();
+      this.showDashboard = ''
+      this.getDayList()
     }
-
   }
 
-  selectToday() {
-    this.clearDate();
-    const date = new Date();
-    this.year = date.getFullYear();
-    this.month = date.getMonth() + 1;
-    this.date = date.getDate();
-    this.getDayList();
-    const index = this.dayList.findIndex(val => val.date === this.date && val.currMonth);
-    this.set(`dayList.${index}`, Object.assign({}, this.dayList[index], {select: true}));
+  selectToday () {
+    this.clearDate()
+    const date = new Date()
+    this.year = date.getFullYear()
+    this.month = date.getMonth() + 1
+    this.date = date.getDate()
+    this.getDayList()
+    const index = this.dayList.findIndex(val => val.date === this.date && val.currMonth)
+    this.set(`dayList.${index}`, Object.assign({}, this.dayList[index], { select: true }))
     // const timestamp = new Date(this.year, this.month - 1, this.date).getTime();
-    const transientDate = this._getTimestampTo(new Date(this.year, this.month - 1, this.date));
-    this.setTimestamp(transientDate);
+    const transientDate = this._getTimestampTo(new Date(this.year, this.month - 1, this.date))
+    this.setTimestamp(transientDate)
   }
 
   // 赋值
-  setTimestamp(date) {
-    let timestamp;
+  setTimestamp (date) {
+    let timestamp
     // 判断日期时间选择是否为选择范围，是赋值给timestamp
     if (!this.rangeList.includes(this.type)) {
-      timestamp = new Date(date).getTime();
-      this.set('timestamp', timestamp);
-      if (!this.type.includes('time')) this.$.dateBox.close();
+      timestamp = new Date(date).getTime()
+      this.set('timestamp', timestamp)
+      if (!this.type.includes('time')) this.$.dateBox.close()
     } else {
       if ((this.startTimestamp && this.endTimestamp) || (!this.startTimestamp && !this.endTimestamp)) {
-        timestamp = (this.type.includes('time') ? new Date(date + ` ${this.startTime}`) : new Date(date + ` 00:00:00`)).getTime();
-        this.set('startTimestamp', timestamp);
-        this.set('endTimestamp', null);
+        timestamp = (this.type.includes('time') ? new Date(date + ` ${this.startTime}`) : new Date(date + ' 00:00:00')).getTime()
+        this.set('startTimestamp', timestamp)
+        this.set('endTimestamp', null)
       } else {
         // 先判断选择第二个时间是否早于第一个
-        let endTimestamp;
-        timestamp = (this.type.includes('time') ? new Date(date + ` ${this.endTime}`) : new Date(date + ` 00:00:00`)).getTime();
+        let endTimestamp
+        timestamp = (this.type.includes('time') ? new Date(date + ` ${this.endTime}`) : new Date(date + ' 00:00:00')).getTime()
         if (this.startTimestamp >= timestamp) {
-          endTimestamp = this.type.includes('time') ? this.startTimestamp : (this.startTimestamp + 86400000 - 1);
-          this.set('startTimestamp', timestamp);
-          this.set('endTimestamp', endTimestamp);
+          endTimestamp = this.type.includes('time') ? this.startTimestamp : (this.startTimestamp + 86400000 - 1)
+          this.set('startTimestamp', timestamp)
+          this.set('endTimestamp', endTimestamp)
         } else {
-          endTimestamp = this.type.includes('time') ? timestamp : (timestamp + 86400000 - 1);
-          this.set('endTimestamp', endTimestamp);
+          endTimestamp = this.type.includes('time') ? timestamp : (timestamp + 86400000 - 1)
+          this.set('endTimestamp', endTimestamp)
         }
       }
     }
@@ -893,21 +916,29 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * Then if required = true check (value != undefined && value !== '')
    * And if allowPattern is defined , use the regexp to test the value
    *
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
+  validate () {
     super.validate()
-    let validate = !this.rangeList.includes(this.type) ? this.value && this.value.length > 0 : (this.startDate && this.endDate) || (this.startTimestamp && this.endTimestamp);
+    let validate = !this.rangeList.includes(this.type) ? this.value && this.value.length > 0 : (this.startDate && this.endDate) || (this.startTimestamp && this.endTimestamp)
     if (this.min) {
-      const minTimestamp = new Date(`${this.min}${this.type.includes('time') ? '' : ' 00:00:00:000'}`).getTime();
-      validate = validate && (!this.rangeList.includes(this.type) ? minTimestamp < this.timestamp : minTimestamp < this.startTimestamp);
+      const minTimestamp = new Date(`${this.min}${this.type.includes('time') ? '' : ' 00:00:00:000'}`).getTime()
+      validate = validate && (!this.rangeList.includes(this.type) ? minTimestamp < this.timestamp : minTimestamp < this.startTimestamp)
     }
     if (this.max) {
-      const maxTimestamp = new Date(`${this.max}${this.type.includes('time') ? '' : ' 23:59:59:999'}`).getTime();
-      validate = validate && (!this.rangeList.includes(this.type) ? maxTimestamp > this.timestamp : maxTimestamp > this.endTimestamp);
+      const maxTimestamp = new Date(`${this.max}${this.type.includes('time') ? '' : ' 23:59:59:999'}`).getTime()
+      validate = validate && (!this.rangeList.includes(this.type) ? maxTimestamp > this.timestamp : maxTimestamp > this.endTimestamp)
     }
-    return this.required ? validate : true;
+    return this.required ? validate : true
+  }
+
+  __isViewChanged (isView, readonly) {
+    this.$.input__date.style.display = (this.readonly && isView) ? 'none' : 'flex'
+  }
+
+  _isView (isView, readonly) {
+    return isView && readonly
   }
 }
 
-window.customElements.define(IsuInputDate.is, IsuInputDate);
+window.customElements.define(IsuInputDate.is, IsuInputDate)

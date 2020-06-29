@@ -1,9 +1,10 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
+import { html, PolymerElement } from '@polymer/polymer'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 
-import {BaseBehavior} from "./behaviors/base-behavior";
-import './behaviors/isu-elements-shared-styles.js';
-import '@polymer/paper-checkbox';
+import { BaseBehavior } from './behaviors/base-behavior'
+import './behaviors/isu-elements-shared-styles.js'
+import '@polymer/paper-checkbox'
 /**
  *
  * `isu-checkbox-group`
@@ -28,7 +29,7 @@ import '@polymer/paper-checkbox';
  * @demo demo/isu-checkbox-group/index.html
  */
 class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
-  static get template() {
+  static get template () {
     return html`
       <style include="isu-elements-shared-styles">
         :host {
@@ -85,6 +86,7 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
           position: absolute;
           left: -10px;
           line-height: inherit;
+          @apply --isu-required
         }
         
         .inline-block {
@@ -122,10 +124,10 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
         </div>
         <div class="mask"></div>
       </div>
-    `;
+    `
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The label of the Checkbox
@@ -174,7 +176,7 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
        */
       attrForValue: {
         type: String,
-        value: "value"
+        value: 'value'
       },
       /**
        * Attribute name for label.
@@ -183,7 +185,7 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
        */
       attrForLabel: {
         type: String,
-        value: "label"
+        value: 'label'
       },
 
       /**
@@ -193,7 +195,8 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
        */
       required: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       },
       /**
        * A limit on the number of optional items, smallest optional
@@ -235,38 +238,39 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
        */
       readonly: {
         type: Boolean,
-        value: false
+        value: false,
+        reflectToAttribute: true
       }
-    };
+    }
   }
 
-  static get is() {
-    return "isu-checkbox-group";
+  static get is () {
+    return 'isu-checkbox-group'
   }
 
-  static get observers() {
+  static get observers () {
     return [
       '__valueChanged(value, items)',
       'getInvalidAttribute(required, min, max, value)',
       '__readonlyChanged(readonly)'
-    ];
+    ]
   }
 
-  __readonlyChanged(readonly) {
+  __readonlyChanged (readonly) {
     // if (readonly) {
     //   this.$.readonly.style.width = this.querySelector('.checkboxes')
     // }
   }
 
-  __computedInnerItems(items = [], value = "") {
-    const values = this.__parseValues(value);
+  __computedInnerItems (items = [], value = '') {
+    const values = this.__parseValues(value)
     const selectValues = value.split(',')
     const _items = items.map(item =>
-      Object.assign({}, item, {checked: values.some(val => val === item[this.attrForValue] + '')}))
+      Object.assign({}, item, { checked: values.some(val => val === item[this.attrForValue] + '') }))
     if (this.min) {
       if (selectValues.length <= this.min && selectValues.length > 0) {
         _items.forEach(item => {
-          if (!!item.checked) item.disabled = true
+          if (item.checked) item.disabled = true
         })
       }
     }
@@ -278,35 +282,35 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
       }
     }
     this.set('_items', _items)
-    return _items;
+    return _items
   }
 
-  __checkedChangeHandler() {
-    const selectValues = this._items.filter(item => !!item.checked).map(item => item[this.attrForValue]);
-    this.value = selectValues.length > 0 ? selectValues.join(',') : undefined;
-  }
-
-  /**
-   * @private
-   */
-  __valueChanged(value = "", items = []) {
-    const values = this.__parseValues(value);
-
-    this.selectedValues = items.filter(item => values.some(val => val === item[this.attrForValue] + ''));
+  __checkedChangeHandler () {
+    const selectValues = this._items.filter(item => !!item.checked).map(item => item[this.attrForValue])
+    this.value = selectValues.length > 0 ? selectValues.join(',') : undefined
   }
 
   /**
    * @private
    */
-  __parseValues(value = "") {
-    return value.split(',').map(val => val.trim());
+  __valueChanged (value = '', items = []) {
+    const values = this.__parseValues(value)
+
+    this.selectedValues = items.filter(item => values.some(val => val === item[this.attrForValue] + ''))
+  }
+
+  /**
+   * @private
+   */
+  __parseValues (value = '') {
+    return value.split(',').map(val => val.trim())
   }
 
   /**
    * Validate, true if the select is set to be required and this.selectedValues.length > 0, or else false.
-   * @returns {boolean}
+   * @return {boolean}
    */
-  validate() {
+  validate () {
     super.validate()
 
     let valid = true
@@ -315,11 +319,11 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
       valid = this.selectedValues && this.selectedValues.length > 0
     }
 
-    if(this.min) {
+    if (this.min) {
       valid = this.selectedValues && this.selectedValues.length >= this.min
     }
 
-    if(this.max) {
+    if (this.max) {
       valid = this.selectedValues && this.selectedValues.length <= this.max
     }
 
@@ -327,4 +331,4 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
   }
 }
 
-window.customElements.define(IsuCheckboxGroup.is, IsuCheckboxGroup);
+window.customElements.define(IsuCheckboxGroup.is, IsuCheckboxGroup)

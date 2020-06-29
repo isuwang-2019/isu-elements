@@ -2,7 +2,7 @@ import { html, PolymerElement } from '@polymer/polymer'
 import './isu-input.js'
 
 /**
- 
+
  Example:
  ```html
   <isu-slider show-tooltip></isu-slider>

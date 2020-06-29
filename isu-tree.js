@@ -1,10 +1,10 @@
-import {html, PolymerElement} from "@polymer/polymer";
-import './behaviors/isu-tree-shared-styles.js';
-import './isu-tree-node.js';
-import './isu-input.js';
-import {mixinBehaviors} from "@polymer/polymer/lib/legacy/class";
+import { html, PolymerElement } from '@polymer/polymer'
+import './behaviors/isu-tree-shared-styles.js'
+import './isu-tree-node.js'
+import './isu-input.js'
+import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 import TreeStore from './utils/tree/tree-store.js'
-import Node from "./utils/tree/node";
+import Node from './utils/tree/node'
 
 /**
  *
@@ -64,8 +64,7 @@ import Node from "./utils/tree/node";
  * @demo demo/isu-tree/index.html
  */
 class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
-
-  static get template() {
+  static get template () {
     return html`
        <style include="isu-tree-shared-styles">
        
@@ -88,10 +87,10 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
           </div>
           </isu-tree-node>
         </template>
-`;
+`
   }
 
-  static get properties() {
+  static get properties () {
     return {
       /**
        * The data of the tree
@@ -178,12 +177,12 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
       },
       props: {
         type: Object,
-        value() {
+        value () {
           return {
             children: 'children',
             label: 'label',
             disabled: 'disabled'
-          };
+          }
         }
       },
       store: {
@@ -240,7 +239,8 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
       }
     }
   }
-  static get observers() {
+
+  static get observers () {
     return [
       '_childNodesChanged(node.childNodes.*)',
       '_isFirst(isFirst)',
@@ -248,32 +248,32 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
     ]
   }
 
-  _childNodesChanged(target) {
+  _childNodesChanged (target) {
     const self = this
     self.addEventListener('check-button', (e) => {
       self.debounce('_setBindItemsChanged', self._setBindItemsChanged.bind(self, e), 200)
-    });
+    })
     self.addEventListener('single-check', (e) => {
       self.debounce('_setSingleBindItemsChanged', self._setSingleBindItemsChanged.bind(self, e), 200)
-    });
+    })
     self.addEventListener('arrow-check', (e) => {
-      this.dispatchEvent(new CustomEvent('tree-arrow-check', {detail: {selectedItem: self.bindItems[0]}, bubbles: true, composed: true}));
-    });
+      this.dispatchEvent(new CustomEvent('tree-arrow-check', { detail: { selectedItem: (self.bindItems || [])[0] }, bubbles: true, composed: true }))
+    })
   }
 
-  _setBindItemsChanged(e) {
+  _setBindItemsChanged (e) {
     if (!this.checkOnClickNode) {
       this.set('bindItems', e.detail.checkedNodes)
       this.set('bindItemKeys', e.detail.checkedKeys)
     }
   }
 
-  _setSingleBindItemsChanged(e) {
+  _setSingleBindItemsChanged (e) {
     this.set('bindItems', Array.prototype.concat([], e.detail.data))
     this.set('bindItemKeys', Array.prototype.concat([], e.detail.data[this.key]))
   }
 
-  _dataChanged(data) {
+  _dataChanged (data) {
     if (data) {
       const store = new TreeStore({
         data: data,
@@ -288,25 +288,23 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
         defaultExpandedKeys: this.defaultExpandedKeys,
         autoExpandParent: this.autoExpandParent,
         defaultExpandAll: this.defaultExpandAll
-      });
-      this.set('store',  store)
-      this.set('node',  store.root)
+      })
+      this.set('store', store)
+      this.set('node', store.root)
     }
-
   }
 
-  _isFirst(index) {
+  _isFirst (index) {
     return index === 0
   }
 
-  getNodeKey(node, index) {
+  getNodeKey (node, index) {
     return node.id ? node.id : index
   }
 
-  _getDataLocation(index) {
+  _getDataLocation (index) {
     return [this.level + 1, index]
   }
-
 }
 
-window.customElements.define('isu-tree', IsuTree);
+window.customElements.define('isu-tree', IsuTree)

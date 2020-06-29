@@ -110,6 +110,9 @@ const template = html`
         width: 20px;
       }
       
+      .isu-label::after{
+        @apply --isu-label--after;
+      }
       .isu-label {
         margin-right: 13px;
         white-space: nowrap;
