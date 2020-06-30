@@ -653,7 +653,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       if (this.selectedValues.length > 0) {
         this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',')
       } else {
-        this.value = undefined
+        this.value = ''
       }
       if (this.selectedValues.length !== 0) {
         this.closeCollapse()
