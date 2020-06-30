@@ -49,12 +49,12 @@ class IsuTable extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerEleme
         vertical-align: middle;
         text-align: left;
         border-bottom: 1px solid #ebeef5;
-        height: 44px;
-        line-height: 40px;
         @apply --isu-table-line-height;
       }
       
       .isu-table th {
+        height: 44px;
+        line-height: 40px;
         border-bottom-width: 2px;
         @apply --isu-table-th
       }
