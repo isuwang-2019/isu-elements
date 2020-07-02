@@ -139,6 +139,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           flex: 1;
           overflow: hidden;
           text-overflow: ellipsis;
+          white-space: normal;
         }
   
         .tag-deleter {
