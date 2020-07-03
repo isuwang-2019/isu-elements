@@ -842,7 +842,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _selectedValuesChanged () {
     if (this.selectedValues.length > 0) {
-      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).filter(item => item).join(',')
+      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).filter(item => !this.isEmptyObject(item)).join(',')
       this.selectedItem = this.selectedValues[this.selectedValues.length - 1]
     } else {
       this.value = ''
