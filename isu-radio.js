@@ -181,6 +181,24 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       attrForLabel: {
         type: String,
         value: 'label'
+      },
+      /**
+       * If true hides the component， default false
+       */
+      hidden: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      },
+      /**
+       * If you do not have permissions, the component does not display
+       * @type Boolean
+       * @default true
+       */
+      permission: {
+        type: Boolean,
+        value: true,
+        observer: '_permissionChange'
       }
     }
   }
@@ -200,6 +218,10 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       // 如果必填， 默认选中第一项
       this.value = items[0][this.attrForValue]
     }
+  }
+
+  _permissionChange (permission) {
+    this.set('hidden', !permission)
   }
 
   /**
