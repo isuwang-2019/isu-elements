@@ -606,11 +606,11 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const dirty = (this.selectedValues || []).map(selected => selected[this.attrForValue]).join(',')
       if (dirty !== value) {
         this.selectedValues =
-          flatValues.map(val => this.items.find(item => item[this.attrForValue] == val))
+          flatValues.map(val => this.items.find(item => `${item[this.attrForValue]}` === `${val}`))
             .filter(selected => typeof selected !== 'undefined')
 
         if (!this.multi) {
-          this.selectedItem = this.items.find(item => item[this.attrForValue] == flatValues[0])
+          this.selectedItem = this.items.find(item => `${item[this.attrForValue]}` === `${flatValues[0]}`)
         }
       }
     }
@@ -670,8 +670,11 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   _deleteTag (e) {
     const value = e.target.dataArgs
-    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] == value)
+    const ind = this.selectedValues.findIndex(selected => `${selected[this.attrForValue]}` === `${value}`)
     this.splice('selectedValues', ind, 1)
+    if (!this.multi) {
+      this.set('selectedItem', null)
+    }
   }
 
   /**
