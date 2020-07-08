@@ -664,6 +664,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: true,
         observer: '_permissionChange'
+      },
+      /**
+       * Ajax headers
+       * @type Object
+       * @default
+       */
+      headers:{
+        type: Object
       }
     }
   }
@@ -728,7 +736,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         url: url,
         method: 'GET',
         headers: {
-          'Cache-Control': 'no-cache'
+          'Cache-Control': 'no-cache',
+          ...this.headers
         },
         credentials: 'include',
         body: JSON.stringify(data)
@@ -739,7 +748,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       method: 'POST',
       headers: {
         'content-type': 'application/json;charset=utf-8',
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 'no-cache',
+        ...this.headers
       },
       credentials: 'include',
       body: JSON.stringify(data)
