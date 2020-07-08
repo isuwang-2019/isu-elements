@@ -80,10 +80,11 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .close-dialog {
         position: absolute;
         top: -14px;
-        right: -14px;
+        right: -2px;
         cursor: pointer;
         z-index: 10;
         color: #797979;
+        @apply --isu-dialog-close
       }
 
       .close-dialog:hover {
