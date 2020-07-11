@@ -26,6 +26,7 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+            @apply --status-select-content
             
         }
         :host iron-selector{
@@ -37,7 +38,7 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
             font-size: 12px;
             cursor: pointer;
             color: #337ab7;
-            @apply --iron-selector-item
+            @apply --status-item
         }
 
         /*hover*/
@@ -47,6 +48,7 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
             border-radius: 5px;
+            @apply --status-hover
         }
         :host iron-selector > .iron-selected{
             color: #fff;
@@ -58,6 +60,7 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
             border-radius: 5px;
+            @apply --status-selected
         }
         :host .status-count{
             @apply --status-count
@@ -109,10 +112,6 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value () {
           return []
         }
-      },
-
-      selectedItem: {
-        type: Object
       },
 
       /**
