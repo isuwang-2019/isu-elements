@@ -124,7 +124,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
         outline-offset: -10px;
         text-align: center;
         padding: 20px;
-
+        white-space: normal;
         display: flex;
         justify-content: center;
         align-items: center;
