@@ -86,6 +86,10 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
         color: #797979;
         @apply --isu-dialog-close
       }
+      
+      .close-icon{
+        @apply --isu-dialog-close-icon
+      }
 
       .close-dialog:hover {
         color: var(--isu-ui-red);
@@ -121,7 +125,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       no-cancel-on-outside-click="[[noCancelOnOutsideClick]]" on-opened-changed="openedChanged">
       
       <div class="close-dialog" on-tap="close">
-        <iron-icon icon="icons:close"></iron-icon>
+        <iron-icon icon="icons:close" class="close-icon"></iron-icon>
       </div>
       
       <template is="dom-if" if="[[ toBoolean(title) ]]">
