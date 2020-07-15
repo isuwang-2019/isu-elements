@@ -7895,11 +7895,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 143,
+              "line": 151,
               "column": 6
             },
             "end": {
-              "line": 145,
+              "line": 153,
               "column": 7
             }
           },
@@ -7916,11 +7916,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 159,
               "column": 6
             },
             "end": {
-              "line": 154,
+              "line": 162,
               "column": 7
             }
           },
@@ -7938,11 +7938,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 169,
               "column": 6
             },
             "end": {
-              "line": 166,
+              "line": 174,
               "column": 7
             }
           },
@@ -7961,11 +7961,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 173,
+              "line": 181,
               "column": 6
             },
             "end": {
-              "line": 177,
+              "line": 185,
               "column": 7
             }
           },
@@ -7983,11 +7983,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 183,
+              "line": 191,
               "column": 6
             },
             "end": {
-              "line": 186,
+              "line": 194,
               "column": 7
             }
           },
@@ -8005,11 +8005,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 192,
+              "line": 200,
               "column": 6
             },
             "end": {
-              "line": 195,
+              "line": 203,
               "column": 7
             }
           },
@@ -8023,27 +8023,6 @@
           "name": "top",
           "type": "number",
           "description": "The distance from the top",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 201,
-              "column": 6
-            },
-            "end": {
-              "line": 203,
-              "column": 7
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Number"
-            }
-          }
-        },
-        {
-          "name": "left",
-          "type": "number",
-          "description": "The distance from the left",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -8062,9 +8041,9 @@
           }
         },
         {
-          "name": "lockScroll",
-          "type": "boolean",
-          "description": "If true, lock the body scroll when dailog modal appears",
+          "name": "left",
+          "type": "number",
+          "description": "The distance from the left",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -8072,7 +8051,28 @@
               "column": 6
             },
             "end": {
-              "line": 220,
+              "line": 219,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          }
+        },
+        {
+          "name": "lockScroll",
+          "type": "boolean",
+          "description": "If true, lock the body scroll when dailog modal appears",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 225,
+              "column": 6
+            },
+            "end": {
+              "line": 228,
               "column": 7
             }
           },
@@ -8091,11 +8091,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 240,
               "column": 2
             },
             "end": {
-              "line": 235,
+              "line": 243,
               "column": 3
             }
           },
@@ -8118,11 +8118,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 237,
+              "line": 245,
               "column": 2
             },
             "end": {
-              "line": 267,
+              "line": 275,
               "column": 3
             }
           },
@@ -8138,11 +8138,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 272,
+              "line": 280,
               "column": 2
             },
             "end": {
-              "line": 276,
+              "line": 284,
               "column": 3
             }
           },
@@ -8158,11 +8158,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 281,
+              "line": 289,
               "column": 2
             },
             "end": {
-              "line": 285,
+              "line": 293,
               "column": 3
             }
           },
@@ -8178,11 +8178,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 287,
+              "line": 295,
               "column": 2
             },
             "end": {
-              "line": 289,
+              "line": 297,
               "column": 3
             }
           },
@@ -8202,11 +8202,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 291,
+              "line": 299,
               "column": 2
             },
             "end": {
-              "line": 296,
+              "line": 304,
               "column": 3
             }
           },
@@ -8235,7 +8235,7 @@
           "column": 0
         },
         "end": {
-          "line": 297,
+          "line": 305,
           "column": 1
         }
       },
@@ -8248,11 +8248,11 @@
           "description": "Title of the dialog",
           "sourceRange": {
             "start": {
-              "line": 143,
+              "line": 151,
               "column": 6
             },
             "end": {
-              "line": 145,
+              "line": 153,
               "column": 7
             }
           },
@@ -8264,11 +8264,11 @@
           "description": "Set to True to stop auto dismiss.",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 159,
               "column": 6
             },
             "end": {
-              "line": 154,
+              "line": 162,
               "column": 7
             }
           },
@@ -8280,11 +8280,11 @@
           "description": "Modal popup window",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 169,
               "column": 6
             },
             "end": {
-              "line": 166,
+              "line": 174,
               "column": 7
             }
           },
@@ -8296,11 +8296,11 @@
           "description": "If true, clicking the place outside the modal can not make the modal hide.",
           "sourceRange": {
             "start": {
-              "line": 173,
+              "line": 181,
               "column": 6
             },
             "end": {
-              "line": 177,
+              "line": 185,
               "column": 7
             }
           },
@@ -8312,11 +8312,11 @@
           "description": "If true, pressing the Esc key can not make the modal hide.",
           "sourceRange": {
             "start": {
-              "line": 183,
+              "line": 191,
               "column": 6
             },
             "end": {
-              "line": 186,
+              "line": 194,
               "column": 7
             }
           },
@@ -8328,11 +8328,11 @@
           "description": "If true, the modal will be opened",
           "sourceRange": {
             "start": {
-              "line": 192,
+              "line": 200,
               "column": 6
             },
             "end": {
-              "line": 195,
+              "line": 203,
               "column": 7
             }
           },
@@ -8342,22 +8342,6 @@
         {
           "name": "top",
           "description": "The distance from the top",
-          "sourceRange": {
-            "start": {
-              "line": 201,
-              "column": 6
-            },
-            "end": {
-              "line": 203,
-              "column": 7
-            }
-          },
-          "metadata": {},
-          "type": "number"
-        },
-        {
-          "name": "left",
-          "description": "The distance from the left",
           "sourceRange": {
             "start": {
               "line": 209,
@@ -8372,15 +8356,31 @@
           "type": "number"
         },
         {
-          "name": "lock-scroll",
-          "description": "If true, lock the body scroll when dailog modal appears",
+          "name": "left",
+          "description": "The distance from the left",
           "sourceRange": {
             "start": {
               "line": 217,
               "column": 6
             },
             "end": {
-              "line": 220,
+              "line": 219,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "lock-scroll",
+          "description": "If true, lock the body scroll when dailog modal appears",
+          "sourceRange": {
+            "start": {
+              "line": 225,
+              "column": 6
+            },
+            "end": {
+              "line": 228,
               "column": 7
             }
           },
@@ -39577,11 +39577,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 85,
+              "line": 88,
               "column": 6
             },
             "end": {
-              "line": 87,
+              "line": 90,
               "column": 7
             }
           },
@@ -39598,11 +39598,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 89,
+              "line": 92,
               "column": 6
             },
             "end": {
-              "line": 93,
+              "line": 96,
               "column": 7
             }
           },
@@ -39620,11 +39620,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 100,
+              "line": 103,
               "column": 6
             },
             "end": {
-              "line": 104,
+              "line": 107,
               "column": 7
             }
           },
@@ -39642,11 +39642,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 106,
+              "line": 109,
               "column": 6
             },
             "end": {
-              "line": 111,
+              "line": 114,
               "column": 7
             }
           },
@@ -39657,38 +39657,17 @@
           }
         },
         {
-          "name": "selectedItem",
-          "type": "Object | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 113,
-              "column": 6
-            },
-            "end": {
-              "line": 115,
-              "column": 7
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Object"
-            }
-          }
-        },
-        {
           "name": "attrForValue",
           "type": "string",
           "description": "Attribute name for value.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 122,
+              "line": 121,
               "column": 6
             },
             "end": {
-              "line": 125,
+              "line": 124,
               "column": 7
             }
           },
@@ -39706,11 +39685,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 132,
+              "line": 131,
               "column": 6
             },
             "end": {
-              "line": 135,
+              "line": 134,
               "column": 7
             }
           },
@@ -39728,11 +39707,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 142,
+              "line": 141,
               "column": 6
             },
             "end": {
-              "line": 145,
+              "line": 144,
               "column": 7
             }
           },
@@ -39750,11 +39729,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 147,
+              "line": 146,
               "column": 6
             },
             "end": {
-              "line": 150,
+              "line": 149,
               "column": 7
             }
           },
@@ -39773,11 +39752,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 155,
+              "line": 154,
               "column": 2
             },
             "end": {
-              "line": 157,
+              "line": 156,
               "column": 3
             }
           },
@@ -39802,7 +39781,7 @@
           "column": 0
         },
         "end": {
-          "line": 158,
+          "line": 157,
           "column": 1
         }
       },
@@ -39815,11 +39794,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 85,
+              "line": 88,
               "column": 6
             },
             "end": {
-              "line": 87,
+              "line": 90,
               "column": 7
             }
           },
@@ -39831,11 +39810,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 89,
+              "line": 92,
               "column": 6
             },
             "end": {
-              "line": 93,
+              "line": 96,
               "column": 7
             }
           },
@@ -39847,11 +39826,11 @@
           "description": "If false, count is not displayed",
           "sourceRange": {
             "start": {
-              "line": 100,
+              "line": 103,
               "column": 6
             },
             "end": {
-              "line": 104,
+              "line": 107,
               "column": 7
             }
           },
@@ -39863,11 +39842,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 106,
+              "line": 109,
               "column": 6
             },
             "end": {
-              "line": 111,
+              "line": 114,
               "column": 7
             }
           },
@@ -39875,31 +39854,15 @@
           "type": "Array | null | undefined"
         },
         {
-          "name": "selected-item",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 113,
-              "column": 6
-            },
-            "end": {
-              "line": 115,
-              "column": 7
-            }
-          },
-          "metadata": {},
-          "type": "Object | null | undefined"
-        },
-        {
           "name": "attr-for-value",
           "description": "Attribute name for value.",
           "sourceRange": {
             "start": {
-              "line": 122,
+              "line": 121,
               "column": 6
             },
             "end": {
-              "line": 125,
+              "line": 124,
               "column": 7
             }
           },
@@ -39911,11 +39874,11 @@
           "description": "Attribute name for label.",
           "sourceRange": {
             "start": {
-              "line": 132,
+              "line": 131,
               "column": 6
             },
             "end": {
-              "line": 135,
+              "line": 134,
               "column": 7
             }
           },
@@ -39927,11 +39890,11 @@
           "description": "Attribute name for label.",
           "sourceRange": {
             "start": {
-              "line": 142,
+              "line": 141,
               "column": 6
             },
             "end": {
-              "line": 145,
+              "line": 144,
               "column": 7
             }
           },
@@ -39943,11 +39906,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 147,
+              "line": 146,
               "column": 6
             },
             "end": {
-              "line": 150,
+              "line": 149,
               "column": 7
             }
           },

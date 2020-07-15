@@ -98,10 +98,13 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .title {
         font-size: 20px;
         font-weight: bold;
-        margin: 20px 10px;
+        height: 50px;
+        line-height: 50px;
+        margin: 0;
         text-align: left;
-        padding: 8px 16px;
+        padding: 0px 16px;
         border-bottom: 1px solid #ccc;
+        border-radius: 6px 6px 0 0;
         @apply --isu-dialog-title;
       }
       
