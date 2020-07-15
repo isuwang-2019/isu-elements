@@ -130,7 +130,7 @@ class IsuPagination extends PolymerElement {
       
       .page-count {
         display: inline-block;
-        width: 30px;
+        min-width: 20px;
         text-align: center;
       }
       
