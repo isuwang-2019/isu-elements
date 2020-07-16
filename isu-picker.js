@@ -975,7 +975,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   __collapsePosition () {
     this.$['picker-collapse'].style.top = this.clientHeight + 'px'
     // 当页面中存在isu-dialog时，打开picker列表碰到dialog的右边边缘，则向列表向左移
-    const dialog = document.querySelector('isu-dialog')
+    let wrap = this
+    while(wrap.shadowRoot && !wrap.shadowRoot.querySelector('isu-dialog') && wrap !== document) {
+      wrap = wrap.domHost
+    }
+    const dialog = wrap.shadowRoot && wrap.shadowRoot.querySelector('isu-dialog')
     if (dialog) {
       const dialogPos = this.__getElemPos(dialog.$.dialog)
       const collapse = this.$['picker-collapse']
@@ -1025,31 +1029,31 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this._selectItemAt(ind)
     } else {
       switch (key) {
-      case 'ArrowUp':
-        collapseOpend && this._switchFocusItemAt(this.__focusIndex - 1)
-        break
+        case 'ArrowUp':
+          collapseOpend && this._switchFocusItemAt(this.__focusIndex - 1)
+          break
 
-      case 'ArrowDown':
-        if (collapseOpend) {
-          this._switchFocusItemAt(this.__focusIndex + 1)
-        } else {
-          this._switchFocusItemAt(0)
-          this.displayCollapse(true)
-        }
-        break
+        case 'ArrowDown':
+          if (collapseOpend) {
+            this._switchFocusItemAt(this.__focusIndex + 1)
+          } else {
+            this._switchFocusItemAt(0)
+            this.displayCollapse(true)
+          }
+          break
 
-      case this.shortcutKey:
-        if (collapseOpend && this._displayItems.length > 0 && this.__focusIndex < this._displayItems.length) {
-          this._selectItemAt(this.__focusIndex)
-        }
-        break
+        case this.shortcutKey:
+          if (collapseOpend && this._displayItems.length > 0 && this.__focusIndex < this._displayItems.length) {
+            this._selectItemAt(this.__focusIndex)
+          }
+          break
 
-      case 'Backspace':
-        if (this._userInputKeyword === undefined || this._userInputKeyword.length === 0) {
-          this.deleteLastTag()
-        }
+        case 'Backspace':
+          if (this._userInputKeyword === undefined || this._userInputKeyword.length === 0) {
+            this.deleteLastTag()
+          }
 
-        break
+          break
       }
     }
   }
