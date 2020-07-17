@@ -16937,7 +16937,7 @@
       "staticMethods": [],
       "demos": [
         {
-          "url": "demo/isu-input-date/index.html",
+          "url": "demo/isu-input-jedate/index.html",
           "description": ""
         }
       ],
@@ -25470,7 +25470,7 @@
               "column": 2
             },
             "end": {
-              "line": 986,
+              "line": 990,
               "column": 3
             }
           },
@@ -25486,11 +25486,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 988,
+              "line": 992,
               "column": 2
             },
             "end": {
-              "line": 994,
+              "line": 998,
               "column": 3
             }
           },
@@ -25507,11 +25507,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 996,
+              "line": 1000,
               "column": 2
             },
             "end": {
-              "line": 998,
+              "line": 1002,
               "column": 3
             }
           },
@@ -25527,11 +25527,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1000,
+              "line": 1004,
               "column": 2
             },
             "end": {
-              "line": 1005,
+              "line": 1009,
               "column": 3
             }
           },
@@ -25551,11 +25551,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 1012,
+              "line": 1016,
               "column": 2
             },
             "end": {
-              "line": 1054,
+              "line": 1058,
               "column": 3
             }
           },
@@ -25575,11 +25575,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1059,
+              "line": 1063,
               "column": 2
             },
             "end": {
-              "line": 1079,
+              "line": 1083,
               "column": 3
             }
           },
@@ -25600,11 +25600,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1084,
+              "line": 1088,
               "column": 2
             },
             "end": {
-              "line": 1088,
+              "line": 1092,
               "column": 3
             }
           },
@@ -25620,11 +25620,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1093,
+              "line": 1097,
               "column": 2
             },
             "end": {
-              "line": 1098,
+              "line": 1102,
               "column": 3
             }
           },
@@ -25644,11 +25644,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1100,
+              "line": 1104,
               "column": 2
             },
             "end": {
-              "line": 1102,
+              "line": 1106,
               "column": 3
             }
           },
@@ -25665,11 +25665,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1108,
+              "line": 1112,
               "column": 2
             },
             "end": {
-              "line": 1111,
+              "line": 1115,
               "column": 3
             }
           },
@@ -25691,11 +25691,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1116,
+              "line": 1120,
               "column": 2
             },
             "end": {
-              "line": 1120,
+              "line": 1124,
               "column": 3
             }
           },
@@ -25711,11 +25711,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1125,
+              "line": 1129,
               "column": 2
             },
             "end": {
-              "line": 1127,
+              "line": 1131,
               "column": 3
             }
           },
@@ -25731,11 +25731,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1133,
+              "line": 1137,
               "column": 2
             },
             "end": {
-              "line": 1139,
+              "line": 1143,
               "column": 3
             }
           },
@@ -25751,11 +25751,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 1141,
+              "line": 1145,
               "column": 2
             },
             "end": {
-              "line": 1143,
+              "line": 1147,
               "column": 3
             }
           },
@@ -25778,11 +25778,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1145,
+              "line": 1149,
               "column": 2
             },
             "end": {
-              "line": 1147,
+              "line": 1151,
               "column": 3
             }
           },
@@ -25802,11 +25802,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1149,
+              "line": 1153,
               "column": 2
             },
             "end": {
-              "line": 1151,
+              "line": 1155,
               "column": 3
             }
           },
@@ -25826,11 +25826,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1153,
+              "line": 1157,
               "column": 2
             },
             "end": {
-              "line": 1156,
+              "line": 1160,
               "column": 3
             }
           },
@@ -25859,7 +25859,7 @@
           "column": 0
         },
         "end": {
-          "line": 1157,
+          "line": 1161,
           "column": 1
         }
       },

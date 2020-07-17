@@ -51,7 +51,7 @@ import { FormatBehavior } from './behaviors/format-behavior'
  *
  * @customElement
  * @polymer
- * @demo demo/isu-input-date/index.html
+ * @demo demo/isu-input-jedate/index.html
  */
 class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], PolymerElement) {
   static get template () {
