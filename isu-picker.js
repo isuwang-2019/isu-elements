@@ -719,7 +719,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   getViewLabels (items = [], attrForLabel, connector) {
-    const labels = items.map(item => item[attrForLabel])
+    const labels = items.map(item => this.__calcTagName(item))
     return labels.join(connector)
   }
 
