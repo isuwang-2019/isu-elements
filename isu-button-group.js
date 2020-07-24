@@ -151,7 +151,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
     </style>
     
-    <isu-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]">
+    <isu-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]" permission="[[isShowButton]]">
       <div class="trigger__label">[[ label ]]</div>
       <iron-icon class="trigger__icon" icon="icons:expand-more"></iron-icon>
     </isu-button>
@@ -246,28 +246,24 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       /**
        * Whether to show itself or not
        */
-      hasShow: {
-        type: String,
-        value: 'true'
+      permission: {
+        type: Boolean,
+        value: true
+      },
+      isShowButton: {
+        type: Boolean,
+        readonly: true,
+        computed: '__showButton(permission,items)'
       }
     }
-  }
-
-  static get observers () {
-    return ['_hasShow(hasShow, items)']
   }
 
   static get is () {
     return 'isu-button-group'
   }
 
-  _hasShow (hasShow, items) {
-    let flag = (hasShow === 'true') && items.length > 0
-    if (flag) {
-      // 如果selectItems里面的每一项都是false,那么整个按钮组影藏
-      flag = !items.every(e => ('permission' in e) && !e.permission)
-    }
-    this.style.display = !flag ? 'none' : 'inline-block'
+  __showButton (permission, items) {
+    return permission && items && items.some(item => item.permission || item.permission === undefined)
   }
 
   connectedCallback () {
