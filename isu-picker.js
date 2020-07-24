@@ -98,7 +98,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         /*标签容器*/
         .tags-input {
           flex: 1;
-  
           display: flex;
           flex-wrap: wrap;
           align-content: flex-start;
@@ -110,7 +109,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           border: 1px solid #CCC;
           border-radius: 4px;
           position: relative;
-          
+          @apply --isu-picker-tags-input;
         }
         
         .tags-input::-webkit-scrollbar {
@@ -140,6 +139,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: normal;
+          @apply --isu-picker-tag-name;
         }
   
         .tag-deleter {
@@ -157,7 +157,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         #picker-collapse {
           display: flex;
           position: absolute;
-          /*top: 100%;*/
           min-width: 100%;
           margin-top: 1px;
           border-radius: 4px;
