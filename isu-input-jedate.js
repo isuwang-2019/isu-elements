@@ -447,6 +447,9 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       isView: {
         type: Boolean,
         value: false
+      },
+      _jedate: {
+        type: Object
       }
     }
   }
@@ -480,6 +483,9 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
         this.set('selectedItems', dateArray)
       }
     }
+    if (this._jedate && this.value) {
+      this._jedate.setValue(value)
+    }
   }
 
   donefun (e) {
@@ -498,13 +504,16 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
   succeed () {
   }
 
-  _timestampChanged(timestamp) {
+  _timestampChanged (timestamp) {
     const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
     this.set('value', convertDate)
+    if (this._jedate && this.timestamp) {
+      this._jedate.setValue(convertDate)
+    }
   }
 
   _idChanged (id) {
-    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
+    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : (this.value ? this.value : null)
     if (!this.readonly) {
       const self = this
       const enLang = {
@@ -550,7 +559,10 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       if (this.language === 'en') {
         options.language = enLang
       }
-      this.timestamp ? jeDate(self.root.querySelector(`#${self.id}`), options).setValue(convertDate) : jeDate(self.root.querySelector(`#${self.id}`), options)
+      this._jedate = jeDate(self.root.querySelector(`#${self.id}`), options)
+      if (this.timestamp) {
+        this._jedate.setValue(convertDate)
+      }
     }
     this.set('value', convertDate)
   }
