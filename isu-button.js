@@ -159,12 +159,14 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
       }
       
      :host([size=small]) {
-        width: 50px;
+        width: auto;
+        min-width: 50px;
         height: 30px;
      }
      
      :host([size=large]) {
-        width: 100px;
+        width: auto;
+        min-width: 100px;
         height: 40px;
      }
     </style>
