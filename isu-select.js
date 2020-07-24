@@ -54,7 +54,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: var(--isu-select-width, 300px);
+        width: var(--isu-select-width, 320px);
         height: 34px;
         line-height: 32px;
         font-family: var(--isu-ui-font-family), sans-serif;
