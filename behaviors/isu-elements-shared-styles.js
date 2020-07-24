@@ -122,6 +122,12 @@ const template = html`
         width: var(--isu-label-width, 120px);
         @apply --isu-label;
       }
+      .ellipsis {
+          white-space: nowrap;
+          overflow: hidden;
+          -o-text-overflow: ellipsis;
+          text-overflow: ellipsis;
+      }
     </style>
   </template>
   </dom-module>

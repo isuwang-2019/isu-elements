@@ -257,7 +257,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
           
       </div>
     <template is="dom-if" if="[[_isView(isView,readonly)]]">
-      <div class="input__container input__container__view">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
+      <div class="input__container input__container__view ellipsis" title="[[value]]">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
     </template>
     
 `
