@@ -81,7 +81,7 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
         font-size: var(--isu-ui-font-size);
         border-radius: 4px;
         outline: none;
-        height: var(--isu-button-height, 34px) sans-serif;
+        height: var(--isu-button-height, 34px);
       }
 
       .btn {
