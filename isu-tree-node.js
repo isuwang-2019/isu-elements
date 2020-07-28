@@ -67,6 +67,9 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
           -o-text-overflow: ellipsis;
           text-overflow: ellipsis;
       }
+      .high-lighted-color{
+        color: var(--high-lighted-color, #f106d2);
+      }
     </style>
     <template is="dom-if" if="{{node.visible}}">
       <div class="dht-tree-twig-one">
@@ -250,6 +253,13 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       checkOnClickNode: {
         type: Boolean,
         value: false
+      },
+      /**
+       * 是否高亮显示开关，如果是，搜索时候，匹配上的文本会高亮显示
+       */
+      highlightedLabelFlag: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -308,6 +318,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _searchWordChanged (searchWord) {
     this._showNodeFilter()
+    this._highlightedLabel(searchWord)
   }
 
   __isShowChanged (isShow) {
@@ -323,6 +334,22 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         })
       }
       recursionNotifyNodeChecked('node', this.node)
+    }
+  }
+
+  _highlightedLabel(searchWord) {
+    const eles = this.root.querySelectorAll('.ellipsis')
+    if(!searchWord) {
+      Array.from(eles).forEach(e => {
+        e.innerHTML = this.node.label
+      })
+    }else {
+      Array.from(eles).forEach(e => {
+        const searchWordRegExp = new RegExp(`(${searchWord})`, 'gi')
+        if (searchWordRegExp.test(e.textContent)) {
+          e.innerHTML = e.textContent.replace(searchWordRegExp, `<span class="high-lighted-color">$1</span>`)
+        }
+      })
     }
   }
 
