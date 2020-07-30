@@ -481,6 +481,8 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
         })
         this.set('timestamp', dateArray[0])
         this.set('selectedItems', dateArray)
+      } else {
+        this.set('timestamp', +new Date(value))
       }
     }
     if (this._jedate && this.value) {
@@ -506,10 +508,11 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
 
   _timestampChanged (timestamp) {
     const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
-    this.set('value', convertDate)
     if (this._jedate && this.timestamp) {
       this._jedate.setValue(convertDate)
+      this.set('dateArray', [])
     }
+    this.set('value', convertDate)
   }
 
   _idChanged (id) {
