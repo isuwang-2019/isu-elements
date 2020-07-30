@@ -135,6 +135,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: normal;
         @apply --isu-select-tag-name;
       }
 
@@ -684,24 +685,24 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _updatePressed (event) {
     let cursorIndex = event.target.dataset.cursorIndex
     switch (event.key) {
-    case 'ArrowLeft':
-      cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
-      break
-    case 'ArrowRight':
-      const max = this.selectedValues.length - 1
-      cursorIndex = cursorIndex < max ? ++cursorIndex : max
-      break
-    case 'Backspace':
-      if (cursorIndex >= 0) {
-        this.splice('selectedValues', cursorIndex, 1)
-      }
-      if (!this.keyword || this.keyword.length === 0) {
-        if (this.selectedValues) { // 存在数据才抛出,解决新增时候数据为空时退格Array.length出错问题
-          this.pop('selectedValues')
+      case 'ArrowLeft':
+        cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
+        break
+      case 'ArrowRight':
+        const max = this.selectedValues.length - 1
+        cursorIndex = cursorIndex < max ? ++cursorIndex : max
+        break
+      case 'Backspace':
+        if (cursorIndex >= 0) {
+          this.splice('selectedValues', cursorIndex, 1)
         }
-      }
-      cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
-      break
+        if (!this.keyword || this.keyword.length === 0) {
+          if (this.selectedValues) { // 存在数据才抛出,解决新增时候数据为空时退格Array.length出错问题
+            this.pop('selectedValues')
+          }
+        }
+        cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
+        break
     }
   }
 
