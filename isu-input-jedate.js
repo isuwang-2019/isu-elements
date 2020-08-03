@@ -481,11 +481,17 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
         })
         this.set('timestamp', dateArray[0])
         this.set('selectedItems', dateArray)
-      } else {
-        this.set('timestamp', +new Date(value))
+      } else if (!this.isEmptyObject(value)) {
+        this.set('timestamp', this.dateToTimestamp(value))
+      } else if (this.value === '') {
+        this.set('timestamp', '')
       }
     }
-    if (this._jedate && this.value) {
+    if (this._jedate && value !== undefined && value != null) {
+      // 手动清空输入框的值，否则的话无法清除
+      if (this.timestamp === '') {
+        this._jedate.valCell.value = ''
+      }
       this._jedate.setValue(value)
     }
   }
@@ -507,9 +513,13 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
   }
 
   _timestampChanged (timestamp) {
-    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
-    if (this._jedate && this.timestamp) {
+    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : ''
+    if (this._jedate && this.timestamp != null && this.timestamp !== undefined) {
       this._jedate.setValue(convertDate)
+      // 手动清空输入框的值，否则的话无法清除
+      if (this.timestamp === '') {
+        this._jedate.valCell.value = ''
+      }
       this.set('dateArray', [])
     }
     this.set('value', convertDate)
