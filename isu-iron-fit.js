@@ -21,12 +21,6 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
 
   static get properties () {
     return {
-      scrollDomX: { // X轴滚动条所在的dom
-        type: Element
-      },
-      scrollDomY: { // Y轴滚动条所在的dom
-        type: Element
-      },
       scrollDomList: { // 全部滚动条dom
         type: Array,
         value () {
@@ -40,139 +34,78 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
         type: Boolean,
         value: false,
         reflectToAttribute: true
+      },
+      intersectionObserver: { // 监听是否可见
+        type: IntersectionObserver
+      },
+      isVisible: { // 当前是否可见
+        type: Boolean,
+        value: false
       }
     }
   }
 
   /**
-   * 1. 查找  Y 与 X  滚动条 在哪里
+   * 1. 查找全部父级滚动条
    * 2. 绑定 Y 与 X 滚动事件（触发更新位置）
    * @param {Element} e dom
    */
   scrollAddEvent (e) {
     let parent = e.parentNode || e.getRootNode().host
-
     if (parent && parent.toString() === '[object ShadowRoot]') parent = e.getRootNode().host
 
     // isu Dialog 组件兼容
     const isIsuDialog = parent && parent.tagName === 'ISU-DIALOG'
     if (isIsuDialog) parent = parent.root.querySelector('.scrollable-container')
 
-    if (parent && parent !== document) {
-      const style = window.getComputedStyle(parent, null)
-
-      if (this.ifOverflow(style)) {
-        parent.addEventListener('scroll', e => { this.scrollOrResizeRefit() })
-        parent.addEventListener('resize', e => { this.scrollOrResizeRefit() })
-
+    if (parent) {
+      if (this.ifOverflow(parent)) {
+        this.addEvent(parent)
         this.push('scrollDomList', parent)
-
-        // 只要最近的一级
-        if (!this.scrollDomY && this.ifOverflow(style, 'Y')) this.set('scrollDomY', parent)
-        if (!this.scrollDomX && this.ifOverflow(style, 'X')) this.set('scrollDomX', parent)
       }
-
       // isu Dialog 组件兼容
       isIsuDialog ? this.scrollAddEvent(e.getRootNode().host) : this.scrollAddEvent(parent)
     }
   }
 
   /**
+   * 绑定触发事件
+   *  @param {Element} e dom
+   * */
+  addEvent (e) {
+    e.addEventListener('scroll', e => {
+      this.debounce('__scrollOrResizeRefit', this.scrollOrResizeRefit.bind(this), 10)
+    })
+    e.addEventListener('resize', e => {
+      this.debounce('__scrollOrResizeRefit', this.scrollOrResizeRefit.bind(this), 10)
+    })
+  }
+
+  /**
    * 判断是否有滚动条
    * 不用e.scrollHeight > e.clientHeight 是因为我节点设了overflow=auto 内容没超会不显示滚动条。但是我要绑定最近的一级的
-   * @param {Object} style window.getComputedStyle Object
-   * @param {string} key Y=overflowY or X=overflowX
+   *  @param {Element} e dom
    * @return {boolean} 该节点是否有滚动条
    * */
-  ifOverflow (style, key) {
-    let data = style.overflow || ''
-    if (key === 'X') data = style.overflowX
-    if (key === 'Y') data = style.overflowY
-    if (key) {
-      return data === 'scroll' ||
-        (
-          data === 'auto' && (
-            (key === 'X' ? style.maxWidth !== 'none' : style.maxHeight !== 'none') ||
-            style.flex !== '0 1 auto'
-          )
-        )
-    }
+  ifOverflow (e) {
+    if (e === document) return true
+    const data = window.getComputedStyle(e, null).overflow
     return data.includes('scroll') || data.includes('auto')
   }
 
+  /**
+   * 更新位置
+   * */
   scrollOrResizeRefit () {
-    const self = this
-    // 取消动画
-    this._raf && window.cancelAnimationFrame(this._raf)
-    this._raf = window.requestAnimationFrame(() => {
-      this._raf = null
-      if (!self.hidden) {
-        // 附着的元素位置
-        const positionTargetDom = self.positionTarget ? self.positionTarget : self
-        const positionTargetRect = positionTargetDom.getBoundingClientRect()
-
-        // Y轴（上下）
-        const scrollDomYRect = self.scrollDomY.getBoundingClientRect()
-        // Y轴 最大的坐标
-        const maxY = positionTargetRect.top + positionTargetRect.height
-        // Y轴滚动条 最大的坐标
-        const sMaxY = scrollDomYRect.top + scrollDomYRect.height
-
-        // X轴（左右）
-        const scrollDomXRect = self.scrollDomX.getBoundingClientRect()
-        // X轴 最大的坐标
-        const maxX = positionTargetRect.left + positionTargetRect.width
-        // X轴滚动条 最大的坐标
-        const sMaxX = scrollDomXRect.left + scrollDomXRect.width
-
-        // console.group(self)
-        // console.log('附着元素', positionTargetRect)
-        // console.log('scrollDomYRect', scrollDomYRect)
-        // console.log('scrollDomXRect', scrollDomXRect)
-        //
-        // console.log('maxY', maxY, 'sMaxY', sMaxY, 'scrollDomYRect.top', scrollDomYRect.top)
-        // console.log('在顶部↑被遮挡', maxY < scrollDomYRect.top, 'maxY < scrollDomYRect.top')
-        // console.log('在底部↓遮挡', positionTargetRect.top > sMaxY, 'positionTargetRect.top > sMaxY')
-        // console.log('maxX', maxX, 'sMaxX', sMaxX, 'scrollDomXRect.left', scrollDomXRect.left)
-        // console.log('在左边←被遮挡', maxX < scrollDomXRect.left, 'maxX < scrollDomXRect.left')
-        // console.log('在右边→被遮挡', positionTargetRect.left > sMaxX, 'positionTargetRect.left > sMaxX')
-        // console.groupEnd()
-        // document.documentElement.getBoundingClientRect()
-        // document.documentElement.scrollWidth
-        // document.documentElement.clientWidth
-
-        const oclude = {
-          // 滚动条Y是根节点 并且 附着元素被遮挡
-          YDE: positionTargetRect.top < -positionTargetRect.height || positionTargetRect.top > self.scrollDomX.clientHeight,
-          //  top 超过 Y 最大内容展示位置
-          // 1. 下 滚动的时候 输入框 的 top + height （就是顶部的位置） 小于 Y轴滚动条的 top
-          // 2. 上 滚动的时候 输入框 的 top 大于 Y轴滚动条的 top + height (就是等于到底部的位置)
-          Y: maxY < scrollDomYRect.top || positionTargetRect.top > sMaxY,
-          // 滚动条X是根节点 并且 附着元素被遮挡
-          XDE: positionTargetRect.left < -positionTargetRect.width || positionTargetRect.left > self.scrollDomX.clientWidth,
-          //  left 超过 X 最大内容展示位置
-          // 1. 右 滚动的时候 输入框 的 left + width （就是左边←的位置） 小于 X轴滚动条的 left
-          // 2. 左 滚动的时候 输入框 的 left 大于 X轴滚动条的 left + width (就是等于到右边→的位置)
-          X: maxX < scrollDomXRect.left || positionTargetRect.left > sMaxX
-        }
-
-        // 滚动条X是否包含根节点
-        if (self.isDocumentElement(self.scrollDomY) && oclude.YDE) {
-          self.visibility(false)
-        } else if (self.isDocumentElement(self.scrollDomX) && oclude.XDE) {
-          self.visibility(false)
-        } else if (!self.isDocumentElement(self.scrollDomY) && oclude.Y) {
-          self.visibility(false)
-        } else if (!self.isDocumentElement(self.scrollDomX) && oclude.X) {
-          self.visibility(false)
-        } else {
-          self.visibility(true)
-          self.fit()
-        }
-      } else {
-        self.visibility(true)
-      }
-    })
+    if (!this.hidden && this.isVisible) {
+      const self = this
+      // 取消动画
+      this._raf && window.cancelAnimationFrame(this._raf)
+      this._raf = window.requestAnimationFrame(() => {
+        this._raf = null
+        self.fit()
+      })
+    }
   }
 
   /**
@@ -180,24 +113,12 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
    * @param {boolean} isVisibility 是否可见
    * */
   visibility (isVisibility) {
-    // this.style.background = isVisibility?'':'red'
     this.style.visibility = isVisibility ? 'visible' : 'hidden'
-  }
-
-  /**
-   *是否是根节点
-   *@param {Element} e dom
-   *@return {boolean} 是否是根节点
-   * */
-  isDocumentElement (e) {
-    return e === document.documentElement
   }
 
   connectedCallback () {
     const self = this
     self.sizingTarget = self.children[0]
-    window.addEventListener('resize', e => { this.scrollOrResizeRefit() })
-    window.addEventListener('scroll', e => { this.scrollOrResizeRefit() })
   }
 
   static get observers () {
@@ -213,8 +134,6 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
     this._minWidth(e)
     this.destroy()
     this.scrollAddEvent(this)
-    if (!this.scrollDomY) this.set('scrollDomY', document.documentElement)
-    if (!this.scrollDomX) this.set('scrollDomX', document.documentElement)
   }
 
   /**
@@ -226,23 +145,43 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
     this.style.minWidth = `${e.offsetWidth}px`
   }
 
-  _hidden () {
-    this.visibility(true)
+  _hidden (hidden) {
+    if (hidden === true) {
+      if (this.intersectionObserver) {
+        this.intersectionObserver.unobserve(this.positionTarget)
+        this.intersectionObserver = ''
+      }
+    } else {
+      this.intersectionObserver = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting || entry.intersectionRatio > 0.0) {
+          this.debounce('__visibility', () => {
+            this.set('isVisible', true)
+            this.visibility(true)
+          }, 50)
+        } else {
+          this.debounce('__visibility', () => {
+            this.set('isVisible', false)
+            this.visibility(false)
+          }, 50)
+        }
+      }, {
+        threshold: [0.00, 1.00]
+      })
+      this.intersectionObserver.observe(this.positionTarget)
+    }
   }
 
   /**
    * 销毁全部绑定的事件
-   * @param {boolean} d 彻底销毁全部绑定事件包括 window的滚动事件
    * */
-  destroy (d = false) {
-    this.scrollDomList.forEach(function (item, index, array) {
-      item.removeEventListener('scroll', e => { this.scrollOrResizeRefit() }, true)
-      item.removeEventListener('resize', e => { this.scrollOrResizeRefit() }, true)
+  destroy () {
+    this.scrollDomList.forEach(function (item) {
+      item.removeEventListener('scroll', e => { this.debounce('__scrollOrResizeRefit', this.scrollOrResizeRefit.bind(this), 10) }, true)
+      item.removeEventListener('resize', e => { this.debounce('__scrollOrResizeRefit', this.scrollOrResizeRefit.bind(this), 10) }, true)
     })
     this.set('scrollDomList', [])
-    if (d) {
-      window.removeEventListener('scroll', e => { this.scrollOrResizeRefit() }, true)
-      window.removeEventListener('resize', e => { this.scrollOrResizeRefit() }, true)
+    if (this.intersectionObserver) {
+      this.intersectionObserver = ''
     }
   }
 
@@ -250,10 +189,8 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
    * 修正位置
    * */
   fixPosition () {
-    if (this.positionTarget) {
-      this.refit()
-      this._minWidth(this.positionTarget)
-    }
+    this.refit()
+    this._minWidth(this.positionTarget)
   }
 }
 
