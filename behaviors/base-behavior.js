@@ -341,10 +341,47 @@ export const BaseBehavior = {
     throw new TypeError(string + ' should not be undefined.')
   },
 
-  deepClone (obj) {
-    return obj == null || typeof (obj) !== 'object' ? obj : JSON.parse(JSON.stringify(obj))
+  deepClone (data) {
+    const type = this._judgeType(data)
+    let obj = null
+    if (type === 'array') {
+      obj = []
+      data.forEach(item => {
+        obj.push(this.deepClone(item))
+      })
+    } else if (type === 'object') {
+      obj = {}
+      Object.keys(data).forEach(key => {
+        if (data.hasOwnProperty(key)) {
+          obj[key] = this.deepClone(data[key])
+        }
+      })
+    } else {
+      return data
+    }
+    return obj
   },
 
+  _judgeType (obj) {
+    // tostring会返回对应不同的标签的构造函数
+    const toString = Object.prototype.toString
+    const map = {
+      '[object Boolean]': 'boolean',
+      '[object Number]': 'number',
+      '[object String]': 'string',
+      '[object Function]': 'function',
+      '[object Array]': 'array',
+      '[object Date]': 'date',
+      '[object RegExp]': 'regExp',
+      '[object Undefined]': 'undefined',
+      '[object Null]': 'null',
+      '[object Object]': 'object'
+    }
+    if (obj instanceof Element) {
+      return 'element'
+    }
+    return map[toString.call(obj)]
+  },
   optional (bool, trueReturn, falseReturn = '') {
     return bool ? trueReturn : falseReturn
   },
