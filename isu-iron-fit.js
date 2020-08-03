@@ -60,7 +60,9 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
 
     if (parent) {
       if (this.ifOverflow(parent)) {
+        // 需要预绑定。如果在_hidden那里监听。事件会有延迟。
         this.addEvent(parent)
+
         this.push('scrollDomList', parent)
       }
       // isu Dialog 组件兼容
@@ -73,12 +75,8 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
    *  @param {Element} e dom
    * */
   addEvent (e) {
-    e.addEventListener('scroll', e => {
-      this.debounce('__scrollOrResizeRefit', this.scrollOrResizeRefit.bind(this), 10)
-    })
-    e.addEventListener('resize', e => {
-      this.debounce('__scrollOrResizeRefit', this.scrollOrResizeRefit.bind(this), 10)
-    })
+    e.addEventListener('scroll', e => { this.debounce('__scrollOrResizeRefit', this.scrollOrResizeRefit.bind(this), 10) })
+    e.addEventListener('resize', e => { this.debounce('__scrollOrResizeRefit', this.scrollOrResizeRefit.bind(this), 10) })
   }
 
   /**
@@ -134,6 +132,18 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
     this._minWidth(e)
     this.destroy()
     this.scrollAddEvent(this)
+    this.intersectionObserver = new IntersectionObserver(([entry]) => {
+      if ((entry.isIntersecting || entry.intersectionRatio > 0.0) && !this.isVisible) {
+        this.set('isVisible', true)
+        this.visibility(true)
+        this.scrollOrResizeRefit()
+      } else if (!(entry.isIntersecting || entry.intersectionRatio > 0.0) && this.isVisible) {
+        this.set('isVisible', false)
+        this.visibility(false)
+      }
+    }, {
+      threshold: [0.0, 1.0]
+    })
   }
 
   /**
@@ -145,29 +155,15 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
     this.style.minWidth = `${e.offsetWidth}px`
   }
 
+  /**
+   * 被用hidden隐藏
+   * 取消监听
+   * */
   _hidden (hidden) {
     if (hidden === true) {
-      if (this.intersectionObserver) {
-        this.intersectionObserver.unobserve(this.positionTarget)
-        this.intersectionObserver = ''
-      }
+      if (this.intersectionObserver) this.intersectionObserver.unobserve(this.positionTarget)
     } else {
-      this.intersectionObserver = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting || entry.intersectionRatio > 0.0) {
-          this.debounce('__visibility', () => {
-            this.set('isVisible', true)
-            this.visibility(true)
-          }, 50)
-        } else {
-          this.debounce('__visibility', () => {
-            this.set('isVisible', false)
-            this.visibility(false)
-          }, 50)
-        }
-      }, {
-        threshold: [0.00, 1.00]
-      })
-      this.intersectionObserver.observe(this.positionTarget)
+      if (this.intersectionObserver) this.intersectionObserver.observe(this.positionTarget)
     }
   }
 
