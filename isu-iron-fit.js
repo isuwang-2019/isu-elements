@@ -117,6 +117,7 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
   connectedCallback () {
     const self = this
     self.sizingTarget = self.children[0]
+    this.addEvent(window)
   }
 
   static get observers () {
