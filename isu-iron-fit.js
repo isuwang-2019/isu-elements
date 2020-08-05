@@ -161,10 +161,11 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
    * 取消监听
    * */
   _hidden (hidden) {
-    if (hidden === true) {
-      if (this.intersectionObserver) this.intersectionObserver.unobserve(this.positionTarget)
-    } else {
-      if (this.intersectionObserver) this.intersectionObserver.observe(this.positionTarget)
+    if (hidden === true && this.intersectionObserver) {
+      this.intersectionObserver.unobserve(this.positionTarget)
+    } else if (this.intersectionObserver) {
+      this.intersectionObserver.observe(this.positionTarget)
+      this.fixPosition()
     }
   }
 
