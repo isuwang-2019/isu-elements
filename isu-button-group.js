@@ -250,6 +250,10 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: true
       },
+      hidden: {
+        type: Boolean,
+        reflectToAttribute: true
+      },
       isShowButton: {
         type: Boolean,
         readonly: true,
@@ -263,7 +267,9 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __showButton (permission, items) {
-    return permission && items && items.some(item => item.permission || item.permission === undefined)
+    const flag = permission && items && items.some(item => item.permission || item.permission === undefined)
+    this.set('hidden', !flag)
+    return flag
   }
 
   connectedCallback () {
