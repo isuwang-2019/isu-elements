@@ -151,7 +151,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
     </style>
     
-    <isu-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]" permission="[[isShowButton]]">
+    <isu-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]">
       <div class="trigger__label">[[ label ]]</div>
       <iron-icon class="trigger__icon" icon="icons:expand-more"></iron-icon>
     </isu-button>
@@ -252,12 +252,8 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       hidden: {
         type: Boolean,
-        reflectToAttribute: true
-      },
-      isShowButton: {
-        type: Boolean,
-        readonly: true,
-        computed: '__showButton(permission,items)'
+        reflectToAttribute: true,
+        computed: '__isHiddenButton(permission,items)'
       }
     }
   }
@@ -266,10 +262,9 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return 'isu-button-group'
   }
 
-  __showButton (permission, items) {
+  __isHiddenButton (permission, items) {
     const flag = permission && items && items.some(item => item.permission || item.permission === undefined)
-    this.set('hidden', !flag)
-    return flag
+    return !flag
   }
 
   connectedCallback () {
