@@ -864,7 +864,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   /**
    * value属性变化监听函数
    */
-  _valueChanged (value) {
+  async _valueChanged (value) {
     // 本地模式，或远程数据已经就位
     if (this.items && this.items.length) {
       const flatValues = [...(new Set(String(value).split(',')))]
@@ -872,13 +872,20 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const dirty = selectedValues.map(selected => selected[this.attrForValue]).join(',')
       // this.set('_userInputKeyword', '')
 
-      if (value && this.queryByKeywordUrl && !this.multi) {
-        const _selectedItem = this.items.filter(item => item[this.attrForValue] == value)
-
-        if (!_selectedItem.length) {
-          this._getSelectedForItems(this.items)
-          return
+      if (value && this.queryByValueUrl) {
+        if (this.multi) {
+          const _valueItems = `${value}`.split(',').filter(item => !!item)
+          const _selectedItems = this.items.filter(item => _valueItems.includes(`${item[this.attrForValue]}`))
+          if (_valueItems.length !== _selectedItems.length) {
+            await this._getSelectedForItems(this.items)
+          }
+        } else {
+          const _selectedItem = this.items.find(item => `${item[this.attrForValue]}` === `${value}`)
+          if (!_selectedItem) {
+            await this._getSelectedForItems(this.items)
+          }
         }
+
       }
 
       if (dirty !== value) {
