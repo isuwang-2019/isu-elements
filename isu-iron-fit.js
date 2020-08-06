@@ -145,7 +145,7 @@ class IsuIronFit extends mixinBehaviors([IronFitBehavior], PolymerElement) {
     }, {
       rootMargin: '0px 0px',
       root: null,
-      threshold: [0, 0.01]
+      threshold: [0, 0.1]
     })
   }
 
