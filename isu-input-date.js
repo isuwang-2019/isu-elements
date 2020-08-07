@@ -154,7 +154,6 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
           margin-top: 1px;
           border-radius: 4px;
           font-size: 12px;
-          z-index: 100;
           padding: 0;
           background: white;
           color: black;
