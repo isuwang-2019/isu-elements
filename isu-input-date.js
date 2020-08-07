@@ -167,7 +167,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       #dateBox {
         border-radius: 4px;
         width: 300px;
-        z-index: 100;
+        z-index: 101;
       }
       
       .box-content {
@@ -576,6 +576,16 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
   connectedCallback () {
     super.connectedCallback()
     this.$.dateBox.positionTarget = this.$.input__date
+    document.addEventListener('click', e => {
+      let target = e.target
+      e.stopPropagation()
+      while (target.tagName !== 'BODY' && target.tagName !== 'ISU-INPUT-DATE' && target.tagName !== 'ISU-IRON-FIT') {
+        target = target.parentElement
+      }
+      if (!this.$.dateBox.hidden && target.tagName !== 'ISU-INPUT-DATE' && target.tagName !== 'ISU-IRON-FIT') {
+        this.$.dateBox.hidden = true
+      }
+    })
   }
 
   /**
@@ -730,7 +740,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$.input.doFocus()
   }
 
-  openDialog () {
+  openDialog (e) {
+    e.stopPropagation()
     const date = this.value && !this.rangeList.includes(this.type) ? new Date(this.value) : (this.startDate && this.endDate) && this.rangeList.includes(this.type) ? new Date(this.startDate) : this.min ? new Date(this.min) : this.max ? new Date(this.max) : new Date()
     this.year = date.getFullYear()
     this.month = date.getMonth() + 1
