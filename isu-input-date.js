@@ -42,7 +42,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         display: flex;
         width: var(--isu-input-date-width, 380px);
         height: 34px;
-        line-height: 20px;
+        line-height: 34px;
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
       }
@@ -166,6 +166,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       #dateBox {
         border-radius: 4px;
         width: 300px;
+        line-height: 20px;
         z-index: 101;
       }
       
@@ -175,7 +176,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
       
       .date-body {
-        height: 440px;
+        height: 340px;
         margin: 0;
         padding: 5px;
       }
