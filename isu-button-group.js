@@ -310,13 +310,17 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _onButtonDropdownClick (e) {
+    const self = this
     const target = e.target
     const bindItem = e.target.bindItem || e.target.getAttribute('bind-item')
 
-    if (this.hideItemsOnClick) {
-      this.opened = false
+    if (self.hideItemsOnClick) {
+      self.opened = false
     }
-    this.dispatchEvent(new CustomEvent('item-click', { detail: { target, bindItem } }))
+    setTimeout(() => {
+      self.dispatchEvent(new CustomEvent('item-click', { detail: { target, bindItem } }))
+    }, 100)
+
   }
 
   /**
