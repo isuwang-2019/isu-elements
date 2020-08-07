@@ -346,7 +346,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </div>
         </div>
         </isu-iron-fit>
-      
+      </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
         <div class="view-text">
            <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
