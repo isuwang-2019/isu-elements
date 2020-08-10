@@ -230,7 +230,9 @@ class IsuPagination extends PolymerElement {
        */
       size: {
         type: String,
-        value: ''
+        value: '',
+        notify: true,
+        reflectToAttribute: true
       },
       /**
        * Total count.
