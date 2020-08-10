@@ -353,7 +353,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
        </div>
     </div>
     <isu-iron-fit id="dateBox" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>
-      <div class="date-body">
+      <div class="date-body" on-click="_clickDateBody">
         <template is="dom-if" if="[[ isEqual(type, 'datetimeRange') ]]">
           <div class="box-datetime">
             <isu-select class="datetime" placeholder="开始日期时间" items="[[startDateTimeList]]" value="{{startDate}}"></isu-select>
@@ -860,7 +860,9 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  selectDay ({ model: { item, index } }) {
+  selectDay (e) {
+    e.stopPropagation()
+    const { item, index } = e.model
     this.clearDate()
     if (!this.rangeList.includes(this.type)) {
       const findIndex = this.dayList.findIndex(val => val.select)
@@ -877,6 +879,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (!this.rangeList.includes(this.type) && !item.currMonth) {
       item.date >= 24 ? this.monthMinus() : this.monthAdd()
     }
+    this.$.dateBox.hidden = true
   }
 
   clearDate () {
@@ -901,7 +904,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  selectToday () {
+  selectToday (e) {
+    e.stopPropagation()
     this.clearDate()
     const date = new Date()
     this.year = date.getFullYear()
@@ -973,6 +977,11 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _isView (isView, readonly) {
     return isView && readonly
+  }
+
+  _clickDateBody (e) {
+    e.stopPropagation()
+    this.$.dateBox.hidden = false
   }
 }
 
