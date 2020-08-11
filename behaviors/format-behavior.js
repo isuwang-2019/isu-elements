@@ -62,6 +62,6 @@ export const FormatBehavior = {
    */
   dateToTimestamp: function (date) {
     const arrs = this._reMatch(date)
-    return arrs.length > 0 ? +new Date(arrs[0], arrs[1] - 1 || 1, arrs[2] || 0, arrs[3] || 0, arrs[4] || 0, arrs[5] || 0) : ''
+    return arrs.length > 0 ? +new Date(arrs[0], arrs[1] - 1 || 1, arrs[2] || 1, arrs[3] || 0, arrs[4] || 0, arrs[5] || 0) : ''
   }
 }

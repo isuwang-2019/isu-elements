@@ -579,10 +579,10 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     document.addEventListener('click', e => {
       let target = e.target
       e.stopPropagation()
-      while (target.tagName !== 'BODY' && target.tagName !== 'ISU-INPUT-DATE' && target.tagName !== 'ISU-IRON-FIT') {
+      while (target && target.tagName !== 'BODY' && target.tagName !== 'ISU-INPUT-DATE' && target.tagName !== 'ISU-IRON-FIT') {
         target = target.parentElement
       }
-      if (!this.$.dateBox.hidden && target.tagName !== 'ISU-INPUT-DATE' && target.tagName !== 'ISU-IRON-FIT') {
+      if (!this.$.dateBox.hidden && target && target.tagName !== 'ISU-INPUT-DATE' && target.tagName !== 'ISU-IRON-FIT') {
         this.$.dateBox.hidden = true
       }
     })
