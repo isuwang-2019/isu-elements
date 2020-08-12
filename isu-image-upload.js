@@ -108,10 +108,18 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
       #viewer-img {
         cursor: zoom-out;
         display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
         padding: 0;
-        margin: auto;
         width: 100%;
         height: 100%;
+      }
+      #viewer-img img{
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
       }
 
       #file-chooser {
@@ -179,7 +187,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
       </div>
     </div>
     <paper-dialog id="viewer-dialog" on-click="closeViewZoom">
-      <div id="viewer-img"></div>
+      <div id="viewer-img"><img src$="[[src]]" alt=""></div>
     </paper-dialog>
 `
   }
@@ -327,20 +335,15 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
 
   __srcChanged (src) {
     const style = this.$.img__container.style
-    const viewerStyle = this.$['viewer-img'].style
+    // const viewerStyle = this.$['viewer-img'].style
 
     if (src) {
       this.setAttribute('data-has-src', '')
-
       style.background = `url(${src}) no-repeat center`
       style.backgroundSize = 'contain'
-      viewerStyle.background = `url(${src}) no-repeat center`
-      viewerStyle.backgroundSize = 'contain'
     } else {
       this.removeAttribute('data-has-src')
-
       style.background = 'none'
-      viewerStyle.background = 'none'
     }
   }
 
