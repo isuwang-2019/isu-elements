@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-  
+
   <title>avatar demo</title>
-  
+
   <script type="module">
     import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
@@ -14,10 +14,10 @@
     import '../../node_modules/@polymer/paper-styles/color.js';
     import '../../isu-avatar'
   </script>
-  
+
   <script type="module">
     const $_documentContainer = document.createElement('template');
-    
+
     $_documentContainer.innerHTML = `<custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       .centered {
@@ -31,7 +31,7 @@
       }
     </style>
   </custom-style>`;
-    
+
     document.body.appendChild($_documentContainer.content);
   </script>
 </head>
@@ -44,7 +44,7 @@
         <style>
         </style>
       </custom-style>
-      <isu-avatar size="50" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
+      <isu-avatar id="test" size="50" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
       <isu-avatar size="large" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
       <isu-avatar size="medium" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
       <isu-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></isu-avatar>
@@ -63,6 +63,13 @@
       <isu-avatar shape="square" size="100" fit="cover" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"></isu-avatar>
       <isu-avatar shape="square" size="100" fit="none" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"></isu-avatar>
       <isu-avatar shape="square" size="100" fit="scale-down" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"></isu-avatar>
+
+      <script>
+        test.addEventListener("start-changed", e => {
+          console.log("page start", e);
+        });
+
+      </script>
     </template>
 
   </demo-snippet>
