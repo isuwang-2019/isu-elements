@@ -27,6 +27,7 @@ import './isu-select'
  *
  * Custom property | Description | Default
  * ----------------|-------------|----------
+ * * `--isu-pagination` | Mixin applied to the pagination | {}
  * `--isu-pagination-size-selector` | Mixin applied to the page size selector | {}
  * @customElement
  * @polymer
@@ -52,6 +53,7 @@ class IsuPagination extends PolymerElement {
         list-style: none;
         height: var(--page_height);
         line-height: 38px;
+        @apply --isu-pagination
       }
 
       li > div {
