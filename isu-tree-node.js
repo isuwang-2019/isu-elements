@@ -368,7 +368,8 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
     const self = this
     const { data, childNodes } = node
-    const selfVisible = data.label.includes(searchWord)
+    const searchWordRegExp = new RegExp(`(${searchWord})`, 'gi')
+    const selfVisible = searchWordRegExp.test(data.label)
     const childVisilbe = childNodes.some(childNode => {
       return self.filterNode(searchWord, childNode)
     })
