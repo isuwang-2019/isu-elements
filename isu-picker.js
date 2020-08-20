@@ -340,11 +340,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
             </tbody>
           </table>
           <div class="prompt-tip__container" data-prompt$="[[prompt]]">
-          <div class="prompt-tip">
-            <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
-            [[prompt]]
+            <div class="prompt-tip">
+              <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+              [[prompt]]
+            </div>
           </div>
-        </div>
         </isu-iron-fit>
       </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
