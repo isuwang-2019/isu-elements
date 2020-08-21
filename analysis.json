@@ -4770,9 +4770,9 @@
           "defaultValue": "\"medium\""
         },
         {
-          "name": "label",
+          "name": "type",
           "type": "string | null | undefined",
-          "description": "Label of the action group.",
+          "description": "Properties can be selected as default, primary, warning, danger or success",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -4791,17 +4791,38 @@
           }
         },
         {
+          "name": "label",
+          "type": "string | null | undefined",
+          "description": "Label of the action group.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 197,
+              "column": 6
+            },
+            "end": {
+              "line": 199,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
           "name": "opened",
           "type": "boolean | null | undefined",
           "description": "Return true if the action group is expanded.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 196,
+              "line": 205,
               "column": 6
             },
             "end": {
-              "line": 200,
+              "line": 209,
               "column": 7
             }
           },
@@ -4819,11 +4840,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 206,
+              "line": 215,
               "column": 6
             },
             "end": {
-              "line": 208,
+              "line": 217,
               "column": 7
             }
           },
@@ -4840,11 +4861,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 215,
+              "line": 224,
               "column": 6
             },
             "end": {
-              "line": 218,
+              "line": 227,
               "column": 7
             }
           },
@@ -4862,11 +4883,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 224,
+              "line": 233,
               "column": 6
             },
             "end": {
-              "line": 226,
+              "line": 235,
               "column": 7
             }
           },
@@ -4883,11 +4904,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 241,
               "column": 6
             },
             "end": {
-              "line": 235,
+              "line": 245,
               "column": 7
             }
           },
@@ -4905,11 +4926,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 241,
+              "line": 251,
               "column": 6
             },
             "end": {
-              "line": 244,
+              "line": 254,
               "column": 7
             }
           },
@@ -4927,11 +4948,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 248,
+              "line": 258,
               "column": 6
             },
             "end": {
-              "line": 251,
+              "line": 261,
               "column": 7
             }
           },
@@ -4949,11 +4970,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 252,
+              "line": 262,
               "column": 6
             },
             "end": {
-              "line": 256,
+              "line": 266,
               "column": 7
             }
           },
@@ -4972,11 +4993,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 264,
+              "line": 274,
               "column": 2
             },
             "end": {
-              "line": 267,
+              "line": 277,
               "column": 3
             }
           },
@@ -4996,11 +5017,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 269,
+              "line": 279,
               "column": 2
             },
             "end": {
-              "line": 274,
+              "line": 284,
               "column": 3
             }
           },
@@ -5016,11 +5037,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 279,
+              "line": 289,
               "column": 2
             },
             "end": {
-              "line": 281,
+              "line": 291,
               "column": 3
             }
           },
@@ -5036,11 +5057,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 286,
+              "line": 296,
               "column": 2
             },
             "end": {
-              "line": 288,
+              "line": 298,
               "column": 3
             }
           },
@@ -5056,11 +5077,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 293,
+              "line": 303,
               "column": 2
             },
             "end": {
-              "line": 304,
+              "line": 314,
               "column": 3
             }
           },
@@ -5080,11 +5101,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 306,
+              "line": 316,
               "column": 2
             },
             "end": {
-              "line": 309,
+              "line": 319,
               "column": 3
             }
           },
@@ -5101,11 +5122,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 311,
+              "line": 321,
               "column": 2
             },
             "end": {
-              "line": 323,
+              "line": 333,
               "column": 3
             }
           },
@@ -5125,11 +5146,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 328,
+              "line": 338,
               "column": 2
             },
             "end": {
-              "line": 331,
+              "line": 341,
               "column": 3
             }
           },
@@ -5155,7 +5176,7 @@
           "column": 0
         },
         "end": {
-          "line": 332,
+          "line": 342,
           "column": 1
         }
       },
@@ -5180,8 +5201,8 @@
           "type": "string | null | undefined"
         },
         {
-          "name": "label",
-          "description": "Label of the action group.",
+          "name": "type",
+          "description": "Properties can be selected as default, primary, warning, danger or success",
           "sourceRange": {
             "start": {
               "line": 188,
@@ -5196,15 +5217,31 @@
           "type": "string | null | undefined"
         },
         {
+          "name": "label",
+          "description": "Label of the action group.",
+          "sourceRange": {
+            "start": {
+              "line": 197,
+              "column": 6
+            },
+            "end": {
+              "line": 199,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
           "name": "opened",
           "description": "Return true if the action group is expanded.",
           "sourceRange": {
             "start": {
-              "line": 196,
+              "line": 205,
               "column": 6
             },
             "end": {
-              "line": 200,
+              "line": 209,
               "column": 7
             }
           },
@@ -5216,11 +5253,11 @@
           "description": "The dropdown items.",
           "sourceRange": {
             "start": {
-              "line": 206,
+              "line": 215,
               "column": 6
             },
             "end": {
-              "line": 208,
+              "line": 217,
               "column": 7
             }
           },
@@ -5232,11 +5269,11 @@
           "description": "Attribute name for label.",
           "sourceRange": {
             "start": {
-              "line": 215,
+              "line": 224,
               "column": 6
             },
             "end": {
-              "line": 218,
+              "line": 227,
               "column": 7
             }
           },
@@ -5248,11 +5285,11 @@
           "description": "The Function called when user click on every item on dropdownlist.",
           "sourceRange": {
             "start": {
-              "line": 224,
+              "line": 233,
               "column": 6
             },
             "end": {
-              "line": 226,
+              "line": 235,
               "column": 7
             }
           },
@@ -5264,11 +5301,11 @@
           "description": "Return true if the button-group element is disabled",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 241,
               "column": 6
             },
             "end": {
-              "line": 235,
+              "line": 245,
               "column": 7
             }
           },
@@ -5280,11 +5317,11 @@
           "description": "The items will hide when user clicks one item",
           "sourceRange": {
             "start": {
-              "line": 241,
+              "line": 251,
               "column": 6
             },
             "end": {
-              "line": 244,
+              "line": 254,
               "column": 7
             }
           },
@@ -5296,11 +5333,11 @@
           "description": "Whether to show itself or not",
           "sourceRange": {
             "start": {
-              "line": 248,
+              "line": 258,
               "column": 6
             },
             "end": {
-              "line": 251,
+              "line": 261,
               "column": 7
             }
           },
@@ -5312,11 +5349,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 252,
+              "line": 262,
               "column": 6
             },
             "end": {
-              "line": 256,
+              "line": 266,
               "column": 7
             }
           },

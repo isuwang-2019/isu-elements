@@ -151,7 +151,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
     </style>
     
-    <isu-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]">
+    <isu-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]" type="[[type]]">
       <div class="trigger__label">[[ label ]]</div>
       <iron-icon class="trigger__icon" icon="icons:expand-more"></iron-icon>
     </isu-button>
@@ -179,6 +179,15 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: 'medium',
         reflectToAttribute: true
+      },
+      /**
+       * Properties can be selected as default, primary, warning, danger or success
+       *
+       * @type String
+       * @default default
+       */
+      type: {
+        type: String
       },
       /**
        * Label of the action group.
@@ -232,6 +241,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       disabled: {
         type: Boolean,
+        reflectToAttribute: true,
         value: false
       },
       /**
