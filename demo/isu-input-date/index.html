@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-  
+
   <title>isu-input-date demo</title>
-  
+
   <script type="module">
     import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
     import '../../isu-input-date'
   </script>
-  
+
   <script type="module">
     const $_documentContainer = document.createElement('template');
-    
+
     $_documentContainer.innerHTML = `<custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       .centered {
@@ -33,7 +33,7 @@
       }
     </style>
   </custom-style>`;
-    
+
     document.body.appendChild($_documentContainer.content);
   </script>
 </head>
@@ -58,6 +58,7 @@
       <isu-input-date class="input-date multi" label="选择日期范围" type="dateRange" start-timestamp="156595380088" end-timestamp="1565953800188"></isu-input-date>
       <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-date="2019-07-25 00:00:00" end-date="2019-09-12 12:30:00"></isu-input-date>
       <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-time="08:00:00" end-time="17:00:00" start-date="2017-10-25 00:00:00" end-date="2018-12-12 12:30:00"></isu-input-date>
+      <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-time="08:00:00" end-time="17:00:00" start-date="2017-10-25 00:00:00" end-date="2018-12-12 12:30:00" step-time="20"></isu-input-date>
       <isu-input-date class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
       <isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
     </template>

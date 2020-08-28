@@ -150,6 +150,12 @@
       </custom-style>
       <isu-input label="标签" allowed-pattern="[A-Za-z]\\d{3}"></isu-input>
       <isu-input label="标签" class="isu-input--invalid"></isu-input>
+      <isu-input label="三位小数" id="inputInt" is-pattern-limit></isu-input>
+      <script>
+        inputInt.addEventListener('pattern-value-changed', e => {
+          e.detail.target.value = e.detail.target.value.replace(/^\D*([0-9]*)(\.?)([0-9]{0,3}).*$/, '$1$2$3')
+        })
+      </script>
     </template>
   </demo-snippet>
 </div>`

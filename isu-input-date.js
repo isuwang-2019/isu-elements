@@ -8,6 +8,7 @@ import { BaseBehavior } from './behaviors/base-behavior'
 import '@polymer/iron-icon'
 import '@polymer/iron-icons'
 import './isu-select'
+import './isu-iron-fit'
 
 /**
  * `isu-input-date`
@@ -73,7 +74,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         display: flex;
         align-items: center;
         line-height: inherit;
-        min-width: 200px;
+        width: 300px;
         border: 1px solid #ccc;
         border-radius: 4px;
         padding: 2px 5px;
@@ -146,12 +147,27 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         width: inherit;
       }
       
+      #input__date {
+          display: flex;
+          height: 34px;
+          line-height: 20px;
+          margin-top: 1px;
+          border-radius: 4px;
+          font-size: 12px;
+          padding: 0;
+          background: white;
+          color: black;
+  
+          visibility: visible;
+          opacity: 1;
+          @apply --isu-picker-dropdown;
+        }
+      
       #dateBox {
         border-radius: 4px;
-        position: absolute!important;
         width: 300px;
-        height: auto;
-        margin: 0;
+        line-height: 20px;
+        z-index: 101;
       }
       
       .box-content {
@@ -160,6 +176,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
       
       .date-body {
+        height: 340px;
         margin: 0;
         padding: 5px;
       }
@@ -293,6 +310,10 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .view-text {
          @apply --isu-input-date-view-text
       }
+      
+      #dateBox[hidden] {
+          display: none;
+        }
 
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
@@ -331,9 +352,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </div>
        </div>
     </div>
-    
-    <paper-dialog id="dateBox" no-auto-focus no-overlap horizontal-align="auto" vertical-align="auto">
-      <div class="date-body">
+    <isu-iron-fit id="dateBox" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>
+      <div class="date-body" on-click="_clickDateBody">
         <template is="dom-if" if="[[ isEqual(type, 'datetimeRange') ]]">
           <div class="box-datetime">
             <isu-select class="datetime" placeholder="开始日期时间" items="[[startDateTimeList]]" value="{{startDate}}"></isu-select>
@@ -390,7 +410,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
         </div>
       </div>
-    </paper-dialog>
+    </isu-iron-fit>
     <template is="dom-if" if="[[_isView(isView, readonly)]]">
       <div class="view-text">
          <span>{{value}}</span>
@@ -553,6 +573,21 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     ]
   }
 
+  connectedCallback () {
+    super.connectedCallback()
+    this.$.dateBox.positionTarget = this.$.input__date
+    document.addEventListener('click', e => {
+      let target = e.target
+      e.stopPropagation()
+      while (target && target.tagName !== 'BODY' && target.tagName !== 'ISU-INPUT-DATE' && target.tagName !== 'ISU-IRON-FIT') {
+        target = target.parentElement
+      }
+      if (!this.$.dateBox.hidden && target && target.tagName !== 'ISU-INPUT-DATE' && target.tagName !== 'ISU-IRON-FIT') {
+        this.$.dateBox.hidden = true
+      }
+    })
+  }
+
   /**
    * @param value
    * @private
@@ -638,7 +673,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.getTimeList(value, 'end')
     if (this.type.includes('time')) value = this.endDateTimeList.find(item => item.timestamp >= endTimestamp).value
     this.set('endDate', value)
-    if (this.type !== 'datetimeRange') this.$.dateBox.close()
+    if (this.type !== 'datetimeRange') this.$.dateBox.hidden = true
   }
 
   getTime (date) {
@@ -705,14 +740,14 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.$.input.doFocus()
   }
 
-  openDialog () {
-    this.$.dateBox.positionTarget = this.$.targetDate
+  openDialog (e) {
+    e.stopPropagation()
     const date = this.value && !this.rangeList.includes(this.type) ? new Date(this.value) : (this.startDate && this.endDate) && this.rangeList.includes(this.type) ? new Date(this.startDate) : this.min ? new Date(this.min) : this.max ? new Date(this.max) : new Date()
     this.year = date.getFullYear()
     this.month = date.getMonth() + 1
     this.date = date.getDate()
     this.getDayList()
-    this.$.dateBox.open()
+    this.$.dateBox.hidden = false
   }
 
   yearOpen () {
@@ -825,7 +860,9 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  selectDay ({ model: { item, index } }) {
+  selectDay (e) {
+    e.stopPropagation()
+    const { item, index } = e.model
     this.clearDate()
     if (!this.rangeList.includes(this.type)) {
       const findIndex = this.dayList.findIndex(val => val.select)
@@ -842,6 +879,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (!this.rangeList.includes(this.type) && !item.currMonth) {
       item.date >= 24 ? this.monthMinus() : this.monthAdd()
     }
+    this.$.dateBox.hidden = true
   }
 
   clearDate () {
@@ -866,7 +904,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  selectToday () {
+  selectToday (e) {
+    e.stopPropagation()
     this.clearDate()
     const date = new Date()
     this.year = date.getFullYear()
@@ -887,7 +926,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (!this.rangeList.includes(this.type)) {
       timestamp = new Date(date).getTime()
       this.set('timestamp', timestamp)
-      if (!this.type.includes('time')) this.$.dateBox.close()
+      if (!this.type.includes('time')) this.$.dateBox.hidden = true
     } else {
       if ((this.startTimestamp && this.endTimestamp) || (!this.startTimestamp && !this.endTimestamp)) {
         timestamp = (this.type.includes('time') ? new Date(date + ` ${this.startTime}`) : new Date(date + ' 00:00:00')).getTime()
@@ -938,6 +977,11 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _isView (isView, readonly) {
     return isView && readonly
+  }
+
+  _clickDateBody (e) {
+    e.stopPropagation()
+    this.$.dateBox.hidden = false
   }
 }
 

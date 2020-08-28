@@ -80,10 +80,15 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .close-dialog {
         position: absolute;
         top: -14px;
-        right: -14px;
+        right: -2px;
         cursor: pointer;
         z-index: 10;
         color: #797979;
+        @apply --isu-dialog-close
+      }
+      
+      .close-icon{
+        @apply --isu-dialog-close-icon
       }
 
       .close-dialog:hover {
@@ -91,11 +96,15 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
       
       .title {
-        font-size: 26px;
+        font-size: 20px;
         font-weight: bold;
-        margin: 20px 0 10px;
+        height: 50px;
+        line-height: 50px;
+        margin: 0;
         text-align: left;
-        padding: 0 16px;
+        padding: 0px 16px;
+        border-bottom: 1px solid #ccc;
+        border-radius: 6px 6px 0 0;
         @apply --isu-dialog-title;
       }
       
@@ -120,7 +129,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       no-cancel-on-outside-click="[[noCancelOnOutsideClick]]" on-opened-changed="openedChanged">
       
       <div class="close-dialog" on-tap="close">
-        <iron-icon icon="icons:close"></iron-icon>
+        <iron-icon icon="icons:close" class="close-icon"></iron-icon>
       </div>
       
       <template is="dom-if" if="[[ toBoolean(title) ]]">

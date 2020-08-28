@@ -37,7 +37,7 @@ const template = html`
 
       :host([data-invalid]) .prompt-tip__container[data-prompt]:not([data-prompt=""]) {
         transform: translateX(5px);
-        visibility: visible;
+        display: flex;
         opacity: 1;
       }
 
@@ -47,10 +47,8 @@ const template = html`
         -ms-transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, -ms-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
         -o-transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, -o-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
         transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
-
-        display: flex;
+        display: none;
         align-items: center;
-        visibility: hidden;
 
         position: absolute;
         left: 100%;
@@ -121,6 +119,12 @@ const template = html`
         text-align: right;
         width: var(--isu-label-width, 120px);
         @apply --isu-label;
+      }
+      .ellipsis {
+          white-space: nowrap;
+          overflow: hidden;
+          -o-text-overflow: ellipsis;
+          text-overflow: ellipsis;
       }
     </style>
   </template>

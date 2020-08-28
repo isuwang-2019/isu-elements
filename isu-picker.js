@@ -53,6 +53,9 @@ import { PinyinUtil } from './utils/pinyinUtil'
  * @polymer
  * @demo demo/isu-picker/index.html
  */
+import './isu-iron-fit'
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
+
 class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template () {
     return html`
@@ -98,7 +101,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         /*标签容器*/
         .tags-input {
           flex: 1;
-  
           display: flex;
           flex-wrap: wrap;
           align-content: flex-start;
@@ -110,7 +112,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           border: 1px solid #CCC;
           border-radius: 4px;
           position: relative;
-          
+          @apply --isu-picker-tags-input;
         }
         
         .tags-input::-webkit-scrollbar {
@@ -139,6 +141,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           flex: 1;
           overflow: hidden;
           text-overflow: ellipsis;
+          white-space: normal;
+          @apply --isu-picker-tag-name;
         }
   
         .tag-deleter {
@@ -156,8 +160,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         #picker-collapse {
           display: flex;
           position: absolute;
-          /*top: 100%;*/
-          min-width: 100%;
+          /*min-width: 100%;*/
           margin-top: 1px;
           border-radius: 4px;
           font-size: 12px;
@@ -169,6 +172,9 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           visibility: visible;
           opacity: 1;
           /*transition: all 150ms ease-in;*/
+          
+          /*width: 300px;*/
+          
   
           @apply --isu-picker-dropdown;
         }
@@ -284,9 +290,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
          <div class="isu-label">[[label]]</div>
       </template>
       
+     
+          
       <div class="input-wrap" id="select__container">
         <div class="input-container">
-          <div class="tags-input" on-click="__openCollapse">
+          <div class="tags-input" on-click="__openCollapse" id="tags-input">
             <div id="placeholder">[[placeholder]]</div>
             <template is="dom-repeat" items="[[ selectedValues ]]">
               <span class="tag">
@@ -303,11 +311,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
               </template>
             </div>
           </div> <!-- class=tags-input -->
-  
           <div class="mask"></div>
         </div>
   
-        <div id="picker-collapse" hidden>
+        <isu-iron-fit id="picker-collapse" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>
           <table class="collapse-content__table">
             <thead>
             <tr>
@@ -332,13 +339,13 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
             </template>
             </tbody>
           </table>
-        </div>
-        <div class="prompt-tip__container" data-prompt$="[[prompt]]">
-          <div class="prompt-tip">
-            <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
-            [[prompt]]
+          <div class="prompt-tip__container" data-prompt$="[[prompt]]">
+            <div class="prompt-tip">
+              <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
+              [[prompt]]
+            </div>
           </div>
-        </div>
+        </isu-iron-fit>
       </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
         <div class="view-text">
@@ -663,6 +670,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: true,
         observer: '_permissionChange'
+      },
+      /**
+       * Ajax headers
+       * @type Object
+       * @default
+       */
+      headers: {
+        type: Object
       }
     }
   }
@@ -700,17 +715,21 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }, 200)
     })
 
-    let parent = this.offsetParent
-    while (parent) {
-      parent.addEventListener('scroll', e => {
-        this.__collapsePosition()
-      })
-      parent = parent.offsetParent
-    }
+    // let parent = this.offsetParent
+    // while (parent) {
+    //   parent.addEventListener('scroll', e => {
+    //     this.__collapsePosition()
+    //   })
+    //   parent = parent.offsetParent
+    // }
+
+    const target = dom(this.$['picker-collapse']).rootTarget
+    const myFit = this.$['picker-collapse']
+    myFit.positionTarget = target || this.$['tags-input']
   }
 
   getViewLabels (items = [], attrForLabel, connector) {
-    const labels = items.map(item => item[attrForLabel])
+    const labels = items.map(item => this.__calcTagName(item))
     return labels.join(connector)
   }
 
@@ -727,7 +746,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         url: url,
         method: 'GET',
         headers: {
-          'Cache-Control': 'no-cache'
+          'Cache-Control': 'no-cache',
+          ...this.headers
         },
         credentials: 'include',
         body: JSON.stringify(data)
@@ -738,7 +758,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       method: 'POST',
       headers: {
         'content-type': 'application/json;charset=utf-8',
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 'no-cache',
+        ...this.headers
       },
       credentials: 'include',
       body: JSON.stringify(data)
@@ -841,11 +862,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _selectedValuesChanged () {
     if (this.selectedValues.length > 0) {
-      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).filter(item => item).join(',')
+      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).filter(item => !this.isEmptyObject(item)).join(',')
       this.selectedItem = this.selectedValues[this.selectedValues.length - 1]
     } else {
-      this.value = undefined
-      this.selectedItem = undefined
+      this.value = ''
+      this.selectedItem = ''
     }
     if (this.mode === 'text') this.text = this.value && !this.multi ? this.value : this._userInputKeyword
     this.displayCollapse(false)
@@ -854,7 +875,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   /**
    * value属性变化监听函数
    */
-  _valueChanged (value) {
+  async _valueChanged (value) {
     // 本地模式，或远程数据已经就位
     if (this.items && this.items.length) {
       const flatValues = [...(new Set(String(value).split(',')))]
@@ -873,9 +894,13 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       if (dirty !== value) {
         const tmp = [...selectedValues, ...this.items]
-        this.selectedValues =
-          flatValues.map(val => tmp.find(item => item[this.attrForValue] == val))
-            .filter(selected => !!selected)
+        const selectedValuesTemp = flatValues.map(val => tmp.find(item => item[this.attrForValue] == val))
+          .filter(selected => !!selected)
+        if (selectedValuesTemp.length !== flatValues.length) {
+          await this._getSelectedForItems(selectedValuesTemp)
+        } else {
+          this.selectedValues = selectedValuesTemp
+        }
       }
 
       this._displayPlaceholder()
@@ -961,19 +986,25 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     // this._switchFocusItemAt(0);
   }
 
-  __collapsePosition () {
-    this.$['picker-collapse'].style.top = this.clientHeight + 'px'
-    // 当页面中存在isu-dialog时，打开picker列表碰到dialog的右边边缘，则向列表向左移
-    const dialog = document.querySelector('isu-dialog')
-    if (dialog) {
-      const dialogPos = this.__getElemPos(dialog.$.dialog)
-      const collapse = this.$['picker-collapse']
-      const collapsePos = this.__getElemPos(collapse)
-      if (dialogPos.left + dialog.$.dialog.clientWidth < collapsePos.left + collapse.clientWidth) {
-        this.$['picker-collapse'].style.left = (dialogPos.left + dialog.$.dialog.clientWidth) - (collapsePos.left + collapse.clientWidth) - 20 + 'px'
-      }
-    }
-  }
+  // __collapsePosition () {
+  //   // this.$['picker-collapse'].style.top = this.clientHeight + 'px'
+  //   // // 当页面中存在isu-dialog时，打开picker列表碰到dialog的右边边缘，则向列表向左移
+  //   // let wrap = this
+  //   // while (wrap.shadowRoot && !wrap.shadowRoot.querySelector('isu-dialog') && wrap !== document) {
+  //   //   wrap = wrap.domHost
+  //   // }
+  //   // const dialog = wrap.shadowRoot && wrap.shadowRoot.querySelector('isu-dialog')
+  //   // if (dialog) {
+  //   //   const dialogPos = this.__getElemPos(dialog.$.dialog)
+  //   //   const collapse = this.$['picker-collapse']
+  //   //   const collapsePos = this.__getElemPos(collapse)
+  //   //   if (dialogPos.left + dialog.$.dialog.clientWidth < collapsePos.left + collapse.clientWidth) {
+  //   //     this.$['picker-collapse'].style.left = (dialogPos.left + dialog.$.dialog.clientWidth) - (collapsePos.left + collapse.clientWidth) - 20 + 'px'
+  //   //   }
+  //   // }
+  //
+  //   this.$['picker-collapse'].fixPosition()
+  // }
 
   __getElemPos (obj) {
     const { x, y } = obj.getBoundingClientRect()
@@ -1014,31 +1045,31 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       this._selectItemAt(ind)
     } else {
       switch (key) {
-      case 'ArrowUp':
-        collapseOpend && this._switchFocusItemAt(this.__focusIndex - 1)
-        break
+        case 'ArrowUp':
+          collapseOpend && this._switchFocusItemAt(this.__focusIndex - 1)
+          break
 
-      case 'ArrowDown':
-        if (collapseOpend) {
-          this._switchFocusItemAt(this.__focusIndex + 1)
-        } else {
-          this._switchFocusItemAt(0)
-          this.displayCollapse(true)
-        }
-        break
+        case 'ArrowDown':
+          if (collapseOpend) {
+            this._switchFocusItemAt(this.__focusIndex + 1)
+          } else {
+            this._switchFocusItemAt(0)
+            this.displayCollapse(true)
+          }
+          break
 
-      case this.shortcutKey:
-        if (collapseOpend && this._displayItems.length > 0 && this.__focusIndex < this._displayItems.length) {
-          this._selectItemAt(this.__focusIndex)
-        }
-        break
+        case this.shortcutKey:
+          if (collapseOpend && this._displayItems.length > 0 && this.__focusIndex < this._displayItems.length) {
+            this._selectItemAt(this.__focusIndex)
+          }
+          break
 
-      case 'Backspace':
-        if (this._userInputKeyword === undefined || this._userInputKeyword.length === 0) {
-          this.deleteLastTag()
-        }
+        case 'Backspace':
+          if (this._userInputKeyword === undefined || this._userInputKeyword.length === 0) {
+            this.deleteLastTag()
+          }
 
-        break
+          break
       }
     }
   }
@@ -1097,7 +1128,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   displayCollapse (display) {
     this.$['picker-collapse'].hidden = !display
-    if (this.$['picker-collapse'].hidden === false) this.__collapsePosition()
+    // if (this.$['picker-collapse'].hidden === false) this.__collapsePosition()
   }
 
   /**

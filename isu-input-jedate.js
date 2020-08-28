@@ -51,7 +51,7 @@ import { FormatBehavior } from './behaviors/format-behavior'
  *
  * @customElement
  * @polymer
- * @demo demo/isu-input-date/index.html
+ * @demo demo/isu-input-jedate/index.html
  */
 class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], PolymerElement) {
   static get template () {
@@ -447,6 +447,9 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       isView: {
         type: Boolean,
         value: false
+      },
+      _jedate: {
+        type: Object
       }
     }
   }
@@ -478,7 +481,18 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
         })
         this.set('timestamp', dateArray[0])
         this.set('selectedItems', dateArray)
+      } else if (!this.isEmptyObject(value)) {
+        this.set('timestamp', this.dateToTimestamp(value))
+      } else if (this.value === '') {
+        this.set('timestamp', '')
       }
+    }
+    if (this._jedate && value !== undefined && value != null) {
+      // 手动清空输入框的值，否则的话无法清除
+      if (this.timestamp === '') {
+        this._jedate.valCell.value = ''
+      }
+      this._jedate.setValue(value)
     }
   }
 
@@ -498,13 +512,21 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
   succeed () {
   }
 
-  _timestampChanged(timestamp) {
-    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
+  _timestampChanged (timestamp) {
+    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : ''
+    if (this._jedate && this.timestamp != null && this.timestamp !== undefined) {
+      this._jedate.setValue(convertDate)
+      // 手动清空输入框的值，否则的话无法清除
+      if (this.timestamp === '') {
+        this._jedate.valCell.value = ''
+      }
+      this.set('dateArray', [])
+    }
     this.set('value', convertDate)
   }
 
   _idChanged (id) {
-    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : null
+    const convertDate = this.timestamp ? FormatBehavior.formatDate(this.timestamp, this.format) : (this.value ? this.value : null)
     if (!this.readonly) {
       const self = this
       const enLang = {
@@ -550,7 +572,10 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       if (this.language === 'en') {
         options.language = enLang
       }
-      this.timestamp ? jeDate(self.root.querySelector(`#${self.id}`), options).setValue(convertDate) : jeDate(self.root.querySelector(`#${self.id}`), options)
+      this._jedate = jeDate(self.root.querySelector(`#${self.id}`), options)
+      if (this.timestamp) {
+        this._jedate.setValue(convertDate)
+      }
     }
     this.set('value', convertDate)
   }

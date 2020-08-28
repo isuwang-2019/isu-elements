@@ -43,7 +43,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: var(--isu-input-width, 300px);
+        width: var(--isu-input-width, 320px);
         height: 34px;
         line-height: 34px;
         font-family: var(--isu-ui-font-family), sans-serif;
@@ -224,7 +224,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
           <div class="prefix-unit input-unit">[[prefixUnit]]</div>
         </template>
         <iron-input bind-value="{{value}}" id="input" class="iron-input">
-          <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]"
+          <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]" on-input="patternLimit"
               maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
           <div class="clear">
             <template is="dom-if" if="[[ isExistTruthy(value) ]]">
@@ -257,7 +257,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
           
       </div>
     <template is="dom-if" if="[[_isView(isView,readonly)]]">
-      <div class="input__container input__container__view">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
+      <div class="input__container input__container__view ellipsis" title="[[value]]">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
     </template>
     
 `
@@ -417,6 +417,16 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: true,
         observer: '_permissionChange'
+      },
+      /**
+       *If true,the input is limit to one format, is useful with method 'patternLimit'
+       *
+       * @type Boolean
+       * @default
+       */
+      isPatternLimit: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -469,6 +479,21 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
 
     return valid
+  }
+
+  /**
+   * Limit the pattern of the input number
+   * normal example:
+   * 小数点后3位小数:e.detail.target.value = e.detail.target.value.replace(/^\D*([0-9]*)(\.?)([0-9]{0,3}).*$/, '$1$2$3')
+   * 正整数(包括0）：e.detail.target.value = e.detail.target.value.replace(/\D/g,'')
+   * 正整数（不包括0）：if(e.detail.target.value.length==1)e.detail.target.value=e.detail.target.value.replace(/[^1-9]/,'')}else{e.detail.target.value=e.detail.target.value.replace(/\D/g,'')}
+   * 整数：e.detail.target.type = 'text'
+   *      e.detail.target.value = e.detail.target.value.replace(/[^-\d]/g, '')
+   * */
+  patternLimit (e) {
+    if (this.isPatternLimit) {
+      this.dispatchEvent(new CustomEvent('pattern-value-changed', { detail: { target: e.target }, bubbles: true, composed: true }))
+    }
   }
 
   clear (e) {

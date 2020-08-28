@@ -151,7 +151,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
     </style>
     
-    <isu-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]">
+    <isu-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]" type="[[type]]">
       <div class="trigger__label">[[ label ]]</div>
       <iron-icon class="trigger__icon" icon="icons:expand-more"></iron-icon>
     </isu-button>
@@ -179,6 +179,15 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: 'medium',
         reflectToAttribute: true
+      },
+      /**
+       * Properties can be selected as default, primary, warning, danger or success
+       *
+       * @type String
+       * @default default
+       */
+      type: {
+        type: String
       },
       /**
        * Label of the action group.
@@ -232,6 +241,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       disabled: {
         type: Boolean,
+        reflectToAttribute: true,
         value: false
       },
       /**
@@ -242,12 +252,29 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       hideItemsOnClick: {
         type: Boolean,
         value: false
+      },
+      /**
+       * Whether to show itself or not
+       */
+      permission: {
+        type: Boolean,
+        value: true
+      },
+      hidden: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: '__isHiddenButton(permission,items)'
       }
     }
   }
 
   static get is () {
     return 'isu-button-group'
+  }
+
+  __isHiddenButton (permission, items) {
+    const flag = permission && items && items.some(item => item.permission || item.permission === undefined)
+    return !flag
   }
 
   connectedCallback () {
@@ -293,13 +320,17 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _onButtonDropdownClick (e) {
+    const self = this
     const target = e.target
     const bindItem = e.target.bindItem || e.target.getAttribute('bind-item')
 
-    if (this.hideItemsOnClick) {
-      this.opened = false
+    if (self.hideItemsOnClick) {
+      self.opened = false
     }
-    this.dispatchEvent(new CustomEvent('item-click', { detail: { target, bindItem } }))
+    setTimeout(() => {
+      self.dispatchEvent(new CustomEvent('item-click', { detail: { target, bindItem } }))
+    }, 100)
+
   }
 
   /**

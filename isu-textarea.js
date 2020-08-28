@@ -97,6 +97,10 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
        .view-text {
          @apply --isu-textarea-view-text
        }
+       .view-text pre {
+          margin: 0;
+          font-family: "Microsoft YaHei";
+       }
   
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
@@ -117,7 +121,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
       </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
         <div class="view-text">
-           <span>[[value]]</span>
+           <pre>[[value]]</pre>
         </div>
      </template>
 `

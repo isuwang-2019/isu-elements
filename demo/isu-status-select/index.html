@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>isu-textarea demo</title>
+
+  <script type="module">
+    import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
+    import '../../isu-status-select'
+  </script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .centered {
+        min-width: 800px;
+      }
+
+      demo-snippet {
+        --demo-snippet-code: {
+          max-height: 500px;
+        }
+      }
+    </style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+</head>
+<body>
+<div class="vertical-section-container centered">
+  <h3>isu-status-select demo</h3>
+  <demo-snippet>
+    <template>
+      <isu-status-select id="demo1" label="状态"></isu-status-select>
+      <isu-status-select id="demo2" label="状态2" no-count></isu-status-select>
+
+      <script>
+        const items = [
+          {
+            "value": -1,
+            "label": "全部",
+            "count": "10"
+          },
+          {
+            "value": 1,
+            "label": "状态1",
+            "count": "2"
+          },
+          {
+            "value": 2,
+            "label": "状态2",
+            "count": "3"
+          },
+          {
+            "value": 3,
+            "label": "状态3",
+            "count": "5"
+          }
+        ];
+        demo1.items = items
+        demo2.items = items
+      </script>
+    </template>
+  </demo-snippet>
+</div>
+</body>
+</html>

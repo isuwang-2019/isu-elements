@@ -54,7 +54,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: var(--isu-select-width, 300px);
+        width: var(--isu-select-width, 320px);
         height: 34px;
         line-height: 32px;
         font-family: var(--isu-ui-font-family), sans-serif;
@@ -135,6 +135,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: normal;
         @apply --isu-select-tag-name;
       }
 
@@ -606,11 +607,11 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const dirty = (this.selectedValues || []).map(selected => selected[this.attrForValue]).join(',')
       if (dirty !== value) {
         this.selectedValues =
-          flatValues.map(val => this.items.find(item => item[this.attrForValue] == val))
+          flatValues.map(val => this.items.find(item => `${item[this.attrForValue]}` === `${val}`))
             .filter(selected => typeof selected !== 'undefined')
 
         if (!this.multi) {
-          this.selectedItem = this.items.find(item => item[this.attrForValue] == flatValues[0])
+          this.selectedItem = this.items.find(item => `${item[this.attrForValue]}` === `${flatValues[0]}`)
         }
       }
     }
@@ -653,7 +654,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       if (this.selectedValues.length > 0) {
         this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',')
       } else {
-        this.value = undefined
+        this.value = ''
       }
       if (this.selectedValues.length !== 0) {
         this.closeCollapse()
@@ -670,8 +671,11 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   _deleteTag (e) {
     const value = e.target.dataArgs
-    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] == value)
+    const ind = this.selectedValues.findIndex(selected => `${selected[this.attrForValue]}` === `${value}`)
     this.splice('selectedValues', ind, 1)
+    if (!this.multi) {
+      this.set('selectedItem', null)
+    }
   }
 
   /**
@@ -681,24 +685,24 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _updatePressed (event) {
     let cursorIndex = event.target.dataset.cursorIndex
     switch (event.key) {
-    case 'ArrowLeft':
-      cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
-      break
-    case 'ArrowRight':
-      const max = this.selectedValues.length - 1
-      cursorIndex = cursorIndex < max ? ++cursorIndex : max
-      break
-    case 'Backspace':
-      if (cursorIndex >= 0) {
-        this.splice('selectedValues', cursorIndex, 1)
-      }
-      if (!this.keyword || this.keyword.length === 0) {
-        if (this.selectedValues) { // 存在数据才抛出,解决新增时候数据为空时退格Array.length出错问题
-          this.pop('selectedValues')
+      case 'ArrowLeft':
+        cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
+        break
+      case 'ArrowRight':
+        const max = this.selectedValues.length - 1
+        cursorIndex = cursorIndex < max ? ++cursorIndex : max
+        break
+      case 'Backspace':
+        if (cursorIndex >= 0) {
+          this.splice('selectedValues', cursorIndex, 1)
         }
-      }
-      cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
-      break
+        if (!this.keyword || this.keyword.length === 0) {
+          if (this.selectedValues) { // 存在数据才抛出,解决新增时候数据为空时退格Array.length出错问题
+            this.pop('selectedValues')
+          }
+        }
+        cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
+        break
     }
   }
 

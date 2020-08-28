@@ -105,8 +105,9 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <iron-icon class="icon" icon="icons:remove"></iron-icon>
     </button>
     <iron-input bind-value="{{value}}" id="input" disabled="[[disabled]]">
-      <input id="innerInput" class="box input" placeholder$="[[placeholder]]" type$="number" minlength$="[[minlength]]" rows$="[[rows]]"
-          maxlength$="[[maxlength]]" min$="{{min}}" max$="{{max}}" readonly$="[[disabled]]" 
+      <input id="innerInput" class="box input" placeholder$="[[placeholder]]" type="number" minlength$="[[minlength]]" rows$="[[rows]]"
+          on-input="patternLimit"
+          maxlength$="[[maxlength]]" min$="{{min}}" max$="{{max}}" readonly$="[[disabled]]" pattern$="[[pattern]]"
           autocomplete="off" step="any" spellcheck="false" on-change="checkNum">
     </iron-input>
     <button id="addButton" class="box icon-box" on-click="add" data-args="[[step]]" disabled="[[disabled]]">
@@ -209,6 +210,16 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       stepStrictly: {
         type: Boolean,
         value: false
+      },
+      /**
+       *If true,the input is limit to one format, is useful with method 'patternLimit'
+       *
+       * @type Boolean
+       * @default
+       */
+      isPatternLimit: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -249,6 +260,21 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       } else {
         this.$.addButton.classList.remove('disabled')
       }
+    }
+  }
+
+  /**
+   * Limit the pattern of the input number
+   * normal example:
+   * 小数点后3位小数:e.detail.target.value = e.detail.target.value.replace(/^\D*([0-9]*)(\.?)([0-9]{0,3}).*$/, '$1$2$3')
+   * 正整数(包括0）：e.detail.target.value = e.detail.target.value.replace(/\D/g,'')
+   * 正整数（不包括0）：if(e.detail.target.value.length==1)e.detail.target.value=e.detail.target.value.replace(/[^1-9]/,'')}else{e.detail.target.value=e.detail.target.value.replace(/\D/g,'')}
+   * 整数：e.detail.target.type = 'text'
+   *      e.detail.target.value = e.detail.target.value.replace(/[^-\d]/g, '')
+   * */
+  patternLimit (e) {
+    if (this.isPatternLimit) {
+      this.dispatchEvent(new CustomEvent('pattern-value-changed', { detail: { target: e.target }, bubbles: true, composed: true }))
     }
   }
 

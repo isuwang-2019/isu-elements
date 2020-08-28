@@ -49,8 +49,11 @@ document.body.appendChild($_documentContainer.content);
   <demo-snippet>
     <template>
       <isu-textarea label="备注" value="readonly" readonly></isu-textarea>
-      <isu-textarea label="备注" value="isView" is-view readonly></isu-textarea>
+      <isu-textarea id="viewValue" label="备注" is-view readonly></isu-textarea>
       <isu-textarea label="备注" value="disabled" disabled></isu-textarea>
+      <script>
+        viewValue.value = '不管风雨我体恤\r\n feifjeifjeifejifei'
+      </script>
     </template>
   </demo-snippet>
 

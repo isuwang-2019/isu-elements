@@ -81,11 +81,7 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
         font-size: var(--isu-ui-font-size);
         border-radius: 4px;
         outline: none;
-        height: var(--isu-button-height, 34px) sans-serif;
-      }
-
-      :host([hidden]) {
-        display: none;
+        height: var(--isu-button-height, 34px);
       }
 
       .btn {
@@ -159,18 +155,22 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
       }
       
      :host([size=small]) {
-        width: 50px;
+        width: auto;
+        min-width: 50px;
         height: 30px;
      }
      
      :host([size=large]) {
-        width: 100px;
+        width: auto;
+        min-width: 100px;
         height: 40px;
      }
     </style>
-    <paper-button class="btn" disabled="[[disabled]]" noink>
-      <slot></slot>
-    </paper-button>
+    <template is="dom-if" if="[[permission]]">
+        <paper-button class="btn" disabled="[[disabled]]" noink>
+          <slot></slot>
+        </paper-button>
+    </template>
 `
   }
 
