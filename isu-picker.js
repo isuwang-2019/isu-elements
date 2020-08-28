@@ -875,7 +875,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   /**
    * value属性变化监听函数
    */
-  _valueChanged (value) {
+  async _valueChanged (value) {
     // 本地模式，或远程数据已经就位
     if (this.items && this.items.length) {
       const flatValues = [...(new Set(String(value).split(',')))]
@@ -894,9 +894,13 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       if (dirty !== value) {
         const tmp = [...selectedValues, ...this.items]
-        this.selectedValues =
-          flatValues.map(val => tmp.find(item => item[this.attrForValue] == val))
-            .filter(selected => !!selected)
+        const selectedValuesTemp = flatValues.map(val => tmp.find(item => item[this.attrForValue] == val))
+          .filter(selected => !!selected)
+        if (selectedValuesTemp.length !== flatValues.length) {
+          await this._getSelectedForItems(selectedValuesTemp)
+        } else {
+          this.selectedValues = selectedValuesTemp
+        }
       }
 
       this._displayPlaceholder()
