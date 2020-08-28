@@ -45,6 +45,30 @@ document.body.appendChild($_documentContainer.content);
   <h3>Basic isu-button-group demo</h3>
   <demo-snippet>
     <template>
+      <custom-style>
+        <style>
+          #btnGrpSmall {
+            --isu-button-group-button: {
+              background: var(--isu-ui-bg);
+              color: white;
+              font-size: 18px;
+            };
+            --isu-ui-default: {
+              color: red;
+              font-size: 12px;
+              border: none;
+              background-color: yellow;
+              /*height: 30px;*/
+            };
+            --isu-button: {
+              color: red;
+            };
+            --isu-button-group-dropdown: {
+              background: #000;
+            }
+          }
+        </style>
+      </custom-style>
       <isu-button-group id="btnGrpSmall" label="测试小" size="small"></isu-button-group>
       <script>
         btnGrpSmall.items = [
@@ -127,6 +151,16 @@ document.body.appendChild($_documentContainer.content);
               color: white;
               font-size: 18px;
             };
+            --isu-ui-default: {
+              color: red;
+              font-size: 12px;
+              border: none;
+              background-color: yellow;
+              /*height: 30px;*/
+            };
+            --isu-button: {
+              color: red;
+            };
             --isu-button-group-dropdown: {
               background: #000;
             }
@@ -145,11 +179,13 @@ document.body.appendChild($_documentContainer.content);
         </style>
       </custom-style>
       <isu-button-group id="btnGrp4" label="测试">
-        <div class="btn">按钮1</div>
-        <div class="btn">按钮2</div>
-        <div class="btn">按钮3</div>
       </isu-button-group>
       <script>
+        btnGrp4.items = [
+          {label: "测试1", value: "1"},
+          {label: "测试2", value: "2"},
+          {label: "测试3", value: "3"}
+        ]
         document.querySelectorAll('.btn')
           .forEach(btn => btn.onclick = console.log);
       </script>

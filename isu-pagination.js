@@ -87,6 +87,11 @@ class IsuPagination extends PolymerElement {
         outline: none;
         border-radius: 2px;
         border: 1px solid #6fa5d3;
+        @apply --isu-pagination-inner-input
+      }
+      
+      #last {
+        @apply --isu-pagination-last
       }
       
       input[type=number] {
@@ -285,8 +290,7 @@ class IsuPagination extends PolymerElement {
        */
       start: {
         type: Number,
-        notify: true,
-        reflectToAttribute: true
+        notify: true
       },
 
       __pageSize: {
@@ -321,10 +325,7 @@ class IsuPagination extends PolymerElement {
       }
 
       // would not dispatch event when at initial phase
-      setTimeout(() => {
-        this.dispatchEvent(new CustomEvent('isu-start-changed', { detail: { value: start }, bubbles: true, composed: true }))
-      }, 0)
-
+      this.dispatchEvent(new CustomEvent('start-changed', { detail: { value: start }, bubbles: true, composed: true }))
     }
   }
 
@@ -334,9 +335,8 @@ class IsuPagination extends PolymerElement {
     }
   }
 
-  _pageIndexChanged (__pageIndex) {
-    if(!__pageIndex) return
-    this.start = (__pageIndex - 1) * this.limit
+  _pageIndexChanged () {
+    this.start = (this.__pageIndex - 1) * this.limit
   }
 
   _limitChanged (limit, oldLimit) {
@@ -349,7 +349,7 @@ class IsuPagination extends PolymerElement {
 
     // would not dispatch event when at initial phase
     if (oldLimit !== undefined) {
-      this.dispatchEvent(new CustomEvent('isu-limit-changed', { detail: { value: limit } }))
+      this.dispatchEvent(new CustomEvent('limit-changed', { detail: { value: limit } }))
     }
 
     this.__limit = limit.toString()
