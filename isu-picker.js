@@ -678,6 +678,13 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       headers: {
         type: Object
+      },
+      /**
+       * 0 是否为有效value值，默认为否
+       */
+      zeroIsValue: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -813,6 +820,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this._displayItems = items.slice(0, 9)
     // 初始化一次选中项
     if (this.value !== undefined && this.value !== null) {
+      if(!this.zeroIsValue && this.value === 0) return
       this._valueChanged(this.value)
     }
     // 清空缓存插件的缓存
