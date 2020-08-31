@@ -810,7 +810,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         addItems = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
       }
 
-      this.items = addItems.length > 0 ? items.concat(addItems) : items
+      this.items = items.concat(addItems)
     } catch (e) {
       console.error(e)
     }
@@ -901,11 +901,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
 
       if (dirty !== value) {
-        const tmp = [...selectedValues, ...this.items]
+        const addSelectedItemTemp = selectedValues.filter(selectedItem => this.items.find(item => item[this.attrForValue] == selectedItem[this.attrForValue]))
+        const tmp = [...addSelectedItemTemp, ...this.items]
         const selectedValuesTemp = flatValues.map(val => tmp.find(item => item[this.attrForValue] == val))
           .filter(selected => !!selected)
-        if (selectedValuesTemp.length !== flatValues.length) {
-          await this._getSelectedForItems(selectedValuesTemp)
+        if (selectedValuesTemp.length > 0 &&  selectedValuesTemp.length !== flatValues.length) {
+          await this._getSelectedForItems([...tmp])
         } else {
           this.selectedValues = selectedValuesTemp
         }
