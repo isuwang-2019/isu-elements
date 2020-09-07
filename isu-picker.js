@@ -809,8 +809,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       if (JSON.stringify(data) !== '{}') {
         addItems = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
       }
-
-      this.items = items.concat(addItems)
+      this.items = addItems && addItems.length > 0 ? items.concat(addItems) : items
     } catch (e) {
       console.error(e)
     }
