@@ -30,7 +30,7 @@ import './isu-tree.js'
 
  * @customElement
  * @polymer
- * @demo demo/isu-org-tree/index.html
+ * @demo demo/isu-select-tree/index.html
  */
 class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template () {
