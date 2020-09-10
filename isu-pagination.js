@@ -159,7 +159,7 @@ class IsuPagination extends PolymerElement {
         padding: 0px;
       }
       :host([size=mini]) li > div {
-        padding: 0 2px;
+        padding: 0 1px;
       }
       :host([size=mini]) .size-selector {
         width: 78px;
@@ -194,7 +194,7 @@ class IsuPagination extends PolymerElement {
         <div on-click="last" id="last"><template is="dom-if" if="[[!isMini(size)]]">最后一页</template><iron-icon icon="icons:last-page"></iron-icon></div>
       </li>
       <li>
-        <div>共 <div class="page-count">[[ totalPageSize ]]</div>页 [[ total ]] 条,每页 [[ limit ]] 条</div>
+        <div>共 <div class="page-count">[[ totalPageSize ]]</div>页 [[ total ]] 条<template is="dom-if" if="[[!hidePerPageNum]]">,每页 [[ limit ]] 条</template></div>
       </li>
       <template is="dom-if" if="[[!hidePageSelect]]">
         <li>
@@ -265,6 +265,15 @@ class IsuPagination extends PolymerElement {
        * @default false
        */
       hidePageSelect: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Whether or not show the per page Num
+       * @type {boolean}
+       * @default false
+       */
+      hidePerPageNum: {
         type: Boolean,
         value: false
       },
