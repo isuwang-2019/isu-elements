@@ -24,6 +24,7 @@ import './isu-progress';
 import './isu-radio';
 import './isu-select';
 import './isu-select-tree';
+import './isu-select-tree-new';
 import './isu-slider';
 import './isu-status-select';
 import './isu-table';
