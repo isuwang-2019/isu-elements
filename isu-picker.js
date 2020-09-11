@@ -858,6 +858,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         } catch (err) {
           console.error(err)
         }
+        setTimeout(this.$['picker-collapse'].fixPosition.bind(this.$['picker-collapse']), 0)
       }
       this.debounce('__debounceFetchByKeyword', __fetchByKeyword, 500)
     } else {

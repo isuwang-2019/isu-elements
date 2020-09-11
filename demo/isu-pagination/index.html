@@ -99,11 +99,22 @@ document.body.appendChild($_documentContainer.content);
       <h3>size=mini</h3>
       <isu-pagination id="page3" total="5000" start="0" limit="20" size="mini" hide-page-select></isu-pagination>
       <script>
-        page2.addEventListener("isu-start-changed", e => {
+        page3.addEventListener("isu-start-changed", e => {
           console.log("page start", e);
         });
 
-        page2.addEventListener("isu-limit-changed", e => {
+        page3.addEventListener("isu-limit-changed", e => {
+          console.log("page limit", e);
+        });
+      </script>
+      <h3>size=mini,hide per page num</h3>
+      <isu-pagination id="page4" total="5000" start="0" limit="20" size="mini" hide-page-select hide-per-page-num></isu-pagination>
+      <script>
+        page4.addEventListener("isu-start-changed", e => {
+          console.log("page start", e);
+        });
+
+        page4.addEventListener("isu-limit-changed", e => {
           console.log("page limit", e);
         });
       </script>
