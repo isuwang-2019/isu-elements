@@ -13,6 +13,7 @@
     import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
     import '../../isu-select-tree';
+    import '../../isu-select-tree-new';
     import '../../isu-input';
     if (!window.location.href.endsWith("?mock=mockData.js")) {
       window.location.href = window.location.href + "?mock=mockData.js";
@@ -57,6 +58,9 @@
       <isu-select-tree id="orgtree" label="组织(模拟url)" placeholder="请选择" src="/init.do" value="2111"></isu-select-tree>
       <isu-input id="input" label="输入框" placeholder="请选择"></isu-input>
       <isu-select-tree id="orgtree2" label="组织（传入数据）" placeholder="请选择" value="21"></isu-select-tree>
+
+      <isu-select-tree-new id="orgtree3" label="组织(模拟url)新" placeholder="请选择" src="/init.do"
+                           multi value="2111,13,14" readonly is-view only-select-level="2"></isu-select-tree-new>
       <script>
         orgtree2.treeData = [
           { id: 1, label: '第1个', children: [
@@ -111,7 +115,6 @@
           { id: 4, label: '第4个', children: [] },
           { id: 5, label: '第5个', children: [] }
         ]
-
       </script>
     </template>
   </demo-snippet>
