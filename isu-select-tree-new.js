@@ -38,7 +38,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <style include="isu-elements-shared-styles">
           :host {
             display: flex;
-            height: 34px;
             line-height: 34px;
             font-family: var(--isu-ui-font-family), sans-serif;
             font-size: var(--isu-ui-font-size);
@@ -337,8 +336,11 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
+      /**
+       * The filter level that need to be showed in the input box. eg: '2,3'
+       * */
       onlySelectLevel: {
-        type: Number
+        type: String
       },
       _defaultCheckedKeys: {
         type: Array,
@@ -388,7 +390,15 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _bindItemsChange (bindItems) {
     if (bindItems && bindItems.length > 0) {
       this.selectedItem = bindItems[0]
-      const selectedItems = this.onlySelectLevel ? bindItems.filter(item => item.level === this.onlySelectLevel) : bindItems
+      const onlySelectLevelList = this.onlySelectLevel.split(',')
+      let selectedItems = []
+      if (onlySelectLevelList.length > 0) {
+        onlySelectLevelList.forEach(level => {
+          selectedItems = selectedItems.concat(bindItems.filter(item => item.level === +level))
+        })
+      } else {
+        selectedItems = bindItems
+      }
       this.set('selectedItems', selectedItems)
       this.value = bindItems.map(item => item[this.attrForValue]).join(',')
       console.log('bindItems', bindItems)
@@ -421,7 +431,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return label ? '' : 'placeholder'
   }
 
-  _valueChanged (treeData,value) {
+  _valueChanged (treeData, value) {
     const self = this
     if (this._isDefaultCheckedKeysFlag && value) {
       const _defaultCheckedKeys = this.value.split(',')
@@ -517,9 +527,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   getViewLabels (items, attrForLabel, connector) {
-    // const selectedItems = this.onlySelectLevel ? items.filter(item => item.level === this.onlySelectLevel) : items
-    // this.set('selectedItems', selectedItems)
-
     const labels = items.map(item => item[attrForLabel])
     return labels.join(connector)
   }
