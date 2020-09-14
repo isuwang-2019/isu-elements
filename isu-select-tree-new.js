@@ -390,7 +390,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (bindItems) {
       if (bindItems.length > 0) {
         this.selectedItem = bindItems[0]
-        const onlySelectLevelList = (this.onlySelectLevel && this.onlySelectLevel.split(','))| []
+        const onlySelectLevelList = (this.onlySelectLevel && this.onlySelectLevel.split(',')) || []
         let selectedItems = []
         if (onlySelectLevelList.length > 0) {
           onlySelectLevelList.forEach(level => {
