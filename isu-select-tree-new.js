@@ -307,6 +307,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       selectedItems: {
         type: Array,
+        notify: true,
         value: []
       },
       /**
