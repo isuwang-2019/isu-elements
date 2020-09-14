@@ -303,8 +303,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @type {array}
        */
       bindItems: {
-        type: Array,
-        value: []
+        type: Array
       },
       selectedItems: {
         type: Array,
@@ -365,10 +364,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get observers () {
     return [
-      '_bindItemsChange(bindItems)',
       '_srcChanged(src)',
       '_treeDataChanged(treeData)',
-      '_valueChanged(treeData,value)',
+      '_valueChanged(value)',
+      '_bindItemsChange(bindItems)',
       '__isViewChanged(isView,readonly)'
     ]
   }
@@ -388,20 +387,24 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _bindItemsChange (bindItems) {
-    if (bindItems && bindItems.length > 0) {
-      this.selectedItem = bindItems[0]
-      const onlySelectLevelList = this.onlySelectLevel.split(',')
-      let selectedItems = []
-      if (onlySelectLevelList.length > 0) {
-        onlySelectLevelList.forEach(level => {
-          selectedItems = selectedItems.concat(bindItems.filter(item => item.level === +level))
-        })
+    if (bindItems) {
+      if (bindItems.length > 0) {
+        this.selectedItem = bindItems[0]
+        const onlySelectLevelList = (this.onlySelectLevel && this.onlySelectLevel.split(','))| []
+        let selectedItems = []
+        if (onlySelectLevelList.length > 0) {
+          onlySelectLevelList.forEach(level => {
+            selectedItems = selectedItems.concat(bindItems.filter(item => item.level === +level))
+          })
+        } else {
+          selectedItems = bindItems
+        }
+        this.set('selectedItems', selectedItems)
+        this.value = bindItems.map(item => item[this.attrForValue]).join(',')
       } else {
-        selectedItems = bindItems
+        this.set('selectedItems', [])
+        this.set('value', '')
       }
-      this.set('selectedItems', selectedItems)
-      this.value = bindItems.map(item => item[this.attrForValue]).join(',')
-      console.log('bindItems', bindItems)
     }
   }
 
@@ -431,14 +434,29 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return label ? '' : 'placeholder'
   }
 
-  _valueChanged (treeData, value) {
-    const self = this
-    if (this._isDefaultCheckedKeysFlag && value) {
-      const _defaultCheckedKeys = this.value.split(',')
-      this.set('_defaultCheckedKeys', _defaultCheckedKeys)
-      this.set('_isDefaultCheckedKeysFlag', false)
+  _valueChanged (value) {
+    if (value) {
+      if (this._isDefaultCheckedKeysFlag && value) {
+        const _defaultCheckedKeys = this.value.split(',')
+        this.set('_defaultCheckedKeys', _defaultCheckedKeys)
+        this.set('_isDefaultCheckedKeysFlag', false)
+      }
     }
+  }
+
+  _treeDataChanged (treeData) {
+    const self = this
     if (treeData.length > 0) {
+      const getLevel = (data, level) => {
+        if (!data) return
+        data.forEach(item => {
+          item.level = level
+          if (item.children && item.children.length > 0) {
+            getLevel(item.children, level + 1)
+          }
+        })
+      }
+      getLevel(this.treeData, 1)
       const bindItems = []
       const getSuitIndex = function (items, singleValue) {
         if (!items) return -1
@@ -453,7 +471,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         }
         return index
       }
-      const valueList = value && value.split(',')
+      const valueList = (self.value && self.value.split(',')) || []
       valueList.forEach(singleValue => {
         getSuitIndex(self.treeData, singleValue)
       })
@@ -461,24 +479,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  _treeDataChanged (treeData) {
-    if (treeData.length > 0) {
-      const getLevel = (data, level) => {
-        if (!data) return
-        data.forEach(item => {
-          item.level = level
-          if (item.children && item.children.length > 0) {
-            getLevel(item.children, level + 1)
-          }
-        })
-      }
-      getLevel(this.treeData, 1)
-      console.log('treedata', this.treeData)
-    }
-  }
-
   _srcChanged (src) {
-    const self = this
     if (!src) return
     this.fetchParam = { id: this.value }
     const request = this._mkRequest(this.fetchParam)
@@ -492,28 +493,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
           items = data || []
         }
 
-        const bindItems = []
-        const getSuitIndex = function (items, singleValue) {
-          if (!items || items.length === 0) return -1
-          const index = items.findIndex(item => item[self.attrForValue] === singleValue)
-          if (index < 0) {
-            items.forEach(item => {
-              getSuitIndex(item.children, singleValue)
-            })
-          }
-          if (index >= 0) {
-            self.selectedItem = items[index]
-            bindItems.push(self.selectedItem)
-          }
-          return index
-        }
-        const valueList = self.value.split(',')
-        valueList.forEach(singleValue => {
-          getSuitIndex(items, singleValue)
-        })
-
         this.set('treeData', items)
-        this.set('bindItems', bindItems)
       })
       .catch(console.error)
   }
