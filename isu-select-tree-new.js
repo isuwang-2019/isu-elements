@@ -308,7 +308,8 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       selectedItems: {
         type: Array,
         notify: true,
-        value: []
+        value: [],
+        computed: '_calSelectedItems(bindItems)'
       },
       /**
        * The text mode display requires readonly=true to take effect
@@ -387,23 +388,29 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
     })
   }
 
+  _calSelectedItems (bindItems) {
+    if (bindItems && bindItems.length > 0) {
+      const onlySelectLevelList = (this.onlySelectLevel && this.onlySelectLevel.split(',')) || []
+      let selectedItems = []
+      if (onlySelectLevelList.length > 0) {
+        onlySelectLevelList.forEach(level => {
+          selectedItems = selectedItems.concat(bindItems.filter(item => item.level === +level))
+        })
+      } else {
+        selectedItems = bindItems
+      }
+      return selectedItems
+    } else {
+      return []
+    }
+  }
+
   _bindItemsChange (bindItems) {
     if (bindItems) {
       if (bindItems.length > 0) {
         this.selectedItem = bindItems[0]
-        const onlySelectLevelList = (this.onlySelectLevel && this.onlySelectLevel.split(',')) || []
-        let selectedItems = []
-        if (onlySelectLevelList.length > 0) {
-          onlySelectLevelList.forEach(level => {
-            selectedItems = selectedItems.concat(bindItems.filter(item => item.level === +level))
-          })
-        } else {
-          selectedItems = bindItems
-        }
-        this.set('selectedItems', selectedItems)
         this.value = bindItems.map(item => item[this.attrForValue]).join(',')
       } else {
-        this.set('selectedItems', [])
         this.set('value', '')
       }
     }
@@ -437,7 +444,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _valueChanged (value) {
     if (value) {
-      if (this._isDefaultCheckedKeysFlag && value) {
+      if (this._isDefaultCheckedKeysFlag || this.isView || this.readonly) {
         const _defaultCheckedKeys = this.value.split(',')
         this.set('_defaultCheckedKeys', _defaultCheckedKeys)
         this.set('_isDefaultCheckedKeysFlag', false)
