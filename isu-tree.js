@@ -22,7 +22,7 @@ import Node from './utils/tree/node'
  *    <h4>单选</h4>
  *    <isu-tree id="tree3" show-radio></isu-tree>
  *    <h4>可以进行搜索</h4>
- *    <isu-tree id="tree5" show-checkbox require-query></isu-tree>
+ *    <isu-tree id="tree5" show-checkbox show-search-input></isu-tree>
  *    <h4>手风琴模式，一次只展开一个同级列表</h4>
  *    <isu-tree id="tree6" show-checkbox accordion></isu-tree>
  *    <h4>展开所有节点</h4>
@@ -69,7 +69,7 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
        <style include="isu-tree-shared-styles">
        
        </style>
-       <template is="dom-if" if="[[requireQuery]]">
+       <template is="dom-if" if="[[showSearchInput]]">
           <isu-input type="text" value="{{searchWord}}"></isu-input>
         </template>
         <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
@@ -106,7 +106,7 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
        * @type {boolean}
        * @default false
        */
-      requireQuery: {
+      showSearchInput: {
         type: Boolean,
         value: false
       },

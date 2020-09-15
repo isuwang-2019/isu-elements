@@ -191,24 +191,6 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false
       },
       /**
-       * If true, hotkeys for selecting items are allowed.
-       * @type {boolean}
-       * @default false
-       */
-      enableHotkey: {
-        type: Boolean,
-        value: false
-      },
-      /**
-       * shortcut key
-       * @type {string}
-       * @default 'enter'
-       */
-      shortcutKey: {
-        type: String,
-        value: 'Enter'
-      },
-      /**
        * The prompt tip to show when input is invalid.
        * @type {string}
        */

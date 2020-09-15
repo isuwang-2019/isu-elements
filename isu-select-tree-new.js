@@ -144,7 +144,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </div>
         <div id="collapse-tree" hidden>
           <isu-tree id="tree" data="{{treeData}}" bind-items="{{bindItems}}" show-checkbox="[[multi]]" 
-                    require-query="[[requireQuery]]" default-expand-all search-word="{{searchWord}}" default-checked-keys="{{_defaultCheckedKeys}}"
+                    show-search-input="[[showSearchInput]]" default-expand-all search-word="{{searchWord}}" default-checked-keys="{{_defaultCheckedKeys}}"
                     check-on-click-node="[[!multi]]"></isu-tree>
         </div>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
@@ -255,24 +255,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         reflectToAttribute: true
       },
       /**
-       * If true, hotkeys for selecting items are allowed.
-       * @type {boolean}
-       * @default false
-       */
-      enableHotkey: {
-        type: Boolean,
-        value: false
-      },
-      /**
-       * shortcut key
-       * @type {string}
-       * @default 'enter'
-       */
-      shortcutKey: {
-        type: String,
-        value: 'Enter'
-      },
-      /**
        * The prompt tip to show when input is invalid.
        * @type {string}
        */
@@ -305,6 +287,9 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       bindItems: {
         type: Array
       },
+      /**
+       * filter from bindItems
+       */
       selectedItems: {
         type: Array,
         notify: true,
@@ -333,7 +318,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
-      requireQuery: {
+      /**
+       * 是否显示搜索框
+       */
+      showSearchInput: {
         type: Boolean,
         value: false
       },
@@ -432,10 +420,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   validate () {
     return this.required ? !!this.value.trim() : true
-  }
-
-  getValued (bindItems, placeholder) {
-    return label || placeholder
   }
 
   getPlaceholderClass (label, placeholder) {
