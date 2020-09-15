@@ -376,7 +376,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
   connectedCallback () {
     super.connectedCallback()
     const self = this
-    window.addEventListener('click', e => {
+    document.addEventListener('click', e => {
       e.stopPropagation()
       // 点击除了组织树以外的其他地方，组织树都消失
       const composedPath = e.composedPath()
