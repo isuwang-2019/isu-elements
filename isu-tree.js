@@ -244,7 +244,7 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
     return [
       '_childNodesChanged(node.childNodes.*)',
       '_isFirst(isFirst)',
-      '_dataChanged(data)'
+      '_dataChanged(data, defaultCheckedKeys)'
     ]
   }
 
@@ -273,7 +273,7 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
     this.set('bindItemKeys', Array.prototype.concat([], e.detail.data[this.key]))
   }
 
-  _dataChanged (data) {
+  _dataChanged (data, defaultCheckedKeys) {
     if (data) {
       const store = new TreeStore({
         data: data,
