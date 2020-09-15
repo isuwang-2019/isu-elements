@@ -133,11 +133,11 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </template>
       
       <div id="select__container">
-        <div id="tag-content" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(bindItems, placeholder)]]">
+        <div id="tag-content" tabindex="0" on-focus="_inputFocus" class="input-div">
             <template is="dom-repeat" items="{{ selectedItems }}">
               <div class="tag">
-                <div class="tag-name" title="{{getValueByKey(item, attrForLabel)}}">
-                  {{getValueByKey(item, attrForLabel)}}
+                <div class="tag-name" title="[[getValueByKey(item, attrForLabel)]]">
+                  [[getValueByKey(item, attrForLabel)]]
                 </div>
               </div>
             </template>
@@ -314,12 +314,19 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: ','
       },
+      /**
+       * multiple options or not，default not
+       * @type {boolean}
+       * @default false
+       */
       multi: {
         type: Boolean,
         value: false
       },
       /**
-       * 是否显示搜索框
+       * Whether to display the search box
+       * @type {boolean}
+       * @default false
        */
       showSearchInput: {
         type: Boolean,
@@ -331,15 +338,15 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       onlySelectLevel: {
         type: String
       },
-      _defaultCheckedKeys: {
-        type: Array,
-        value: [],
-        notify: true
-      },
       showAll: {
         type: Boolean,
         value: true,
         reflectToAttribute: true
+      },
+      _defaultCheckedKeys: {
+        type: Array,
+        value: [],
+        notify: true
       },
       _isDefaultCheckedKeysFlag: {
         type: Boolean,
@@ -422,13 +429,9 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return this.required ? !!this.value.trim() : true
   }
 
-  getPlaceholderClass (label, placeholder) {
-    return label ? '' : 'placeholder'
-  }
-
   _valueChanged (value) {
     if (value) {
-      if (this._isDefaultCheckedKeysFlag || this.isView || this.readonly) {
+      if (this._isDefaultCheckedKeysFlag || this.readonly) {
         const _defaultCheckedKeys = this.value.split(',')
         this.set('_defaultCheckedKeys', _defaultCheckedKeys)
         this.set('_isDefaultCheckedKeysFlag', false)

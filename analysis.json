@@ -33662,7 +33662,7 @@
       "tagname": "isu-tree-node"
     },
     {
-      "description": "`isu-tree`\n\nExample:\n```html\n <div>\n   <h4>Basic</h4>\n   <isu-tree id=\"tree\"></isu-tree>\n   <h4>部分禁用</h4>\n   <isu-tree id=\"tree4\" show-radio></isu-tree>\n   <h4>多选</h4>\n   <isu-tree id=\"tree2\" show-checkbox></isu-tree>\n   <h4>单选</h4>\n   <isu-tree id=\"tree3\" show-radio></isu-tree>\n   <h4>可以进行搜索</h4>\n   <isu-tree id=\"tree5\" show-checkbox require-query></isu-tree>\n   <h4>手风琴模式，一次只展开一个同级列表</h4>\n   <isu-tree id=\"tree6\" show-checkbox accordion></isu-tree>\n   <h4>展开所有节点</h4>\n   <isu-tree id=\"tree7\" show-checkbox default-expand-all></isu-tree>\n   <h4>默认选中部分值</h4>\n   <isu-tree id=\"tree9\" show-checkbox default-checked-keys=\"[11,21]\"></isu-tree>\n </div>\n```\n\n### Styling\n\n`<isu-button>` provides the following custom properties and mixins\nfor styling:\n\nCustom property | Description | Default\n----------------|-------------|----------\n`--paper-checkbox` | Mixin applied to the paper-checkbox | {}\n`--paper-checkbox-half-choose` | Mixin applied to the paper-checkbox with half selected status | {}\n`--paper-checkbox-half-after` | Mixin applied to the paper-checkbox with half selected shape| {}\n`--paper-checkbox-unchecked-background-color` | Checkbox background color when the input is not checked | `transparent`\n`--paper-checkbox-unchecked-color` | Checkbox border color when the input is not checked | `--primary-text-color`\n`--paper-checkbox-unchecked-ink-color` | Selected/focus ripple color when the input is not checked | `--primary-text-color`\n`--paper-checkbox-checked-color` | Checkbox color when the input is checked | `--primary-color`\n`--paper-checkbox-checked-ink-color` | Selected/focus ripple color when the input is checked | `--primary-color`\n`--paper-checkbox-checkmark-color` | Checkmark color | `white`\n`--paper-checkbox-label-color` | Label color | `--primary-text-color`\n`--paper-checkbox-label-checked-color` | Label color when the input is checked | `--paper-checkbox-label-color`\n`--paper-checkbox-label-spacing` | Spacing between the label and the checkbox | `8px`\n`--paper-checkbox-label` | Mixin applied to the label | `{}`\n`--paper-checkbox-label-checked` | Mixin applied to the label when the input is checked | `{}`\n`--paper-checkbox-error-color` | Checkbox color when invalid | `--error-color`\n`--paper-checkbox-size` | Size of the checkbox | `18px`\n`--paper-checkbox-ink-size` | Size of the ripple | `48px`\n`--paper-checkbox-margin` | Margin around the checkbox container | `initial`\n`--paper-checkbox-vertical-align` | Vertical alignment of the checkbox container | `middle`",
+      "description": "`isu-tree`\n\nExample:\n```html\n <div>\n   <h4>Basic</h4>\n   <isu-tree id=\"tree\"></isu-tree>\n   <h4>部分禁用</h4>\n   <isu-tree id=\"tree4\" show-radio></isu-tree>\n   <h4>多选</h4>\n   <isu-tree id=\"tree2\" show-checkbox></isu-tree>\n   <h4>单选</h4>\n   <isu-tree id=\"tree3\" show-radio></isu-tree>\n   <h4>可以进行搜索</h4>\n   <isu-tree id=\"tree5\" show-checkbox show-search-input></isu-tree>\n   <h4>手风琴模式，一次只展开一个同级列表</h4>\n   <isu-tree id=\"tree6\" show-checkbox accordion></isu-tree>\n   <h4>展开所有节点</h4>\n   <isu-tree id=\"tree7\" show-checkbox default-expand-all></isu-tree>\n   <h4>默认选中部分值</h4>\n   <isu-tree id=\"tree9\" show-checkbox default-checked-keys=\"[11,21]\"></isu-tree>\n </div>\n```\n\n### Styling\n\n`<isu-button>` provides the following custom properties and mixins\nfor styling:\n\nCustom property | Description | Default\n----------------|-------------|----------\n`--paper-checkbox` | Mixin applied to the paper-checkbox | {}\n`--paper-checkbox-half-choose` | Mixin applied to the paper-checkbox with half selected status | {}\n`--paper-checkbox-half-after` | Mixin applied to the paper-checkbox with half selected shape| {}\n`--paper-checkbox-unchecked-background-color` | Checkbox background color when the input is not checked | `transparent`\n`--paper-checkbox-unchecked-color` | Checkbox border color when the input is not checked | `--primary-text-color`\n`--paper-checkbox-unchecked-ink-color` | Selected/focus ripple color when the input is not checked | `--primary-text-color`\n`--paper-checkbox-checked-color` | Checkbox color when the input is checked | `--primary-color`\n`--paper-checkbox-checked-ink-color` | Selected/focus ripple color when the input is checked | `--primary-color`\n`--paper-checkbox-checkmark-color` | Checkmark color | `white`\n`--paper-checkbox-label-color` | Label color | `--primary-text-color`\n`--paper-checkbox-label-checked-color` | Label color when the input is checked | `--paper-checkbox-label-color`\n`--paper-checkbox-label-spacing` | Spacing between the label and the checkbox | `8px`\n`--paper-checkbox-label` | Mixin applied to the label | `{}`\n`--paper-checkbox-label-checked` | Mixin applied to the label when the input is checked | `{}`\n`--paper-checkbox-error-color` | Checkbox color when invalid | `--error-color`\n`--paper-checkbox-size` | Size of the checkbox | `18px`\n`--paper-checkbox-ink-size` | Size of the ripple | `48px`\n`--paper-checkbox-margin` | Margin around the checkbox container | `initial`\n`--paper-checkbox-vertical-align` | Vertical alignment of the checkbox container | `middle`",
       "summary": "",
       "path": "isu-tree.js",
       "properties": [
@@ -33688,7 +33688,7 @@
           }
         },
         {
-          "name": "requireQuery",
+          "name": "showSearchInput",
           "type": "boolean",
           "description": "Whether to require a query input box or not",
           "privacy": "public",
@@ -34127,6 +34127,9 @@
           "params": [
             {
               "name": "data"
+            },
+            {
+              "name": "defaultCheckedKeys"
             }
           ],
           "return": {
@@ -34239,7 +34242,7 @@
           "type": "array"
         },
         {
-          "name": "require-query",
+          "name": "show-search-input",
           "description": "Whether to require a query input box or not",
           "sourceRange": {
             "start": {
@@ -34745,61 +34748,17 @@
           "defaultValue": "false"
         },
         {
-          "name": "enableHotkey",
-          "type": "boolean",
-          "description": "If true, hotkeys for selecting items are allowed.",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 197,
-              "column": 6
-            },
-            "end": {
-              "line": 200,
-              "column": 7
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Boolean"
-            }
-          },
-          "defaultValue": "false"
-        },
-        {
-          "name": "shortcutKey",
-          "type": "string",
-          "description": "shortcut key",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 206,
-              "column": 6
-            },
-            "end": {
-              "line": 209,
-              "column": 7
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          },
-          "defaultValue": "\"Enter\""
-        },
-        {
           "name": "prompt",
           "type": "string",
           "description": "The prompt tip to show when input is invalid.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 214,
+              "line": 196,
               "column": 6
             },
             "end": {
-              "line": 216,
+              "line": 198,
               "column": 7
             }
           },
@@ -34816,11 +34775,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 222,
+              "line": 204,
               "column": 6
             },
             "end": {
-              "line": 225,
+              "line": 207,
               "column": 7
             }
           },
@@ -34838,11 +34797,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 231,
+              "line": 213,
               "column": 6
             },
             "end": {
-              "line": 235,
+              "line": 217,
               "column": 7
             }
           },
@@ -34861,11 +34820,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 240,
+              "line": 222,
               "column": 6
             },
             "end": {
-              "line": 243,
+              "line": 225,
               "column": 7
             }
           },
@@ -34884,11 +34843,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 259,
+              "line": 241,
               "column": 2
             },
             "end": {
-              "line": 282,
+              "line": 264,
               "column": 3
             }
           },
@@ -34904,11 +34863,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 284,
+              "line": 266,
               "column": 2
             },
             "end": {
-              "line": 289,
+              "line": 271,
               "column": 3
             }
           },
@@ -34928,11 +34887,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 291,
+              "line": 273,
               "column": 2
             },
             "end": {
-              "line": 293,
+              "line": 275,
               "column": 3
             }
           },
@@ -34948,11 +34907,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 295,
+              "line": 277,
               "column": 2
             },
             "end": {
-              "line": 297,
+              "line": 279,
               "column": 3
             }
           },
@@ -34972,11 +34931,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 303,
+              "line": 285,
               "column": 2
             },
             "end": {
-              "line": 305,
+              "line": 287,
               "column": 3
             }
           },
@@ -34992,11 +34951,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 307,
+              "line": 289,
               "column": 2
             },
             "end": {
-              "line": 309,
+              "line": 291,
               "column": 3
             }
           },
@@ -35016,11 +34975,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 311,
+              "line": 293,
               "column": 2
             },
             "end": {
-              "line": 313,
+              "line": 295,
               "column": 3
             }
           },
@@ -35040,11 +34999,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 315,
+              "line": 297,
               "column": 2
             },
             "end": {
-              "line": 339,
+              "line": 321,
               "column": 3
             }
           },
@@ -35067,11 +35026,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 341,
+              "line": 323,
               "column": 2
             },
             "end": {
-              "line": 373,
+              "line": 355,
               "column": 3
             }
           },
@@ -35091,11 +35050,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 375,
+              "line": 357,
               "column": 2
             },
             "end": {
-              "line": 386,
+              "line": 368,
               "column": 3
             }
           },
@@ -35121,7 +35080,7 @@
           "column": 0
         },
         "end": {
-          "line": 387,
+          "line": 369,
           "column": 1
         }
       },
@@ -35274,47 +35233,15 @@
           "type": "boolean"
         },
         {
-          "name": "enable-hotkey",
-          "description": "If true, hotkeys for selecting items are allowed.",
-          "sourceRange": {
-            "start": {
-              "line": 197,
-              "column": 6
-            },
-            "end": {
-              "line": 200,
-              "column": 7
-            }
-          },
-          "metadata": {},
-          "type": "boolean"
-        },
-        {
-          "name": "shortcut-key",
-          "description": "shortcut key",
-          "sourceRange": {
-            "start": {
-              "line": 206,
-              "column": 6
-            },
-            "end": {
-              "line": 209,
-              "column": 7
-            }
-          },
-          "metadata": {},
-          "type": "string"
-        },
-        {
           "name": "prompt",
           "description": "The prompt tip to show when input is invalid.",
           "sourceRange": {
             "start": {
-              "line": 214,
+              "line": 196,
               "column": 6
             },
             "end": {
-              "line": 216,
+              "line": 198,
               "column": 7
             }
           },
@@ -35326,11 +35253,11 @@
           "description": "The prompt tip's position. top/bottom",
           "sourceRange": {
             "start": {
-              "line": 222,
+              "line": 204,
               "column": 6
             },
             "end": {
-              "line": 225,
+              "line": 207,
               "column": 7
             }
           },
@@ -35342,11 +35269,11 @@
           "description": "The data of the tree",
           "sourceRange": {
             "start": {
-              "line": 231,
+              "line": 213,
               "column": 6
             },
             "end": {
-              "line": 235,
+              "line": 217,
               "column": 7
             }
           },
@@ -35358,11 +35285,11 @@
           "description": "An array of the selected items",
           "sourceRange": {
             "start": {
-              "line": 240,
+              "line": 222,
               "column": 6
             },
             "end": {
-              "line": 243,
+              "line": 225,
               "column": 7
             }
           },
@@ -35642,61 +35569,17 @@
           "defaultValue": "false"
         },
         {
-          "name": "enableHotkey",
-          "type": "boolean",
-          "description": "If true, hotkeys for selecting items are allowed.",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 261,
-              "column": 6
-            },
-            "end": {
-              "line": 264,
-              "column": 7
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Boolean"
-            }
-          },
-          "defaultValue": "false"
-        },
-        {
-          "name": "shortcutKey",
-          "type": "string",
-          "description": "shortcut key",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 270,
-              "column": 6
-            },
-            "end": {
-              "line": 273,
-              "column": 7
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "String"
-            }
-          },
-          "defaultValue": "\"Enter\""
-        },
-        {
           "name": "prompt",
           "type": "string",
           "description": "The prompt tip to show when input is invalid.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 278,
+              "line": 260,
               "column": 6
             },
             "end": {
-              "line": 280,
+              "line": 262,
               "column": 7
             }
           },
@@ -35713,11 +35596,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 286,
+              "line": 268,
               "column": 6
             },
             "end": {
-              "line": 289,
+              "line": 271,
               "column": 7
             }
           },
@@ -35735,11 +35618,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 295,
+              "line": 277,
               "column": 6
             },
             "end": {
-              "line": 299,
+              "line": 281,
               "column": 7
             }
           },
@@ -35758,11 +35641,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 304,
+              "line": 286,
               "column": 6
             },
             "end": {
-              "line": 307,
+              "line": 288,
               "column": 7
             }
           },
@@ -35770,26 +35653,27 @@
             "polymer": {
               "attributeType": "Array"
             }
-          },
-          "defaultValue": "[]"
+          }
         },
         {
           "name": "selectedItems",
           "type": "Array | null | undefined",
-          "description": "",
+          "description": "filter from bindItems",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 308,
+              "line": 292,
               "column": 6
             },
             "end": {
-              "line": 311,
+              "line": 297,
               "column": 7
             }
           },
           "metadata": {
             "polymer": {
+              "notify": true,
+              "readOnly": true,
               "attributeType": "Array"
             }
           },
@@ -35802,11 +35686,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 317,
+              "line": 303,
               "column": 6
             },
             "end": {
-              "line": 320,
+              "line": 306,
               "column": 7
             }
           },
@@ -35824,11 +35708,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 326,
+              "line": 312,
               "column": 6
             },
             "end": {
-              "line": 329,
+              "line": 315,
               "column": 7
             }
           },
@@ -35841,8 +35725,30 @@
         },
         {
           "name": "multi",
-          "type": "boolean | null | undefined",
-          "description": "",
+          "type": "boolean",
+          "description": "multiple options or not，default not",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 321,
+              "column": 6
+            },
+            "end": {
+              "line": 324,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "showSearchInput",
+          "type": "boolean",
+          "description": "Whether to display the search box",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -35862,39 +35768,17 @@
           "defaultValue": "false"
         },
         {
-          "name": "requireQuery",
-          "type": "boolean | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 334,
-              "column": 6
-            },
-            "end": {
-              "line": 337,
-              "column": 7
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Boolean"
-            }
-          },
-          "defaultValue": "false"
-        },
-        {
           "name": "onlySelectLevel",
           "type": "string | null | undefined",
           "description": "The filter level that need to be showed in the input box. eg: '2,3'",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 341,
+              "line": 337,
               "column": 6
             },
             "end": {
-              "line": 343,
+              "line": 339,
               "column": 7
             }
           },
@@ -35905,17 +35789,39 @@
           }
         },
         {
+          "name": "showAll",
+          "type": "boolean | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 340,
+              "column": 6
+            },
+            "end": {
+              "line": 344,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "true"
+        },
+        {
           "name": "_defaultCheckedKeys",
           "type": "Array | null | undefined",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 344,
+              "line": 345,
               "column": 6
             },
             "end": {
-              "line": 348,
+              "line": 349,
               "column": 7
             }
           },
@@ -35928,39 +35834,17 @@
           "defaultValue": "[]"
         },
         {
-          "name": "showAll",
-          "type": "boolean | null | undefined",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 349,
-              "column": 6
-            },
-            "end": {
-              "line": 353,
-              "column": 7
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Boolean"
-            }
-          },
-          "defaultValue": "true"
-        },
-        {
           "name": "_isDefaultCheckedKeysFlag",
           "type": "boolean | null | undefined",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 354,
+              "line": 350,
               "column": 6
             },
             "end": {
-              "line": 357,
+              "line": 353,
               "column": 7
             }
           },
@@ -35979,11 +35863,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 375,
+              "line": 371,
               "column": 2
             },
             "end": {
-              "line": 387,
+              "line": 383,
               "column": 3
             }
           },
@@ -35994,16 +35878,37 @@
           }
         },
         {
+          "name": "_calSelectedItems",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 385,
+              "column": 2
+            },
+            "end": {
+              "line": 400,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "bindItems"
+            }
+          ]
+        },
+        {
           "name": "_bindItemsChange",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 389,
+              "line": 402,
               "column": 2
             },
             "end": {
-              "line": 405,
+              "line": 411,
               "column": 3
             }
           },
@@ -36023,11 +35928,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 407,
+              "line": 413,
               "column": 2
             },
             "end": {
-              "line": 411,
+              "line": 417,
               "column": 3
             }
           },
@@ -36043,11 +35948,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 413,
+              "line": 419,
               "column": 2
             },
             "end": {
-              "line": 415,
+              "line": 421,
               "column": 3
             }
           },
@@ -36067,11 +35972,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 421,
+              "line": 427,
               "column": 2
             },
             "end": {
-              "line": 423,
+              "line": 429,
               "column": 3
             }
           },
@@ -36082,72 +35987,21 @@
           }
         },
         {
-          "name": "getValued",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 425,
-              "column": 2
-            },
-            "end": {
-              "line": 427,
-              "column": 3
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "bindItems"
-            },
-            {
-              "name": "placeholder"
-            }
-          ]
-        },
-        {
-          "name": "getPlaceholderClass",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 429,
-              "column": 2
-            },
-            "end": {
-              "line": 431,
-              "column": 3
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "label"
-            },
-            {
-              "name": "placeholder"
-            }
-          ]
-        },
-        {
           "name": "_valueChanged",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 433,
+              "line": 431,
               "column": 2
             },
             "end": {
-              "line": 461,
+              "line": 439,
               "column": 3
             }
           },
           "metadata": {},
           "params": [
-            {
-              "name": "treeData"
-            },
             {
               "name": "value"
             }
@@ -36162,11 +36016,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 463,
+              "line": 441,
               "column": 2
             },
             "end": {
-              "line": 477,
+              "line": 474,
               "column": 3
             }
           },
@@ -36186,11 +36040,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 479,
+              "line": 476,
               "column": 2
             },
             "end": {
-              "line": 518,
+              "line": 493,
               "column": 3
             }
           },
@@ -36210,11 +36064,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 520,
+              "line": 495,
               "column": 2
             },
             "end": {
-              "line": 522,
+              "line": 497,
               "column": 3
             }
           },
@@ -36234,11 +36088,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 524,
+              "line": 499,
               "column": 2
             },
             "end": {
-              "line": 526,
+              "line": 501,
               "column": 3
             }
           },
@@ -36261,11 +36115,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 528,
+              "line": 503,
               "column": 2
             },
             "end": {
-              "line": 531,
+              "line": 506,
               "column": 3
             }
           },
@@ -36288,11 +36142,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 533,
+              "line": 508,
               "column": 2
             },
             "end": {
-              "line": 544,
+              "line": 519,
               "column": 3
             }
           },
@@ -36318,7 +36172,7 @@
           "column": 0
         },
         "end": {
-          "line": 545,
+          "line": 520,
           "column": 1
         }
       },
@@ -36487,47 +36341,15 @@
           "type": "boolean"
         },
         {
-          "name": "enable-hotkey",
-          "description": "If true, hotkeys for selecting items are allowed.",
-          "sourceRange": {
-            "start": {
-              "line": 261,
-              "column": 6
-            },
-            "end": {
-              "line": 264,
-              "column": 7
-            }
-          },
-          "metadata": {},
-          "type": "boolean"
-        },
-        {
-          "name": "shortcut-key",
-          "description": "shortcut key",
-          "sourceRange": {
-            "start": {
-              "line": 270,
-              "column": 6
-            },
-            "end": {
-              "line": 273,
-              "column": 7
-            }
-          },
-          "metadata": {},
-          "type": "string"
-        },
-        {
           "name": "prompt",
           "description": "The prompt tip to show when input is invalid.",
           "sourceRange": {
             "start": {
-              "line": 278,
+              "line": 260,
               "column": 6
             },
             "end": {
-              "line": 280,
+              "line": 262,
               "column": 7
             }
           },
@@ -36539,11 +36361,11 @@
           "description": "The prompt tip's position. top/bottom",
           "sourceRange": {
             "start": {
-              "line": 286,
+              "line": 268,
               "column": 6
             },
             "end": {
-              "line": 289,
+              "line": 271,
               "column": 7
             }
           },
@@ -36555,11 +36377,11 @@
           "description": "The data of the tree",
           "sourceRange": {
             "start": {
-              "line": 295,
+              "line": 277,
               "column": 6
             },
             "end": {
-              "line": 299,
+              "line": 281,
               "column": 7
             }
           },
@@ -36571,11 +36393,11 @@
           "description": "An array of the selected items",
           "sourceRange": {
             "start": {
-              "line": 304,
+              "line": 286,
               "column": 6
             },
             "end": {
-              "line": 307,
+              "line": 288,
               "column": 7
             }
           },
@@ -36584,14 +36406,14 @@
         },
         {
           "name": "selected-items",
-          "description": "",
+          "description": "filter from bindItems",
           "sourceRange": {
             "start": {
-              "line": 308,
+              "line": 292,
               "column": 6
             },
             "end": {
-              "line": 311,
+              "line": 297,
               "column": 7
             }
           },
@@ -36603,11 +36425,11 @@
           "description": "The text mode display requires readonly=true to take effect",
           "sourceRange": {
             "start": {
-              "line": 317,
+              "line": 303,
               "column": 6
             },
             "end": {
-              "line": 320,
+              "line": 306,
               "column": 7
             }
           },
@@ -36619,11 +36441,11 @@
           "description": "The connector to connect labels when the isView=true, eg: \"苹果，香蕉，梨\"",
           "sourceRange": {
             "start": {
-              "line": 326,
+              "line": 312,
               "column": 6
             },
             "end": {
-              "line": 329,
+              "line": 315,
               "column": 7
             }
           },
@@ -36632,7 +36454,23 @@
         },
         {
           "name": "multi",
-          "description": "",
+          "description": "multiple options or not，default not",
+          "sourceRange": {
+            "start": {
+              "line": 321,
+              "column": 6
+            },
+            "end": {
+              "line": 324,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "show-search-input",
+          "description": "Whether to display the search box",
           "sourceRange": {
             "start": {
               "line": 330,
@@ -36644,34 +36482,18 @@
             }
           },
           "metadata": {},
-          "type": "boolean | null | undefined"
-        },
-        {
-          "name": "require-query",
-          "description": "",
-          "sourceRange": {
-            "start": {
-              "line": 334,
-              "column": 6
-            },
-            "end": {
-              "line": 337,
-              "column": 7
-            }
-          },
-          "metadata": {},
-          "type": "boolean | null | undefined"
+          "type": "boolean"
         },
         {
           "name": "only-select-level",
           "description": "The filter level that need to be showed in the input box. eg: '2,3'",
           "sourceRange": {
             "start": {
-              "line": 341,
+              "line": 337,
               "column": 6
             },
             "end": {
-              "line": 343,
+              "line": 339,
               "column": 7
             }
           },
@@ -36683,11 +36505,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 349,
+              "line": 340,
               "column": 6
             },
             "end": {
-              "line": 353,
+              "line": 344,
               "column": 7
             }
           },
@@ -36712,6 +36534,12 @@
           "type": "CustomEvent",
           "name": "tree-data-changed",
           "description": "Fired when the `treeData` property changes.",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "selected-items-changed",
+          "description": "Fired when the `selectedItems` property changes.",
           "metadata": {}
         }
       ],
