@@ -437,6 +437,10 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Number,
         notify: true
       },
+      time: {
+        type: String,
+        value: '00:00:00'
+      },
       /**
        * The label of the input.
        */
@@ -599,7 +603,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       return
     }
     if (!this.rangeList.includes(this.type)) {
-      const time = new Date(`${value}${this.type.includes('time') ? '' : ' 00:00:00'}`).getTime()
+      const time = new Date(`${value}${this.type.includes('time') ? '' : ' ' + this.time}`).getTime()
       this.set('timestamp', time)
     }
     this.getDayList()
