@@ -93,6 +93,7 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host([type=error]) .tip-content,
       :host([type=custom]) .tip-content{
         padding: 5px 12px;
+        padding-right: 34px;
       }
       
       :host([type=prompt]) #dialog,

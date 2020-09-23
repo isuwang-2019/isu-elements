@@ -68,32 +68,31 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
   static get template () {
     return html`
        <style include="isu-tree-shared-styles">
-           :host #tree {
-              height: 385px;
-              overflow-y: auto;
-              @apply --isu-tree-content
-           }
+          #tree-search-input {
+              position: -webkit-sticky; /* safari 浏览器 */
+              position: sticky; /* 其他浏览器 */
+              top: 0px;
+              z-index: 100;
+          }
        </style>
         <template is="dom-if" if="[[showSearchInput]]">
-          <isu-input type="text" value="{{searchWord}}"></isu-input>
+          <isu-input id="tree-search-input" type="text" value="{{searchWord}}"></isu-input>
         </template>
-        <div id="tree">
-          <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
-            <isu-tree-node show-checkbox="{{showCheckbox}}" search-word="[[searchWord]]"
-              is-checked="{{isChecked}}" is-first="[[_isFirst(index)]]"
-              accordion="[[accordion]]" level="1" id="{{item.nodeId}}"
-              key="[[getNodeKey(item, index)]]" node="{{item}}"  
-              default-expand-all="[[defaultExpandAll]]" check-on-click-node="[[checkOnClickNode]]"
-              show-radio="{{showRadio}}" indent="[[indent]]"
-              data-location="[[_getDataLocation(index)]]" 
-            >
-            <div slot="before-label">
-              <slot name="before-label">
-              </slot>
-            </div>
-            </isu-tree-node>
-          </template>
-        </div>
+        <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
+          <isu-tree-node show-checkbox="{{showCheckbox}}" search-word="[[searchWord]]"
+            is-checked="{{isChecked}}" is-first="[[_isFirst(index)]]"
+            accordion="[[accordion]]" level="1" id="{{item.nodeId}}"
+            key="[[getNodeKey(item, index)]]" node="{{item}}"  
+            default-expand-all="[[defaultExpandAll]]" check-on-click-node="[[checkOnClickNode]]"
+            show-radio="{{showRadio}}" indent="[[indent]]"
+            data-location="[[_getDataLocation(index)]]" 
+          >
+          <div slot="before-label">
+            <slot name="before-label">
+            </slot>
+          </div>
+          </isu-tree-node>
+        </template>
 `
   }
 
