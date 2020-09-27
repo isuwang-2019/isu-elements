@@ -274,8 +274,8 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_searchWordChanged(searchWord)',
       '_childNodesChanged(node.childNodes.*)',
       '_isIndeterminateChanged(isIndeterminate)',
-      '_notifyDataChanged(isChecked)',
-      '_notifyDataChanged(node.checked)',
+      '_debounceNotifyDataChanged(isChecked)',
+      '_debounceNotifyDataChanged(node.checked)',
       '_isFirst(isFirst)'
     ]
   }
@@ -337,17 +337,17 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  _highlightedLabel(searchWord) {
+  _highlightedLabel (searchWord) {
     const eles = this.root.querySelectorAll('.ellipsis')
-    if(!searchWord) {
+    if (!searchWord) {
       Array.from(eles).forEach(e => {
         e.innerHTML = this.node.label
       })
-    }else {
+    } else {
       Array.from(eles).forEach(e => {
         const searchWordRegExp = new RegExp(`(${searchWord})`, 'gi')
         if (searchWordRegExp.test(e.textContent)) {
-          e.innerHTML = e.textContent.replace(searchWordRegExp, `<span class="high-lighted-color">$1</span>`)
+          e.innerHTML = e.textContent.replace(searchWordRegExp, '<span class="high-lighted-color">$1</span>')
         }
       })
     }
@@ -442,16 +442,18 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     e.stopPropagation()
     const isChecked = e.target.checked
     const allPaperRadioButton = this.getAllQulifyingElements(document.querySelectorAll('*'), 'localName', 'paper-radio-button')
-    allPaperRadioButton.forEach(item => item.checked = false)
+    allPaperRadioButton.forEach(item => {
+      item.checked = false
+    })
     this.isChecked = isChecked
     this.set('node.checked', isChecked)
 
     const store = this.tree.store
+    const checkedNodes = store.getCheckedNodes()
+    const checkedKeys = checkedNodes.map((data) => (data || {})[store.key])
     const param = {
-      checkedNodes: store.getCheckedNodes(),
-      checkedKeys: store.getCheckedKeys(),
-      halfCheckedNodes: store.getHalfCheckedNodes(),
-      halfCheckedKeys: store.getHalfCheckedKeys()
+      checkedNodes: checkedNodes,
+      checkedKeys: checkedKeys
     }
     this.dispatchEvent(new CustomEvent('check', { detail: { data: this.node.data, ...param }, bubbles: true, composed: true }))
   }
@@ -465,19 +467,23 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this._notifyDataChanged(isChecked)
   }
 
-  _notifyDataChanged (isChecked) {
+  _debounceNotifyDataChanged (isChecked) {
     const self = this
+    self.debounce('_notifyDataChanged', self._notifyDataChanged.bind(self, isChecked), 50)
+  }
+
+  _notifyDataChanged (isChecked) {
     if (isChecked === undefined || isChecked === null) {
       return
     }
 
     if (this.tree) {
       const store = this.tree.store
+      const checkedNodes = store.getCheckedNodes()
+      const checkedKeys = checkedNodes.map((data) => (data || {})[store.key])
       const param = {
-        checkedNodes: store.getCheckedNodes(),
-        checkedKeys: store.getCheckedKeys(),
-        halfCheckedNodes: store.getHalfCheckedNodes(),
-        halfCheckedKeys: store.getHalfCheckedKeys()
+        checkedNodes: checkedNodes,
+        checkedKeys: checkedKeys
       }
       this.dispatchEvent(new CustomEvent('check-button', { detail: { data: this.node.data, ...param }, bubbles: true, composed: true }))
     }
