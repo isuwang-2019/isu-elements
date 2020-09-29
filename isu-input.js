@@ -223,7 +223,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <template is="dom-if" if="[[prefixUnit]]">
           <div class="prefix-unit input-unit">[[prefixUnit]]</div>
         </template>
-        <iron-input bind-value="{{value}}" id="input" class="iron-input">
+        <iron-input bind-value="{{value}}" id="input" class="iron-input" allowed-pattern="[[allowedPattern]]" prevent-invalid-input="[[preventInvalidInput]]">
           <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]" on-input="patternLimit"
               maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
           <div class="clear">
@@ -298,6 +298,13 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       allowedPattern: {
         type: String
+      },
+      /**
+       * 判断是否用正则匹配校验输入
+       */
+      preventInvalidInput:{
+        type:Boolean,
+        value:false
       },
       /**
        * Value of the input.
@@ -474,7 +481,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
       valid = valid && (this.value != undefined && this.value !== '')
     }
 
-    if (this._patternRegExp) {
+    if (this._patternRegExp && this.value) {
       valid = valid && this._patternRegExp.test(this.value)
     }
 
