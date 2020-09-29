@@ -126,7 +126,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       exit-animation="fade-out-animation"
       no-cancel-on-esc-key="[[noCancelOnEscKey]]"
       opened="{{opened}}"
-      no-cancel-on-outside-click="[[noCancelOnOutsideClick]]" on-opened-changed="openedChanged">
+      no-cancel-on-outside-click="[[noCancelOnOutsideClick]]">
       
       <div class="close-dialog" on-tap="close">
         <iron-icon icon="icons:close" class="close-icon"></iron-icon>
@@ -200,7 +200,8 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       opened: {
         type: Boolean,
-        reflectToAttribute: true
+        reflectToAttribute: true,
+        observer: 'openedChanged'
       },
       /**
        * The distance from the top
@@ -224,6 +225,13 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @default false
        * */
       lockScroll: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * If true,remove this element when dialog close
+       */
+      closeRemoveEle: {
         type: Boolean,
         value: false
       }
@@ -291,10 +299,12 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.style.display = 'none'
     this.$.dialog.close()
     if (this.lockScroll) document.body.style['overflow-y'] = 'auto'
+    if(this.closeRemoveEle) this.remove()
   }
 
-  openedChanged ({ detail: { value } }) {
-    if (!value) this.close()
+  openedChanged (newVal, oldVal) {
+    if(oldVal === undefined) return
+    if (!newVal) this.close()
   }
 
   modalChanged (modal) {

@@ -72,7 +72,7 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
         <iron-selector selected="{{value}}" attr-for-selected="statusItem">
             <template is="dom-repeat" items="[[items]]">
-                <span class="status" status-item="[[ getValueByKey(item, attrForValue) ]]">
+                <span class="status" status-item="[[ getValueByKey(item, attrForValue) ]]" on-tap="itemSelected">
                     <span>[[ getValueByKey(item, attrForLabel) ]]</span>
                     <template is="dom-if" if="[[!noCount]]">
                         (<span class="status-count">[[ getValueByKey(item, attrForCount) ]]</span>)
@@ -154,6 +154,14 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   ready () {
     super.ready()
+  }
+
+  itemSelected(e) {
+    this.dispatchEvent(new CustomEvent('status-selected'), {
+      composed: true,
+      bubbles: true,
+      detail: this.value
+    })
   }
 }
 

@@ -105,7 +105,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <div class="candidate-wrapper">
         <iron-selector class="candidate-items" selected="{{value}}" attr-for-selected="radio-item">
           <template is="dom-repeat" items="[[items]]">
-            <span class="candidate__item" radio-item="[[ getValueByKey(item, attrForValue) ]]">
+            <span class="candidate__item" radio-item="[[ getValueByKey(item, attrForValue) ]]" on-tap="itemSelected">
               [[ getValueByKey(item, attrForLabel) ]]
             </span>
           </template>
@@ -222,6 +222,14 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _permissionChange (permission) {
     this.set('hidden', !permission)
+  }
+
+  itemSelected(e) {
+    this.dispatchEvent(new CustomEvent('radio-selected'), {
+      composed: true,
+      bubbles: true,
+      detail: this.value
+    })
   }
 
   /**
