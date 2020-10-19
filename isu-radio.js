@@ -77,13 +77,14 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .candidate__item {
         height: inherit;
         line-height: inherit;
-        padding: 0 8px;
+        padding: 0 4px;
         font-size: inherit;
         cursor: pointer;
         border: 1px solid #ccc;
         background-color: #ffffff;
         text-overflow: ellipsis;
         overflow: hidden;
+        @apply --isu-radio-candidate__item
       }
 
       .candidate__item:not(:last-of-type) {
