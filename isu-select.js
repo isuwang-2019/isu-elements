@@ -252,6 +252,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         position: absolute;
         left: -10px;
         line-height: inherit;
+        @apply --isu-required
       }
       
       :host([data-invalid]) #select__container {
