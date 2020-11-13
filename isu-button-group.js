@@ -2,9 +2,10 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import { BaseBehavior } from './behaviors/base-behavior'
 import { html, PolymerElement } from '@polymer/polymer'
-import '@polymer/iron-collapse'
 import './behaviors/isu-elements-shared-styles'
 import './isu-button'
+import './isu-iron-fit'
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
 /**
  *
  * `isu-button-group`
@@ -47,6 +48,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <style include="isu-elements-shared-styles">
       :host {
         display: inline-block;
+        position: relative;
         min-width: 70px;
         outline: none;
         font-family: var(--isu-ui-font-family), sans-serif;
@@ -56,6 +58,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .trigger {
         width: 100%;
         height: 100%;
+        position: relative;
         display: flex;
         border-radius: var(--isu-ui-border-radius);
         @apply --isu-button-group-button;
@@ -75,7 +78,6 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       /*下拉列表*/
       :host .dropdown-menu {
-        position: fixed;
         background: #fff;
         color: var(--isu-ui-color_skyblue);
         flex-flow: column nowrap;
@@ -96,6 +98,13 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .container {
         border-radius: var(--isu-ui-border-radius);
         border: 1px solid var(--isu-ui-color_skyblue);
+        width: 100%;
+        font-size: 12px;
+        border-collapse: separate;
+        border-spacing: 0;
+        text-align: left;
+        border-radius: 4px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
       }
 
       .item, ::slotted(*) {
@@ -148,22 +157,47 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
        cursor: not-allowed;
        color: #fff;
      }
+     
+     #group-collapse {
+        display: flex;
+        position: absolute;
+        margin-top: 1px;
+        border-radius: 4px;
+        font-size: 12px;
+        padding: 0;
+        background: white;
+        color: black;
+        visibility: visible;
+        opacity: 1;
+        transition: all 150ms ease-in;
+        @apply --isu-picker-dropdown;
+      }
+
+      #group-collapse[hidden] {
+        visibility: hidden;
+        height: 0;
+        opacity: 0;
+      }
+      .relative {
+        position: relative;
+      }
       
     </style>
+    <div class="relative" on-click="toggle" >
+       <isu-button id="group-button" class="trigger"   disabled="[[disabled]]" type="[[type]]">
+          <div class="trigger__label">[[ label ]]</div>
+          <iron-icon class="trigger__icon" icon="icons:expand-more"></iron-icon>
+       </isu-button>
+       <isu-iron-fit id="group-collapse" auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="dropdown-menu" no-overlap dynamic-align hidden="{{!opened}}">
+          <div class="container"  on-mouseover="open" on-mouseout="close" on-click="_onButtonDropdownClick">
+           <template is="dom-repeat" items="[[ items ]]" filter="_hasPermission">
+             <paper-button class="item" bind-item="[[ item ]]" disabled="[[item.disabled]]">[[ getValueByKey(item, attrForLabel, 'Unknown') ]]</paper-button>
+           </template>
+           <slot id="itemSlot"></slot>
+          </div>
+        </isu-iron-fit>
+    </div>
     
-    <isu-button class="trigger" on-mouseover="toggle" on-mouseout="close"  disabled="[[disabled]]" type="[[type]]">
-      <div class="trigger__label">[[ label ]]</div>
-      <iron-icon class="trigger__icon" icon="icons:expand-more"></iron-icon>
-    </isu-button>
-    
-    <iron-collapse id="collapse" on-mouseover="toggle" on-mouseout="close" disabled="[[disabled]]" class="dropdown-menu" opened="[[ opened ]]" on-click="_onButtonDropdownClick">
-      <div class="container">
-       <template is="dom-repeat" items="[[ items ]]" filter="_hasPermission">
-         <paper-button class="item" bind-item="[[ item ]]" disabled="[[item.disabled]]">[[ getValueByKey(item, attrForLabel, 'Unknown') ]]</paper-button>
-       </template>
-       <slot id="itemSlot"></slot>
-      </div>
-    </iron-collapse>
 `
   }
 
@@ -247,11 +281,11 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       /**
        * The items will hide when user clicks one item
        * @type Boolean
-       * @default false
+       * @default true
        * */
       hideItemsOnClick: {
         type: Boolean,
-        value: false
+        value: true
       },
       /**
        * Whether to show itself or not
@@ -282,12 +316,16 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
     window.addEventListener('scroll', e => {
       this.close()
     })
+    const target = dom(this.$['group-collapse']).rootTarget
+    const myFit = this.$['group-collapse']
+    myFit.positionTarget = target || this.$['group-button']
   }
 
   /**
    * Expand the group.
    */
   open () {
+    this.set('opened', true)
     this.opened = true
   }
 
@@ -295,6 +333,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * Collpase the group.
    */
   close () {
+    this.set('opened', false)
     this.opened = false
   }
 
@@ -303,13 +342,13 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   toggle (e) {
     if (!this.disabled) {
-      const { top, left } = this.getElemPos(this)
-      const _top = top + this.clientHeight
-
-      this.$.collapse.style.top = _top + 'px'
-      this.$.collapse.style.left = left + 'px'
+      // const { top, left } = this.getElemPos(this)
+      // const _top = top + this.clientHeight
+      //
+      // this.$.collapse.style.top = _top + 'px'
+      // this.$.collapse.style.left = left + 'px'
       // 当外界设置了下拉框的宽度时，取外界的宽度，否则取按钮的宽度
-      this.$.collapse.style.width = (window.getComputedStyle(this.$.collapse).inlineSize !== 'auto') ? window.getComputedStyle(this.$.collapse).inlineSize : this.clientWidth + 'px'
+      // this.$.collapse.style.width = (window.getComputedStyle(this.$.collapse).inlineSize !== 'auto') ? window.getComputedStyle(this.$.collapse).inlineSize : this.clientWidth + 'px'
       this.opened = !this.opened
     }
   }
@@ -320,6 +359,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _onButtonDropdownClick (e) {
+    e.stopPropagation()
     const self = this
     const target = e.target
     const bindItem = e.target.bindItem || e.target.getAttribute('bind-item')
