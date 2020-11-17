@@ -152,17 +152,20 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  ready () {
-    super.ready()
+  itemSelected(e) {
+    const selectedValue = this.getValueByKey(e.model.item, e.model.attrForValue)
+    const resultValue = this.value === selectedValue ? '' : selectedValue
+    setTimeout(() => {
+      this.set('value', resultValue)
+      this.dispatchEvent(new CustomEvent('status-selected', {
+        composed: true,
+        bubbles: true,
+        detail: resultValue
+      }))
+    }, 0)
+
   }
 
-  itemSelected(e) {
-    this.dispatchEvent(new CustomEvent('status-selected'), {
-      composed: true,
-      bubbles: true,
-      detail: this.getValueByKey(e.model.item, e.model.attrForValue)
-    })
-  }
 }
 
 window.customElements.define('isu-status-select', IsuStatusSelect)
