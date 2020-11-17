@@ -160,7 +160,7 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.dispatchEvent(new CustomEvent('status-selected'), {
       composed: true,
       bubbles: true,
-      detail: this.value
+      detail: this.getValueByKey(e.model.item, e.model.attrForValue)
     })
   }
 }
