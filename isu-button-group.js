@@ -332,7 +332,6 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * Collpase the group.
    */
   close (e) {
-    console.log('e.close.target', e.target)
     this.set('opened', false)
   }
 
