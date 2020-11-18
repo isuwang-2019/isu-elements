@@ -169,7 +169,6 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
         color: black;
         visibility: visible;
         opacity: 1;
-        transition: all 150ms ease-in;
         @apply --isu-picker-dropdown;
       }
 
@@ -183,13 +182,13 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
       
     </style>
-    <div class="relative" on-click="toggle" >
-       <isu-button id="group-button" class="trigger"   disabled="[[disabled]]" type="[[type]]">
-          <div class="trigger__label">[[ label ]]</div>
-          <iron-icon class="trigger__icon" icon="icons:expand-more"></iron-icon>
+    <div class="relative" >
+       <isu-button on-click="_onButtonClick"  id="group-button" class="trigger select-button"   disabled="[[disabled]]" type="[[type]]">
+          <div class="trigger__label select-button">[[ label ]]</div>
+          <iron-icon class="trigger__icon select-button" icon="icons:expand-more"></iron-icon>
        </isu-button>
-       <isu-iron-fit id="group-collapse" auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="dropdown-menu" no-overlap dynamic-align hidden="{{!opened}}">
-          <div class="container"  on-mouseover="open" on-mouseout="close" on-click="_onButtonDropdownClick">
+       <isu-iron-fit id="group-collapse"  auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="dropdown-menu" no-overlap dynamic-align hidden="{{!opened}}">
+          <div class="container" on-click="_onButtonDropdownClick">
            <template is="dom-repeat" items="[[ items ]]" filter="_hasPermission">
              <paper-button class="item" bind-item="[[ item ]]" disabled="[[item.disabled]]">[[ getValueByKey(item, attrForLabel, 'Unknown') ]]</paper-button>
            </template>
@@ -324,17 +323,17 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
   /**
    * Expand the group.
    */
-  open () {
+  open (e) {
+    console.log('e.open.target', e.target)
     this.set('opened', true)
-    this.opened = true
   }
 
   /**
    * Collpase the group.
    */
-  close () {
+  close (e) {
+    console.log('e.close.target', e.target)
     this.set('opened', false)
-    this.opened = false
   }
 
   /**
@@ -351,6 +350,19 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       // this.$.collapse.style.width = (window.getComputedStyle(this.$.collapse).inlineSize !== 'auto') ? window.getComputedStyle(this.$.collapse).inlineSize : this.clientWidth + 'px'
       this.opened = !this.opened
     }
+  }
+
+  _onButtonClick () {
+    const self = this
+    this.toggle()
+    /*
+     * 在选择面板打开的时候给body注册click监听事件。以防止多个实例的时候body click事件和实例自身引用错乱的问题。
+     */
+    const bodyClick = function (e) {
+      self.toggle()
+      document.body.removeEventListener('click', bodyClick, true)
+    }
+    document.body.addEventListener('click', bodyClick, true)
   }
 
   getElemPos (obj) {
@@ -370,7 +382,6 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
     setTimeout(() => {
       self.dispatchEvent(new CustomEvent('item-click', { detail: { target, bindItem } }))
     }, 100)
-
   }
 
   /**
