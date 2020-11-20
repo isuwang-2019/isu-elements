@@ -9,6 +9,7 @@
  */
 
 import { html, PolymerElement } from '@polymer/polymer/polymer-element'
+import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import './behaviors/isu-elements-shared-styles.js'
 import '@polymer/iron-icons'
 import '@polymer/iron-icon'
@@ -18,6 +19,7 @@ import './isu-tip'
 import { TipBehavior } from './behaviors/tip-behavior'
 import { BaseBehavior } from './behaviors/base-behavior'
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
+import { AjaxBehavior } from './behaviors/ajax-behavior'
 
 /**
  *
@@ -28,24 +30,50 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
  *  <isu-upload accept="" multiple src="src" id="upload"></isu-upload>
  * ```
  *
+ * * ### Styling
+ *
+ * `<isu-upload>` provides the following custom properties and mixins
+ * for styling:
+ *
+ * Custom property | Description | Default
+ * ----------------|-------------|----------
+ * `--isu-upload-toolbar` | Mixin applied to the isu-upload component | {}
+ * `--isu-upload-choose-button` | Mixin applied to the choose file button | {}
+ * `--isu-upload-upload-button` | Mixin applied to the choose file button| {}
+ * `--isu-ui-orange` | The color of the upload button | `#fdb03d`
+ *
  * @customElement
  * @polymer
  * @demo demo/isu-upload/index.html
  */
-export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerElement) {
+export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBehavior], PolymerElement) {
   static get template () {
     return html`
 <style include="isu-elements-shared-styles">
   :host {
     display: inline-block;
-    padding: 10px;
-    min-width: 300px;
+    min-width: 380px;
+    --isu-ui-bg: var(--isu-ui-orange);
+    @apply --isu-upload-toolbar
   }
   .toolbar {
-    height: 36px;
+    display: flex;
+    align-items: center;
+    display: flex;
+    height: inherit;
     justify-content: space-evenly;
     align-items: center;
-    padding: 0 2px;
+    
+  }
+  .choose-file {
+    --isu-button-height: 34px;
+    margin-right: 20px;
+    @apply --isu-upload-choose-button
+  }
+  .upload-file {
+    flex-grow: 1;
+    background: var(--isu-ui-bg);
+    @apply --isu-upload-upload-button
   }
   #file-chooser {
     display: none;
@@ -54,8 +82,11 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
     margin-top: 10px;
     font-size: 14px;
     color: #666666;
+    @apply --isu-upload-content
   }
   .file {
+    margin-left: var(--isu-label-width, 120px);
+    padding-left: 13px;
     position: relative;
     cursor: pointer;
   }
@@ -80,10 +111,15 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
     right: 10px;
   }
 </style>
-<div>
   <div class="toolbar">
-    <isu-button title="点击选择文件" on-click="_triggerChooseFile">选择文件</isu-button>
-    <isu-button type="warning" on-click="upload">上传文件</isu-button>
+    <template is="dom-if" if="[[ toBoolean(label) ]]">
+        <div class="isu-label">[[label]]</div>
+    </template>
+    <isu-button class="choose-file" title="点击选择文件" on-click="_triggerChooseFile">选择文件</isu-button>
+    <template is="dom-if" if="{{isUpload}}">
+      <isu-button class="upload-file" type="warning" on-click="upload" disabled="[[uploadReadonly]]">上传文件</isu-button>
+    </template>
+    
     <input type="file" on-change="_chooseFile" id="file-chooser" accept$="[[accept]]" multiple$="[[multiple]]">
   </div>
   <div class="content">
@@ -97,7 +133,6 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
     </template>
     <slot name="list"></slot>
   </div>
-</div>
         `
   }
 
@@ -129,13 +164,52 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
        * */
       files: {
         type: Array,
-        value: []
+        value: [],
+        notify: true
       },
       src: String,
       request: Object,
       response: {
         type: Object,
         notify: true
+      },
+      /**
+       * The callback function after uploading
+       *
+       * @type {array}
+       * @default []
+       * */
+      uploadCallback: {
+        type: Function
+      },
+      /**
+       * Whether to show the upload button or not
+       *
+       * @type {boolean}
+       * @default true
+       * */
+      isUpload: {
+        type: Boolean,
+        value: true
+      },
+      /**
+       * Whether upload button is readonly or not
+       *
+       * @type {boolean}
+       * @default false
+       * */
+      uploadReadonly: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * The label of the uploader.
+       */
+      label: {
+        type: String
+      },
+      handleAs: {
+        type: String
       }
     }
   }
@@ -168,7 +242,6 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
   }
 
   upload () {
-    const fetchApi = new IsuFetch()
     const form = new FormData()
     if (!this.multiple) {
       form.append('file', this.files[0])
@@ -180,19 +253,14 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior], Polym
         form.append(key, this.request[key])
       }
     }
-    fetchApi.fetchIt({ method: 'post', body: form, url: this.src }, { loading: true }).then(res => {
-      return res.json()
-    }).then(res => {
-      if (res.status === 1) {
-        this.set('files', [])
-        this.$['file-chooser'].value = ''
-        this.set('response', res)
-        this.isuTip.success('导入成功', 2500)
-      } else {
-        this.isuTip.error(res.error, 2500)
-      }
+    this.post({ url: this.src, data: form, handleAs: this.handleAs }, { loading: true }).then(res => {
+      this.set('files', [])
+      this.$['file-chooser'].value = ''
+      this.set('response', res)
+      this.isuTip.success('导入成功', 2500)
+      this.uploadCallback && this.uploadCallback.call(this.domHost, res)
     }).catch(err => {
-      console.error(err)
+      this.isuTip.error(err, 2500)
     })
   }
 

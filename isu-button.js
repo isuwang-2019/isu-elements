@@ -126,6 +126,7 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
       :host([type=default]) .btn {
         background: #ffffff;
         color: #000000;
+        --isu-ui-default_-_height: var(--isu-button-height);
         border: 1px solid lightgray;
         @apply --isu-ui-default;
       }
