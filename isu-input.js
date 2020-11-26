@@ -224,7 +224,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
           <div class="prefix-unit input-unit">[[prefixUnit]]</div>
         </template>
         <iron-input bind-value="{{value}}" id="input" class="iron-input" allowed-pattern="[[allowedPattern]]" prevent-invalid-input="[[preventInvalidInput]]">
-          <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]" on-input="patternLimit"
+          <input id="innerInput" placeholder$="[[placeholder]]" type$="[[type]]" minlength$="[[minlength]]" on-input="patternLimit" on-change="_onChange"
               maxlength$="[[maxlength]]" min$="[[min]]" max$="[[max]]" readonly$="[[readonly]]" autocomplete="off" step="any" spellcheck="false">
           <div class="clear">
             <template is="dom-if" if="[[ isExistTruthy(value) ]]">
@@ -501,6 +501,10 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.isPatternLimit) {
       this.dispatchEvent(new CustomEvent('pattern-value-changed', { detail: { target: e.target }, bubbles: true, composed: true }))
     }
+  }
+
+  _onChange (e) {
+    this.dispatchEvent(new CustomEvent('isu-input-onchange', { detail: { target: e.target }, bubbles: true, composed: true }))
   }
 
   clear (e) {

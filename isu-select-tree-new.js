@@ -436,6 +436,8 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         this.set('_defaultCheckedKeys', _defaultCheckedKeys)
         this.set('_isDefaultCheckedKeysFlag', false)
       }
+    } else {
+      this.set('bindItems', [])
     }
   }
 
