@@ -806,7 +806,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         data = this.getValueByPath(data, this.resultPath, [])
       }
       // 判断是否有交集
-      const flag =  data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`)).length() > 0
+      const flag =  data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`)).length > 0
       const addItems = items.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
       this.items = flag ? data.concat(addItems) : items
     } catch (e) {
