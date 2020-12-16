@@ -4287,11 +4287,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 189,
+              "line": 190,
               "column": 6
             },
             "end": {
-              "line": 193,
+              "line": 194,
               "column": 7
             }
           },
@@ -4309,11 +4309,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 200,
+              "line": 201,
               "column": 6
             },
             "end": {
-              "line": 204,
+              "line": 205,
               "column": 7
             }
           },
@@ -4331,11 +4331,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 210,
+              "line": 211,
               "column": 6
             },
             "end": {
-              "line": 213,
+              "line": 214,
               "column": 7
             }
           },
@@ -4353,11 +4353,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 217,
+              "line": 218,
               "column": 6
             },
             "end": {
-              "line": 221,
+              "line": 222,
               "column": 7
             }
           },
@@ -4375,11 +4375,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 227,
+              "line": 228,
               "column": 6
             },
             "end": {
-              "line": 231,
+              "line": 232,
               "column": 7
             }
           },
@@ -4399,11 +4399,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 235,
+              "line": 236,
               "column": 2
             },
             "end": {
-              "line": 237,
+              "line": 238,
               "column": 3
             }
           },
@@ -4432,7 +4432,7 @@
           "column": 0
         },
         "end": {
-          "line": 238,
+          "line": 239,
           "column": 1
         }
       },
@@ -4445,11 +4445,11 @@
           "description": "Properties can be selected as default, primary, warning, danger or success",
           "sourceRange": {
             "start": {
-              "line": 189,
+              "line": 190,
               "column": 6
             },
             "end": {
-              "line": 193,
+              "line": 194,
               "column": 7
             }
           },
@@ -4461,11 +4461,11 @@
           "description": "Properties can be selected as small, normal or large",
           "sourceRange": {
             "start": {
-              "line": 200,
+              "line": 201,
               "column": 6
             },
             "end": {
-              "line": 204,
+              "line": 205,
               "column": 7
             }
           },
@@ -4477,11 +4477,11 @@
           "description": "Set to true, if the input is readonly.",
           "sourceRange": {
             "start": {
-              "line": 210,
+              "line": 211,
               "column": 6
             },
             "end": {
-              "line": 213,
+              "line": 214,
               "column": 7
             }
           },
@@ -4493,11 +4493,11 @@
           "description": "If true hides the component， default false",
           "sourceRange": {
             "start": {
-              "line": 217,
+              "line": 218,
               "column": 6
             },
             "end": {
-              "line": 221,
+              "line": 222,
               "column": 7
             }
           },
@@ -4509,11 +4509,11 @@
           "description": "If you do not have permissions, the component does not display",
           "sourceRange": {
             "start": {
-              "line": 227,
+              "line": 228,
               "column": 6
             },
             "end": {
-              "line": 231,
+              "line": 232,
               "column": 7
             }
           },
@@ -9556,16 +9556,40 @@
           }
         },
         {
-          "name": "clear",
+          "name": "_onChange",
           "description": "",
-          "privacy": "public",
+          "privacy": "protected",
           "sourceRange": {
             "start": {
               "line": 505,
               "column": 2
             },
             "end": {
-              "line": 508,
+              "line": 507,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "clear",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 509,
+              "column": 2
+            },
+            "end": {
+              "line": 512,
               "column": 3
             }
           },
@@ -9585,11 +9609,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 510,
+              "line": 514,
               "column": 2
             },
             "end": {
-              "line": 513,
+              "line": 517,
               "column": 3
             }
           },
@@ -9609,11 +9633,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 515,
+              "line": 519,
               "column": 2
             },
             "end": {
-              "line": 517,
+              "line": 521,
               "column": 3
             }
           },
@@ -9636,11 +9660,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 519,
+              "line": 523,
               "column": 2
             },
             "end": {
-              "line": 521,
+              "line": 525,
               "column": 3
             }
           },
@@ -9660,11 +9684,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 523,
+              "line": 527,
               "column": 2
             },
             "end": {
-              "line": 525,
+              "line": 529,
               "column": 3
             }
           },
@@ -9684,11 +9708,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 527,
+              "line": 531,
               "column": 2
             },
             "end": {
-              "line": 545,
+              "line": 549,
               "column": 3
             }
           },
@@ -9713,7 +9737,7 @@
           "column": 0
         },
         "end": {
-          "line": 546,
+          "line": 550,
           "column": 1
         }
       },
@@ -26004,6 +26028,28 @@
             }
           },
           "defaultValue": "false"
+        },
+        {
+          "name": "displayItemsLength",
+          "type": "number | null | undefined",
+          "description": "选择选项的长度，默认10",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 691,
+              "column": 6
+            },
+            "end": {
+              "line": 694,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          },
+          "defaultValue": "10"
         }
       ],
       "methods": [
@@ -26013,7 +26059,7 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 707,
+              "line": 714,
               "column": 2
             },
             "end": {
@@ -26131,7 +26177,7 @@
               "column": 2
             },
             "end": {
-              "line": 815,
+              "line": 814,
               "column": 3
             }
           },
@@ -26148,11 +26194,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 817,
+              "line": 816,
               "column": 2
             },
             "end": {
-              "line": 828,
+              "line": 827,
               "column": 3
             }
           },
@@ -26173,11 +26219,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 830,
+              "line": 829,
               "column": 2
             },
             "end": {
-              "line": 868,
+              "line": 867,
               "column": 3
             }
           },
@@ -26197,11 +26243,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 870,
+              "line": 869,
               "column": 2
             },
             "end": {
-              "line": 880,
+              "line": 879,
               "column": 3
             }
           },
@@ -26217,11 +26263,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 885,
+              "line": 884,
               "column": 2
             },
             "end": {
-              "line": 918,
+              "line": 917,
               "column": 3
             }
           },
@@ -26238,11 +26284,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 920,
+              "line": 919,
               "column": 2
             },
             "end": {
-              "line": 928,
+              "line": 927,
               "column": 3
             }
           },
@@ -26262,11 +26308,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 930,
+              "line": 929,
               "column": 2
             },
             "end": {
-              "line": 932,
+              "line": 931,
               "column": 3
             }
           },
@@ -26282,11 +26328,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 934,
+              "line": 933,
               "column": 2
             },
             "end": {
-              "line": 939,
+              "line": 938,
               "column": 3
             }
           },
@@ -26306,11 +26352,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 945,
+              "line": 944,
               "column": 2
             },
             "end": {
-              "line": 958,
+              "line": 957,
               "column": 3
             }
           },
@@ -26330,11 +26376,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 965,
+              "line": 964,
               "column": 2
             },
             "end": {
-              "line": 978,
+              "line": 977,
               "column": 3
             }
           },
@@ -26354,11 +26400,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 980,
+              "line": 979,
               "column": 2
             },
             "end": {
-              "line": 982,
+              "line": 981,
               "column": 3
             }
           },
@@ -26371,11 +26417,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 984,
+              "line": 983,
               "column": 2
             },
             "end": {
-              "line": 988,
+              "line": 987,
               "column": 3
             }
           },
@@ -26395,11 +26441,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 990,
+              "line": 989,
               "column": 2
             },
             "end": {
-              "line": 995,
+              "line": 994,
               "column": 3
             }
           },
@@ -26415,11 +26461,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 1017,
+              "line": 997,
               "column": 2
             },
             "end": {
-              "line": 1023,
+              "line": 1003,
               "column": 3
             }
           },
@@ -26436,11 +26482,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 1025,
+              "line": 1005,
               "column": 2
             },
             "end": {
-              "line": 1027,
+              "line": 1007,
               "column": 3
             }
           },
@@ -26456,11 +26502,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1029,
+              "line": 1009,
               "column": 2
             },
             "end": {
-              "line": 1034,
+              "line": 1014,
               "column": 3
             }
           },
@@ -26480,11 +26526,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 1041,
+              "line": 1021,
               "column": 2
             },
             "end": {
-              "line": 1083,
+              "line": 1063,
               "column": 3
             }
           },
@@ -26504,11 +26550,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1088,
+              "line": 1068,
               "column": 2
             },
             "end": {
-              "line": 1108,
+              "line": 1088,
               "column": 3
             }
           },
@@ -26529,11 +26575,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1113,
+              "line": 1093,
               "column": 2
             },
             "end": {
-              "line": 1117,
+              "line": 1097,
               "column": 3
             }
           },
@@ -26549,11 +26595,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1122,
+              "line": 1102,
               "column": 2
             },
             "end": {
-              "line": 1127,
+              "line": 1107,
               "column": 3
             }
           },
@@ -26573,11 +26619,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1129,
+              "line": 1109,
               "column": 2
             },
             "end": {
-              "line": 1131,
+              "line": 1111,
               "column": 3
             }
           },
@@ -26594,11 +26640,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1137,
+              "line": 1117,
               "column": 2
             },
             "end": {
-              "line": 1140,
+              "line": 1119,
               "column": 3
             }
           },
@@ -26620,11 +26666,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1145,
+              "line": 1124,
               "column": 2
             },
             "end": {
-              "line": 1149,
+              "line": 1128,
               "column": 3
             }
           },
@@ -26640,11 +26686,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1154,
+              "line": 1133,
               "column": 2
             },
             "end": {
-              "line": 1156,
+              "line": 1135,
               "column": 3
             }
           },
@@ -26660,11 +26706,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1162,
+              "line": 1141,
               "column": 2
             },
             "end": {
-              "line": 1168,
+              "line": 1147,
               "column": 3
             }
           },
@@ -26680,11 +26726,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 1170,
+              "line": 1149,
               "column": 2
             },
             "end": {
-              "line": 1172,
+              "line": 1151,
               "column": 3
             }
           },
@@ -26707,11 +26753,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1174,
+              "line": 1153,
               "column": 2
             },
             "end": {
-              "line": 1176,
+              "line": 1155,
               "column": 3
             }
           },
@@ -26731,11 +26777,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 1178,
+              "line": 1157,
               "column": 2
             },
             "end": {
-              "line": 1180,
+              "line": 1159,
               "column": 3
             }
           },
@@ -26755,11 +26801,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 1182,
+              "line": 1161,
               "column": 2
             },
             "end": {
-              "line": 1185,
+              "line": 1164,
               "column": 3
             }
           },
@@ -26783,7 +26829,7 @@
           "column": 0
         },
         "end": {
-          "line": 1186,
+          "line": 1165,
           "column": 1
         }
       },
@@ -27350,6 +27396,22 @@
           },
           "metadata": {},
           "type": "boolean | null | undefined"
+        },
+        {
+          "name": "display-items-length",
+          "description": "选择选项的长度，默认10",
+          "sourceRange": {
+            "start": {
+              "line": 691,
+              "column": 6
+            },
+            "end": {
+              "line": 694,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "number | null | undefined"
         }
       ],
       "events": [
@@ -36190,7 +36252,7 @@
               "column": 2
             },
             "end": {
-              "line": 439,
+              "line": 441,
               "column": 3
             }
           },
@@ -36210,11 +36272,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 441,
+              "line": 443,
               "column": 2
             },
             "end": {
-              "line": 474,
+              "line": 476,
               "column": 3
             }
           },
@@ -36234,11 +36296,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 476,
+              "line": 478,
               "column": 2
             },
             "end": {
-              "line": 493,
+              "line": 495,
               "column": 3
             }
           },
@@ -36258,11 +36320,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 495,
+              "line": 497,
               "column": 2
             },
             "end": {
-              "line": 497,
+              "line": 499,
               "column": 3
             }
           },
@@ -36282,11 +36344,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 499,
+              "line": 501,
               "column": 2
             },
             "end": {
-              "line": 501,
+              "line": 503,
               "column": 3
             }
           },
@@ -36309,11 +36371,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 503,
+              "line": 505,
               "column": 2
             },
             "end": {
-              "line": 506,
+              "line": 508,
               "column": 3
             }
           },
@@ -36336,11 +36398,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 508,
+              "line": 510,
               "column": 2
             },
             "end": {
-              "line": 519,
+              "line": 521,
               "column": 3
             }
           },
@@ -36366,7 +36428,7 @@
           "column": 0
         },
         "end": {
-          "line": 520,
+          "line": 522,
           "column": 1
         }
       },
@@ -45451,7 +45513,7 @@
       "tagname": "isu-toggles"
     },
     {
-      "description": "`isu-upload`\n\nExample:\n```html\n <isu-upload accept=\"\" multiple src=\"src\" id=\"upload\"></isu-upload>\n```",
+      "description": "`isu-upload`\n\nExample:\n```html\n <isu-upload accept=\"\" multiple src=\"src\" id=\"upload\"></isu-upload>\n```\n\n* ### Styling\n\n`<isu-upload>` provides the following custom properties and mixins\nfor styling:\n\nCustom property | Description | Default\n----------------|-------------|----------\n`--isu-upload-toolbar` | Mixin applied to the isu-upload component | {}\n`--isu-upload-choose-button` | Mixin applied to the choose file button | {}\n`--isu-upload-upload-button` | Mixin applied to the choose file button| {}\n`--isu-ui-orange` | The color of the upload button | `#fdb03d`",
       "summary": "",
       "path": "isu-upload.js",
       "properties": [
@@ -45462,11 +45524,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 110,
+              "line": 145,
               "column": 6
             },
             "end": {
-              "line": 112,
+              "line": 147,
               "column": 7
             }
           },
@@ -45483,11 +45545,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 119,
+              "line": 154,
               "column": 6
             },
             "end": {
-              "line": 122,
+              "line": 157,
               "column": 7
             }
           },
@@ -45505,16 +45567,17 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 129,
+              "line": 164,
               "column": 6
             },
             "end": {
-              "line": 132,
+              "line": 168,
               "column": 7
             }
           },
           "metadata": {
             "polymer": {
+              "notify": true,
               "attributeType": "Array"
             }
           },
@@ -45527,11 +45590,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 133,
+              "line": 169,
               "column": 6
             },
             "end": {
-              "line": 133,
+              "line": 169,
               "column": 17
             }
           },
@@ -45548,11 +45611,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 134,
+              "line": 170,
               "column": 6
             },
             "end": {
-              "line": 134,
+              "line": 170,
               "column": 21
             }
           },
@@ -45569,11 +45632,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 135,
+              "line": 171,
               "column": 6
             },
             "end": {
-              "line": 138,
+              "line": 174,
               "column": 7
             }
           },
@@ -45581,6 +45644,113 @@
             "polymer": {
               "notify": true,
               "attributeType": "Object"
+            }
+          }
+        },
+        {
+          "name": "uploadCallback",
+          "type": "array",
+          "description": "The callback function after uploading",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 181,
+              "column": 6
+            },
+            "end": {
+              "line": 183,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Function"
+            }
+          }
+        },
+        {
+          "name": "isUpload",
+          "type": "boolean",
+          "description": "Whether to show the upload button or not",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 190,
+              "column": 6
+            },
+            "end": {
+              "line": 193,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "true"
+        },
+        {
+          "name": "uploadReadonly",
+          "type": "boolean",
+          "description": "Whether upload button is readonly or not",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 200,
+              "column": 6
+            },
+            "end": {
+              "line": 203,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "label",
+          "type": "string | null | undefined",
+          "description": "The label of the uploader.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 207,
+              "column": 6
+            },
+            "end": {
+              "line": 209,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        },
+        {
+          "name": "handleAs",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 210,
+              "column": 6
+            },
+            "end": {
+              "line": 212,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
             }
           }
         }
@@ -45592,11 +45762,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 146,
+              "line": 220,
               "column": 2
             },
             "end": {
-              "line": 148,
+              "line": 222,
               "column": 3
             }
           },
@@ -45612,11 +45782,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 150,
+              "line": 224,
               "column": 2
             },
             "end": {
-              "line": 153,
+              "line": 227,
               "column": 3
             }
           },
@@ -45632,11 +45802,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 155,
+              "line": 229,
               "column": 2
             },
             "end": {
-              "line": 162,
+              "line": 236,
               "column": 3
             }
           },
@@ -45656,11 +45826,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 164,
+              "line": 238,
               "column": 2
             },
             "end": {
-              "line": 167,
+              "line": 241,
               "column": 3
             }
           },
@@ -45680,11 +45850,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 169,
+              "line": 243,
               "column": 2
             },
             "end": {
-              "line": 196,
+              "line": 264,
               "column": 3
             }
           },
@@ -45705,11 +45875,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 34,
+          "line": 48,
           "column": 7
         },
         "end": {
-          "line": 201,
+          "line": 269,
           "column": 1
         }
       },
@@ -45722,11 +45892,11 @@
           "description": "Specifies a filter for what file types the user can pick from the file input dialog box",
           "sourceRange": {
             "start": {
-              "line": 110,
+              "line": 145,
               "column": 6
             },
             "end": {
-              "line": 112,
+              "line": 147,
               "column": 7
             }
           },
@@ -45738,11 +45908,11 @@
           "description": "Specifies that a user can enter more than one value in an <input> element",
           "sourceRange": {
             "start": {
-              "line": 119,
+              "line": 154,
               "column": 6
             },
             "end": {
-              "line": 122,
+              "line": 157,
               "column": 7
             }
           },
@@ -45754,11 +45924,11 @@
           "description": "The files that customer choose",
           "sourceRange": {
             "start": {
-              "line": 129,
+              "line": 164,
               "column": 6
             },
             "end": {
-              "line": 132,
+              "line": 168,
               "column": 7
             }
           },
@@ -45770,11 +45940,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 133,
+              "line": 169,
               "column": 6
             },
             "end": {
-              "line": 133,
+              "line": 169,
               "column": 17
             }
           },
@@ -45786,11 +45956,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 134,
+              "line": 170,
               "column": 6
             },
             "end": {
-              "line": 134,
+              "line": 170,
               "column": 21
             }
           },
@@ -45802,19 +45972,105 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 135,
+              "line": 171,
               "column": 6
             },
             "end": {
-              "line": 138,
+              "line": 174,
               "column": 7
             }
           },
           "metadata": {},
           "type": "Object | null | undefined"
+        },
+        {
+          "name": "upload-callback",
+          "description": "The callback function after uploading",
+          "sourceRange": {
+            "start": {
+              "line": 181,
+              "column": 6
+            },
+            "end": {
+              "line": 183,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "array"
+        },
+        {
+          "name": "is-upload",
+          "description": "Whether to show the upload button or not",
+          "sourceRange": {
+            "start": {
+              "line": 190,
+              "column": 6
+            },
+            "end": {
+              "line": 193,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "upload-readonly",
+          "description": "Whether upload button is readonly or not",
+          "sourceRange": {
+            "start": {
+              "line": 200,
+              "column": 6
+            },
+            "end": {
+              "line": 203,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "label",
+          "description": "The label of the uploader.",
+          "sourceRange": {
+            "start": {
+              "line": 207,
+              "column": 6
+            },
+            "end": {
+              "line": 209,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
+          "name": "handle-as",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 210,
+              "column": 6
+            },
+            "end": {
+              "line": 212,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
         }
       ],
       "events": [
+        {
+          "type": "CustomEvent",
+          "name": "files-changed",
+          "description": "Fired when the `files` property changes.",
+          "metadata": {}
+        },
         {
           "type": "CustomEvent",
           "name": "response-changed",

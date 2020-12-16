@@ -685,6 +685,13 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       zeroIsValue: {
         type: Boolean,
         value: false
+      },
+      /**
+       * 选择选项的长度，默认10
+       */
+      displayItemsLength: {
+        type: Number,
+        value: 10
       }
     }
   }
@@ -722,13 +729,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }, 200)
     })
 
-    // let parent = this.offsetParent
-    // while (parent) {
-    //   parent.addEventListener('scroll', e => {
-    //     this.__collapsePosition()
-    //   })
-    //   parent = parent.offsetParent
-    // }
 
     const target = dom(this.$['picker-collapse']).rootTarget
     const myFit = this.$['picker-collapse']
@@ -798,25 +798,24 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const request = this._mkRequest(this.queryByValueUrl, req)
       let data = await this._fetchUtil.fetchIt(request).then(res => {
         return res.text().then(text => {
-          return text ? JSON.parse(text) : {}
+          return text ? JSON.parse(text) : []
         })
       })
       const items = itemsArr || []
       if (this.resultPath) {
         data = this.getValueByPath(data, this.resultPath, [])
       }
-      let addItems = []
-      if (JSON.stringify(data) !== '{}') {
-        addItems = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
-      }
-      this.items = addItems && addItems.length > 0 ? items.concat(addItems) : items
+      // 判断是否有交集
+      const flag =  data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`)).length > 0
+      const addItems = items.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
+      this.items = flag ? data.concat(addItems) : items
     } catch (e) {
       console.error(e)
     }
   }
 
   _itemsChanged (items = []) {
-    this._displayItems = items.slice(0, 9)
+    this._displayItems = items.slice(0, this.displayItemsLength || 10)
     // 初始化一次选中项
     if (this.value !== undefined && this.value !== null) {
       if(!this.zeroIsValue && this.value === 0) return
@@ -853,7 +852,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
             // _displayItems will reset when items changed.
             this.items = candidateItems.concat(this.items)
           } else {
-            this._displayItems = _displayItems.slice(0, 9)
+            this._displayItems = _displayItems.slice(0, this.displayItemsLength || 10)
           }
         } catch (err) {
           console.error(err)
@@ -862,7 +861,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
       this.debounce('__debounceFetchByKeyword', __fetchByKeyword, 500)
     } else {
-      this._displayItems = matched.slice(0, 9)
+      this._displayItems = matched.slice(0, this.displayItemsLength || 10)
       this._switchFocusItemAt(0)
     }
     this._displayPlaceholder()
@@ -995,25 +994,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     // this._switchFocusItemAt(0);
   }
 
-  // __collapsePosition () {
-  //   // this.$['picker-collapse'].style.top = this.clientHeight + 'px'
-  //   // // 当页面中存在isu-dialog时，打开picker列表碰到dialog的右边边缘，则向列表向左移
-  //   // let wrap = this
-  //   // while (wrap.shadowRoot && !wrap.shadowRoot.querySelector('isu-dialog') && wrap !== document) {
-  //   //   wrap = wrap.domHost
-  //   // }
-  //   // const dialog = wrap.shadowRoot && wrap.shadowRoot.querySelector('isu-dialog')
-  //   // if (dialog) {
-  //   //   const dialogPos = this.__getElemPos(dialog.$.dialog)
-  //   //   const collapse = this.$['picker-collapse']
-  //   //   const collapsePos = this.__getElemPos(collapse)
-  //   //   if (dialogPos.left + dialog.$.dialog.clientWidth < collapsePos.left + collapse.clientWidth) {
-  //   //     this.$['picker-collapse'].style.left = (dialogPos.left + dialog.$.dialog.clientWidth) - (collapsePos.left + collapse.clientWidth) - 20 + 'px'
-  //   //   }
-  //   // }
-  //
-  //   this.$['picker-collapse'].fixPosition()
-  // }
 
   __getElemPos (obj) {
     const { x, y } = obj.getBoundingClientRect()
@@ -1137,7 +1117,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   displayCollapse (display) {
     this.$['picker-collapse'].hidden = !display
-    // if (this.$['picker-collapse'].hidden === false) this.__collapsePosition()
   }
 
   /**
