@@ -358,10 +358,13 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
      * 在选择面板打开的时候给body注册click监听事件。以防止多个实例的时候body click事件和实例自身引用错乱的问题。
      */
     const bodyClick = function (e) {
-      self.toggle()
-      document.body.removeEventListener('click', bodyClick, true)
+      const path = Array.from(e.path)
+      if (!path.includes(self.$['group-button']) && self.opened) {
+        self.toggle()
+      }
+      document.removeEventListener('click', bodyClick, true)
     }
-    document.body.addEventListener('click', bodyClick, true)
+    document.addEventListener('click', bodyClick, true)
   }
 
   getElemPos (obj) {
