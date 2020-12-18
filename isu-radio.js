@@ -98,7 +98,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
 
     </style>
-    <div class="radio-wrapper">
+    <div class$="radio-wrapper [[fontSize]]">
       <template is="dom-if" if="[[ toBoolean(label) ]]">
         <div class="isu-label">[[label]]</div>
       </template>

@@ -186,10 +186,10 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </style>
       
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-        <div class="isu-label">[[label]]</div>
+        <div class$="isu-label [[fontSize]]">[[label]]</div>
       </template>
       
-      <div class="cascading__container" on-click="__onInputClick">
+      <div class$="cascading__container [[fontSize]]" on-click="__onInputClick">
         <div id="placeholder">[[placeholder]]</div>
         <div class="box-value">[[showLabel]]</div>
         <iron-icon class="caret" icon="icons:expand-more"></iron-icon>
@@ -198,7 +198,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </div>
       
-      <div class="cascade">
+      <div class$="cascade [[fontSize]]">
         <paper-dialog id="boxDialog" no-overlap horizontal-align="auto" vertical-align="auto" on-iron-overlay-closed="__cancelClick">
         <div class="dialog-container">
           <template is="dom-repeat" items="{{treeItems}}" as="tree" index-as="treeIndex">

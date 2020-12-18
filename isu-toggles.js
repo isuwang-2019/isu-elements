@@ -85,7 +85,7 @@ class IsuToggles extends mixinBehaviors([BaseBehavior], PolymerElement) {
         }
 
       </style>
-      <div class="switcher">
+      <div class$="switcher [[fontSize]]">
         <label>
           <template is="dom-if" if="[[ toBoolean(label) ]]">
              <div class="isu-label">[[label]]</div>

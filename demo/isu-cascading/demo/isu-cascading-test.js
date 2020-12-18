@@ -19,7 +19,7 @@ class IsuCascadingTest extends mixinBehaviors([AjaxBehavior], PolymerElement) {
           width: 500px;
         }
       </style>
-      <isu-cascading class="isu-cascading" label="地址(内部)" src="/init2.do" is-innner-dynamic-append-data
+      <isu-cascading class="isu-cascading" font-size="x-small" label="地址(内部)" src="/init2.do" is-innner-dynamic-append-data
         value="{{value}}" tree-items="{{treeItems}}" fetch-param="{{fetchParam}}"
       ></isu-cascading>
       <isu-cascading class="isu-cascading" label="地址2（外部）" is-dynamic-append-data

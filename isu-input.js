@@ -215,11 +215,11 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div class="isu-label">[[label]]</div>
+       <div class$="isu-label [[fontSize]]">[[label]]</div>
     </template>
     
     <!--可编辑状态-->
-    <div id="input__container" class="input__container">
+    <div id="input__container" class$="input__container [[fontSize]]">
         <template is="dom-if" if="[[prefixUnit]]">
           <div class="prefix-unit input-unit">[[prefixUnit]]</div>
         </template>
@@ -257,7 +257,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
           
       </div>
     <template is="dom-if" if="[[_isView(isView,readonly)]]">
-      <div class="input__container input__container__view ellipsis" title="[[value]]">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
+      <div class="comma-before input__container input__container__view ellipsis" title="[[value]]">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
     </template>
     
 `

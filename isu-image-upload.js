@@ -163,7 +163,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
       
     </style>
 
-    <div id="main-container">
+    <div id="main-container" class$="[[fontSize]]">
       <template is="dom-if" if="[[ toBoolean(label) ]]">
         <div class="isu-label">[[label]]</div>
       </template>
@@ -175,12 +175,12 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
 
         <div class="toolbar">
           <template is="dom-if" if="[[__isEdit(type)]]">
-            <isu-button title="点击选择文件" on-click="_triggerChooseFile">选择</isu-button>
-            <isu-button id="cancel-btn" type="warning" on-click="cancelSelection">取消</isu-button>
+            <isu-button class$="[[fontSize]]" title="点击选择文件" on-click="_triggerChooseFile">选择</isu-button>
+            <isu-button class$="[[fontSize]]" id="cancel-btn" type="warning" on-click="cancelSelection">取消</isu-button>
           </template>
           <input type="file" on-change="_chooseFile" id="file-chooser" accept$="[[accept]]">
           <template is="dom-if" if="[[!__isEdit(type)]]">
-            <isu-button class="isu-button-view" on-click="openViewZoom">查看大图</isu-button>
+            <isu-button class$="isu-button-view [[fontSize]]" on-click="openViewZoom">查看大图</isu-button>
           </template>
         </div>
         <div class="mask"></div>

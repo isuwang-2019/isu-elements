@@ -159,6 +159,27 @@
       </script>
     </template>
   </demo-snippet>
+
+  <h3>字体大小选择</h3>
+  <demo-snippet>
+    <template>
+      <custom-style>
+        <style is="custom-style">
+          .typed-input {
+            width: 350px;
+            --isu-label: {
+              width: 100px;
+            };
+          }
+        </style>
+      </custom-style>
+      <div class="container">
+        <isu-input class="typed-input" label="存款" font-size="small"></isu-input>
+        <isu-input class="typed-input" label="存款" font-size="larger"></isu-input>
+      </div>
+
+    </template>
+  </demo-snippet>
 </div>`
 
 </body>

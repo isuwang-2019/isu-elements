@@ -1,5 +1,5 @@
-import '@polymer/polymer/polymer-legacy';
-import {html} from "@polymer/polymer";
+import '@polymer/polymer/polymer-legacy'
+import { html } from '@polymer/polymer'
 
 const template = html`
   <dom-module id="isu-elements-shared-styles">
@@ -126,10 +126,31 @@ const template = html`
           -o-text-overflow: ellipsis;
           text-overflow: ellipsis;
       }
+      :host .comma-before::before {
+        content: " :";
+        position: absolute;
+        left: -13px;
+        line-height: inherit;
+      }
+      /*字体大小*/
+      :host .x-small {
+        font-size: 10px
+      }
+      :host .small {
+        font-size: 12px
+      }
+      :host .medium {
+        font-size: 14px
+      }
+      :host .large {
+        font-size: 16px
+      }
+      :host .larger {
+        font-size: 18px
+      }
     </style>
   </template>
   </dom-module>
-`;
-template.setAttribute("style", 'display: none;');
-document.head.appendChild(template.content);
-
+`
+template.setAttribute('style', 'display: none;')
+document.head.appendChild(template.content)

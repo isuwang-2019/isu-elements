@@ -83,10 +83,10 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div class="isu-label">[[label]]</div>
+         <div class$="isu-label [[fontSize]]">[[label]]</div>
       </template>
       
-      <div id="select__container">
+      <div id="select__container" class$="[[fontSize]]">
         <div id="keywordInput" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(selectedItem.label, placeholder)]]">
           [[getValued(selectedItem.label, placeholder)]]
         </div>

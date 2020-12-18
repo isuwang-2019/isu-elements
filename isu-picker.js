@@ -87,7 +87,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         #keywordInput {
           flex: 1;
           min-width: 10px;
-          font-size: 14px;
           height: 22px;
           line-height: 22px;
           padding: 0;
@@ -131,7 +130,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           /*max-width: calc(var(--isu-picker-width)- 30px);*/
   
           display: flex;
-          font-size: 14px;
           cursor: default;
           word-break: break-all;
           @apply --isu-picker-tag;
@@ -287,12 +285,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div class="isu-label">[[label]]</div>
+         <div class$="isu-label [[fontSize]]">[[label]]</div>
       </template>
       
      
           
-      <div class="input-wrap" id="select__container">
+      <div class$="input-wrap [[fontSize]]" id="select__container">
         <div class="input-container">
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
             <div id="placeholder">[[placeholder]]</div>
