@@ -128,12 +128,6 @@ const template = html`
           -o-text-overflow: ellipsis;
           text-overflow: ellipsis;
       }
-      :host .comma-before::before {
-        content: " :";
-        position: absolute;
-        left: -13px;
-        line-height: inherit;
-      }
       /*字体大小*/
       :host .x-small {
         font-size: 10px
