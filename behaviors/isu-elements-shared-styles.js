@@ -109,13 +109,15 @@ const template = html`
       }
       
       .isu-label::after{
+        content: ' :';
+        position: absolute;
+        right: -5px;
         @apply --isu-label--after;
       }
       .isu-label {
+        position: relative;
         margin-right: 13px;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         text-align: right;
         width: var(--isu-label-width, 120px);
         @apply --isu-label;
