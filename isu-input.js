@@ -257,7 +257,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
           
       </div>
     <template is="dom-if" if="[[_isView(isView,readonly)]]">
-      <div class="comma-before input__container input__container__view ellipsis" title="[[value]]">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
+      <div class$="[[fontSize]] input__container input__container__view ellipsis" title="[[value]]">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
     </template>
     
 `
