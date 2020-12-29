@@ -729,7 +729,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }, 200)
     })
 
-
     const target = dom(this.$['picker-collapse']).rootTarget
     const myFit = this.$['picker-collapse']
     myFit.positionTarget = target || this.$['tags-input']

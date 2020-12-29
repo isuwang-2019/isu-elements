@@ -333,10 +333,11 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false
       },
       /**
-       * The filter level that need to be showed in the input box. eg: '2,3'
+       * The filter level that need to be showed in the input box. string or function, eg: '2,3'
        * */
       onlySelectLevel: {
-        type: String
+        type: Object,
+        value: ''
       },
       showAll: {
         type: Boolean,
@@ -385,6 +386,9 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _calSelectedItems (bindItems) {
     if (bindItems && bindItems.length > 0) {
+      if (Function.prototype.isPrototypeOf(this.onlySelectLevel)) {
+        return this.onlySelectLevel.call(this, bindItems)
+      }
       const onlySelectLevelList = (this.onlySelectLevel && this.onlySelectLevel.split(',')) || []
       let selectedItems = []
       if (onlySelectLevelList.length > 0) {
