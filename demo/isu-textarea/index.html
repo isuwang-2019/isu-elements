@@ -30,6 +30,9 @@ $_documentContainer.innerHTML = `<custom-style>
       isu-textarea {
         margin-bottom: 10px;
       }
+      #textarea1 {
+        --isu-textarea-height: 60px;
+      }
     </style>
   </custom-style>`;
 
@@ -41,7 +44,7 @@ document.body.appendChild($_documentContainer.content);
   <h3>Basic isu-textarea demo</h3>
   <demo-snippet>
     <template>
-      <isu-textarea label="备注" placeholder="请输入备注"></isu-textarea>
+      <isu-textarea id="textarea1" label="备注" placeholder="请输入备注"></isu-textarea>
     </template>
   </demo-snippet>
 

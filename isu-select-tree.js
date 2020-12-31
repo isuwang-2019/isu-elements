@@ -38,11 +38,12 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <style include="isu-elements-shared-styles">
         :host {
           display: flex;
-          height: 34px;
-          line-height: 34px;
+          height: var(--isu-select-tree-height, 34px);
+          line-height: var(--isu-select-tree-height, 34px);
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
           position: relative;
+          width: var(--isu-select-tree-width, 300px);
           box-sizing: border-box;
         }
   
@@ -62,6 +63,12 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
           height: 0;
           opacity: 0;
         }
+        #select__container {
+            flex: 1;
+            position: relative;
+            display: flex;
+            min-width: 0px;
+          }
         .input-div {
           width: 210px;
           height: 24px;

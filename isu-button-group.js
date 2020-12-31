@@ -37,6 +37,7 @@ import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
  * |----------------|-------------|----------|
  * |`--isu-button-group-button` | The style of the trigger button | {}
  * |`--isu-button-group-dropdown` | The style of the dropdown menu | {}
+ * |`--isu-button-group-height` | The height of the trigger button | 100%
  *
  * @customElement
  * @polymer
@@ -57,7 +58,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       .trigger {
         width: 100%;
-        height: 100%;
+        height: var(--isu-button-group-height, 100%);
         position: relative;
         display: flex;
         border-radius: var(--isu-ui-border-radius);
@@ -140,7 +141,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       :host([size=medium]) {
         width: 120px;
-        height: 35px;
+        height: 34px;
       }
      
      :host([size=large]) {

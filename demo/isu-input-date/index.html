@@ -51,6 +51,9 @@
           .multi {
             width: 560px;
           }
+          #default-value {
+            --isu-input-date-height: 50px;
+          }
         </style>
       </custom-style>
       <isu-input-date class="input-date multi" label="选择日期" value="2018-12-12"></isu-input-date>
@@ -59,7 +62,7 @@
       <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-date="2019-07-25 00:00:00" end-date="2019-09-12 12:30:00"></isu-input-date>
       <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-time="08:00:00" end-time="17:00:00" start-date="2017-10-25 00:00:00" end-date="2018-12-12 12:30:00"></isu-input-date>
       <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-time="08:00:00" end-time="17:00:00" start-date="2017-10-25 00:00:00" end-date="2018-12-12 12:30:00" step-time="20"></isu-input-date>
-      <isu-input-date class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
+      <isu-input-date id="default-value" class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
       <isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
     </template>
   </demo-snippet>

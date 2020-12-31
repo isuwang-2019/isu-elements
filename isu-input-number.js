@@ -53,18 +53,22 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
         font-size: var(--isu-ui-font-size);
         border-radius: 4px;
         outline: none;
+        line-height: var(--isu-input-number-height, 34px);
+        height: var(--isu-input-number-height, 34px);
       }
       .box {
          display: inline-block;
          border: 1px solid lightgray;
+         box-sizing: border-box;
          text-align: center;
-         line-height: 35px;
+         line-height: var(--isu-input-number-height, 34px);
+         height: var(--isu-input-number-height, 34px);
          border-radius: 2px;
          padding: 0px;
       }
       .icon-box {
-        width: 37px;
-        height: 37px;
+        width: var(--isu-input-number-height, 34px);
+        height: var(--isu-input-number-height, 34px);
         background-color: transparent;
       }
       .icon {
@@ -73,11 +77,6 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .input {
         width: 120px;
         font-size: 16px;
-      }
-      .isu-label {
-        text-align: right;
-        line-height: 37px;
-        @apply --isu-label
       }
       :host([disabled]) .box:hover {
         cursor: no-drop;

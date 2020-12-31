@@ -36,8 +36,8 @@ class IsuMask extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host {
         display: flex;
         width: var(--isu-mask-width, 300px);
-        height: 34px;
-        line-height: 34px;
+        height: var(--isu-mask-height, 34px);
+        line-height: var(--isu-mask-height, 34px);
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
       }
@@ -91,7 +91,7 @@ class IsuMask extends mixinBehaviors([BaseBehavior], PolymerElement) {
         flex: 1;
         text-align: left;
         font-size: inherit;
-        padding: 4px 8px;
+        padding: 0px 8px;
         line-height: inherit;
 
         white-space: nowrap;

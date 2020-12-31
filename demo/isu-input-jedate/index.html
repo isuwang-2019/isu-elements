@@ -49,10 +49,14 @@
           }
           .multi {
             width: 340px;
+            margin-bottom: 10px;
+          }
+          #jedate1 {
+            --isu-input-jedate-height: 40px;
           }
         </style>
       </custom-style>
-      <isu-input-jedate class="input-date multi" label="年选择" format="YYYY" placeholder="YYYY" required></isu-input-jedate>
+      <isu-input-jedate id="jedate1" class="input-date multi" label="年选择" format="YYYY" placeholder="YYYY" required></isu-input-jedate>
       <isu-input-jedate class="input-date multi" label="年月选择" format="YYYY-MM" placeholder="YYYY-MM"></isu-input-jedate>
       <isu-input-jedate class="input-date multi" label="年月日选择" format="MM-DD-YYYY" placeholder="MM-DD-YYYY"></isu-input-jedate>
       <isu-input-jedate class="input-date multi" label="年月日时分秒选择" festival min="1900-01-01" max="2099-12-31"

@@ -62,8 +62,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <style include="isu-elements-shared-styles">
         :host {
           display: flex;
-          height: 32px;
-          line-height: 32px;
+          height: var(--isu-picker-height, 34px);
+          line-height: var(--isu-picker-height, 34px);
           width: var(--isu-picker-width, 300px);
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);

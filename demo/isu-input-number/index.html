@@ -52,6 +52,9 @@ document.body.appendChild($_documentContainer.content)
           isu-input-number {
             margin-bottom: 10px;
           }
+          #label {
+            --isu-input-number-height: 40px;
+          }
         </style>
       </custom-style>
       <h4>Basic</h4>
@@ -75,6 +78,8 @@ document.body.appendChild($_documentContainer.content)
       </script>
       <h4>只能输入步长的倍数</h4>
       <isu-input-number id="inputNumber6" step="2" step-strictly></isu-input-number>
+      <h4>带有label</h4>
+      <isu-input-number label="标签" id="label" step="2" step-strictly></isu-input-number>
     </template>
   </demo-snippet>
 </body>

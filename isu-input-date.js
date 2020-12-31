@@ -41,8 +41,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host {
         display: flex;
         width: var(--isu-input-date-width, 380px);
-        height: 34px;
-        line-height: 34px;
+        height: var(--isu-input-date-height, 34px);
+        line-height: var(--isu-input-date-height, 34px);
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
       }
@@ -149,7 +149,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       #input__date {
           display: flex;
-          height: 34px;
+          height: var(--isu-input-date-height, 34px);
           line-height: 20px;
           margin-top: 1px;
           border-radius: 4px;
@@ -157,7 +157,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
           padding: 0;
           background: white;
           color: black;
-  
+          box-sizing: border-box;
           visibility: visible;
           opacity: 1;
           @apply --isu-picker-dropdown;
@@ -268,8 +268,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       .item-y-m {
         margin: 15px;
-        height: 36px;
-        line-height: 36px;
+        height: 34px;
+        line-height: 34px;
       }
       
       .select-item {

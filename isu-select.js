@@ -54,9 +54,9 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: var(--isu-select-width, 320px);
-        height: 34px;
-        line-height: 32px;
+        width: var(--isu-select-width, 300px);
+        height: var(--isu-select-height, 34px);
+        line-height: var(--isu-select-height, 34px);
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
         position: relative;
@@ -100,10 +100,9 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       #tag-content {
         flex: 1;
-
         display: flex;
         flex-wrap: wrap;
-        align-content: flex-start;
+        align-content: center;
         overflow-y: auto;
         padding: 2px;
       }

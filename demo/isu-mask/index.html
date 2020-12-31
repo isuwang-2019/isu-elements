@@ -56,13 +56,16 @@ document.body.appendChild($_documentContainer.content);
               width: 100px;
             }
           }
+          #date {
+            --isu-mask-height: 40px;
+          }
         </style>
       </custom-style>
       <isu-mask label="输入框" class="mask">
         <isu-input placeholder="测试输入" value="梅西"></isu-input>
       </isu-mask>
 
-      <isu-mask label="日期框">
+      <isu-mask id="date" label="日期框">
         <isu-input-date placeholder="日期" value="2017-12-05"></isu-input-date>
       </isu-mask>
 

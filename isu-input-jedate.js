@@ -60,8 +60,8 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       :host {
         display: flex;
         width: var(--isu-input-jedate-width, 300px);
-        height: 34px;
-        line-height: 34px;
+        height: var(--isu-input-jedate-height, 34px);
+        line-height: var(--isu-input-jedate-height, 34px);
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
       }
@@ -78,13 +78,13 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
         display: block;
         width: 100%;
         padding-left: 10px; 
-        height: 30px;
+        height: var(--isu-input-jedate-height, 34px);
         float:left;
-        line-height: 30px;
+        line-height: var(--isu-input-jedate-height, 34px);
         border: 1px solid #e6e6e6;
-        background-color: #fff;
         border-radius: 3px;
         background-color: #fcfcfc;
+        box-sizing: border-box;
       }
       :host .input__container {
         flex: 1;

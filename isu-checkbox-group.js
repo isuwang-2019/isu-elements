@@ -36,7 +36,7 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
           display: flex;
           flex-wrap: nowrap;
           position: relative;
-          line-height: 34px;
+          line-height: var(--isu-checkbox-group-height, 34px);
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
         }

@@ -29,8 +29,8 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
           display: flex;
-          height: 34px;
-          line-height: 34px;
+          height: var(--isu-cascading-height, 34px);
+          line-height: var(--isu-cascading-height, 34px);
           min-width: 200px;
         }
         

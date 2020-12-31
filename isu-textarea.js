@@ -40,9 +40,9 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
           width: var(--isu-textarea-width, 400px);
-          /*height: 68px;*/
           position: relative;
           background: white;
+          height: var(--isu-textarea-height, 34px);
         }
   
         #textarea-wrapper {
@@ -53,7 +53,6 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
   
         #textarea {
           flex: 1;
-  
           border: 1px solid #ccc;
           border-radius: 4px;
           padding: 6px;
@@ -100,6 +99,10 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
        .view-text pre {
           margin: 0;
           font-family: "Microsoft YaHei";
+       }
+       .isu-label {
+          height: var(--isu-textarea-height, 34px);
+          line-height: var(--isu-textarea-height, 34px);
        }
   
       </style>

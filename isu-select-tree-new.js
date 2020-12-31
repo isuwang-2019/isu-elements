@@ -24,8 +24,8 @@ import './isu-tree.js'
  |`--isu-ui-font-family` | The font family of the picker | Microsoft YaHei
  |`--isu-ui-font-size` | The font size of the picker | 14px
 
- |`--isu-select-tree-collapse` | Mixin applied to the collapse tree | {}
- |`--isu-select-tree-input` | Mixin applied to the input div | {}
+ |`--isu-select-tree-new-collapse` | Mixin applied to the collapse tree | {}
+ |`--isu-select-tree-new-input` | Mixin applied to the input div | {}
  |`--isu-label` | Mixin applied to the label | {}
 
  * @customElement
@@ -38,11 +38,12 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <style include="isu-elements-shared-styles">
           :host {
             display: flex;
-            line-height: 34px;
+            line-height: var(--isu-select-tree-new-height, 34px);
             font-family: var(--isu-ui-font-family), sans-serif;
             font-size: var(--isu-ui-font-size);
             position: relative;
             box-sizing: border-box;
+            width: var(--isu-select-tree-new-width, 300px);
           }
     
           #collapse-tree {
@@ -54,15 +55,21 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
             border-radius: 5px;
             height: 420px;
             overflow-y: auto;
-            @apply --isu-select-tree-collapse
+            @apply --isu-select-tree-new-collapse
           }
           #collapse-tree[hidden] {
             visibility: hidden;
             height: 0;
             opacity: 0;
           }
+          #select__container {
+            flex: 1;
+            position: relative;
+            display: flex;
+            min-width: 0px;
+          }
+
           .input-div {
-            width: 210px;
             height: 24px;
             line-height: 24px;
             border: 1px solid lightgray;
@@ -74,7 +81,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 4px;
-            @apply --isu-select-tree-input
+            @apply --isu-select-tree-new-input
           }
           .placeholder {
             color: #999;
@@ -82,12 +89,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
           
           #tag-content {
             flex: 1;
-    
             display: flex;
             flex-wrap: wrap;
             align-content: flex-start;
             overflow-y: auto;
-            padding: 2px;
           }
           
           #tag-content::-webkit-scrollbar, #select-collapse::-webkit-scrollbar {
@@ -110,7 +115,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
             font-size: 14px;
             word-break: break-all;
             cursor: default;
-            @apply --isu-select-tag;
+            @apply --isu-select-tree-new-tag;
           }
     
           .tag-name {
@@ -129,10 +134,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
           }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div class="isu-label">[[label]]</div>
+         <div class$="isu-label [[fontSize]]">[[label]]</div>
       </template>
       
-      <div id="select__container">
+      <div id="select__container" class$="[[fontSize]]">
         <div id="tag-content" tabindex="0" on-focus="_inputFocus" class="input-div">
             <template is="dom-repeat" items="{{ selectedItems }}">
               <div class="tag">
@@ -155,7 +160,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
-        <div class="view-text">
+        <div class$="view-text [[fontSize]]">
            <span>{{getViewLabels(selectedItems, attrForLabel, joinConnector)}}</span>
         </div>
       </template>
@@ -333,7 +338,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: false
       },
       /**
-       * The filter level that need to be showed in the input box. string or function, eg: '2,3'
+       * The filter level that need to be showed in the input box. eg: '2,3'
        * */
       onlySelectLevel: {
         type: Object,
@@ -389,7 +394,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       if (Function.prototype.isPrototypeOf(this.onlySelectLevel)) {
         return this.onlySelectLevel.call(this, bindItems)
       }
-      const onlySelectLevelList = (this.onlySelectLevel && this.onlySelectLevel.split(',')) || []
+      const onlySelectLevelList = (this.onlySelectLevel && (this.onlySelectLevel + '').split(',')) || []
       let selectedItems = []
       if (onlySelectLevelList.length > 0) {
         onlySelectLevelList.forEach(level => {
