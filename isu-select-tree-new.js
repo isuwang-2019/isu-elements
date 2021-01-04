@@ -134,10 +134,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
           }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div class$="isu-label [[fontSize]]">[[label]]</div>
+         <div class="isu-label">[[label]]</div>
       </template>
       
-      <div id="select__container" class$="[[fontSize]]">
+      <div id="select__container">
         <div id="tag-content" tabindex="0" on-focus="_inputFocus" class="input-div">
             <template is="dom-repeat" items="{{ selectedItems }}">
               <div class="tag">
@@ -160,7 +160,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
-        <div class$="view-text [[fontSize]]">
+        <div class="view-text">
            <span>{{getViewLabels(selectedItems, attrForLabel, joinConnector)}}</span>
         </div>
       </template>
