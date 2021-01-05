@@ -200,6 +200,10 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: true,
         observer: '_permissionChange'
+      },
+      textValue: {
+        type: String,
+        notify: true
       }
     }
   }
@@ -218,6 +222,9 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (required && items.length > 0 && value == undefined) {
       // 如果必填， 默认选中第一项
       this.value = items[0][this.attrForValue]
+    }
+    if (value && items.length > 0) {
+      this.set('textValue', items.filter(e => e.value === value)[0].label)
     }
   }
 
