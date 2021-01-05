@@ -529,6 +529,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: true,
         reflectToAttribute: true
+      },
+      textValue: {
+        type: String,
+        notify: true
       }
     }
   }
@@ -653,8 +657,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.items && this.items.length) {
       if (this.selectedValues.length > 0) {
         this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',')
+        this.set('textValue', this.getViewLabels(this.selectedValues, this.attrForLabel, this.joinConnector))
       } else {
         this.value = ''
+        this.set('textValue', '')
       }
       if (this.selectedValues.length !== 0) {
         this.closeCollapse()

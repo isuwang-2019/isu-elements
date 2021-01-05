@@ -692,6 +692,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       displayItemsLength: {
         type: Number,
         value: 10
+      },
+      textValue: {
+        type: String,
+        notify: true
       }
     }
   }
@@ -870,9 +874,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.selectedValues.length > 0) {
       this.value = this.selectedValues.map(selected => selected[this.attrForValue]).filter(item => !this.isEmptyObject(item)).join(',')
       this.selectedItem = this.selectedValues[this.selectedValues.length - 1]
+      this.set('textValue', this.getViewLabels(this.selectedValues, this.attrForLabel, this.joinConnector))
     } else {
       this.value = ''
       this.selectedItem = ''
+      this.set('textValue', '')
     }
     if (this.mode === 'text') this.text = this.value && !this.multi ? this.value : this._userInputKeyword
     this.displayCollapse(false)

@@ -414,8 +414,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       if (bindItems.length > 0) {
         this.selectedItem = bindItems[0]
         this.value = bindItems.map(item => item[this.attrForValue]).join(',')
+        this.set('textValue', bindItems.map(item => item[this.attrForLabel]).join(this.joinConnector))
       } else {
         this.set('value', '')
+        this.set('textValue', '')
       }
     }
   }

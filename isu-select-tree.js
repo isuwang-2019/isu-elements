@@ -230,6 +230,10 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       bindItems: {
         type: Array,
         value: []
+      },
+      textValue: {
+        type: String,
+        notify: true
       }
     }
   }
@@ -275,6 +279,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (bindItems) {
       this.selectedItem = bindItems[0]
       this.value = this.selectedItem && this.selectedItem[this.attrForValue]
+      this.set('textValue', this.selectedItem && this.selectedItem.label)
     }
   }
 
