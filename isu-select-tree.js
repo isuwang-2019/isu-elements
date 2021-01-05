@@ -309,6 +309,9 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _valueChanged (value, treeData) {
     const self = this
+    if (!value) {
+      this.set('textValue', '')
+    }
     if (this.treeData.length > 0) {
       let flag = true
       const getSuitIndex = function (items) {
