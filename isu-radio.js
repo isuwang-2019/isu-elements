@@ -225,6 +225,8 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
     if (value && items.length > 0) {
       this.set('textValue', items.filter(e => e.value === value)[0].label)
+    } else {
+      this.set('textValue', '')
     }
   }
 
