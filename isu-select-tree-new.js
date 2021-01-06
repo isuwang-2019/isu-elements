@@ -357,6 +357,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       _isDefaultCheckedKeysFlag: {
         type: Boolean,
         value: true
+      },
+      textValue: {
+        type: String,
+        notify: true
       }
     }
   }
