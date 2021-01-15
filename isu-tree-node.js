@@ -114,7 +114,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
           <slot name="after-label"></slot>
         </div>
         <template is="dom-if" if="{{isShow}}">
-          <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
+          <template is="dom-repeat" items="{{node.childNodes}}" index-as="index" initial-count="5">
             <isu-tree-node
               show-checkbox="[[showCheckbox]]"
               show-radio="[[showRadio]]"
@@ -282,11 +282,11 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   connectedCallback () {
     super.connectedCallback()
-    const parent = this.parentNode.host || this.parentNode
+    const parent = this.domHost
     if (parent.isTree) {
       this.tree = parent
     } else {
-      this.tree = parent.parentNode.host.tree
+      this.tree = parent.tree
     }
   }
 

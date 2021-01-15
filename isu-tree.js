@@ -78,7 +78,7 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
         <template is="dom-if" if="[[showSearchInput]]">
           <isu-input id="tree-search-input" type="text" value="{{searchWord}}"></isu-input>
         </template>
-        <template is="dom-repeat" items="{{node.childNodes}}" index-as="index">
+        <template is="dom-repeat" items="{{node.childNodes}}" index-as="index" initial-count="5">
           <isu-tree-node show-checkbox="{{showCheckbox}}" search-word="[[searchWord]]"
             is-checked="{{isChecked}}" is-first="[[_isFirst(index)]]"
             accordion="[[accordion]]" level="1" id="{{item.nodeId}}"
@@ -248,22 +248,21 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
 
   static get observers () {
     return [
-      '_childNodesChanged(node.childNodes.*)',
       '_isFirst(isFirst)',
       '_dataChanged(data, defaultCheckedKeys)'
     ]
   }
 
-  _childNodesChanged (target) {
-    const self = this
-    self.addEventListener('check-button', (e) => {
-      self.debounce('_setBindItemsChanged', self._setBindItemsChanged.bind(self, e), 200)
+  connectedCallback () {
+    super.connectedCallback()
+    this.addEventListener('check-button', (e) => {
+      this.debounce('_setBindItemsChanged', this._setBindItemsChanged.bind(this, e), 200)
     })
-    self.addEventListener('single-check', (e) => {
-      self.debounce('_setSingleBindItemsChanged', self._setSingleBindItemsChanged.bind(self, e), 200)
+    this.addEventListener('single-check', (e) => {
+      this.debounce('_setSingleBindItemsChanged', this._setSingleBindItemsChanged.bind(this, e), 200)
     })
-    self.addEventListener('arrow-check', (e) => {
-      this.dispatchEvent(new CustomEvent('tree-arrow-check', { detail: { selectedItem: (self.bindItems || [])[0] }, bubbles: true, composed: true }))
+    this.addEventListener('arrow-check', (e) => {
+      this.dispatchEvent(new CustomEvent('tree-arrow-check', { detail: { selectedItem: (this.bindItems || [])[0] }, bubbles: true, composed: true }))
     })
   }
 

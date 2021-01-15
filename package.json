@@ -1,6 +1,6 @@
 {
   "name": "isu-elements",
-  "version": "1.0.79",
+  "version": "1.0.80",
   "description": "Polymer components for building web apps.",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "start": "polymer serve",
+    "start": "polymer serve --hostname 0.0.0.0",
     "build": "polymer build",
     "lint": "polymer lint",
     "test": "polymer test",
