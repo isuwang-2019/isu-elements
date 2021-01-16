@@ -8,6 +8,8 @@ import { BaseBehavior } from './behaviors/base-behavior'
 import './behaviors/isu-elements-shared-styles.js'
 import { IsuFetch } from './isu-fetch'
 import './isu-tree.js'
+import './isu-iron-fit.js'
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom'
 
 /**
 
@@ -97,9 +99,9 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <div id="keywordInput" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(selectedItem.label, placeholder)]]">
           [[getValued(selectedItem.label, placeholder)]]
         </div>
-        <div id="collapse-tree" hidden>
+        <isu-iron-fit id="collapse-tree" auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
           <isu-tree id="tree" data="{{treeData}}" bind-items="{{bindItems}}" default-expand-all check-on-click-node></isu-tree>
-        </div>
+        </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
             <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
@@ -253,6 +255,9 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   connectedCallback () {
     super.connectedCallback()
     const self = this
+    const target = dom(self.$['collapse-tree']).rootTarget
+    const myFit = self.$['collapse-tree']
+    myFit.positionTarget = target || self.$.keywordInput
     self.$.keywordInput.addEventListener('blur', e => {
       // e.stopPropagation();
       setTimeout(() => { // 解决blur事件和click事件冲突的问题

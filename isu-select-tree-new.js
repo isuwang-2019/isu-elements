@@ -8,6 +8,8 @@ import { BaseBehavior } from './behaviors/base-behavior'
 import './behaviors/isu-elements-shared-styles.js'
 import { IsuFetch } from './isu-fetch'
 import './isu-tree.js'
+import './isu-iron-fit.js'
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom'
 
 /**
 
@@ -46,7 +48,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
             width: var(--isu-select-tree-new-width, 300px);
           }
     
-          #collapse-tree {
+          #newtree-collapse {
             position: absolute;
             z-index: 999;
             min-width: 225px;
@@ -57,7 +59,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
             overflow-y: auto;
             @apply --isu-select-tree-new-collapse
           }
-          #collapse-tree[hidden] {
+          #newtree-collapse[hidden] {
             visibility: hidden;
             height: 0;
             opacity: 0;
@@ -147,11 +149,11 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
               </div>
             </template>
           </div>
-        <div id="collapse-tree" hidden>
-          <isu-tree id="tree" data="{{treeData}}" bind-items="{{bindItems}}" show-checkbox="[[multi]]" 
-                    show-search-input="[[showSearchInput]]" default-expand-all search-word="{{searchWord}}" default-checked-keys="{{_defaultCheckedKeys}}"
-                    check-on-click-node="[[!multi]]"></isu-tree>
-        </div>
+        <isu-iron-fit id="newtree-collapse"  auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
+              <isu-tree id="tree" data="{{treeData}}" bind-items="{{bindItems}}" show-checkbox="[[multi]]" 
+                        show-search-input="[[showSearchInput]]" default-expand-all search-word="{{searchWord}}" default-checked-keys="{{_defaultCheckedKeys}}"
+                        check-on-click-node="[[!multi]]"></isu-tree>
+        </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
             <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
@@ -381,6 +383,9 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   connectedCallback () {
     super.connectedCallback()
+    const target = dom(this.$['newtree-collapse']).rootTarget
+    const myFit = this.$['newtree-collapse']
+    myFit.positionTarget = target || this.$['tag-content']
     const self = this
     document.addEventListener('click', e => {
       e.stopPropagation()
@@ -433,7 +438,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _displayCollapse (display) {
-    this.$['collapse-tree'].hidden = !display
+    this.$['newtree-collapse'].hidden = !display
   }
 
   /**
