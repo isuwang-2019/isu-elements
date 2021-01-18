@@ -230,17 +230,17 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Boolean,
         value: false
       },
-      visible: {
+      visible: { // 是否可见，用于搜索筛选
         type: Boolean,
         value: true
       },
       id: {
         type: String
       },
-      searchWord: {
+      searchWord: { // 有搜索框时输入的关键字
         type: String
       },
-      isIndeterminate: {
+      isIndeterminate: { // 节点的子节点有选中但未全部选中的标识
         type: Boolean,
         value: false
       },
