@@ -102,7 +102,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         flex: 1;
         display: flex;
         flex-wrap: wrap;
-        align-content: center;
+        align-content: flex-start;
         overflow-y: auto;
         padding: 2px;
       }
@@ -527,7 +527,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       showAll: {
         type: Boolean,
-        value: true,
+        value: false,
         reflectToAttribute: true
       },
       textValue: {
