@@ -365,8 +365,6 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <template is="dom-if" if="[[ isOneOf(type, 'datetime') ]]">
           <div class="box-datetime">
             <isu-select class="datetime" placeholder="选择日期时间" items="[[startDateTimeList]]" value="{{value}}"></isu-select>
-            <isu-select class="datetime" placeholder="选择日期时间" items="[[startDateTimeList]]" value="{{value}}"></isu-select>
-            <isu-select class="datetime" placeholder="选择日期时间" items="[[startDateTimeList]]" value="{{value}}"></isu-select>
           </div>
         </template>
         <div class="date-header">
