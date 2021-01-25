@@ -926,7 +926,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     let timestamp
     // 判断日期时间选择是否为选择范围，是赋值给timestamp
     if (!this.rangeList.includes(this.type)) {
-      timestamp = (this.type.includes('time') ? new Date(date + ` ${this.time}`) : new Date(date + ' 00:00:00')).getTime()
+      timestamp = new Date(date + ` ${this.time}`).getTime()
       this.set('timestamp', timestamp)
       if (!this.type.includes('time')) this.$.dateBox.hidden = true
     } else {
