@@ -243,6 +243,13 @@ const AjaxBehaviorImpl = {
    */
   async __fetch (handleAs, request, loadConfig = { showLoading: true, type: 'loading' }) {
     try {
+      if (window.__mockEnabled && typeof MockDataPool !== 'undefined') {
+        const matchedRes = MockDataPool.match(request)
+        if (matchedRes) {
+          const response = new Response(matchedRes.body, matchedRes)
+          return  Promise.resolve(response).then(res => res.json())
+        }
+      }
       this.showLoadingByStatus(loadConfig)
       const response = await window.fetch(request)
       this.hideLoadingByStatus(loadConfig)

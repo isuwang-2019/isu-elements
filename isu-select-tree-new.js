@@ -5,8 +5,8 @@ import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
 import '@polymer/iron-icons/social-icons'
 import { BaseBehavior } from './behaviors/base-behavior'
+import { AjaxBehavior } from './behaviors/ajax-behavior'
 import './behaviors/isu-elements-shared-styles.js'
-import { IsuFetch } from './isu-fetch'
 import './isu-tree.js'
 import './isu-iron-fit.js'
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom'
@@ -34,7 +34,7 @@ import { dom } from '@polymer/polymer/lib/legacy/polymer.dom'
  * @polymer
  * @demo demo/isu-select-tree/index.html
  */
-class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
+class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerElement) {
   static get template () {
     return html`
       <style include="isu-elements-shared-styles">
@@ -46,6 +46,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
             position: relative;
             box-sizing: border-box;
             width: var(--isu-select-tree-new-width, 300px);
+          }
+          
+          :host([hidden]) {
+            display: none !important;
           }
     
           #newtree-collapse {
@@ -70,11 +74,13 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
             display: flex;
             min-width: 0px;
           }
+          #select__container[hidden] {
+            display: none;
+          }
 
           .input-div {
             height: 24px;
             line-height: 24px;
-            border: 1px solid lightgray;
             flex: 1;
             font-family: 'Microsoft Yahei', sans-serif;
             font-size: inherit;
@@ -139,9 +145,9 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
          <div class="isu-label">[[label]]</div>
       </template>
       
-      <div id="select__container">
+      <div id="select__container" hidden="[[_isView(isView, readonly)]]">
         <div id="tag-content" tabindex="0" on-focus="_inputFocus" class="input-div">
-            <template is="dom-repeat" items="{{ selectedItems }}">
+            <template is="dom-repeat" items="[[ selectedItems ]]" filter="[[filterFn]]">
               <div class="tag">
                 <div class="tag-name" title="[[getValueByKey(item, attrForLabel)]]">
                   [[getValueByKey(item, attrForLabel)]]
@@ -150,9 +156,9 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
             </template>
           </div>
         <isu-iron-fit id="newtree-collapse"  auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
-              <isu-tree id="tree" data="{{treeData}}" bind-items="{{bindItems}}" show-checkbox="[[multi]]" 
-                        show-search-input="[[showSearchInput]]" default-expand-all search-word="{{searchWord}}" default-checked-keys="{{_defaultCheckedKeys}}"
-                        check-on-click-node="[[!multi]]"></isu-tree>
+              <isu-tree id="tree" data="{{data}}" selected-items="{{selectedItems}}" value="{{value}}" filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}" 
+                        multi="[[multi]]" show-search-input="[[showSearchInput]]" default-expand-all search-word="[[searchWord]]" attr-for-value="[[attrForValue]]"
+                        ></isu-tree>
         </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
@@ -163,7 +169,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
         <div class="view-text">
-           <span>{{getViewLabels(selectedItems, attrForLabel, joinConnector)}}</span>
+           <span>[[textValue]]</span>
         </div>
       </template>
 `
@@ -172,20 +178,21 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get properties () {
     return {
       /**
-       * 发送请求和模拟数据的组件
+       * A url for fetching local data, the response data of the request should be json.
+       * @type {string}
        */
-      _fetchUtil: {
-        type: Object,
-        readOnly: true,
-        value: function () {
-          return new IsuFetch()
-        }
+      src: {
+        type: String
       },
       /**
-       * The fetch param of the url,for example: {id: 2}
-       * */
-      fetchParam: {
-        type: Object
+       * The data of the tree
+       * @type {array}
+       * @default []
+       */
+      data: {
+        type: Array,
+        value: [],
+        notify: true
       },
       /**
        * The label of the select tree.
@@ -197,6 +204,15 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       attrForLabel: {
         type: String,
         value: 'label'
+      },
+      /**
+       * Attribute name for value.
+       * @type {string}
+       * @default 'id'
+       */
+      attrForValue: {
+        type: String,
+        value: 'id'
       },
       /**
        * The placeholder of the select.
@@ -217,30 +233,27 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         notify: true
       },
       /**
-       * The selected item.
-       * @type {object}
+       * An array of the selected items
+       * @type {array}
        */
-      selectedItem: {
-        type: Object,
+      selectedItems: {
+        type: Array,
         notify: true
       },
       /**
-       * A url for fetching local data, the response data of the request should be json.
-       * @type {string}
+       * 对选中数据结果进行处理的函数
        */
-      src: {
-        type: String
+      filterFn: {
+        type: Function
       },
-      /**
-       * Attribute name for value.
-       * @type {string}
-       * @default 'id'
-       */
-      attrForValue: {
+      filterSelectedItems: {
+        type: Array,
+        notify: true
+      },
+      filterValue: {
         type: String,
-        value: 'id'
+        notify: true
       },
-
       /**
        * Set to true, if the selection is required.
        * @type {boolean}
@@ -277,32 +290,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: ''
       },
-      /**
-       * The data of the tree
-       * @type {array}
-       * @default []
-       */
-      treeData: {
-        type: Array,
-        value: [],
-        notify: true
-      },
-      /**
-       * An array of the selected items
-       * @type {array}
-       */
-      bindItems: {
-        type: Array
-      },
-      /**
-       * filter from bindItems
-       */
-      selectedItems: {
-        type: Array,
-        notify: true,
-        value: [],
-        computed: '_calSelectedItems(bindItems)'
-      },
+
       /**
        * The text mode display requires readonly=true to take effect
        * @type {boolean}
@@ -311,15 +299,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
       isView: {
         type: Boolean,
         value: false
-      },
-      /**
-       * The connector to connect labels when the isView=true, eg: "苹果，香蕉，梨"
-       * @type {string}
-       * @default ','
-       * */
-      joinConnector: {
-        type: String,
-        value: ','
       },
       /**
        * multiple options or not，default not
@@ -351,18 +330,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: true,
         reflectToAttribute: true
       },
-      _defaultCheckedKeys: {
-        type: Array,
-        value: [],
-        notify: true
-      },
-      _isDefaultCheckedKeysFlag: {
-        type: Boolean,
-        value: true
-      },
       textValue: {
         type: String,
-        notify: true
+        notify: true,
+        computed: '_textValueComputed(selectedItems, filterSelectedItems)'
       }
     }
   }
@@ -373,11 +344,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get observers () {
     return [
-      '_srcChanged(src)',
-      '_treeDataChanged(treeData)',
-      '_valueChanged(value)',
-      '_bindItemsChange(bindItems)',
-      '__isViewChanged(isView,readonly)'
+      '_srcChanged(src)'
     ]
   }
 
@@ -398,39 +365,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
     })
   }
 
-  _calSelectedItems (bindItems) {
-    if (bindItems && bindItems.length > 0) {
-      if (Function.prototype.isPrototypeOf(this.onlySelectLevel)) {
-        return this.onlySelectLevel.call(this, bindItems)
-      }
-      const onlySelectLevelList = (this.onlySelectLevel && (this.onlySelectLevel + '').split(',')) || []
-      let selectedItems = []
-      if (onlySelectLevelList.length > 0) {
-        onlySelectLevelList.forEach(level => {
-          selectedItems = selectedItems.concat(bindItems.filter(item => item.level === +level))
-        })
-      } else {
-        selectedItems = bindItems
-      }
-      return selectedItems
-    } else {
-      return []
-    }
-  }
-
-  _bindItemsChange (bindItems) {
-    if (bindItems) {
-      if (bindItems.length > 0) {
-        this.selectedItem = bindItems[0]
-        this.value = bindItems.map(item => item[this.attrForValue]).join(',')
-        this.set('textValue', bindItems.map(item => item[this.attrForLabel]).join(this.joinConnector))
-      } else {
-        this.set('value', '')
-        this.set('textValue', '')
-      }
-    }
-  }
-
   _inputFocus () {
     if (!this.readonly) {
       this._displayCollapse(true)
@@ -449,97 +383,20 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return this.required ? !!this.value.trim() : true
   }
 
-  _valueChanged (value) {
-    if (value) {
-      if (this._isDefaultCheckedKeysFlag || this.readonly) {
-        const _defaultCheckedKeys = this.value.split(',')
-        this.set('_defaultCheckedKeys', _defaultCheckedKeys)
-        this.set('_isDefaultCheckedKeysFlag', false)
-      }
-    } else {
-      this.set('bindItems', [])
-    }
-  }
-
-  _treeDataChanged (treeData) {
-    const self = this
-    if (treeData.length > 0) {
-      const getLevel = (data, level) => {
-        if (!data) return
-        data.forEach(item => {
-          item.level = level
-          if (item.children && item.children.length > 0) {
-            getLevel(item.children, level + 1)
-          }
-        })
-      }
-      getLevel(this.treeData, 1)
-      const bindItems = []
-      const getSuitIndex = function (items, singleValue) {
-        if (!items) return -1
-        const index = items.findIndex(item => item[self.attrForValue] == singleValue)
-        if (index < 0) {
-          items.forEach(item => {
-            getSuitIndex(item.children, singleValue)
-          })
-        }
-        if (index >= 0) {
-          bindItems.push(items[index])
-        }
-        return index
-      }
-      const valueList = (self.value && self.value.split(',')) || []
-      valueList.forEach(singleValue => {
-        getSuitIndex(self.treeData, singleValue)
-      })
-      self.set('bindItems', bindItems)
-    }
-  }
-
-  _srcChanged (src) {
+  async _srcChanged (src) {
     if (!src) return
-    this.fetchParam = { id: this.value }
-    const request = this._mkRequest(this.fetchParam)
-    this._fetchUtil.fetchIt(request)
-      .then(res => res.json())
-      .then(data => {
-        let items
-        if (this.resultPath) {
-          items = this.getValueByPath(data, this.resultPath, [])
-        } else {
-          items = data || []
-        }
-
-        this.set('treeData', items)
-      })
-      .catch(console.error)
+    const data = await this.query({ url: src, data: {}  }, { showLoading: false })
+    this.set('data', data)
   }
 
   _isView (isView, readonly) {
     return isView && readonly
   }
 
-  __isViewChanged (isView, readonly) {
-    this.$.select__container.style.display = (this.readonly && isView) ? 'none' : 'block'
+  _textValueComputed(selectedItems, filterSelectedItems) {
+    return this.filterFn ? (filterSelectedItems || []).map(item => item[[this.attrForLabel]]).join(',') : (selectedItems || []).map(item => item[this.attrForLabel]).join(',')
   }
 
-  getViewLabels (items, attrForLabel, connector) {
-    const labels = items.map(item => item[attrForLabel])
-    return labels.join(connector)
-  }
-
-  _mkRequest (data) {
-    return {
-      url: this.src,
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json;charset=utf-8',
-        'Cache-Control': 'no-cache'
-      },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    }
-  }
 }
 
 window.customElements.define(IsuSelectTreeNew.is, IsuSelectTreeNew)

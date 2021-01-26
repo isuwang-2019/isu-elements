@@ -228,9 +228,7 @@ export class IsuFetch extends mixinBehaviors([BaseBehavior], PolymerElement) {
         return Promise.resolve(this.response)
       }
     }
-
     option.loading && this.showLoading()
-
     return window.fetch(collectedReq, { signal: this.__signal })
       .then(res => {
         this.response = res

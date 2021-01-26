@@ -5,8 +5,8 @@ import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
 import '@polymer/iron-icons/social-icons'
 import { BaseBehavior } from './behaviors/base-behavior'
+import { AjaxBehavior } from './behaviors/ajax-behavior'
 import './behaviors/isu-elements-shared-styles.js'
-import { IsuFetch } from './isu-fetch'
 import './isu-tree.js'
 import './isu-iron-fit.js'
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom'
@@ -34,7 +34,7 @@ import { dom } from '@polymer/polymer/lib/legacy/polymer.dom'
  * @polymer
  * @demo demo/isu-select-tree/index.html
  */
-class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
+class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerElement) {
   static get template () {
     return html`
       <style include="isu-elements-shared-styles">
@@ -96,11 +96,14 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </template>
       
       <div id="select__container">
-        <div id="keywordInput" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(selectedItem.label, placeholder)]]">
-          [[getValued(selectedItem.label, placeholder)]]
+        <div id="keywordInput" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(selectedItems)]]">
+            <template is="dom-repeat" items="[[selectedItems]]">
+                [[item.label]]
+            </template>
         </div>
         <isu-iron-fit id="collapse-tree" auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
-          <isu-tree id="tree" data="{{treeData}}" bind-items="{{bindItems}}" default-expand-all check-on-click-node></isu-tree>
+          <isu-tree data="{{data}}" selected-items="{{selectedItems}}" value="{{value}}" filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}" 
+                attr-for-value="[[attrForValue]]" default-expand-all check-on-click-node></isu-tree>
         </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
@@ -115,14 +118,11 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get properties () {
     return {
       /**
-       * 发送请求和模拟数据的组件
+       * A url for fetching local data, the response data of the request should be json.
+       * @type {string}
        */
-      _fetchUtil: {
-        type: Object,
-        readOnly: true,
-        value: function () {
-          return new IsuFetch()
-        }
+      src: {
+        type: String
       },
       /**
        * The fetch param of the url,for example: {id: 2}
@@ -147,6 +147,16 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         value: '请选择'
       },
       /**
+       * The data of the tree
+       * @type {array}
+       * @default []
+       */
+      data: {
+        type: Array,
+        value: [],
+        notify: true
+      },
+      /**
        *
        * The selected value of this select tree
        * @type {string}
@@ -156,20 +166,28 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         notify: true
       },
       /**
-       * The selected item.
-       * @type {object}
+       * An array of the selected items
+       * @type {array}
        */
-      selectedItem: {
-        type: Object,
+      selectedItems: {
+        type: Array,
         notify: true
       },
       /**
-       * A url for fetching local data, the response data of the request should be json.
-       * @type {string}
+       * 对选中数据结果进行处理的函数
        */
-      src: {
-        type: String
+      filterFn: {
+        type: Function
       },
+      filterSelectedItems: {
+        type: Array,
+        notify: true
+      },
+      filterValue: {
+        type: String,
+        notify: true
+      },
+
       /**
        * Attribute name for value.
        * @type {string}
@@ -191,15 +209,6 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         reflectToAttribute: true
       },
       /**
-       * Set to true, if the select tree is readonly.
-       * @type {boolean}
-       * @default false
-       */
-      readonly: {
-        type: Boolean,
-        value: false
-      },
-      /**
        * The prompt tip to show when input is invalid.
        * @type {string}
        */
@@ -215,27 +224,12 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: String,
         value: ''
       },
-      /**
-       * The data of the tree
-       * @type {array}
-       * @default []
-       */
-      treeData: {
-        type: Array,
-        value: [],
-        notify: true
-      },
-      /**
-       * An array of the selected items
-       * @type {array}
-       */
-      bindItems: {
-        type: Array,
-        value: []
-      },
+
+
       textValue: {
         type: String,
-        notify: true
+        notify: true,
+        computed: '_textValueComputed(selectedItems, filterSelectedItems)'
       }
     }
   }
@@ -246,9 +240,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   static get observers () {
     return [
-      '_bindItemsChange(bindItems)',
-      '_srcChanged(src)',
-      '_valueChanged(value, treeData)'
+      '_srcChanged(src)'
     ]
   }
 
@@ -274,19 +266,12 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         this.$.keywordInput.focus()
       }
     })
-    this.addEventListener('tree-arrow-check', (e) => {
-      this.selectedItem = e.detail.selectedItem
-      this.$.keywordInput.focus()
-    })
+    // this.addEventListener('tree-arrow-check', (e) => {
+    //   this.selectedItem = e.detail.selectedItems
+    //   this.$.keywordInput.focus()
+    // })
   }
 
-  _bindItemsChange (bindItems) {
-    if (bindItems) {
-      this.selectedItem = bindItems[0]
-      this.value = this.selectedItem && this.selectedItem[this.attrForValue]
-      this.set('textValue', this.selectedItem && this.selectedItem.label)
-    }
-  }
 
   _inputFocus () {
     this._displayCollapse(true)
@@ -304,88 +289,20 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return this.required ? !!this.value.trim() : true
   }
 
-  getValued (label, placeholder) {
-    return label || placeholder
+
+  getPlaceholderClass (selectedItems) {
+    return (selectedItems || []).length > 0 ? '' : 'placeholder'
   }
 
-  getPlaceholderClass (label, placeholder) {
-    return label ? '' : 'placeholder'
-  }
 
-  _valueChanged (value, treeData) {
-    const self = this
-    if (!value) {
-      this.set('textValue', '')
-    }
-    if (this.treeData.length > 0) {
-      let flag = true
-      const getSuitIndex = function (items) {
-        if (flag) {
-          if (!items) return -1
-          const index = items.findIndex(item => item[self.attrForValue] == self.value)
-          if (index < 0) {
-            self.selectedItem = {}
-            items.forEach(item => {
-              getSuitIndex(item.children)
-            })
-          }
-          if (index >= 0) {
-            self.selectedItem = items[index]
-            self.push('bindItems', self.selectedItem)
-            flag = false
-          }
-          return index
-        }
-      }
-      getSuitIndex(this.treeData)
-    }
-  }
-
-  _srcChanged (src) {
-    const self = this
+  async _srcChanged (src) {
     if (!src) return
-    this.fetchParam = { id: this.value }
-    const request = this._mkRequest(this.fetchParam)
-    this._fetchUtil.fetchIt(request)
-      .then(res => res.json())
-      .then(data => {
-        let items
-        if (this.resultPath) {
-          items = this.getValueByPath(data, this.resultPath, [])
-        } else {
-          items = data || []
-        }
-        // let findIndex = items.findIndex(item => item[this.attrForValue] == this.value);
-        const getSuitIndex = function (items) {
-          if (!items) return -1
-          const index = items.findIndex(item => item[self.attrForValue] == self.value)
-          if (index < 0) {
-            items.forEach(item => {
-              getSuitIndex(item.children)
-            })
-          }
-          if (index >= 0) {
-            self.selectedItem = items[index]
-          }
-          return index
-        }
-        getSuitIndex(items)
-        this.set('treeData', items)
-      })
-      .catch(console.error)
+    const data = await this.query({ url: src, data: {}  }, { showLoading: false })
+    this.set('data', data)
   }
 
-  _mkRequest (data) {
-    return {
-      url: this.src,
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json;charset=utf-8',
-        'Cache-Control': 'no-cache'
-      },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    }
+  _textValueComputed(selectedItems, filterSelectedItems) {
+    return this.filterFn ? (filterSelectedItems || []).map(item => item.label).join(',') : (selectedItems || []).map(item => item.label).join(',')
   }
 }
 

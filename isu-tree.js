@@ -4,8 +4,7 @@ import './behaviors/isu-tree-shared-styles.js'
 import './isu-tree-node.js'
 import './isu-input.js'
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
-import TreeStore from './utils/tree/tree-store.js'
-import Node from './utils/tree/node'
+import { BaseBehavior } from './behaviors/base-behavior'
 
 /**
  *
@@ -19,17 +18,17 @@ import Node from './utils/tree/node'
  *    <h4>部分禁用</h4>
  *    <isu-tree id="tree4" show-radio></isu-tree>
  *    <h4>多选</h4>
- *    <isu-tree id="tree2" show-checkbox></isu-tree>
+ *    <isu-tree id="tree2" multi></isu-tree>
  *    <h4>单选</h4>
  *    <isu-tree id="tree3" show-radio></isu-tree>
  *    <h4>可以进行搜索</h4>
- *    <isu-tree id="tree5" show-checkbox show-search-input></isu-tree>
+ *    <isu-tree id="tree5" multi show-search-input></isu-tree>
  *    <h4>手风琴模式，一次只展开一个同级列表</h4>
- *    <isu-tree id="tree6" show-checkbox accordion></isu-tree>
+ *    <isu-tree id="tree6" multi accordion></isu-tree>
  *    <h4>展开所有节点</h4>
- *    <isu-tree id="tree7" show-checkbox default-expand-all></isu-tree>
+ *    <isu-tree id="tree7" multi default-expand-all></isu-tree>
  *    <h4>默认选中部分值</h4>
- *    <isu-tree id="tree9" show-checkbox default-checked-keys="[11,21]"></isu-tree>
+ *    <isu-tree id="tree9" multi></isu-tree>
  *  </div>
  * ```
  *
@@ -64,7 +63,7 @@ import Node from './utils/tree/node'
  * @polymer
  * @demo demo/isu-tree/index.html
  */
-class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
+class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template () {
     return html`
        <style include="isu-tree-shared-styles">
@@ -78,14 +77,18 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
         <template is="dom-if" if="[[showSearchInput]]">
           <isu-input id="tree-search-input" type="text" value="{{searchWord}}"></isu-input>
         </template>
-        <template is="dom-repeat" items="{{node.childNodes}}" index-as="index" initial-count="5">
-          <isu-tree-node show-checkbox="{{showCheckbox}}" search-word="[[searchWord]]"
-            is-checked="{{isChecked}}" is-first="[[_isFirst(index)]]"
-            accordion="[[accordion]]" level="1" id="{{item.nodeId}}"
-            key="[[getNodeKey(item, index)]]" node="{{item}}"  
-            default-expand-all="[[defaultExpandAll]]" check-on-click-node="[[checkOnClickNode]]"
-            show-radio="{{showRadio}}" indent="[[indent]]"
-            data-location="[[_getDataLocation(index)]]" 
+        <template is="dom-repeat" items="[[data]]" index-as="index" initial-count="5">
+          <isu-tree-node 
+            data="{{item}}"
+            multi="[[multi]]" 
+            show-radio="[[showRadio]]" 
+            search-word="[[searchWord]]"
+            is-first="[[_isFirst(index)]]"
+            accordion="[[accordion]]" 
+            default-expand-all="[[defaultExpandAll]]" 
+            indent="[[indent]]"
+            attr-for-value="[[attrForValue]]"
+            selected-items="[[selectedItems]]"
           >
           <div slot="before-label">
             <slot name="before-label">
@@ -99,12 +102,40 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
   static get properties () {
     return {
       /**
-       * The data of the tree
+       * 原据源，为树结构的数组
+       * @demo
+       * [
+       *  { id: 1, label: '第1个', children: []},
+       *  { id: 2, label: '第2个', children: [{ id: 11, label: '二级第1个',  children: [] }]},
+       * ]
        *
        * @type {array}
        */
       data: {
         type: Array
+      },
+      /**
+       * 存储树转Array后的数据集合
+       */
+      dataSet: {
+        type: Array
+      },
+      /**
+       * 树结构数据子节点的属性，默认为children
+       * @type {String}
+       * @default 'children'
+       */
+      attrForChild: {
+        type: String
+      },
+      /**
+       * 节点作为value值的属性，默认取id作为value值
+       * @type {String}
+       * @default 'children'
+       */
+      attrForValue: {
+        type: String,
+        value: 'id'
       },
       /**
        * Whether to require a query input box or not
@@ -117,12 +148,44 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
         value: false
       },
       /**
-       * Whether to show checkbox or not
+       * The selected value of this select tree
+       */
+      value: {
+        type: String,
+        notify: true
+      },
+      /**
+       * 选择的树节点集合
+       *
+       * @type {array}
+       * */
+      selectedItems: {
+        type: Array,
+        notify: true
+      },
+      /**
+       * 对选中数据结果进行处理的函数
+       */
+      filterFn: {
+        type: Function
+      },
+      filterSelectedItems: {
+        type: Array,
+        notify: true,
+        computed: '__filterSelectedItemsComputed(filterFn, selectedItems)'
+      },
+      filterValue: {
+        type: String,
+        notify: true,
+        computed: '__filterValueComputed(filterSelectedItems)'
+      },
+      /**
+       * 是否多选
        *
        * @type {boolean}
        * @default false
        * */
-      showCheckbox: {
+      multi: {
         type: Boolean,
         value: false
       },
@@ -157,16 +220,6 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
         value: false
       },
       /**
-       * The specified field of the collection of keys that need to be returned
-       *
-       * @type {string}
-       * @default 'id'
-       * */
-      key: {
-        type: String,
-        value: 'id'
-      },
-      /**
        * How many pixels are indented per layer.
        *
        * @type {number}
@@ -191,14 +244,6 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
           }
         }
       },
-      store: {
-        type: TreeStore
-      },
-      node: {
-        type: Node,
-        notify: true,
-        reflectToAttribute: true
-      },
       /**
        * The search word
        *
@@ -208,108 +253,168 @@ class IsuTree extends mixinBehaviors(TreeStore, PolymerElement) {
         type: String
       },
       /**
-       * The set of selected items
-       *
-       * @type {array}
-       * */
-      bindItems: {
-        type: Array,
-        notify: true
-      },
-      /**
-       * The set of selected items`s id
-       *
-       * @type {array}
-       * */
-      bindItemKeys: {
-        type: Array,
-        notify: true
-      },
-      /**
        * The default selected set of keys
        *
        * @type {array}
        * */
       defaultCheckedKeys: {
         type: Array
-      },
-      /**
-       * Whether to choose the node when the node is clicked. The default value is false, which means that the node is only selected when the checkbox is clicked
-       *
-       * @type {boolean}
-       * @default false
-       * */
-      checkOnClickNode: {
-        type: Boolean,
-        value: false
       }
     }
   }
 
   static get observers () {
     return [
-      '_isFirst(isFirst)',
-      '_dataChanged(data, defaultCheckedKeys)'
+      '__valueChanged(value)',
+      '__selectedItemsChanged(selectedItems)',
+      '__initData(data)'
     ]
   }
 
+  // __attrForChildChanged() {
+  //   console.log('__attrForChildChanged')
+  //   this.__initData(this.metadata)
+  // }
+
+  __initData(data) {
+    if(!data) {
+      this.set('dataSet', [])
+      return
+    }
+    const attrForChild = this.attrForChild || 'children'
+    const dataSet = []
+    const selectedItems = []
+    const __init = (arr, level = 1) => {
+      arr.forEach(item => {
+        item.children = item[attrForChild]
+        item.level = level
+        item.visible = true
+        dataSet.push(item)
+        if(item.checked) {
+          selectedItems.push(item)
+        }
+        __init(item[attrForChild] || [], level + 1)
+      })
+    }
+    __init(data)
+    this.set('dataSet', dataSet)
+    if(selectedItems.length > 0) {
+      this.set('selectedItems', selectedItems)
+    }
+  }
+
+  __valueChanged(value) {
+    value = value || ''
+    const attrForValue = this.attrForValue || 'id'
+    const valueItems = value.split(',')
+    const selectedItems = this.selectedItems || []
+    const flag = valueItems.length === selectedItems.length && valueItems.every(item => selectedItems.findIndex(i => `${item[attrForValue]}` === item) > -1)
+    if(!flag) {
+      const newSelectedItems = this.dataSet.filter(item => valueItems.includes(`${item[attrForValue]}`))
+      this.set('selectedItems', newSelectedItems)
+    }
+  }
+
+  __selectedItemsChanged(selectedItems) {
+    const attrForValue = this.attrForValue || 'id'
+    const value = (selectedItems || []).map(item => item[attrForValue]).join(',')
+    this.set('value', value)
+  }
+
+  __filterSelectedItemsComputed(filterFn, selectedItems){
+    if(filterFn && this.isFunction(filterFn)) {
+      return filterFn(selectedItems)
+    } else {
+      return []
+    }
+  }
+
+  __filterValueComputed(filterSelectedItems){
+    return filterSelectedItems && filterSelectedItems.join(',')
+  }
+
+
   connectedCallback () {
     super.connectedCallback()
-    this.addEventListener('check-button', (e) => {
-      this.debounce('_setBindItemsChanged', this._setBindItemsChanged.bind(this, e), 200)
-    })
-    this.addEventListener('single-check', (e) => {
-      this.debounce('_setSingleBindItemsChanged', this._setSingleBindItemsChanged.bind(this, e), 200)
-    })
-    this.addEventListener('arrow-check', (e) => {
-      this.dispatchEvent(new CustomEvent('tree-arrow-check', { detail: { selectedItem: (this.bindItems || [])[0] }, bubbles: true, composed: true }))
-    })
+    this.addEventListener('multiple-checked-changed', this._multipleCheckChangedHandle)
+    this.addEventListener('multiple-click-checked-changed', this._multipleClickCheckChangedHandle)
+    this.addEventListener('single-checked-changed', this._singleCheckedChangedHandle)
+    // this.addEventListener('arrow-check', (e) => {
+    //   this.dispatchEvent(new CustomEvent('tree-arrow-check', { detail: { selectedItems: (this.selectedItems || [])[0] }, bubbles: true, composed: true }))
+    // })
   }
 
-  _setBindItemsChanged (e) {
-    if (!this.checkOnClickNode) {
-      this.set('bindItems', e.detail.checkedNodes)
-      this.set('bindItemKeys', e.detail.checkedKeys)
+  /**
+   * 多选，多选框变化处理器
+   * @param e
+   * @private
+   */
+  _multipleCheckChangedHandle(e) {
+    const { data, isChecked } = e.detail
+    const selectedItems = this.selectedItems || []
+    const attrForValue = this.attrForValue || 'id'
+    if(isChecked) { // 选中
+      if(selectedItems.findIndex(item => item[attrForValue] === data[attrForValue]) === -1) {
+        const newSelectedItems = [...selectedItems, data]
+        this.set('selectedItems', newSelectedItems)
+      }
+    } else { // 非选中
+      const newSelectedItems = selectedItems.filter(item => item[attrForValue] !== data[attrForValue])
+      this.set('selectedItems', newSelectedItems)
     }
   }
 
-  _setSingleBindItemsChanged (e) {
-    this.set('bindItems', Array.prototype.concat([], e.detail.data))
-    this.set('bindItemKeys', Array.prototype.concat([], e.detail.data[this.key]))
-  }
-
-  _dataChanged (data, defaultCheckedKeys) {
-    if (data) {
-      const store = new TreeStore({
-        data: data,
-        key: this.key,
-        lazy: this.lazy,
-        props: this.props,
-        load: this.load,
-        currentNodeKey: this.currentNodeKey,
-        checkStrictly: this.checkStrictly,
-        checkDescendants: this.checkDescendants,
-        defaultCheckedKeys: this.defaultCheckedKeys,
-        defaultExpandedKeys: this.defaultExpandedKeys,
-        autoExpandParent: this.autoExpandParent,
-        defaultExpandAll: this.defaultExpandAll
-      })
-      this.set('store', store)
-      this.set('node', store.root)
+  /**
+   * 多选，多选框点击处理器
+   * @param e
+   * @private
+   */
+  _multipleClickCheckChangedHandle(e) {
+    let { data, isChecked } = e.detail
+    const targetItems = []
+    const disabledItems = []
+    const __initTargetItems = (d) => {
+      if(d.disabled) {
+        disabledItems.push(d)
+      } else {
+        targetItems.push(d)
+        d.children && d.children.forEach(item => __initTargetItems(item))
+      }
+    }
+    __initTargetItems(data)
+    const selectedItems = this.selectedItems || []
+    const attrForValue = this.attrForValue || 'id'
+    const newSelectedItems = selectedItems.filter(item =>  targetItems.findIndex(target => target[attrForValue] === item[attrForValue]) === -1)
+    if(isChecked) {
+      if(disabledItems.length > 0) {
+        const newTargetItems = targetItems.filter(item => item[attrForValue] !== data[attrForValue])
+        this.set('selectedItems', [...newSelectedItems, ...newTargetItems])
+      } else {
+        this.set('selectedItems', [...newSelectedItems, ...targetItems])
+      }
+    } else {
+      this.set('selectedItems', newSelectedItems)
     }
   }
+
+  _singleCheckedChangedHandle(e) {
+    if(this.multi) return  // 如果是多选，不做处理
+    const { data } = e.detail
+    const attrForValue = this.attrForValue || 'id'
+    const selectedItems = this.selectedItems || []
+    if(selectedItems.length > 0 && selectedItems[0][attrForValue] === data[attrForValue]) {
+      this.set('selectedItems', [])
+    } else {
+      const newSelectedItems = [data]
+      this.set('selectedItems', newSelectedItems)
+    }
+  }
+
 
   _isFirst (index) {
     return index === 0
   }
 
-  getNodeKey (node, index) {
-    return node.id ? node.id : index
-  }
-
-  _getDataLocation (index) {
-    return [this.level + 1, index]
-  }
 }
 
 window.customElements.define('isu-tree', IsuTree)

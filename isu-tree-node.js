@@ -1,4 +1,3 @@
-
 import { html, PolymerElement } from '@polymer/polymer'
 import './behaviors/isu-tree-shared-styles.js'
 import '@polymer/paper-styles/default-theme.js'
@@ -7,7 +6,6 @@ import { BaseBehavior } from './behaviors/base-behavior'
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import '@polymer/paper-radio-button'
-import Node from './utils/tree/node'
 /**
  *
  * `isu-tree-node`
@@ -71,24 +69,23 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         color: var(--high-lighted-color, #f106d2);
       }
     </style>
-    <template is="dom-if" if="{{node.visible}}">
+    <template is="dom-if" if="[[data.visible]]">
       <div class="dht-tree-twig-one">
-        <div class="dht-tree-node-content" style$="{{_getIndentStyle(level, indent)}}" on-click="_clickCheckOnClickNode">
+        <div class$="dht-tree-node-content [[pitchOn]]" style$="[[_getIndentStyle(data.level, indent)]]" on-click="_clickCheckOnClickNode">
           <!--箭头-->
-          <template is="dom-if" if="[[node.childNodes.length]]">
-            <iron-icon class="trigger__icon" icon="icons:arrow-drop-down" style$="{{_getRotateStyle(rotate)}}" on-click="showNode"></iron-icon>
+          <template is="dom-if" if="[[data.children.length]]">
+            <iron-icon class="trigger__icon" icon="icons:arrow-drop-down" style$="[[_getRotateStyle(rotate)]]" on-click="showNode"></iron-icon>
           </template>
           <!--没有子元素的时候箭头用空span代替-->
-          <template is="dom-if" if="[[!node.childNodes.length]]">
+          <template is="dom-if" if="[[!data.children.length]]">
             <span class="black-span"></span>
           </template>
           <!--多选框-->
-          <template is="dom-if" if="[[showCheckbox]]">
+          <template is="dom-if" if="[[multi]]">
             <paper-checkbox 
-              class="checkbox-item half" 
-              class$="[[getHalfClass(node.indeterminate)]]"
-              checked="{{ node.checked }}" 
-              disabled="{{ node.disabled }}" 
+              class$="checkbox-item [[getHalfClass(data.indeterminate)]]"
+              checked="{{ data.checked }}" 
+              disabled="{{ data.disabled }}" 
               on-change="__checkedChangeHandler"
               on-click="__checkedClickedHandler"
               value="[[ getValueByKey(item, attrForValue) ]]">
@@ -99,9 +96,8 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
           <template is="dom-if" if="[[showRadio]]">
             <paper-radio-button
               class="checkbox-item" name="radio"
-              checked="{{ node.checked }}" 
-              disabled="{{ node.disabled }}" 
-              on-change="__checkedRadioChangeHandler"
+              checked="{{ data.checked }}" 
+              disabled="{{ data.disabled }}" 
               on-click="__checkedRadioClickedHandler"
               value="[[ getValueByKey(item, attrForValue) ]]">
                 [[ getValueByKey(item, attrForLabel) ]]
@@ -109,28 +105,23 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
           <!--可自定义部分-->
           <slot name="before-label"></slot>
-          <span class="ellipsis">[[node.label]]</span>
+          <span class="ellipsis">[[data.label]]</span>
           <!--可自定义部分-->
           <slot name="after-label"></slot>
         </div>
-        <template is="dom-if" if="{{isShow}}">
-          <template is="dom-repeat" items="{{node.childNodes}}" index-as="index" initial-count="5">
-            <isu-tree-node
-              show-checkbox="[[showCheckbox]]"
-              show-radio="[[showRadio]]"
-              is-checked="{{isChecked}}"
-              check-on-click-node="[[checkOnClickNode]]"
-              search-word="[[searchWord]]" is-show="{{isShow}}"
-              key="[[getNodeKey(item, index)]]"
-              node="{{item}}" id="{{item.nodeId}}"
-              default-expand-all="[[defaultExpandAll]]"
-              level="[[_getNextLevel(level)]]"
-              data-location="[[_getDataLocation(index)]]"
-              indent="[[indent]]"
-            >
-             <slot name="before-label"></slot>
-            </isu-tree-node>
-          </template>
+        <template is="dom-repeat" items="{{data.children}}" index-as="index" initial-count="5">
+          <isu-tree-node
+            data="{{item}}"
+            multi="[[multi]]"
+            show-radio="[[showRadio]]"
+            search-word="[[searchWord]]" 
+            default-expand-all="[[defaultExpandAll]]"
+            indent="[[indent]]"
+            selected-items="[[selectedItems]]"
+            hidden="[[!isShow]]"
+          >
+           <slot name="before-label"></slot>
+          </isu-tree-node>
         </template>
     </div>
     </template>
@@ -141,6 +132,28 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get properties () {
     return {
       tree: Object,
+      // 存储Node节点data
+      data: {
+        type: Object
+      },
+      /**
+       * 选择的树节点集合
+       *
+       * @type {array}
+       * */
+      selectedItems: {
+        type: Array,
+        notify: true
+      },
+      /**
+       * 节点作为value值的属性，默认取id作为value值
+       * @type {String}
+       * @default 'children'
+       */
+      attrForValue: {
+        type: String,
+        value: 'id'
+      },
       /**
        * The angle at which a triangle rotates
        *
@@ -157,7 +170,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @type {boolean}
        * @default false
        * */
-      showCheckbox: {
+      multi: {
         type: Boolean,
         value: false
       },
@@ -196,8 +209,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * */
       isShow: {
         type: Boolean,
-        value: false,
-        observer: '__isShowChanged'
+        value: false
       },
       /**
        * How many pixels are indented per layer.
@@ -209,50 +221,12 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         type: Number,
         value: 18
       },
-      /**
-       * The current level
-       *
-       * @type {number}
-       * */
-      level: {
-        type: Number
-      }, // 当前层级
-      node: { // 子节点数据
-        type: Node,
-        notify: true,
-        reflectToAttribute: true
-      },
-      isChecked: {
-        type: Boolean,
-        value: false
-      },
       isFirst: {
         type: Boolean,
         value: false
       },
-      visible: { // 是否可见，用于搜索筛选
-        type: Boolean,
-        value: true
-      },
-      id: {
-        type: String
-      },
       searchWord: { // 有搜索框时输入的关键字
         type: String
-      },
-      isIndeterminate: { // 节点的子节点有选中但未全部选中的标识
-        type: Boolean,
-        value: false
-      },
-      /**
-       * Whether to choose the node when the node is clicked. The default value is false, which means that the node is only selected when the checkbox is clicked
-       *
-       * @type {boolean}
-       * @default false
-       * */
-      checkOnClickNode: {
-        type: Boolean,
-        value: false
       },
       /**
        * 是否高亮显示开关，如果是，搜索时候，匹配上的文本会高亮显示
@@ -260,6 +234,13 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       highlightedLabelFlag: {
         type: Boolean,
         value: false
+      },
+      /**
+       * checkOnClickNode 为true时候，选中的节点添加选中样式
+       */
+      pitchOn: {
+        type: String,
+        computed: '__pitchOn(multi, showRadio, selectedItems)'
       }
     }
   }
@@ -272,11 +253,9 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return [
       '_defaultExpandAllChanged(defaultExpandAll)',
       '_searchWordChanged(searchWord)',
-      '_childNodesChanged(node.childNodes.*)',
-      '_isIndeterminateChanged(isIndeterminate)',
-      '_debounceNotifyDataChanged(isChecked)',
-      '_debounceNotifyDataChanged(node.checked)',
-      '_isFirst(isFirst)'
+      '_isFirst(isFirst)',
+      '__selectedItemsChanged(selectedItems)',
+      '__childrenChanged(data.children.*)'
     ]
   }
 
@@ -290,6 +269,14 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
+  __childrenChanged(data) {
+    const { path } = data
+    if((path.includes('indeterminate') || path.includes('checked')) && path.split('.').length <= 4) {
+      this.debounce('queryCurNodeIsIndeterminate', this.queryCurNodeIsIndeterminate.bind(this), 200)
+    }
+
+  }
+
   _isFirst (isFirst) {
     if (!this.defaultExpandAll) {
       this.set('isShow', isFirst)
@@ -297,23 +284,9 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  getHalfClass (isIndeterminate) {
-    return isIndeterminate === true ? 'half' : ''
-  }
-
-  _isIndeterminateChanged (isIndeterminate) {
-    if (!this.node.disabled && isIndeterminate) {
-      this.set('isIndeterminate', isIndeterminate)
-      this.set('node.indeterminate', isIndeterminate)
-    }
-  }
-
-  _childNodesChanged (target) {
-    this._showNodeFilter()
-    const { path, value } = target
-    if (path.includes('checked')) {
-      this.__setNodeChecked(this)
-    }
+  getHalfClass (indeterminate) {
+    const result = indeterminate ? 'half' : ''
+    return result
   }
 
   _searchWordChanged (searchWord) {
@@ -321,27 +294,11 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this._highlightedLabel(searchWord)
   }
 
-  __isShowChanged (isShow) {
-    const self = this
-    // 这里是从父节点对下面的所有子孙节点手动添加监听，防止节点折叠的时候选择父节点，子孙节点选择错误的问题。后面需要再优化
-    if (isShow) {
-      const recursionNotifyNodeChecked = (prefixKey, curNode) => {
-        self.notifyPath(`${prefixKey}.childNodes.splices`)
-        self.notifyPath(`${prefixKey}.checked`)
-        const childNodes = curNode.childNodes
-        childNodes.forEach((node, index) => {
-          recursionNotifyNodeChecked(`${prefixKey}.childNodes.${index}`, node)
-        })
-      }
-      recursionNotifyNodeChecked('node', this.node)
-    }
-  }
-
   _highlightedLabel (searchWord) {
     const eles = this.root.querySelectorAll('.ellipsis')
     if (!searchWord) {
       Array.from(eles).forEach(e => {
-        e.innerHTML = this.node.label
+        e.innerHTML = this.data.label
       })
     } else {
       Array.from(eles).forEach(e => {
@@ -354,24 +311,23 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _showNodeFilter () {
-    const self = this
-    const visible = self.filterNode(self.searchWord, self.node)
-    self.set('node.visible', visible)
+    const visible = this.filterNode(this.searchWord, this.data)
+    this.set('data.visible', visible)
   }
 
-  filterNode (searchWord, node) {
-    if (!node) {
+  filterNode (searchWord, data) {
+    if (!data) {
       return false
     }
     if (!searchWord) {
       return true
     }
     const self = this
-    const { data, childNodes } = node
+    const { children } = data
     const searchWordRegExp = new RegExp(`(${searchWord})`, 'gi')
     const selfVisible = searchWordRegExp.test(data.label)
-    const childVisilbe = childNodes.some(childNode => {
-      return self.filterNode(searchWord, childNode)
+    const childVisilbe = (children || []).some(childrenData => {
+      return self.filterNode(searchWord, childrenData)
     })
     return selfVisible || childVisilbe
   }
@@ -383,26 +339,16 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-  _getNextLevel (level) {
-    return level + 1
-  }
-
   _clickCheckOnClickNode () {
-    if (this.checkOnClickNode) {
-      const dhtTreeNodeContentList = this.getAllQulifyingElements(document.querySelectorAll('*'), 'className', 'dht-tree-node-content')
-      dhtTreeNodeContentList.forEach(el => {
-        el.classList.remove('pitch-on')
-      })
-      this.shadowRoot.querySelector('.dht-tree-node-content') && this.shadowRoot.querySelector('.dht-tree-node-content').classList.add('pitch-on')
-      this.dispatchEvent(new CustomEvent('single-check', { detail: { data: this.node.data }, bubbles: true, composed: true }))
-    }
+    if(this.multi || this.showRadio) return
+    this.dispatchEvent(new CustomEvent('single-checked-changed', { detail: { data: this.data }, bubbles: true, composed: true }))
   }
 
   showNode (e) {
     e.stopPropagation()
-    if (this.node.childNodes.length <= 0) return false
+    if (this.data.children.length <= 0) return false
 
-    this.dispatchEvent(new CustomEvent('arrow-check', { detail: { data: null }, bubbles: true, composed: true }))
+    // this.dispatchEvent(new CustomEvent('arrow-check', { detail: { data: null }, bubbles: true, composed: true }))
     const parent = this.parentNode.host || this.parentNode
     if (this.isShow) {
       this.isShow = false
@@ -422,10 +368,6 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.rotate = 0
   }
 
-  _getDataLocation (index) {
-    return [this.level + 1, index]
-  }
-
   _getIndentStyle (level, indent) {
     return `padding-left: ${level * indent}px`
   }
@@ -434,181 +376,83 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return `transform: rotate(${rotate}deg)`
   }
 
-  getNodeKey (node, index) {
-    return node.id ? node.id : index
-  }
-
-  __checkedRadioChangeHandler (e) {
-    e.stopPropagation()
-    const isChecked = e.target.checked
-    const allPaperRadioButton = this.getAllQulifyingElements(document.querySelectorAll('*'), 'localName', 'paper-radio-button')
-    allPaperRadioButton.forEach(item => {
-      item.checked = false
-    })
-    this.isChecked = isChecked
-    this.set('node.checked', isChecked)
-
-    const store = this.tree.store
-    const checkedNodes = store.getCheckedNodes()
-    const checkedKeys = checkedNodes.map((data) => (data || {})[store.key])
-    const param = {
-      checkedNodes: checkedNodes,
-      checkedKeys: checkedKeys
-    }
-    this.dispatchEvent(new CustomEvent('check', { detail: { data: this.node.data, ...param }, bubbles: true, composed: true }))
-  }
-
   __checkedChangeHandler (e) {
     e.stopPropagation()
-    const isChecked = e.target.checked
-    if (this.isIndeterminate && isChecked) {
-      this.__setNodeChecked(this)
-    }
-    this._notifyDataChanged(isChecked)
-  }
-
-  _debounceNotifyDataChanged (isChecked) {
-    const self = this
-    self.debounce('_notifyDataChanged', self._notifyDataChanged.bind(self, isChecked), 50)
-  }
-
-  _notifyDataChanged (isChecked) {
-    if (isChecked === undefined || isChecked === null) {
-      return
-    }
-
-    if (this.tree) {
-      const store = this.tree.store
-      const checkedNodes = store.getCheckedNodes()
-      const checkedKeys = checkedNodes.map((data) => (data || {})[store.key])
-      const param = {
-        checkedNodes: checkedNodes,
-        checkedKeys: checkedKeys
-      }
-      this.dispatchEvent(new CustomEvent('check-button', { detail: { data: this.node.data, ...param }, bubbles: true, composed: true }))
+    if(this.multi) { // 如果是多选状态
+      const isChecked = e.target.checked
+      this.dispatchEvent(new CustomEvent('multiple-checked-changed', { detail: { data: this.data, isChecked: isChecked }, bubbles: true, composed: true }))
     }
   }
 
-  __notifyDataChangedByHalfHandler (isChecked, isHalfCheck) {
-    if (!isHalfCheck) { //  全选递归选中/取消选中子节点
-      this._notifyDataChanged(isChecked)
-    }
-  }
-
-  __getChecked (node) {
-    if (!node) return false
-    const checked = node.childNodes.every(childNode => childNode.checked == true)
-    const childrenChecked = node.childNodes.every(childNode => {
-      return this.__getChecked(childNode)
-    })
-    return checked && childrenChecked
-  }
-
-  /**
-   * 拿到所有符合条件的元素
-   * */
-  getAllQulifyingElements (nodes, attribute, elementName) {
-    // 拿到所有的paper-radio-button按钮
-    const allCustomElements = []
-
-    const findAllQulifyingElements = (nodes, attribute, elementName) => {
-      for (let i = 0, el; el = nodes[i]; ++i) {
-        if (el[attribute] === elementName) {
-          allCustomElements.push(el)
-        }
-        // 如果元素有shadow DOM, 那么就继续深入
-        if (el.shadowRoot) {
-          findAllQulifyingElements(el.shadowRoot.querySelectorAll('*'))
-        }
-      }
-    }
-
-    findAllQulifyingElements(nodes, attribute, elementName)
-    return allCustomElements
-  }
-
-  /**
-   * 拿到所有符合条件的元素
-   * */
-  findAllQulifyingElements (nodes, attribute, elementName) {
-    for (let i = 0, el; el = nodes[i]; ++i) {
-      if (el[attribute] === elementName) {
-        allCustomElements.push(el)
-      }
-      // 如果元素有shadow DOM, 那么就继续深入
-      if (el.shadowRoot) {
-        findAllPaperRadioButton(el.shadowRoot.querySelectorAll('*'))
-      }
-    }
-  }
-
-  __setNodeChecked (ele) {
-    const node = ele.node
-    const noneChecked = this.__noneCheckedFn(node)
-    const allChecked = this.__allCheckedFn(node)
-    const halfChecked = this.__CheckHalfCheckededFn(node)
-    if (noneChecked) {
-      ele.set('isIndeterminate', false)
-      ele.set('isChecked', false)
-      ele.set('node.checked', ele.isChecked)
-      ele.set('node.indeterminate', ele.isIndeterminate)
-    } else if (halfChecked) {
-      ele.set('isIndeterminate', true)
-      ele.set('isChecked', false)
-      ele.set('node.checked', ele.isChecked)
-      ele.set('node.indeterminate', ele.isIndeterminate)
-    } else if (allChecked) {
-      ele.set('isIndeterminate', false)
-      ele.set('isChecked', true)
-      ele.set('node.checked', ele.isChecked)
-      ele.set('node.indeterminate', ele.isIndeterminate)
-    }
-  }
 
   __checkedRadioClickedHandler (e) {
     e.stopPropagation()
+    if(this.multi) { // 如果是多选，跳过
+      return
+    }
+    this.dispatchEvent(new CustomEvent('single-checked-changed', { detail: { data: this.data }, bubbles: true, composed: true }))
   }
 
   __checkedClickedHandler (e) {
     e.stopPropagation()
-    const self = this
-    const isChecked = e.target.checked
-    // this.set('isShow', true)
-    // this.set('rotate', 0)
-    // this.shadowRoot.querySelectorAll('isu-tree-node').forEach(el => {
-    //   el.isShow = true
-    //   el.rotate = 0
-    // })
-    const recursionCheckedChildNode = (prefixKey, childNodes) => {
-      childNodes.forEach((node, index) => {
-        if (!node.disabled) {
-          const key = `${prefixKey}.${index}.checked`
-          self.set(key, isChecked)
-          recursionCheckedChildNode(`${prefixKey}.${index}.childNodes`, node.childNodes)
-        }
-      })
+    if(this.multi) { // 如果是多选状态
+      const isChecked = e.target.checked
+      // this.queryCurNodeIsIndeterminate()
+      this.dispatchEvent(new CustomEvent('multiple-click-checked-changed', { detail: { data: this.data, isChecked: isChecked }, bubbles: true, composed: true }))
+
     }
-    const prefixKey = 'node.childNodes'
-    const childNodes = this.node.childNodes
-    recursionCheckedChildNode(prefixKey, childNodes)
-    this._notifyDataChanged(isChecked)
   }
 
-  __noneCheckedFn (node) {
-    const self = this
-    return node.childNodes.every(childNode => !childNode.checked && self.__noneCheckedFn(childNode))
+  __pitchOn(multi, showRadio, selectedItems) {
+    const flag = !multi && !showRadio && this.queryCurNodeIsChecked(selectedItems)
+    const result = flag ? 'pitch-on' : ''
+    return result
   }
 
-  __allCheckedFn (node) {
-    const self = this
-    if (node.childNodes.length === 0) {
-      return true
+  /**
+   * 根据selectedItems 的变化，来判断当前节点是否显示
+   * @param selectedItems
+   * @private
+   */
+  __selectedItemsChanged(selectedItems) {
+    // 判断当前是否选中状态
+    const isChecked = this.queryCurNodeIsChecked(selectedItems)
+    this.set('data.checked', isChecked)
+    this.queryCurNodeIsIndeterminate()
+    // if(!isChecked) { // 不是选中状态有可能是中间状态
+    //   // 判断当前是否是中间状态
+    //   this.queryCurNodeIsIndeterminate()
+    // }
+  }
+
+  /**
+   * 判断当前节点是否中间状态
+   * @returns {boolean|boolean}
+   */
+  queryCurNodeIsIndeterminate() {
+    if(this.data.checked){
+      this.set('data.indeterminate', false)
+      return false
     }
-    return node.childNodes.every(childNode => childNode.checked && self.__allCheckedFn(childNode))
+    const children = this.data.children || []
+    const checkedChildren = children.filter(item => item.checked)
+    const flag1 = children.findIndex(item => item.indeterminate) > -1
+    const flag2 = checkedChildren.length > 0 && checkedChildren.length !== children.length
+    const isIndeterminate = !!(flag1 || flag2)
+    this.set('data.indeterminate', isIndeterminate)
+    return isIndeterminate
   }
 
-  __CheckHalfCheckededFn (node) {
-    return !this.__noneCheckedFn(node) && !this.__allCheckedFn(node)
+  /**
+   * 判断当前节点是否选中状态
+   * @param selectedItems
+   * @returns {boolean}
+   */
+  queryCurNodeIsChecked(selectedItems) {
+    const selectedItemsTemp = selectedItems || this.selectedItems || []
+    const flag1 = selectedItemsTemp.findIndex(item => item[this.attrForValue] === this.data[this.attrForValue]) > -1
+    const flag2 = this.data.children && this.data.children.length > 0 && this.data.children.every(item => item.checked)
+    return flag1 || flag2
   }
 }
 

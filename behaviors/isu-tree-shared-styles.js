@@ -20,6 +20,10 @@ const template = html`
         --isu-ui-font-size: 14px;
       }
       
+      :host([hidden]) {
+        display: none;
+      }
+      
       .dht-tree-main {
         position: relative;
       }

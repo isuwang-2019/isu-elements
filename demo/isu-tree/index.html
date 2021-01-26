@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-  
+
   <title>isu-button demo</title>
-  
+
   <script type="module">
     import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
@@ -14,10 +14,10 @@
     import '../../node_modules/@polymer/paper-styles/color.js';
     import '../../isu-tree'
   </script>
-  
+
   <script type="module">
     const $_documentContainer = document.createElement('template');
-    
+
     $_documentContainer.innerHTML = `<custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       .centered {
@@ -31,7 +31,7 @@
       }
     </style>
   </custom-style>`;
-    
+
     document.body.appendChild($_documentContainer.content);
   </script>
 </head>
@@ -176,7 +176,7 @@
         <style>
         </style>
       </custom-style>
-      <isu-tree id="tree2" show-checkbox></isu-tree>
+      <isu-tree id="tree2" multi></isu-tree>
       <script>
         tree2.data = [
           { id: 1, label: '第1个', children: [
@@ -297,7 +297,7 @@
         <style>
         </style>
       </custom-style>
-      <isu-tree id="tree5" show-checkbox require-query></isu-tree>
+      <isu-tree id="tree5" multi require-query></isu-tree>
       <script>
         tree5.data = [
           { id: 1, label: '第1个', children: [
@@ -362,7 +362,7 @@
         <style>
         </style>
       </custom-style>
-      <isu-tree id="tree6" show-checkbox accordion></isu-tree>
+      <isu-tree id="tree6" multi accordion></isu-tree>
       <script>
         tree6.data = [
           { id: 1, label: '第1个', children: [
@@ -428,7 +428,7 @@
         <style>
         </style>
       </custom-style>
-      <isu-tree id="tree7" show-checkbox default-expand-all></isu-tree>
+      <isu-tree id="tree7" multi default-expand-all></isu-tree>
       <script>
         tree7.data = [
           { id: 1, label: '第1个', children: [
@@ -510,7 +510,7 @@
           }
         </style>
       </custom-style>
-      <isu-tree id="tree8" show-checkbox></isu-tree>
+      <isu-tree id="tree8" multi></isu-tree>
       <script>
         tree8.data = [
           { id: 1, label: '第1个', children: [
@@ -565,7 +565,7 @@
         <style>
         </style>
       </custom-style>
-      <isu-tree id="tree9" show-checkbox default-checked-keys="[11,21]"></isu-tree>
+      <isu-tree id="tree9" multi default-checked-keys="[11,21]"></isu-tree>
       <script>
         tree9.data = [
           { id: 1, label: '第1个', children: [
