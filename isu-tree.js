@@ -189,6 +189,13 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         computed: '__filterValueComputed(filterSelectedItems)'
       },
       /**
+       * 仅做初始化数据使用
+       * 应用场景，通过filterValue回显数据
+       */
+      initFilterValue: {
+        type: String
+      },
+      /**
        * 是否多选
        *
        * @type {boolean}
@@ -269,7 +276,9 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return [
       '__valueChanged(value)',
       '__selectedItemsChanged(selectedItems)',
-      '__initData(data)'
+      '__initData(data)',
+      '_dataSetChanged(dataSet)',
+      '_initValue(initFilterValue, dataSet)'
     ]
   }
 
@@ -308,6 +317,9 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __valueChanged (value) {
+    if (!this.dataSet || this.dataSet.length === 0) {
+      return
+    }
     value = value || ''
     const attrForValue = this.attrForValue || 'id'
     const valueItems = value.split(',')
@@ -317,6 +329,10 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const newSelectedItems = this.dataSet.filter(item => valueItems.includes(`${item[attrForValue]}`))
       this.set('selectedItems', newSelectedItems)
     }
+  }
+
+  _dataSetChanged (dataSet) {
+    this.__valueChanged(this.value)
   }
 
   __selectedItemsChanged (selectedItems) {
@@ -415,6 +431,24 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _isFirst (index) {
     return index === 0
+  }
+
+  _initValue (initFilterValue, dataSet) {
+    if (!initFilterValue || !dataSet || dataSet.length === 0 || this.value) return
+    const attrForValue = this.attrForValue || 'id'
+    const valueItems = []
+    const _initValueItems = (value) => {
+      const target = dataSet.find(item => `${item[attrForValue]}` === `${value}`)
+      if (target) {
+        valueItems.push(target)
+        if (target.children && target.children.length > 0) {
+          target.children.forEach(child => _initValueItems(child[attrForValue]))
+        }
+      }
+    }
+    `${initFilterValue}`.split(',').forEach(value => _initValueItems(value))
+    const value = valueItems.map(item => item[attrForValue]).join(',')
+    this.set('value', value)
   }
 }
 

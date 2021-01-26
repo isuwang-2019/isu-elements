@@ -156,8 +156,8 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
             </template>
           </div>
         <isu-iron-fit id="newtree-collapse"  auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
-              <isu-tree id="tree" data="{{data}}" selected-items="{{selectedItems}}" value="{{value}}" attr-for-value="[[attrForValue]]"
-                        filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}" 
+              <isu-tree id="tree" data="{{data}}" data-set="{{dataSet}}" selected-items="{{selectedItems}}" value="{{value}}" attr-for-value="[[attrForValue]]"
+                        filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}"  init-filter-value="[[initFilterValue]]"
                         only-select-level="[[onlySelectLevel]]" filterFn="[[filterFn]]"
                         multi="[[multi]]" show-search-input="[[showSearchInput]]" default-expand-all search-word="[[searchWord]]" 
                         ></isu-tree>
@@ -261,6 +261,13 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       filterValue: {
         type: String,
         notify: true
+      },
+      /**
+       * 仅做初始化数据使用
+       * 应用场景，通过filterValue回显数据
+       */
+      initFilterValue: {
+        type: String
       },
       /**
        * Set to true, if the selection is required.
