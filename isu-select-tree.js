@@ -225,7 +225,6 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
         value: ''
       },
 
-
       textValue: {
         type: String,
         notify: true,
@@ -266,12 +265,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
         this.$.keywordInput.focus()
       }
     })
-    // this.addEventListener('tree-arrow-check', (e) => {
-    //   this.selectedItem = e.detail.selectedItems
-    //   this.$.keywordInput.focus()
-    // })
   }
-
 
   _inputFocus () {
     this._displayCollapse(true)
@@ -289,19 +283,17 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
     return this.required ? !!this.value.trim() : true
   }
 
-
   getPlaceholderClass (selectedItems) {
     return (selectedItems || []).length > 0 ? '' : 'placeholder'
   }
 
-
   async _srcChanged (src) {
     if (!src) return
-    const data = await this.query({ url: src, data: {}  }, { showLoading: false })
+    const data = await this.query({ url: src, data: {} }, { showLoading: false })
     this.set('data', data)
   }
 
-  _textValueComputed(selectedItems, filterSelectedItems) {
+  _textValueComputed (selectedItems, filterSelectedItems) {
     return this.filterFn ? (filterSelectedItems || []).map(item => item.label).join(',') : (selectedItems || []).map(item => item.label).join(',')
   }
 }

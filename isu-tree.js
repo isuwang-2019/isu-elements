@@ -169,10 +169,19 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       filterFn: {
         type: Function
       },
+      /**
+       * 过滤属性，对选中的结果集进行处理，过滤选中结果集只为指定层级的数据，与filterFn并行使用且优先于filterFn,eg: '2,3'
+       */
+      onlySelectLevel: {
+        type: String
+      },
+      /**
+       * 经过onlySelectLevel、filterFn处理过后的结果集合
+       */
       filterSelectedItems: {
         type: Array,
         notify: true,
-        computed: '__filterSelectedItemsComputed(filterFn, selectedItems)'
+        computed: '__filterSelectedItemsComputed(selectedItems, onlySelectLevel, filterFn)'
       },
       filterValue: {
         type: String,
@@ -251,15 +260,8 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * */
       searchWord: {
         type: String
-      },
-      /**
-       * The default selected set of keys
-       *
-       * @type {array}
-       * */
-      defaultCheckedKeys: {
-        type: Array
       }
+
     }
   }
 
@@ -276,8 +278,8 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   //   this.__initData(this.metadata)
   // }
 
-  __initData(data) {
-    if(!data) {
+  __initData (data) {
+    if (!data) {
       this.set('dataSet', [])
       return
     }
@@ -289,59 +291,61 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         item.children = item[attrForChild]
         item.level = level
         item.visible = true
-        dataSet.push(item)
-        if(item.checked) {
+        if (item.checked) {
           selectedItems.push(item)
+        } else {
+          item.checked = false
         }
+        dataSet.push(item)
         __init(item[attrForChild] || [], level + 1)
       })
     }
     __init(data)
     this.set('dataSet', dataSet)
-    if(selectedItems.length > 0) {
+    if (selectedItems.length > 0) {
       this.set('selectedItems', selectedItems)
     }
   }
 
-  __valueChanged(value) {
+  __valueChanged (value) {
     value = value || ''
     const attrForValue = this.attrForValue || 'id'
     const valueItems = value.split(',')
     const selectedItems = this.selectedItems || []
     const flag = valueItems.length === selectedItems.length && valueItems.every(item => selectedItems.findIndex(i => `${item[attrForValue]}` === item) > -1)
-    if(!flag) {
+    if (!flag) {
       const newSelectedItems = this.dataSet.filter(item => valueItems.includes(`${item[attrForValue]}`))
       this.set('selectedItems', newSelectedItems)
     }
   }
 
-  __selectedItemsChanged(selectedItems) {
+  __selectedItemsChanged (selectedItems) {
     const attrForValue = this.attrForValue || 'id'
     const value = (selectedItems || []).map(item => item[attrForValue]).join(',')
     this.set('value', value)
   }
 
-  __filterSelectedItemsComputed(filterFn, selectedItems){
-    if(filterFn && this.isFunction(filterFn)) {
-      return filterFn(selectedItems)
-    } else {
-      return []
+  __filterSelectedItemsComputed (selectedItems, onlySelectLevel, filterFn) {
+    selectedItems = selectedItems || []
+    if (onlySelectLevel) {
+      const onlySelectLevelItems = (onlySelectLevel || '').split(',')
+      selectedItems = selectedItems.filter(item => onlySelectLevelItems.includes(`${item.level}`))
     }
+    if (filterFn && this.isFunction(filterFn)) {
+      selectedItems = filterFn(selectedItems)
+    }
+    return selectedItems
   }
 
-  __filterValueComputed(filterSelectedItems){
+  __filterValueComputed (filterSelectedItems) {
     return filterSelectedItems && filterSelectedItems.join(',')
   }
-
 
   connectedCallback () {
     super.connectedCallback()
     this.addEventListener('multiple-checked-changed', this._multipleCheckChangedHandle)
     this.addEventListener('multiple-click-checked-changed', this._multipleClickCheckChangedHandle)
     this.addEventListener('single-checked-changed', this._singleCheckedChangedHandle)
-    // this.addEventListener('arrow-check', (e) => {
-    //   this.dispatchEvent(new CustomEvent('tree-arrow-check', { detail: { selectedItems: (this.selectedItems || [])[0] }, bubbles: true, composed: true }))
-    // })
   }
 
   /**
@@ -349,12 +353,12 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @param e
    * @private
    */
-  _multipleCheckChangedHandle(e) {
+  _multipleCheckChangedHandle (e) {
     const { data, isChecked } = e.detail
     const selectedItems = this.selectedItems || []
     const attrForValue = this.attrForValue || 'id'
-    if(isChecked) { // 选中
-      if(selectedItems.findIndex(item => item[attrForValue] === data[attrForValue]) === -1) {
+    if (isChecked) { // 选中
+      if (selectedItems.findIndex(item => item[attrForValue] === data[attrForValue]) === -1) {
         const newSelectedItems = [...selectedItems, data]
         this.set('selectedItems', newSelectedItems)
       }
@@ -369,12 +373,16 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @param e
    * @private
    */
-  _multipleClickCheckChangedHandle(e) {
+  _multipleClickCheckChangedHandle (e) {
     let { data, isChecked } = e.detail
+    const { indeterminate } = data
+    if (indeterminate && isChecked) { // 中间态当作已经选中取反
+      isChecked = false
+    }
     const targetItems = []
     const disabledItems = []
     const __initTargetItems = (d) => {
-      if(d.disabled) {
+      if (d.disabled) {
         disabledItems.push(d)
       } else {
         targetItems.push(d)
@@ -384,25 +392,20 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     __initTargetItems(data)
     const selectedItems = this.selectedItems || []
     const attrForValue = this.attrForValue || 'id'
-    const newSelectedItems = selectedItems.filter(item =>  targetItems.findIndex(target => target[attrForValue] === item[attrForValue]) === -1)
-    if(isChecked) {
-      if(disabledItems.length > 0) {
-        const newTargetItems = targetItems.filter(item => item[attrForValue] !== data[attrForValue])
-        this.set('selectedItems', [...newSelectedItems, ...newTargetItems])
-      } else {
-        this.set('selectedItems', [...newSelectedItems, ...targetItems])
-      }
+    const newSelectedItems = selectedItems.filter(item => targetItems.findIndex(target => target[attrForValue] === item[attrForValue]) === -1)
+    if (isChecked) {
+      this.set('selectedItems', [...newSelectedItems, ...targetItems])
     } else {
       this.set('selectedItems', newSelectedItems)
     }
   }
 
-  _singleCheckedChangedHandle(e) {
-    if(this.multi) return  // 如果是多选，不做处理
+  _singleCheckedChangedHandle (e) {
+    if (this.multi) return // 如果是多选，不做处理
     const { data } = e.detail
     const attrForValue = this.attrForValue || 'id'
     const selectedItems = this.selectedItems || []
-    if(selectedItems.length > 0 && selectedItems[0][attrForValue] === data[attrForValue]) {
+    if (selectedItems.length > 0 && selectedItems[0][attrForValue] === data[attrForValue]) {
       this.set('selectedItems', [])
     } else {
       const newSelectedItems = [data]
@@ -410,11 +413,9 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     }
   }
 
-
   _isFirst (index) {
     return index === 0
   }
-
 }
 
 window.customElements.define('isu-tree', IsuTree)

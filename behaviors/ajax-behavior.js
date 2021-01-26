@@ -247,7 +247,7 @@ const AjaxBehaviorImpl = {
         const matchedRes = MockDataPool.match(request)
         if (matchedRes) {
           const response = new Response(matchedRes.body, matchedRes)
-          return  Promise.resolve(response).then(res => res.json())
+          return Promise.resolve(response).then(res => res.json())
         }
       }
       this.showLoadingByStatus(loadConfig)

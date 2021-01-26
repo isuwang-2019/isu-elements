@@ -147,7 +147,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       
       <div id="select__container" hidden="[[_isView(isView, readonly)]]">
         <div id="tag-content" tabindex="0" on-focus="_inputFocus" class="input-div">
-            <template is="dom-repeat" items="[[ selectedItems ]]" filter="[[filterFn]]">
+            <template is="dom-repeat" items="[[ filterSelectedItems ]]">
               <div class="tag">
                 <div class="tag-name" title="[[getValueByKey(item, attrForLabel)]]">
                   [[getValueByKey(item, attrForLabel)]]
@@ -156,8 +156,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
             </template>
           </div>
         <isu-iron-fit id="newtree-collapse"  auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
-              <isu-tree id="tree" data="{{data}}" selected-items="{{selectedItems}}" value="{{value}}" filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}" 
-                        multi="[[multi]]" show-search-input="[[showSearchInput]]" default-expand-all search-word="[[searchWord]]" attr-for-value="[[attrForValue]]"
+              <isu-tree id="tree" data="{{data}}" selected-items="{{selectedItems}}" value="{{value}}" attr-for-value="[[attrForValue]]"
+                        filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}" 
+                        only-select-level="[[onlySelectLevel]]" filterFn="[[filterFn]]"
+                        multi="[[multi]]" show-search-input="[[showSearchInput]]" default-expand-all search-word="[[searchWord]]" 
                         ></isu-tree>
         </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
@@ -246,6 +248,12 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       filterFn: {
         type: Function
       },
+      /**
+       * 过滤属性，对选中的结果集进行处理，过滤选中结果集只为指定层级的数据，与filterFn并行使用且优先于filterFn,eg: '2,3'
+       */
+      onlySelectLevel: {
+        type: String
+      },
       filterSelectedItems: {
         type: Array,
         notify: true
@@ -318,13 +326,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
         type: Boolean,
         value: false
       },
-      /**
-       * The filter level that need to be showed in the input box. eg: '2,3'
-       * */
-      onlySelectLevel: {
-        type: Object,
-        value: ''
-      },
       showAll: {
         type: Boolean,
         value: true,
@@ -385,7 +386,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
 
   async _srcChanged (src) {
     if (!src) return
-    const data = await this.query({ url: src, data: {}  }, { showLoading: false })
+    const data = await this.query({ url: src, data: {} }, { showLoading: false })
     this.set('data', data)
   }
 
@@ -393,10 +394,9 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
     return isView && readonly
   }
 
-  _textValueComputed(selectedItems, filterSelectedItems) {
+  _textValueComputed (selectedItems, filterSelectedItems) {
     return this.filterFn ? (filterSelectedItems || []).map(item => item[[this.attrForLabel]]).join(',') : (selectedItems || []).map(item => item[this.attrForLabel]).join(',')
   }
-
 }
 
 window.customElements.define(IsuSelectTreeNew.is, IsuSelectTreeNew)
