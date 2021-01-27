@@ -21,10 +21,10 @@
   </script>
   <script type="text/javascript" src="../../utils/mock_setup.js"></script>
 
-    <script type="module">
-const $_documentContainer = document.createElement('template');
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<custom-style>
+    $_documentContainer.innerHTML = `<custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       .centered {
         min-width: 800px;
@@ -39,8 +39,8 @@ $_documentContainer.innerHTML = `<custom-style>
     </style>
   </custom-style>`;
 
-document.body.appendChild($_documentContainer.content);
-</script>
+    document.body.appendChild($_documentContainer.content);
+  </script>
 </head>
 <body>
 <div class="vertical-section-container centered">
@@ -79,6 +79,9 @@ document.body.appendChild($_documentContainer.content);
 
       <isu-mask label="Picker多选框">
         <isu-picker id="picker" multi="" attr-for-value="id"></isu-picker>
+      </isu-mask>
+      <isu-mask label="字体大小设置" font-size="small">
+        <isu-input placeholder="测试输入" value="梅西"></isu-input>
       </isu-mask>
 
       <script>

@@ -55,7 +55,7 @@ class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) 
       }
 
     </style>
-    <isu-input id="input" value="{{value}}" label="[[label]]" placeholder="[[placeholder]]" required="[[required]]" min="[[min]]" max="[[max]]" readonly$="[[readonly]]" type="datetime-local">
+    <isu-input id="input" font-size="[[fontSize]]" value="{{value}}" label="[[label]]" placeholder="[[placeholder]]" required="[[required]]" min="[[min]]" max="[[max]]" readonly$="[[readonly]]" type="datetime-local">
     </isu-input>
 `
   }
@@ -119,6 +119,9 @@ class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) 
        * @type {string}
        */
       max: {
+        type: String
+      },
+      fontSize: {
         type: String
       }
     }

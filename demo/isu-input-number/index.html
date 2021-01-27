@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-  
+
   <title>isu-input-number demo</title>
-  
+
   <script type="module">
     import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js'
-import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js'
-import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js'
-import '../../isu-input-number'
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js'
+    import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js'
+    import '../../isu-input-number'
   </script>
-  
+
   <script type="module">
     const $_documentContainer = document.createElement('template')
 
-$_documentContainer.innerHTML = `<custom-style>
+    $_documentContainer.innerHTML = `<custom-style>
 <style is="custom-style" include="demo-pages-shared-styles">
   .centered {
     min-width: 800px;
@@ -34,53 +34,55 @@ $_documentContainer.innerHTML = `<custom-style>
 </style>
   </custom-style>`
 
-document.body.appendChild($_documentContainer.content)
+    document.body.appendChild($_documentContainer.content)
   </script>
 </head>
 <body>
-  <h3>基础用法</h3>
-  <demo-snippet>
-    <template>
-      <custom-style>
-        <style is="custom-style">
-          .typed-input {
-            width: 350px;
-            --isu-label: {
-              width: 100px;
-            };
-          }
-          isu-input-number {
-            margin-bottom: 10px;
-          }
-          #label {
-            --isu-input-number-height: 40px;
-          }
-        </style>
-      </custom-style>
-      <h4>Basic</h4>
-      <isu-input-number id="inputNumber"></isu-input-number>
-      <h4>步长，相关联label</h4>
-      <isu-input-number id="inputNumber2" step="0.01" label="数量"></isu-input-number>
-      <h4>最大输入值，最小输入值</h4>
-      <isu-input-number id="inputNumber3" min="0" max="10"></isu-input-number>
-      <h4>禁用</h4>
-      <isu-input-number id="inputNumber4" disabled></isu-input-number>
-      <h4>不要两个控制按钮</h4>
-      <isu-input-number id="inputNumber5" no-controls></isu-input-number>
-      <h4>精度为2</h4>
-      <isu-input-number id="inputNumber6" precision="2" step="0.1"></isu-input-number>
-      <h4>限制输入3位小数</h4>
-      <isu-input-number id="inputNumberInt" is-pattern-limit></isu-input-number>
-      <script>
-        inputNumberInt.addEventListener('pattern-value-changed', e => {
-          e.detail.target.value = e.detail.target.value.replace(/^\D*([0-9]*)(\.?)([0-9]{0,3}).*$/, '$1$2$3')
-        })
-      </script>
-      <h4>只能输入步长的倍数</h4>
-      <isu-input-number id="inputNumber6" step="2" step-strictly></isu-input-number>
-      <h4>带有label</h4>
-      <isu-input-number label="标签" id="label" step="2" step-strictly></isu-input-number>
-    </template>
-  </demo-snippet>
+<h3>基础用法</h3>
+<demo-snippet>
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        .typed-input {
+          width: 350px;
+          --isu-label: {
+            width: 100px;
+          };
+        }
+        isu-input-number {
+          margin-bottom: 10px;
+        }
+        #label {
+          --isu-input-number-height: 40px;
+        }
+      </style>
+    </custom-style>
+    <h4>Basic</h4>
+    <isu-input-number id="inputNumber"></isu-input-number>
+    <h4>步长，相关联label</h4>
+    <isu-input-number id="inputNumber2" step="0.01" label="数量"></isu-input-number>
+    <h4>最大输入值，最小输入值</h4>
+    <isu-input-number id="inputNumber3" min="0" max="10"></isu-input-number>
+    <h4>禁用</h4>
+    <isu-input-number id="inputNumber4" disabled></isu-input-number>
+    <h4>不要两个控制按钮</h4>
+    <isu-input-number id="inputNumber5" no-controls></isu-input-number>
+    <h4>精度为2</h4>
+    <isu-input-number id="inputNumber6" precision="2" step="0.1"></isu-input-number>
+    <h4>限制输入3位小数</h4>
+    <isu-input-number id="inputNumberInt" is-pattern-limit></isu-input-number>
+    <script>
+      inputNumberInt.addEventListener('pattern-value-changed', e => {
+        e.detail.target.value = e.detail.target.value.replace(/^\D*([0-9]*)(\.?)([0-9]{0,3}).*$/, '$1$2$3')
+      })
+    </script>
+    <h4>只能输入步长的倍数</h4>
+    <isu-input-number id="inputNumber6" step="2" step-strictly></isu-input-number>
+    <h4>带有label</h4>
+    <isu-input-number label="标签" id="label" step="2" step-strictly></isu-input-number>
+    <h4>字体大小</h4>
+    <isu-input-number id="inputNumber7" font-size="larger"></isu-input-number>
+  </template>
+</demo-snippet>
 </body>
 </html>

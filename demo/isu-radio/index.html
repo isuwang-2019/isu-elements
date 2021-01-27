@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-  
+
   <title>isu-radio demo</title>
-  
+
   <script type="module">
     import '../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
     import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
     import '../../isu-radio';
   </script>
-  
+
   <script type="module">
     const $_documentContainer = document.createElement('template');
-    
+
     $_documentContainer.innerHTML = `<custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       .centered {
@@ -29,7 +29,7 @@
       }
     </style>
   </custom-style>`;
-    
+
     document.body.appendChild($_documentContainer.content);
   </script>
 </head>
@@ -38,13 +38,13 @@
   <h3>isu-radio</h3>
   <demo-snippet>
     <template>
-      <isu-radio id="radio" label="性别" required></isu-radio>
+      <isu-radio id="radio" label="性别" required font-size="large"></isu-radio>
       <script>
         radio.items = [{value: 1, label: "男"}, {value: 2, label: "女"}];
       </script>
     </template>
   </demo-snippet>
-  
+
   <h3>自定义label、value字段</h3>
   <demo-snippet>
     <template>
@@ -54,7 +54,7 @@
       </script>
     </template>
   </demo-snippet>
-  
+
   <h3>支持只读属性</h3>
   <demo-snippet>
     <template>
@@ -64,7 +64,7 @@
       </script>
     </template>
   </demo-snippet>
-  
+
   <h3>支持必选, 必选时默认选中第一项</h3>
   <demo-snippet>
     <template>

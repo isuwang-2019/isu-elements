@@ -124,7 +124,6 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         /*max-width: 200px;*/
 
         display: flex;
-        font-size: 14px;
         word-break: break-all;
         cursor: default;
         @apply --isu-select-tag;
@@ -171,7 +170,6 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         z-index: 99;
         margin-top: 1px;
 
-        font-size: 14px;
         text-align: left;
         background-color: #fff;
         -moz-border-radius: 4px;
@@ -267,10 +265,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </style>
     
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-      <div class="isu-label">[[label]]</div>
+      <div class$="isu-label [[fontSize]]">[[label]]</div>
     </template>
     
-    <div id="select__container">
+    <div id="select__container" class$="[[fontSize]]">
       <div class="select__container__viewer" on-click="_onInputClick">
         <div class="tags__container">
           <div id="placeholder">[[placeholder]]</div>
@@ -308,7 +306,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <div class="mask"></div>
     </div>
     <template is="dom-if" if="[[_isView(isView, readonly)]]">
-      <div class="view-text">
+      <div class$="view-text [[fontSize]]">
          <span>[[getViewLabels(selectedValues, attrForLabel, joinConnector)]]</span>
       </div>
     </template>

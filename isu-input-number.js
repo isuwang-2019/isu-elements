@@ -98,18 +98,18 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div class="isu-label">[[label]]</div>
+       <div class$="isu-label [[fontSize]]">[[label]]</div>
     </template>
-    <button id="removeButton" class="box icon-box" disabled="[[disabled]]" data-args="[[step]]" on-click="minus">
+    <button id="removeButton" class$="box icon-box [[fontSize]]" disabled="[[disabled]]" data-args="[[step]]" on-click="minus">
       <iron-icon class="icon" icon="icons:remove"></iron-icon>
     </button>
     <iron-input bind-value="{{value}}" id="input" disabled="[[disabled]]">
-      <input id="innerInput" class="box input" placeholder$="[[placeholder]]" type="number" minlength$="[[minlength]]" rows$="[[rows]]"
+      <input id="innerInput" class$="box input [[fontSize]]" placeholder$="[[placeholder]]" type="number" minlength$="[[minlength]]" rows$="[[rows]]"
           on-input="patternLimit"
           maxlength$="[[maxlength]]" min$="{{min}}" max$="{{max}}" readonly$="[[disabled]]" pattern$="[[pattern]]"
           autocomplete="off" step="any" spellcheck="false" on-change="checkNum">
     </iron-input>
-    <button id="addButton" class="box icon-box" on-click="add" data-args="[[step]]" disabled="[[disabled]]">
+    <button id="addButton" class$="box icon-box [[fontSize]]" on-click="add" data-args="[[step]]" disabled="[[disabled]]">
       <iron-icon class="icon" icon="icons:add"></iron-icon>
     </button>
 `

@@ -173,10 +173,10 @@ class IsuMask extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </style>
     
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-      <div class="isu-label">[[label]]</div>
+      <div class$="isu-label [[fontSize]]">[[label]]</div>
     </template>
 
-    <div class="mask__container">
+    <div class$="mask__container [[fontSize]]">
       <div id="mask__editor">
         <slot>
           <div id="defaultSlot"></div>

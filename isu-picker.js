@@ -87,7 +87,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         #keywordInput {
           flex: 1;
           min-width: 10px;
-          font-size: 14px;
           height: 22px;
           line-height: 22px;
           padding: 0;
@@ -131,7 +130,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           /*max-width: calc(var(--isu-picker-width)- 30px);*/
   
           display: flex;
-          font-size: 14px;
           cursor: default;
           word-break: break-all;
           @apply --isu-picker-tag;
@@ -287,12 +285,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div class="isu-label">[[label]]</div>
+         <div class$="isu-label [[fontSize]]">[[label]]</div>
       </template>
       
      
           
-      <div class="input-wrap" id="select__container">
+      <div class$="input-wrap [[fontSize]]" id="select__container">
         <div class="input-container">
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
             <div id="placeholder">[[placeholder]]</div>
@@ -692,10 +690,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       displayItemsLength: {
         type: Number,
         value: 10
-      },
-      textValue: {
-        type: String,
-        notify: true
       }
     }
   }
@@ -732,6 +726,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         this._userInputKeyword = ''
       }, 200)
     })
+
 
     const target = dom(this.$['picker-collapse']).rootTarget
     const myFit = this.$['picker-collapse']
@@ -874,11 +869,9 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.selectedValues.length > 0) {
       this.value = this.selectedValues.map(selected => selected[this.attrForValue]).filter(item => !this.isEmptyObject(item)).join(',')
       this.selectedItem = this.selectedValues[this.selectedValues.length - 1]
-      this.set('textValue', this.getViewLabels(this.selectedValues, this.attrForLabel, this.joinConnector))
     } else {
       this.value = ''
       this.selectedItem = ''
-      this.set('textValue', '')
     }
     if (this.mode === 'text') this.text = this.value && !this.multi ? this.value : this._userInputKeyword
     this.displayCollapse(false)

@@ -39,51 +39,51 @@
 </head>
 <body>
 <h3>基本用法</h3>
-  <demo-snippet>
-    <template>
-      <custom-style>
-        <style is="custom-style">
-          .input-date {
-            --isu-label: {
-              width: 120px;
-            }
+<demo-snippet>
+  <template>
+    <custom-style>
+      <style is="custom-style">
+        .input-date {
+          --isu-label: {
+            width: 120px;
           }
-          .multi {
-            width: 560px;
-          }
-          #default-value {
-            --isu-input-date-height: 50px;
-          }
-        </style>
-      </custom-style>
-      <isu-input-date class="input-date multi" label="选择日期" value="2018-12-12"></isu-input-date>
-      <isu-input-date class="input-date multi" label="选择日期时间" type="datetime" value="2018-12-12 12:00:00"></isu-input-date>
-      <isu-input-date class="input-date multi" label="选择日期范围" type="dateRange" start-timestamp="156595380088" end-timestamp="1565953800188"></isu-input-date>
-      <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-date="2019-07-25 00:00:00" end-date="2019-09-12 12:30:00"></isu-input-date>
-      <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-time="08:00:00" end-time="17:00:00" start-date="2017-10-25 00:00:00" end-date="2018-12-12 12:30:00"></isu-input-date>
-      <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-time="08:00:00" end-time="17:00:00" start-date="2017-10-25 00:00:00" end-date="2018-12-12 12:30:00" step-time="20"></isu-input-date>
-      <isu-input-date id="default-value" class="input-date" label="默认value" value="2017-10-26"></isu-input-date>
-      <isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
-    </template>
-  </demo-snippet>
+        }
+        .multi {
+          width: 560px;
+        }
+        #default-value {
+          --isu-input-date-height: 50px;
+        }
+      </style>
+    </custom-style>
+    <isu-input-date class="input-date multi" label="选择日期" value="2018-12-12"></isu-input-date>
+    <isu-input-date class="input-date multi" label="选择日期时间" font-size="small" type="datetime" value="2018-12-12 12:00:00"></isu-input-date>
+    <isu-input-date class="input-date multi" label="选择日期范围" type="dateRange" start-timestamp="156595380088" end-timestamp="1565953800188"></isu-input-date>
+    <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-date="2019-07-25 00:00:00" end-date="2019-09-12 12:30:00"></isu-input-date>
+    <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-time="08:00:00" end-time="17:00:00" start-date="2017-10-25 00:00:00" end-date="2018-12-12 12:30:00"></isu-input-date>
+    <isu-input-date class="input-date multi" label="选择日期时间范围" type="datetimeRange" start-time="08:00:00" end-time="17:00:00" start-date="2017-10-25 00:00:00" end-date="2018-12-12 12:30:00" step-time="20"></isu-input-date>
+    <isu-input-date id="default-value" class="input-date" label="默认value" value="2017-10-26" font-size="larger"></isu-input-date>
+    <isu-input-date class="input-date" label="默认time" timestamp="1509008130349"></isu-input-date>
+  </template>
+</demo-snippet>
 
-  <h3>支持必填、只读</h3>
-  <demo-snippet>
-    <template>
-      <isu-input-date label="日期必填" required=""></isu-input-date>
-      <isu-input-date label="日期只读" value="2017-10-25" readonly=""></isu-input-date>
-      <isu-input-date label="日期只读文本" value="2017-10-25" readonly is-view></isu-input-date>
-    </template>
-  </demo-snippet>
+<h3>支持必填、只读</h3>
+<demo-snippet>
+  <template>
+    <isu-input-date label="日期必填" required=""></isu-input-date>
+    <isu-input-date label="日期只读" value="2017-10-25" readonly=""></isu-input-date>
+    <isu-input-date label="日期只读文本" value="2017-10-25" readonly is-view></isu-input-date>
+  </template>
+</demo-snippet>
 
-  <h3>支持最大最小日期范围</h3>
-  <demo-snippet>
-    <template>
-      <isu-input-date label="最小值" min="2017-01-23"></isu-input-date>
-      <isu-input-date label="最大值" max="2017-10-30"></isu-input-date>
-      <isu-input-date label="最大值和最小值" min="2017-04-10" max="2017-09-30"></isu-input-date>
-    </template>
-  </demo-snippet>
+<h3>支持最大最小日期范围</h3>
+<demo-snippet>
+  <template>
+    <isu-input-date label="最小值" min="2017-01-23"></isu-input-date>
+    <isu-input-date label="最大值" max="2017-10-30"></isu-input-date>
+    <isu-input-date label="最大值和最小值" min="2017-04-10" max="2017-09-30"></isu-input-date>
+  </template>
+</demo-snippet>
 </div>
 
 </body>

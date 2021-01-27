@@ -107,10 +107,10 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
   
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-        <div class="isu-label">[[label]]</div>
+        <div class$="isu-label [[fontSize]]">[[label]]</div>
       </template>
       
-      <div id="textarea-wrapper">
+      <div id="textarea-wrapper" class$="[[fontSize]]">
         <textarea id="textarea" value="{{value::input}}" aria-label$="[[label]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]"  cols$="[[cols]]"
         inputmode$="[[inputmode]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" required$="[[required]]" disabled$="[[disabled]]" rows$="[[rows]]" 
         minlength$="[[minlength]]" maxlength$="[[maxlength]]"></textarea>
@@ -123,7 +123,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
         </div>
       </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
-        <div class="view-text">
+        <div class$="view-text [[fontSize]]">
            <pre>[[value]]</pre>
         </div>
      </template>

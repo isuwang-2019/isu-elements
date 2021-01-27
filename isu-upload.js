@@ -111,18 +111,18 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBe
     right: 10px;
   }
 </style>
-  <div class="toolbar">
+  <div class$="toolbar [[fontSize]]">
     <template is="dom-if" if="[[ toBoolean(label) ]]">
         <div class="isu-label">[[label]]</div>
     </template>
-    <isu-button class="choose-file" title="点击选择文件" on-click="_triggerChooseFile">选择文件</isu-button>
+    <isu-button class$="choose-file [[fontSize]]" title="点击选择文件" on-click="_triggerChooseFile">选择文件</isu-button>
     <template is="dom-if" if="{{isUpload}}">
-      <isu-button class="upload-file" type="warning" on-click="upload" disabled="[[uploadReadonly]]">上传文件</isu-button>
+      <isu-button class$="upload-file [[fontSize]]" type="warning" on-click="upload" disabled="[[uploadReadonly]]">上传文件</isu-button>
     </template>
     
     <input type="file" on-change="_chooseFile" id="file-chooser" accept$="[[accept]]" multiple$="[[multiple]]">
   </div>
-  <div class="content">
+  <div class$="content [[fontSize]]">
     <template is="dom-repeat" items="[[files]]">
       <div class="file">
         <iron-icon icon="description"></iron-icon>

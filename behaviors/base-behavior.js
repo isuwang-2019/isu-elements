@@ -4,6 +4,18 @@ import '../isu-loading.js'
  * @polymerBehavior
  */
 export const BaseBehavior = {
+  properties: {
+    /**
+     * font size of a component, eg: x-small(10px),small(12px),medium(14px),large(16px),larger(18px)
+     * @attribute type
+     * @type {string}
+     * @default 'medium'
+     */
+    fontSize: {
+      type: String,
+      default: 'medium'
+    }
+  },
   /**
    * 判断第一个参数是否与后面的某个参数相等， 使用Object.is() 进行判断
    * @param {...*} args

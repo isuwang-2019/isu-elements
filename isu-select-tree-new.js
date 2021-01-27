@@ -120,7 +120,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
             /*max-width: 200px;*/
     
             display: flex;
-            font-size: 14px;
             word-break: break-all;
             cursor: default;
             @apply --isu-select-tree-new-tag;
@@ -142,10 +141,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
           }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div class="isu-label">[[label]]</div>
+         <div class$="isu-label [[fontSize]]">[[label]]</div>
       </template>
       
-      <div id="select__container" hidden="[[_isView(isView, readonly)]]">
+      <div id="select__container" hidden="[[_isView(isView, readonly)]]" class$="[[fontSize]]">
         <div id="tag-content" tabindex="0" on-focus="_inputFocus" class="input-div">
             <template is="dom-if" if="[[isArrayEmpty(filterSelectedItems)]]">
                 <span class="placeholder">[[placeholder]]</span>
@@ -175,7 +174,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
         </div>
       </div>
       <template is="dom-if" if="[[_isView(isView, readonly)]]">
-        <div class="view-text">
+        <div class$="view-text [[fontSize]]">
            <span>[[textValue]]</span>
         </div>
       </template>
@@ -321,6 +320,15 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
         value: false
       },
       /**
+       * The connector to connect labels when the isView=true, eg: "苹果，香蕉，梨"
+       * @type {string}
+       * @default ','
+       * */
+      joinConnector: {
+        type: String,
+        value: ','
+      },
+      /**
        * multiple options or not，default not
        * @type {boolean}
        * @default false
@@ -337,6 +345,12 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       showSearchInput: {
         type: Boolean,
         value: false
+      },
+      /**
+       * The filter level that need to be showed in the input box. eg: '2,3'
+       * */
+      onlySelectLevel: {
+        type: String
       },
       showAll: {
         type: Boolean,
@@ -407,7 +421,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
   }
 
   _textValueComputed (selectedItems, filterSelectedItems) {
-    return (this.filterFn && this.isFunction(this.filterFn)) || !!this.onlySelectLevel ? (filterSelectedItems || []).map(item => item[this.attrForLabel]).join(',') : (selectedItems || []).map(item => item[this.attrForLabel]).join(',')
+    return (this.filterFn && this.isFunction(this.filterFn)) || !!this.onlySelectLevel ? (filterSelectedItems || []).map(item => item[this.attrForLabel]).join(this.joinConnector) : (selectedItems || []).map(item => item[this.attrForLabel]).join(this.joinConnector)
   }
 }
 

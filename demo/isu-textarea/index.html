@@ -12,10 +12,10 @@
     import '../../node_modules/@polymer/iron-demo-helpers/demo-snippet.js';
     import '../../isu-textarea'
   </script>
-    <script type="module">
-const $_documentContainer = document.createElement('template');
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<custom-style>
+    $_documentContainer.innerHTML = `<custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       .centered {
         min-width: 800px;
@@ -36,15 +36,15 @@ $_documentContainer.innerHTML = `<custom-style>
     </style>
   </custom-style>`;
 
-document.body.appendChild($_documentContainer.content);
-</script>
+    document.body.appendChild($_documentContainer.content);
+  </script>
 </head>
 <body>
 <div class="vertical-section-container centered">
   <h3>Basic isu-textarea demo</h3>
   <demo-snippet>
     <template>
-      <isu-textarea id="textarea1" label="备注" placeholder="请输入备注"></isu-textarea>
+      <isu-textarea id="textarea1" font-size="large" label="备注" placeholder="请输入备注"></isu-textarea>
     </template>
   </demo-snippet>
 

@@ -115,10 +115,10 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-        <div class="isu-label">[[label]]</div>
+        <div class$="isu-label [[fontSize]]">[[label]]</div>
       </template>
-    <div class="input__container" id="input__jedate">
-       <div class="jeinpbox"><input type="text" id$="[[id]]" class="jeinput" readonly$="[[readonly]]" placeholder$="[[placeholder]]" value$="{{value}}"></div>
+    <div class$="input__container [[fontSize]]" id="input__jedate">
+       <div class="jeinpbox"><input type="text" id$="[[id]]" class$="jeinput [[fontSize]]" readonly$="[[readonly]]" placeholder$="[[placeholder]]" value$="{{value}}"></div>
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
             <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
@@ -127,7 +127,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       </div>
     </div>
     <template is="dom-if" if="[[_isView(isView, readonly)]]">
-      <div class="view-text">
+      <div class$="view-text [[fontSize]]">
          <span>{{value}}</span>
       </div>
     </template>

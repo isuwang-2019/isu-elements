@@ -153,7 +153,6 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
           line-height: 20px;
           margin-top: 1px;
           border-radius: 4px;
-          font-size: 12px;
           padding: 0;
           background: white;
           color: black;
@@ -317,9 +316,9 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-      <div class="isu-label">[[label]]</div>
+      <div class$="isu-label [[fontSize]]">[[label]]</div>
     </template>
-    <div id="input__date" class="input__container" on-click="openDialog">
+    <div id="input__date" class$="input__container [[fontSize]]" on-click="openDialog">
       <iron-icon class="date-range" icon=icons:date-range></iron-icon>
       <template is="dom-if" if="[[ isOneOf(type, 'dateRange', 'datetimeRange') ]]">
         <div class="item-date">
@@ -353,7 +352,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
        </div>
     </div>
     <isu-iron-fit id="dateBox" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>
-      <div class="date-body" on-click="_clickDateBody">
+      <div class$="date-body [[fontSize]]" on-click="_clickDateBody">
         <template is="dom-if" if="[[ isEqual(type, 'datetimeRange') ]]">
           <div class="box-datetime">
             <isu-select class="datetime" placeholder="开始日期时间" items="[[startDateTimeList]]" value="{{startDate}}"></isu-select>
@@ -410,7 +409,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </div>
     </isu-iron-fit>
     <template is="dom-if" if="[[_isView(isView, readonly)]]">
-      <div class="view-text">
+      <div class$="view-text [[fontSize]]">
          <span>{{value}}</span>
       </div>
     </template>

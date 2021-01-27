@@ -3,6 +3,7 @@ import '@webcomponents/shadycss/entrypoints/apply-shim.js'
 import '@polymer/paper-button/paper-button'
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
 import { PaperButtonBehavior } from '@polymer/paper-behaviors/paper-button-behavior'
+import { BaseBehavior } from './behaviors/base-behavior'
 import './behaviors/isu-elements-shared-styles.js'
 
 /**
@@ -71,7 +72,7 @@ import './behaviors/isu-elements-shared-styles.js'
  * @polymer
  * @demo demo/isu-button/index.html
  */
-class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
+class IsuButton extends mixinBehaviors([PaperButtonBehavior, BaseBehavior], PolymerElement) {
   static get template () {
     return html`
     <style include="isu-elements-shared-styles">
@@ -169,7 +170,7 @@ class IsuButton extends mixinBehaviors(PaperButtonBehavior, PolymerElement) {
      }
     </style>
     <template is="dom-if" if="[[permission]]">
-        <paper-button class="btn" disabled="[[disabled]]" noink>
+        <paper-button class$="btn {{fontSize}}" disabled="[[disabled]]" noink>
           <slot></slot>
         </paper-button>
     </template>

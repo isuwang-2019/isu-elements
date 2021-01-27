@@ -11,10 +11,10 @@
     import '../../isu-select'
     import './demo/isu-select-test'
   </script>
-    <script type="module">
-const $_documentContainer = document.createElement('template');
+  <script type="module">
+    const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<custom-style>
+    $_documentContainer.innerHTML = `<custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       .centered {
         min-width: 800px;
@@ -32,8 +32,8 @@ $_documentContainer.innerHTML = `<custom-style>
     </style>
   </custom-style>`;
 
-document.body.appendChild($_documentContainer.content);
-</script>
+    document.body.appendChild($_documentContainer.content);
+  </script>
 </head>
 <body>
 <div class="vertical-section-container centered">
@@ -50,9 +50,9 @@ document.body.appendChild($_documentContainer.content);
           }
         </style>
       </custom-style>
-      <isu-select id="select" label="球员" placeholder="选择球员" value="1" required prompt="球员选择不能为空"></isu-select>
+      <isu-select id="select" label="球员" font-size="large" placeholder="选择球员" value="1" required prompt="球员选择不能为空"></isu-select>
       <isu-select id="select1" label="球员" placeholder="选择球员" multi="" value="1, 2, 3, 4"></isu-select>
-      <isu-select id="selectShow" label="球员" placeholder="选择球员" multi="" show-all value="1, 2, 3, 4"></isu-select>
+      <isu-select id="selectShow" font-size="small" label="球员" placeholder="选择球员" multi="" show-all value="1, 2, 3, 4"></isu-select>
       <script>
         const items = [
           {"label": "梅西", "value": 1},
