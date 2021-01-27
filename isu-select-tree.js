@@ -75,7 +75,6 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
           width: 210px;
           height: 24px;
           line-height: 24px;
-          border: 1px solid lightgray;
           flex: 1;
           font-family: 'Microsoft Yahei', sans-serif;
           font-size: inherit;
@@ -84,6 +83,9 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
           background-color: #fff;
           border: 1px solid #ccc;
           border-radius: 4px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis
           @apply --isu-select-tree-input
         }
         .placeholder {
@@ -97,13 +99,18 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
       
       <div id="select__container">
         <div id="keywordInput" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(selectedItems)]]">
-            <template is="dom-repeat" items="[[selectedItems]]">
-                [[item.label]]
+            <template is="dom-if" if="[[isArrayEmpty(selectedItems)]]">
+                [[placeholder]]
+            </template>
+            <template is="dom-if" if="[[!isArrayEmpty(selectedItems)]]">
+                <template is="dom-repeat" items="[[selectedItems]]">
+                    [[item.label]]
+                </template>
             </template>
         </div>
         <isu-iron-fit id="collapse-tree" auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
           <isu-tree data="{{data}}" selected-items="{{selectedItems}}" value="{{value}}" filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}" 
-                attr-for-value="[[attrForValue]]" default-expand-all check-on-click-node></isu-tree>
+                attr-for-value="[[attrForValue]]" show-radio="[[showRadio]]" show-search-input="[[showSearchInput]]" default-expand-all check-on-click-node></isu-tree>
         </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
@@ -187,7 +194,6 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
         type: String,
         notify: true
       },
-
       /**
        * Attribute name for value.
        * @type {string}
@@ -197,7 +203,25 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
         type: String,
         value: 'id'
       },
-
+      /**
+       * Whether to show radio or not
+       *
+       * @type {boolean}
+       * @default false
+       * */
+      showRadio: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Whether to display the search box
+       * @type {boolean}
+       * @default false
+       */
+      showSearchInput: {
+        type: Boolean,
+        value: false
+      },
       /**
        * Set to true, if the selection is required.
        * @type {boolean}
@@ -284,7 +308,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
   }
 
   getPlaceholderClass (selectedItems) {
-    return (selectedItems || []).length > 0 ? '' : 'placeholder'
+    return this.isArrayEmpty(selectedItems) ? 'placeholder' : ''
   }
 
   async _srcChanged (src) {

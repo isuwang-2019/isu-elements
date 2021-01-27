@@ -354,7 +354,8 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __filterValueComputed (filterSelectedItems) {
-    return filterSelectedItems && filterSelectedItems.join(',')
+    const attrForValue = this.attrForValue || 'id'
+    return filterSelectedItems && filterSelectedItems.map(item => item[attrForValue]).join(',')
   }
 
   connectedCallback () {
@@ -433,14 +434,29 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return index === 0
   }
 
+  /**
+   * 初始化value
+   * 初始化条件：
+   * 前置条件：dataSet存在且dataSet.length>0
+   * 1、initFilterValue 存在且value 不存在，需要初始化value值
+   * 2、value、initFilterValue(空字符串也算)同时存在，且initFilterValue 与 filterValue 不一致，需要重置value
+   *
+   * 通过initFilterValue 重置value为空，需要将initFilterValue设置为''
+   * @param initFilterValue
+   * @param dataSet
+   * @private
+   */
   _initValue (initFilterValue, dataSet) {
-    if (!initFilterValue || !dataSet || dataSet.length === 0 || this.value) return
+    if (!dataSet || dataSet.length === 0) return
+    const flag1 = initFilterValue && !this.value
+    const flag2 = initFilterValue !== undefined && this.value && initFilterValue !== this.filterValue
+    if (!flag1 && !flag2) return
     const attrForValue = this.attrForValue || 'id'
     const valueItems = []
     const _initValueItems = (value) => {
       const target = dataSet.find(item => `${item[attrForValue]}` === `${value}`)
       if (target) {
-        valueItems.push(target)
+        !valueItems.includes(target) && valueItems.push(target)
         if (target.children && target.children.length > 0) {
           target.children.forEach(child => _initValueItems(child[attrForValue]))
         }

@@ -147,12 +147,17 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       
       <div id="select__container" hidden="[[_isView(isView, readonly)]]">
         <div id="tag-content" tabindex="0" on-focus="_inputFocus" class="input-div">
-            <template is="dom-repeat" items="[[ filterSelectedItems ]]">
-              <div class="tag">
-                <div class="tag-name" title="[[getValueByKey(item, attrForLabel)]]">
-                  [[getValueByKey(item, attrForLabel)]]
-                </div>
-              </div>
+            <template is="dom-if" if="[[isArrayEmpty(filterSelectedItems)]]">
+                <span class="placeholder">[[placeholder]]</span>
+            </template>
+            <template is="dom-if" if="[[!isArrayEmpty(filterSelectedItems)]]">
+                <template is="dom-repeat" items="[[ filterSelectedItems ]]">
+                  <div class="tag">
+                    <div class="tag-name" title="[[getValueByKey(item, attrForLabel)]]">
+                      [[getValueByKey(item, attrForLabel)]]
+                    </div>
+                  </div>
+                </template>
             </template>
           </div>
         <isu-iron-fit id="newtree-collapse"  auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
@@ -402,7 +407,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
   }
 
   _textValueComputed (selectedItems, filterSelectedItems) {
-    return this.filterFn ? (filterSelectedItems || []).map(item => item[[this.attrForLabel]]).join(',') : (selectedItems || []).map(item => item[this.attrForLabel]).join(',')
+    return (this.filterFn && this.isFunction(this.filterFn)) || !!this.onlySelectLevel ? (filterSelectedItems || []).map(item => item[this.attrForLabel]).join(',') : (selectedItems || []).map(item => item[this.attrForLabel]).join(',')
   }
 }
 

@@ -425,7 +425,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   queryCurNodeIsIndeterminate () {
     let isIndeterminate = false // 默认不是中间状态
     const children = this.data.children || []
-    if (children.length > 0) { // 存在子节点
+    if (children.length > 0 && this.multi) { // 多选且存在子节点时候，才有中间态
       if (children.findIndex(item => item.indeterminate) > -1) { // 存在子节点为中间态，当前为中间态
         isIndeterminate = true
       } else {
@@ -445,13 +445,18 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   queryCurNodeIsChecked (selectedItems = []) {
     let isChecked = false
-    const isIndeterminate = this.queryCurNodeIsIndeterminate()
-    if (!isIndeterminate) {
-      const children = this.data.children || []
-      const flag1 = children.length > 0 && children.every(item => item.checked) // 1、存在子节点，所有的子节点都是选中状态，则为选中状态
-      const flag2 = children.length === 0 && (selectedItems || []).findIndex(item => item[this.attrForValue] === this.data[this.attrForValue]) > -1 // 2、不存在子节点，且当前节点在选中节点列表中
-      isChecked = flag1 || flag2
+    if (this.multi) { // 多选时候
+      const isIndeterminate = this.queryCurNodeIsIndeterminate()
+      if (!isIndeterminate) {
+        const children = this.data.children || []
+        const flag1 = children.length > 0 && children.every(item => item.checked) // 1、存在子节点，所有的子节点都是选中状态，则为选中状态
+        const flag2 = children.length === 0 && (selectedItems || []).findIndex(item => item[this.attrForValue] === this.data[this.attrForValue]) > -1 // 2、不存在子节点，且当前节点在选中节点列表中
+        isChecked = flag1 || flag2
+      }
+    } else { // 不是多选，当前节点在选中列表中则为选中
+      isChecked = (selectedItems || []).findIndex(item => item[this.attrForValue] === this.data[this.attrForValue]) > -1
     }
+
     this.set('data.checked', isChecked)
     return isChecked
   }
