@@ -65,6 +65,9 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
           -o-text-overflow: ellipsis;
           text-overflow: ellipsis;
       }
+      .ellipsis.pointer{
+        cursor: pointer;
+      }
       .high-lighted-color{
         color: var(--high-lighted-color, #f106d2);
       }
@@ -105,7 +108,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
           <!--可自定义部分-->
           <slot name="before-label"></slot>
-          <span class="ellipsis">[[data.label]]</span>
+          <span class$="ellipsis [[orElse(multi, showRadio, 'pointer')]]">[[data.label]]</span>
           <!--可自定义部分-->
           <slot name="after-label"></slot>
         </div>
