@@ -266,7 +266,8 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @type {string}
        * */
       searchWord: {
-        type: String
+        type: String,
+        notify: true
       }
 
     }

@@ -163,7 +163,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
               <isu-tree id="tree" data="{{data}}" data-set="{{dataSet}}" selected-items="{{selectedItems}}" value="{{value}}" attr-for-value="[[attrForValue]]"
                         filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}"  init-filter-value="[[initFilterValue]]"
                         only-select-level="[[onlySelectLevel]]" filterFn="[[filterFn]]"
-                        multi="[[multi]]" show-search-input="[[showSearchInput]]" default-expand-all search-word="[[searchWord]]" 
+                        multi="[[multi]]" show-search-input="[[showSearchInput]]" default-expand-all search-word="{{searchWord}}" 
                         ></isu-tree>
         </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
@@ -345,12 +345,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       showSearchInput: {
         type: Boolean,
         value: false
-      },
-      /**
-       * The filter level that need to be showed in the input box. eg: '2,3'
-       * */
-      onlySelectLevel: {
-        type: String
       },
       showAll: {
         type: Boolean,

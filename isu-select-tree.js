@@ -110,7 +110,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
         </div>
         <isu-iron-fit id="collapse-tree" auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
           <isu-tree data="{{data}}" selected-items="{{selectedItems}}" value="{{value}}" filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}" 
-                attr-for-value="[[attrForValue]]" show-radio="[[showRadio]]" show-search-input="[[showSearchInput]]" default-expand-all check-on-click-node></isu-tree>
+                attr-for-value="[[attrForValue]]" show-radio="[[showRadio]]" search-word="{{searchWord}}"  show-search-input="[[showSearchInput]]" default-expand-all></isu-tree>
         </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
@@ -273,12 +273,14 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
     const target = dom(self.$['collapse-tree']).rootTarget
     const myFit = self.$['collapse-tree']
     myFit.positionTarget = target || self.$.keywordInput
-    self.$.keywordInput.addEventListener('blur', e => {
-      // e.stopPropagation();
-      setTimeout(() => { // 解决blur事件和click事件冲突的问题
-        if (self.shadowRoot.activeElement && self.shadowRoot.activeElement.id === 'keywordInput') return
+    document.addEventListener('click', e => {
+      e.stopPropagation()
+      // 点击除了组织树以外的其他地方，组织树都消失
+      const composedPath = e.composedPath()
+      if (!composedPath.some(item => item.tagName === 'ISU-SELECT-TREE')) {
+        self.set('searchWord', null)
         self._displayCollapse(false)
-      }, 200)
+      }
     })
     this.addEventListener('click', e => {
       const minWidth = this.$['collapse-tree'].offsetLeft
