@@ -32586,11 +32586,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 134,
+              "line": 141,
               "column": 6
             },
             "end": {
-              "line": 136,
+              "line": 143,
               "column": 7
             }
           },
@@ -32607,11 +32607,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 142,
+              "line": 149,
               "column": 6
             },
             "end": {
-              "line": 145,
+              "line": 152,
               "column": 7
             }
           },
@@ -32629,11 +32629,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 158,
               "column": 6
             },
             "end": {
-              "line": 154,
+              "line": 161,
               "column": 7
             }
           },
@@ -32645,17 +32645,39 @@
           "defaultValue": "\"id\""
         },
         {
+          "name": "attrForLabel",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 162,
+              "column": 6
+            },
+            "end": {
+              "line": 165,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "defaultValue": "\"label\""
+        },
+        {
           "name": "rotate",
           "type": "number",
           "description": "The angle at which a triangle rotates",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 172,
               "column": 6
             },
             "end": {
-              "line": 164,
+              "line": 175,
               "column": 7
             }
           },
@@ -32673,11 +32695,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 171,
+              "line": 182,
               "column": 6
             },
             "end": {
-              "line": 174,
+              "line": 185,
               "column": 7
             }
           },
@@ -32695,11 +32717,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 181,
+              "line": 192,
               "column": 6
             },
             "end": {
-              "line": 184,
+              "line": 195,
               "column": 7
             }
           },
@@ -32717,11 +32739,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 191,
+              "line": 202,
               "column": 6
             },
             "end": {
-              "line": 194,
+              "line": 205,
               "column": 7
             }
           },
@@ -32739,11 +32761,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 201,
+              "line": 212,
               "column": 6
             },
             "end": {
-              "line": 204,
+              "line": 215,
               "column": 7
             }
           },
@@ -32761,11 +32783,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 208,
+              "line": 219,
               "column": 6
             },
             "end": {
-              "line": 211,
+              "line": 222,
               "column": 7
             }
           },
@@ -32783,11 +32805,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 218,
+              "line": 229,
               "column": 6
             },
             "end": {
-              "line": 221,
+              "line": 232,
               "column": 7
             }
           },
@@ -32805,11 +32827,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 222,
+              "line": 233,
               "column": 6
             },
             "end": {
-              "line": 225,
+              "line": 236,
               "column": 7
             }
           },
@@ -32827,11 +32849,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 226,
+              "line": 237,
               "column": 6
             },
             "end": {
-              "line": 228,
+              "line": 239,
               "column": 7
             }
           },
@@ -32848,11 +32870,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 243,
               "column": 6
             },
             "end": {
-              "line": 235,
+              "line": 246,
               "column": 7
             }
           },
@@ -32870,11 +32892,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 239,
+              "line": 250,
               "column": 6
             },
             "end": {
-              "line": 242,
+              "line": 253,
               "column": 7
             }
           },
@@ -32893,11 +32915,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 260,
+              "line": 271,
               "column": 2
             },
             "end": {
-              "line": 263,
+              "line": 274,
               "column": 3
             }
           },
@@ -32913,11 +32935,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 265,
+              "line": 276,
               "column": 2
             },
             "end": {
-              "line": 272,
+              "line": 283,
               "column": 3
             }
           },
@@ -32937,11 +32959,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 274,
+              "line": 285,
               "column": 2
             },
             "end": {
-              "line": 277,
+              "line": 288,
               "column": 3
             }
           },
@@ -32961,11 +32983,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 279,
+              "line": 290,
               "column": 2
             },
             "end": {
-              "line": 284,
+              "line": 295,
               "column": 3
             }
           },
@@ -32985,11 +33007,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 286,
+              "line": 297,
               "column": 2
             },
             "end": {
-              "line": 289,
+              "line": 300,
               "column": 3
             }
           },
@@ -33006,11 +33028,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 291,
+              "line": 302,
               "column": 2
             },
             "end": {
-              "line": 294,
+              "line": 305,
               "column": 3
             }
           },
@@ -33030,11 +33052,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 296,
+              "line": 307,
               "column": 2
             },
             "end": {
-              "line": 310,
+              "line": 321,
               "column": 3
             }
           },
@@ -33054,11 +33076,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 312,
+              "line": 323,
               "column": 2
             },
             "end": {
-              "line": 315,
+              "line": 326,
               "column": 3
             }
           },
@@ -33074,11 +33096,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 317,
+              "line": 328,
               "column": 2
             },
             "end": {
-              "line": 332,
+              "line": 343,
               "column": 3
             }
           },
@@ -33098,11 +33120,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 334,
+              "line": 345,
               "column": 2
             },
             "end": {
-              "line": 339,
+              "line": 350,
               "column": 3
             }
           },
@@ -33122,11 +33144,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 341,
+              "line": 352,
               "column": 2
             },
             "end": {
-              "line": 344,
+              "line": 355,
               "column": 3
             }
           },
@@ -33142,11 +33164,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 346,
+              "line": 357,
               "column": 2
             },
             "end": {
-              "line": 368,
+              "line": 379,
               "column": 3
             }
           },
@@ -33163,11 +33185,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 370,
+              "line": 381,
               "column": 2
             },
             "end": {
-              "line": 372,
+              "line": 383,
               "column": 3
             }
           },
@@ -33187,11 +33209,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 374,
+              "line": 385,
               "column": 2
             },
             "end": {
-              "line": 376,
+              "line": 387,
               "column": 3
             }
           },
@@ -33208,11 +33230,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 378,
+              "line": 389,
               "column": 2
             },
             "end": {
-              "line": 386,
+              "line": 397,
               "column": 3
             }
           },
@@ -33232,11 +33254,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 388,
+              "line": 399,
               "column": 2
             },
             "end": {
-              "line": 394,
+              "line": 405,
               "column": 3
             }
           },
@@ -33256,11 +33278,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 396,
+              "line": 407,
               "column": 2
             },
             "end": {
-              "line": 402,
+              "line": 413,
               "column": 3
             }
           },
@@ -33280,11 +33302,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 404,
+              "line": 415,
               "column": 2
             },
             "end": {
-              "line": 408,
+              "line": 419,
               "column": 3
             }
           },
@@ -33307,11 +33329,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 415,
+              "line": 426,
               "column": 2
             },
             "end": {
-              "line": 418,
+              "line": 429,
               "column": 3
             }
           },
@@ -33331,11 +33353,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 424,
+              "line": 435,
               "column": 2
             },
             "end": {
-              "line": 438,
+              "line": 449,
               "column": 3
             }
           },
@@ -33351,11 +33373,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 445,
+              "line": 456,
               "column": 2
             },
             "end": {
-              "line": 461,
+              "line": 472,
               "column": 3
             }
           },
@@ -33385,7 +33407,7 @@
           "column": 0
         },
         "end": {
-          "line": 462,
+          "line": 473,
           "column": 1
         }
       },
@@ -33398,11 +33420,11 @@
           "description": "存储Node节点data",
           "sourceRange": {
             "start": {
-              "line": 134,
+              "line": 141,
               "column": 6
             },
             "end": {
-              "line": 136,
+              "line": 143,
               "column": 7
             }
           },
@@ -33414,11 +33436,11 @@
           "description": "选择的树节点集合",
           "sourceRange": {
             "start": {
-              "line": 142,
+              "line": 149,
               "column": 6
             },
             "end": {
-              "line": 145,
+              "line": 152,
               "column": 7
             }
           },
@@ -33430,11 +33452,11 @@
           "description": "节点作为value值的属性，默认取id作为value值",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 158,
               "column": 6
             },
             "end": {
-              "line": 154,
+              "line": 161,
               "column": 7
             }
           },
@@ -33442,15 +33464,31 @@
           "type": "String"
         },
         {
+          "name": "attr-for-label",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 162,
+              "column": 6
+            },
+            "end": {
+              "line": 165,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
           "name": "rotate",
           "description": "The angle at which a triangle rotates",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 172,
               "column": 6
             },
             "end": {
-              "line": 164,
+              "line": 175,
               "column": 7
             }
           },
@@ -33462,11 +33500,11 @@
           "description": "Whether to show checkbox or not",
           "sourceRange": {
             "start": {
-              "line": 171,
+              "line": 182,
               "column": 6
             },
             "end": {
-              "line": 174,
+              "line": 185,
               "column": 7
             }
           },
@@ -33478,11 +33516,11 @@
           "description": "Whether to show radio or not",
           "sourceRange": {
             "start": {
-              "line": 181,
+              "line": 192,
               "column": 6
             },
             "end": {
-              "line": 184,
+              "line": 195,
               "column": 7
             }
           },
@@ -33494,11 +33532,11 @@
           "description": "Accordion mode, showing only one sibling node at a time",
           "sourceRange": {
             "start": {
-              "line": 191,
+              "line": 202,
               "column": 6
             },
             "end": {
-              "line": 194,
+              "line": 205,
               "column": 7
             }
           },
@@ -33510,11 +33548,11 @@
           "description": "Whether to expand all nodes by default",
           "sourceRange": {
             "start": {
-              "line": 201,
+              "line": 212,
               "column": 6
             },
             "end": {
-              "line": 204,
+              "line": 215,
               "column": 7
             }
           },
@@ -33526,11 +33564,11 @@
           "description": "Operate the child element is closed or opened",
           "sourceRange": {
             "start": {
-              "line": 208,
+              "line": 219,
               "column": 6
             },
             "end": {
-              "line": 211,
+              "line": 222,
               "column": 7
             }
           },
@@ -33542,11 +33580,11 @@
           "description": "How many pixels are indented per layer.",
           "sourceRange": {
             "start": {
-              "line": 218,
+              "line": 229,
               "column": 6
             },
             "end": {
-              "line": 221,
+              "line": 232,
               "column": 7
             }
           },
@@ -33558,11 +33596,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 222,
+              "line": 233,
               "column": 6
             },
             "end": {
-              "line": 225,
+              "line": 236,
               "column": 7
             }
           },
@@ -33574,11 +33612,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 226,
+              "line": 237,
               "column": 6
             },
             "end": {
-              "line": 228,
+              "line": 239,
               "column": 7
             }
           },
@@ -33590,11 +33628,11 @@
           "description": "是否高亮显示开关，如果是，搜索时候，匹配上的文本会高亮显示",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 243,
               "column": 6
             },
             "end": {
-              "line": 235,
+              "line": 246,
               "column": 7
             }
           },
@@ -33606,11 +33644,11 @@
           "description": "checkOnClickNode 为true时候，选中的节点添加选中样式",
           "sourceRange": {
             "start": {
-              "line": 239,
+              "line": 250,
               "column": 6
             },
             "end": {
-              "line": 242,
+              "line": 253,
               "column": 7
             }
           },
@@ -33645,11 +33683,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 113,
+              "line": 114,
               "column": 6
             },
             "end": {
-              "line": 115,
+              "line": 116,
               "column": 7
             }
           },
@@ -33666,11 +33704,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 119,
+              "line": 120,
               "column": 6
             },
             "end": {
-              "line": 121,
+              "line": 122,
               "column": 7
             }
           },
@@ -33687,11 +33725,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 127,
+              "line": 128,
               "column": 6
             },
             "end": {
-              "line": 129,
+              "line": 130,
               "column": 7
             }
           },
@@ -33708,11 +33746,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 135,
+              "line": 136,
               "column": 6
             },
             "end": {
-              "line": 138,
+              "line": 139,
               "column": 7
             }
           },
@@ -33724,17 +33762,39 @@
           "defaultValue": "\"id\""
         },
         {
+          "name": "attrForLabel",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 140,
+              "column": 6
+            },
+            "end": {
+              "line": 143,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "defaultValue": "\"label\""
+        },
+        {
           "name": "showSearchInput",
           "type": "boolean",
           "description": "Whether to require a query input box or not",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 145,
+              "line": 150,
               "column": 6
             },
             "end": {
-              "line": 148,
+              "line": 153,
               "column": 7
             }
           },
@@ -33752,11 +33812,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 152,
+              "line": 157,
               "column": 6
             },
             "end": {
-              "line": 155,
+              "line": 160,
               "column": 7
             }
           },
@@ -33774,11 +33834,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 166,
               "column": 6
             },
             "end": {
-              "line": 164,
+              "line": 169,
               "column": 7
             }
           },
@@ -33796,11 +33856,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 168,
+              "line": 173,
               "column": 6
             },
             "end": {
-              "line": 170,
+              "line": 175,
               "column": 7
             }
           },
@@ -33817,11 +33877,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 174,
+              "line": 179,
               "column": 6
             },
             "end": {
-              "line": 176,
+              "line": 181,
               "column": 7
             }
           },
@@ -33838,11 +33898,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 180,
+              "line": 185,
               "column": 6
             },
             "end": {
-              "line": 184,
+              "line": 189,
               "column": 7
             }
           },
@@ -33861,11 +33921,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 185,
+              "line": 190,
               "column": 6
             },
             "end": {
-              "line": 189,
+              "line": 194,
               "column": 7
             }
           },
@@ -33884,11 +33944,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 194,
+              "line": 199,
               "column": 6
             },
             "end": {
-              "line": 196,
+              "line": 201,
               "column": 7
             }
           },
@@ -33905,11 +33965,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 203,
+              "line": 208,
               "column": 6
             },
             "end": {
-              "line": 206,
+              "line": 211,
               "column": 7
             }
           },
@@ -33927,11 +33987,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 213,
+              "line": 218,
               "column": 6
             },
             "end": {
-              "line": 216,
+              "line": 221,
               "column": 7
             }
           },
@@ -33949,11 +34009,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 223,
+              "line": 228,
               "column": 6
             },
             "end": {
-              "line": 226,
+              "line": 231,
               "column": 7
             }
           },
@@ -33971,11 +34031,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 233,
+              "line": 238,
               "column": 6
             },
             "end": {
-              "line": 236,
+              "line": 241,
               "column": 7
             }
           },
@@ -33993,11 +34053,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 243,
+              "line": 248,
               "column": 6
             },
             "end": {
-              "line": 247,
+              "line": 252,
               "column": 7
             }
           },
@@ -34015,11 +34075,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 248,
+              "line": 253,
               "column": 6
             },
             "end": {
-              "line": 251,
+              "line": 256,
               "column": 7
             }
           },
@@ -34037,11 +34097,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 252,
+              "line": 257,
               "column": 6
             },
             "end": {
-              "line": 261,
+              "line": 266,
               "column": 7
             }
           },
@@ -34058,16 +34118,17 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 267,
+              "line": 272,
               "column": 6
             },
             "end": {
-              "line": 269,
+              "line": 275,
               "column": 7
             }
           },
           "metadata": {
             "polymer": {
+              "notify": true,
               "attributeType": "String"
             }
           }
@@ -34080,11 +34141,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 289,
+              "line": 295,
               "column": 2
             },
             "end": {
-              "line": 316,
+              "line": 322,
               "column": 3
             }
           },
@@ -34104,11 +34165,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 318,
+              "line": 324,
               "column": 2
             },
             "end": {
-              "line": 331,
+              "line": 337,
               "column": 3
             }
           },
@@ -34128,11 +34189,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 333,
+              "line": 339,
               "column": 2
             },
             "end": {
-              "line": 335,
+              "line": 341,
               "column": 3
             }
           },
@@ -34152,11 +34213,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 337,
+              "line": 343,
               "column": 2
             },
             "end": {
-              "line": 341,
+              "line": 347,
               "column": 3
             }
           },
@@ -34176,11 +34237,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 343,
+              "line": 349,
               "column": 2
             },
             "end": {
-              "line": 353,
+              "line": 359,
               "column": 3
             }
           },
@@ -34203,11 +34264,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 355,
+              "line": 361,
               "column": 2
             },
             "end": {
-              "line": 358,
+              "line": 364,
               "column": 3
             }
           },
@@ -34224,11 +34285,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 360,
+              "line": 366,
               "column": 2
             },
             "end": {
-              "line": 365,
+              "line": 371,
               "column": 3
             }
           },
@@ -34244,11 +34305,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 372,
+              "line": 378,
               "column": 2
             },
             "end": {
-              "line": 385,
+              "line": 391,
               "column": 3
             }
           },
@@ -34268,11 +34329,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 392,
+              "line": 398,
               "column": 2
             },
             "end": {
-              "line": 417,
+              "line": 423,
               "column": 3
             }
           },
@@ -34292,11 +34353,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 419,
+              "line": 425,
               "column": 2
             },
             "end": {
-              "line": 430,
+              "line": 436,
               "column": 3
             }
           },
@@ -34316,11 +34377,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 432,
+              "line": 438,
               "column": 2
             },
             "end": {
-              "line": 434,
+              "line": 440,
               "column": 3
             }
           },
@@ -34337,11 +34398,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 448,
+              "line": 454,
               "column": 2
             },
             "end": {
-              "line": 467,
+              "line": 473,
               "column": 3
             }
           },
@@ -34373,7 +34434,7 @@
           "column": 0
         },
         "end": {
-          "line": 468,
+          "line": 474,
           "column": 1
         }
       },
@@ -34386,11 +34447,11 @@
           "description": "原据源，为树结构的数组",
           "sourceRange": {
             "start": {
-              "line": 113,
+              "line": 114,
               "column": 6
             },
             "end": {
-              "line": 115,
+              "line": 116,
               "column": 7
             }
           },
@@ -34402,11 +34463,11 @@
           "description": "存储树转Array后的数据集合",
           "sourceRange": {
             "start": {
-              "line": 119,
+              "line": 120,
               "column": 6
             },
             "end": {
-              "line": 121,
+              "line": 122,
               "column": 7
             }
           },
@@ -34418,11 +34479,11 @@
           "description": "树结构数据子节点的属性，默认为children",
           "sourceRange": {
             "start": {
-              "line": 127,
+              "line": 128,
               "column": 6
             },
             "end": {
-              "line": 129,
+              "line": 130,
               "column": 7
             }
           },
@@ -34434,11 +34495,11 @@
           "description": "节点作为value值的属性，默认取id作为value值",
           "sourceRange": {
             "start": {
-              "line": 135,
+              "line": 136,
               "column": 6
             },
             "end": {
-              "line": 138,
+              "line": 139,
               "column": 7
             }
           },
@@ -34446,15 +34507,31 @@
           "type": "String"
         },
         {
+          "name": "attr-for-label",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 140,
+              "column": 6
+            },
+            "end": {
+              "line": 143,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
           "name": "show-search-input",
           "description": "Whether to require a query input box or not",
           "sourceRange": {
             "start": {
-              "line": 145,
+              "line": 150,
               "column": 6
             },
             "end": {
-              "line": 148,
+              "line": 153,
               "column": 7
             }
           },
@@ -34466,11 +34543,11 @@
           "description": "The selected value of this select tree",
           "sourceRange": {
             "start": {
-              "line": 152,
+              "line": 157,
               "column": 6
             },
             "end": {
-              "line": 155,
+              "line": 160,
               "column": 7
             }
           },
@@ -34482,11 +34559,11 @@
           "description": "选择的树节点集合",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 166,
               "column": 6
             },
             "end": {
-              "line": 164,
+              "line": 169,
               "column": 7
             }
           },
@@ -34498,11 +34575,11 @@
           "description": "对选中数据结果进行处理的函数",
           "sourceRange": {
             "start": {
-              "line": 168,
+              "line": 173,
               "column": 6
             },
             "end": {
-              "line": 170,
+              "line": 175,
               "column": 7
             }
           },
@@ -34514,11 +34591,11 @@
           "description": "过滤属性，对选中的结果集进行处理，过滤选中结果集只为指定层级的数据，与filterFn并行使用且优先于filterFn,eg: '2,3'",
           "sourceRange": {
             "start": {
-              "line": 174,
+              "line": 179,
               "column": 6
             },
             "end": {
-              "line": 176,
+              "line": 181,
               "column": 7
             }
           },
@@ -34530,11 +34607,11 @@
           "description": "经过onlySelectLevel、filterFn处理过后的结果集合",
           "sourceRange": {
             "start": {
-              "line": 180,
+              "line": 185,
               "column": 6
             },
             "end": {
-              "line": 184,
+              "line": 189,
               "column": 7
             }
           },
@@ -34546,11 +34623,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 185,
+              "line": 190,
               "column": 6
             },
             "end": {
-              "line": 189,
+              "line": 194,
               "column": 7
             }
           },
@@ -34562,11 +34639,11 @@
           "description": "仅做初始化数据使用\n应用场景，通过filterValue回显数据",
           "sourceRange": {
             "start": {
-              "line": 194,
+              "line": 199,
               "column": 6
             },
             "end": {
-              "line": 196,
+              "line": 201,
               "column": 7
             }
           },
@@ -34578,11 +34655,11 @@
           "description": "是否多选",
           "sourceRange": {
             "start": {
-              "line": 203,
+              "line": 208,
               "column": 6
             },
             "end": {
-              "line": 206,
+              "line": 211,
               "column": 7
             }
           },
@@ -34594,11 +34671,11 @@
           "description": "Whether to show radio or not",
           "sourceRange": {
             "start": {
-              "line": 213,
+              "line": 218,
               "column": 6
             },
             "end": {
-              "line": 216,
+              "line": 221,
               "column": 7
             }
           },
@@ -34610,11 +34687,11 @@
           "description": "Whether to expand all nodes by default",
           "sourceRange": {
             "start": {
-              "line": 223,
+              "line": 228,
               "column": 6
             },
             "end": {
-              "line": 226,
+              "line": 231,
               "column": 7
             }
           },
@@ -34626,11 +34703,11 @@
           "description": "Accordion mode, showing only one sibling node at a time",
           "sourceRange": {
             "start": {
-              "line": 233,
+              "line": 238,
               "column": 6
             },
             "end": {
-              "line": 236,
+              "line": 241,
               "column": 7
             }
           },
@@ -34642,11 +34719,11 @@
           "description": "How many pixels are indented per layer.",
           "sourceRange": {
             "start": {
-              "line": 243,
+              "line": 248,
               "column": 6
             },
             "end": {
-              "line": 247,
+              "line": 252,
               "column": 7
             }
           },
@@ -34658,11 +34735,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 248,
+              "line": 253,
               "column": 6
             },
             "end": {
-              "line": 251,
+              "line": 256,
               "column": 7
             }
           },
@@ -34674,11 +34751,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 252,
+              "line": 257,
               "column": 6
             },
             "end": {
-              "line": 261,
+              "line": 266,
               "column": 7
             }
           },
@@ -34690,11 +34767,11 @@
           "description": "The search word",
           "sourceRange": {
             "start": {
-              "line": 267,
+              "line": 272,
               "column": 6
             },
             "end": {
-              "line": 269,
+              "line": 275,
               "column": 7
             }
           },
@@ -34726,6 +34803,12 @@
           "name": "filter-value-changed",
           "description": "Fired when the `filterValue` property changes.",
           "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "search-word-changed",
+          "description": "Fired when the `searchWord` property changes.",
+          "metadata": {}
         }
       ],
       "styling": {
@@ -34747,11 +34830,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 130,
+              "line": 132,
               "column": 6
             },
             "end": {
-              "line": 132,
+              "line": 134,
               "column": 7
             }
           },
@@ -34768,11 +34851,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 136,
+              "line": 138,
               "column": 6
             },
             "end": {
-              "line": 138,
+              "line": 140,
               "column": 7
             }
           },
@@ -34789,11 +34872,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 143,
+              "line": 145,
               "column": 6
             },
             "end": {
-              "line": 145,
+              "line": 147,
               "column": 7
             }
           },
@@ -34810,11 +34893,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 153,
               "column": 6
             },
             "end": {
-              "line": 154,
+              "line": 156,
               "column": 7
             }
           },
@@ -34832,11 +34915,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 160,
+              "line": 162,
               "column": 6
             },
             "end": {
-              "line": 164,
+              "line": 166,
               "column": 7
             }
           },
@@ -34855,11 +34938,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 170,
+              "line": 172,
               "column": 6
             },
             "end": {
-              "line": 173,
+              "line": 175,
               "column": 7
             }
           },
@@ -34877,11 +34960,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 178,
+              "line": 180,
               "column": 6
             },
             "end": {
-              "line": 181,
+              "line": 183,
               "column": 7
             }
           },
@@ -34899,11 +34982,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 185,
+              "line": 187,
               "column": 6
             },
             "end": {
-              "line": 187,
+              "line": 189,
               "column": 7
             }
           },
@@ -34920,11 +35003,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 188,
+              "line": 190,
               "column": 6
             },
             "end": {
-              "line": 191,
+              "line": 193,
               "column": 7
             }
           },
@@ -34942,11 +35025,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 192,
+              "line": 194,
               "column": 6
             },
             "end": {
-              "line": 195,
+              "line": 197,
               "column": 7
             }
           },
@@ -34964,11 +35047,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 201,
+              "line": 203,
               "column": 6
             },
             "end": {
-              "line": 204,
+              "line": 206,
               "column": 7
             }
           },
@@ -34980,17 +35063,39 @@
           "defaultValue": "\"id\""
         },
         {
+          "name": "attrForLabel",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 207,
+              "column": 6
+            },
+            "end": {
+              "line": 210,
+              "column": 7
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          },
+          "defaultValue": "\"label\""
+        },
+        {
           "name": "showRadio",
           "type": "boolean",
           "description": "Whether to show radio or not",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 211,
+              "line": 217,
               "column": 6
             },
             "end": {
-              "line": 214,
+              "line": 220,
               "column": 7
             }
           },
@@ -35008,11 +35113,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 220,
+              "line": 226,
               "column": 6
             },
             "end": {
-              "line": 223,
+              "line": 229,
               "column": 7
             }
           },
@@ -35030,11 +35135,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 229,
+              "line": 235,
               "column": 6
             },
             "end": {
-              "line": 233,
+              "line": 239,
               "column": 7
             }
           },
@@ -35052,11 +35157,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 238,
+              "line": 244,
               "column": 6
             },
             "end": {
-              "line": 240,
+              "line": 246,
               "column": 7
             }
           },
@@ -35073,11 +35178,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 246,
+              "line": 252,
               "column": 6
             },
             "end": {
-              "line": 249,
+              "line": 255,
               "column": 7
             }
           },
@@ -35095,11 +35200,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 251,
+              "line": 257,
               "column": 6
             },
             "end": {
-              "line": 255,
+              "line": 261,
               "column": 7
             }
           },
@@ -35119,11 +35224,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 269,
+              "line": 275,
               "column": 2
             },
             "end": {
-              "line": 291,
+              "line": 299,
               "column": 3
             }
           },
@@ -35139,11 +35244,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 293,
+              "line": 301,
               "column": 2
             },
             "end": {
-              "line": 295,
+              "line": 303,
               "column": 3
             }
           },
@@ -35159,11 +35264,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 297,
+              "line": 305,
               "column": 2
             },
             "end": {
-              "line": 299,
+              "line": 307,
               "column": 3
             }
           },
@@ -35183,11 +35288,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 305,
+              "line": 313,
               "column": 2
             },
             "end": {
-              "line": 307,
+              "line": 315,
               "column": 3
             }
           },
@@ -35203,11 +35308,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 309,
+              "line": 317,
               "column": 2
             },
             "end": {
-              "line": 311,
+              "line": 319,
               "column": 3
             }
           },
@@ -35224,11 +35329,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 313,
+              "line": 321,
               "column": 2
             },
             "end": {
-              "line": 317,
+              "line": 325,
               "column": 3
             }
           },
@@ -35245,11 +35350,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 319,
+              "line": 327,
               "column": 2
             },
             "end": {
-              "line": 321,
+              "line": 329,
               "column": 3
             }
           },
@@ -35278,7 +35383,7 @@
           "column": 0
         },
         "end": {
-          "line": 322,
+          "line": 330,
           "column": 1
         }
       },
@@ -35291,11 +35396,11 @@
           "description": "A url for fetching local data, the response data of the request should be json.",
           "sourceRange": {
             "start": {
-              "line": 130,
+              "line": 132,
               "column": 6
             },
             "end": {
-              "line": 132,
+              "line": 134,
               "column": 7
             }
           },
@@ -35307,11 +35412,11 @@
           "description": "The fetch param of the url,for example: {id: 2}",
           "sourceRange": {
             "start": {
-              "line": 136,
+              "line": 138,
               "column": 6
             },
             "end": {
-              "line": 138,
+              "line": 140,
               "column": 7
             }
           },
@@ -35323,11 +35428,11 @@
           "description": "The label of the select tree.",
           "sourceRange": {
             "start": {
-              "line": 143,
+              "line": 145,
               "column": 6
             },
             "end": {
-              "line": 145,
+              "line": 147,
               "column": 7
             }
           },
@@ -35339,11 +35444,11 @@
           "description": "The placeholder of the select.",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 153,
               "column": 6
             },
             "end": {
-              "line": 154,
+              "line": 156,
               "column": 7
             }
           },
@@ -35355,11 +35460,11 @@
           "description": "The data of the tree",
           "sourceRange": {
             "start": {
-              "line": 160,
+              "line": 162,
               "column": 6
             },
             "end": {
-              "line": 164,
+              "line": 166,
               "column": 7
             }
           },
@@ -35371,11 +35476,11 @@
           "description": "The selected value of this select tree",
           "sourceRange": {
             "start": {
-              "line": 170,
+              "line": 172,
               "column": 6
             },
             "end": {
-              "line": 173,
+              "line": 175,
               "column": 7
             }
           },
@@ -35387,11 +35492,11 @@
           "description": "An array of the selected items",
           "sourceRange": {
             "start": {
-              "line": 178,
+              "line": 180,
               "column": 6
             },
             "end": {
-              "line": 181,
+              "line": 183,
               "column": 7
             }
           },
@@ -35403,11 +35508,11 @@
           "description": "对选中数据结果进行处理的函数",
           "sourceRange": {
             "start": {
-              "line": 185,
+              "line": 187,
               "column": 6
             },
             "end": {
-              "line": 187,
+              "line": 189,
               "column": 7
             }
           },
@@ -35419,11 +35524,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 188,
+              "line": 190,
               "column": 6
             },
             "end": {
-              "line": 191,
+              "line": 193,
               "column": 7
             }
           },
@@ -35435,11 +35540,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 192,
+              "line": 194,
               "column": 6
             },
             "end": {
-              "line": 195,
+              "line": 197,
               "column": 7
             }
           },
@@ -35451,11 +35556,11 @@
           "description": "Attribute name for value.",
           "sourceRange": {
             "start": {
-              "line": 201,
+              "line": 203,
               "column": 6
             },
             "end": {
-              "line": 204,
+              "line": 206,
               "column": 7
             }
           },
@@ -35463,15 +35568,31 @@
           "type": "string"
         },
         {
+          "name": "attr-for-label",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 207,
+              "column": 6
+            },
+            "end": {
+              "line": 210,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "type": "string | null | undefined"
+        },
+        {
           "name": "show-radio",
           "description": "Whether to show radio or not",
           "sourceRange": {
             "start": {
-              "line": 211,
+              "line": 217,
               "column": 6
             },
             "end": {
-              "line": 214,
+              "line": 220,
               "column": 7
             }
           },
@@ -35483,11 +35604,11 @@
           "description": "Whether to display the search box",
           "sourceRange": {
             "start": {
-              "line": 220,
+              "line": 226,
               "column": 6
             },
             "end": {
-              "line": 223,
+              "line": 229,
               "column": 7
             }
           },
@@ -35499,11 +35620,11 @@
           "description": "Set to true, if the selection is required.",
           "sourceRange": {
             "start": {
-              "line": 229,
+              "line": 235,
               "column": 6
             },
             "end": {
-              "line": 233,
+              "line": 239,
               "column": 7
             }
           },
@@ -35515,11 +35636,11 @@
           "description": "The prompt tip to show when input is invalid.",
           "sourceRange": {
             "start": {
-              "line": 238,
+              "line": 244,
               "column": 6
             },
             "end": {
-              "line": 240,
+              "line": 246,
               "column": 7
             }
           },
@@ -35531,11 +35652,11 @@
           "description": "The prompt tip's position. top/bottom",
           "sourceRange": {
             "start": {
-              "line": 246,
+              "line": 252,
               "column": 6
             },
             "end": {
-              "line": 249,
+              "line": 255,
               "column": 7
             }
           },
@@ -35547,11 +35668,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 251,
+              "line": 257,
               "column": 6
             },
             "end": {
-              "line": 255,
+              "line": 261,
               "column": 7
             }
           },
@@ -35616,11 +35737,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 189,
+              "line": 190,
               "column": 6
             },
             "end": {
-              "line": 191,
+              "line": 192,
               "column": 7
             }
           },
@@ -35637,11 +35758,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 197,
+              "line": 198,
               "column": 6
             },
             "end": {
-              "line": 201,
+              "line": 202,
               "column": 7
             }
           },
@@ -35660,11 +35781,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 206,
+              "line": 207,
               "column": 6
             },
             "end": {
-              "line": 208,
+              "line": 209,
               "column": 7
             }
           },
@@ -35681,11 +35802,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 209,
+              "line": 210,
               "column": 6
             },
             "end": {
-              "line": 212,
+              "line": 213,
               "column": 7
             }
           },
@@ -35703,11 +35824,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 218,
+              "line": 219,
               "column": 6
             },
             "end": {
-              "line": 221,
+              "line": 222,
               "column": 7
             }
           },
@@ -35725,11 +35846,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 227,
+              "line": 228,
               "column": 6
             },
             "end": {
-              "line": 230,
+              "line": 231,
               "column": 7
             }
           },
@@ -35747,11 +35868,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 236,
+              "line": 237,
               "column": 6
             },
             "end": {
-              "line": 239,
+              "line": 240,
               "column": 7
             }
           },
@@ -35769,11 +35890,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 244,
+              "line": 245,
               "column": 6
             },
             "end": {
-              "line": 247,
+              "line": 248,
               "column": 7
             }
           },
@@ -35791,11 +35912,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 251,
+              "line": 252,
               "column": 6
             },
             "end": {
-              "line": 253,
+              "line": 254,
               "column": 7
             }
           },
@@ -35812,11 +35933,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 257,
+              "line": 258,
               "column": 6
             },
             "end": {
-              "line": 259,
+              "line": 260,
               "column": 7
             }
           },
@@ -35833,11 +35954,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 260,
+              "line": 261,
               "column": 6
             },
             "end": {
-              "line": 263,
+              "line": 264,
               "column": 7
             }
           },
@@ -35855,11 +35976,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 264,
+              "line": 265,
               "column": 6
             },
             "end": {
-              "line": 267,
+              "line": 268,
               "column": 7
             }
           },
@@ -35877,11 +35998,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 272,
+              "line": 273,
               "column": 6
             },
             "end": {
-              "line": 274,
+              "line": 275,
               "column": 7
             }
           },
@@ -35898,11 +36019,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 280,
+              "line": 281,
               "column": 6
             },
             "end": {
-              "line": 284,
+              "line": 285,
               "column": 7
             }
           },
@@ -35920,11 +36041,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 290,
+              "line": 291,
               "column": 6
             },
             "end": {
-              "line": 294,
+              "line": 295,
               "column": 7
             }
           },
@@ -35942,11 +36063,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 299,
+              "line": 300,
               "column": 6
             },
             "end": {
-              "line": 301,
+              "line": 302,
               "column": 7
             }
           },
@@ -35963,11 +36084,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 307,
+              "line": 308,
               "column": 6
             },
             "end": {
-              "line": 310,
+              "line": 311,
               "column": 7
             }
           },
@@ -35985,11 +36106,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 317,
+              "line": 318,
               "column": 6
             },
             "end": {
-              "line": 320,
+              "line": 321,
               "column": 7
             }
           },
@@ -36007,11 +36128,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 326,
+              "line": 327,
               "column": 6
             },
             "end": {
-              "line": 329,
+              "line": 330,
               "column": 7
             }
           },
@@ -36029,11 +36150,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 335,
+              "line": 336,
               "column": 6
             },
             "end": {
-              "line": 338,
+              "line": 339,
               "column": 7
             }
           },
@@ -36051,11 +36172,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 344,
+              "line": 345,
               "column": 6
             },
             "end": {
-              "line": 347,
+              "line": 348,
               "column": 7
             }
           },
@@ -36069,15 +36190,15 @@
         {
           "name": "showAll",
           "type": "boolean | null | undefined",
-          "description": "",
+          "description": "输入框是否展开全部，默认展开全部",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 348,
+              "line": 352,
               "column": 6
             },
             "end": {
-              "line": 352,
+              "line": 356,
               "column": 7
             }
           },
@@ -36095,11 +36216,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 353,
+              "line": 357,
               "column": 6
             },
             "end": {
-              "line": 357,
+              "line": 361,
               "column": 7
             }
           },
@@ -36119,11 +36240,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 371,
+              "line": 375,
               "column": 2
             },
             "end": {
-              "line": 386,
+              "line": 390,
               "column": 3
             }
           },
@@ -36139,11 +36260,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 388,
+              "line": 392,
               "column": 2
             },
             "end": {
-              "line": 392,
+              "line": 396,
               "column": 3
             }
           },
@@ -36159,11 +36280,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 394,
+              "line": 398,
               "column": 2
             },
             "end": {
-              "line": 396,
+              "line": 400,
               "column": 3
             }
           },
@@ -36183,11 +36304,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 402,
+              "line": 406,
               "column": 2
             },
             "end": {
-              "line": 404,
+              "line": 408,
               "column": 3
             }
           },
@@ -36203,11 +36324,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 406,
+              "line": 410,
               "column": 2
             },
             "end": {
-              "line": 410,
+              "line": 418,
               "column": 3
             }
           },
@@ -36224,11 +36345,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 412,
+              "line": 420,
               "column": 2
             },
             "end": {
-              "line": 414,
+              "line": 422,
               "column": 3
             }
           },
@@ -36248,11 +36369,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 416,
+              "line": 424,
               "column": 2
             },
             "end": {
-              "line": 418,
+              "line": 426,
               "column": 3
             }
           },
@@ -36281,7 +36402,7 @@
           "column": 0
         },
         "end": {
-          "line": 419,
+          "line": 427,
           "column": 1
         }
       },
@@ -36294,11 +36415,11 @@
           "description": "A url for fetching local data, the response data of the request should be json.",
           "sourceRange": {
             "start": {
-              "line": 189,
+              "line": 190,
               "column": 6
             },
             "end": {
-              "line": 191,
+              "line": 192,
               "column": 7
             }
           },
@@ -36310,11 +36431,11 @@
           "description": "The data of the tree",
           "sourceRange": {
             "start": {
-              "line": 197,
+              "line": 198,
               "column": 6
             },
             "end": {
-              "line": 201,
+              "line": 202,
               "column": 7
             }
           },
@@ -36326,11 +36447,11 @@
           "description": "The label of the select tree.",
           "sourceRange": {
             "start": {
-              "line": 206,
+              "line": 207,
               "column": 6
             },
             "end": {
-              "line": 208,
+              "line": 209,
               "column": 7
             }
           },
@@ -36342,11 +36463,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 209,
+              "line": 210,
               "column": 6
             },
             "end": {
-              "line": 212,
+              "line": 213,
               "column": 7
             }
           },
@@ -36358,11 +36479,11 @@
           "description": "Attribute name for value.",
           "sourceRange": {
             "start": {
-              "line": 218,
+              "line": 219,
               "column": 6
             },
             "end": {
-              "line": 221,
+              "line": 222,
               "column": 7
             }
           },
@@ -36374,11 +36495,11 @@
           "description": "The placeholder of the select.",
           "sourceRange": {
             "start": {
-              "line": 227,
+              "line": 228,
               "column": 6
             },
             "end": {
-              "line": 230,
+              "line": 231,
               "column": 7
             }
           },
@@ -36390,11 +36511,11 @@
           "description": "The selected value of this select tree",
           "sourceRange": {
             "start": {
-              "line": 236,
+              "line": 237,
               "column": 6
             },
             "end": {
-              "line": 239,
+              "line": 240,
               "column": 7
             }
           },
@@ -36406,11 +36527,11 @@
           "description": "An array of the selected items",
           "sourceRange": {
             "start": {
-              "line": 244,
+              "line": 245,
               "column": 6
             },
             "end": {
-              "line": 247,
+              "line": 248,
               "column": 7
             }
           },
@@ -36422,11 +36543,11 @@
           "description": "对选中数据结果进行处理的函数",
           "sourceRange": {
             "start": {
-              "line": 251,
+              "line": 252,
               "column": 6
             },
             "end": {
-              "line": 253,
+              "line": 254,
               "column": 7
             }
           },
@@ -36438,11 +36559,11 @@
           "description": "过滤属性，对选中的结果集进行处理，过滤选中结果集只为指定层级的数据，与filterFn并行使用且优先于filterFn,eg: '2,3'",
           "sourceRange": {
             "start": {
-              "line": 257,
+              "line": 258,
               "column": 6
             },
             "end": {
-              "line": 259,
+              "line": 260,
               "column": 7
             }
           },
@@ -36454,11 +36575,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 260,
+              "line": 261,
               "column": 6
             },
             "end": {
-              "line": 263,
+              "line": 264,
               "column": 7
             }
           },
@@ -36470,11 +36591,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 264,
+              "line": 265,
               "column": 6
             },
             "end": {
-              "line": 267,
+              "line": 268,
               "column": 7
             }
           },
@@ -36486,11 +36607,11 @@
           "description": "仅做初始化数据使用\n应用场景，通过filterValue回显数据",
           "sourceRange": {
             "start": {
-              "line": 272,
+              "line": 273,
               "column": 6
             },
             "end": {
-              "line": 274,
+              "line": 275,
               "column": 7
             }
           },
@@ -36502,11 +36623,11 @@
           "description": "Set to true, if the selection is required.",
           "sourceRange": {
             "start": {
-              "line": 280,
+              "line": 281,
               "column": 6
             },
             "end": {
-              "line": 284,
+              "line": 285,
               "column": 7
             }
           },
@@ -36518,11 +36639,11 @@
           "description": "Set to true, if the select is readonly.",
           "sourceRange": {
             "start": {
-              "line": 290,
+              "line": 291,
               "column": 6
             },
             "end": {
-              "line": 294,
+              "line": 295,
               "column": 7
             }
           },
@@ -36534,11 +36655,11 @@
           "description": "The prompt tip to show when input is invalid.",
           "sourceRange": {
             "start": {
-              "line": 299,
+              "line": 300,
               "column": 6
             },
             "end": {
-              "line": 301,
+              "line": 302,
               "column": 7
             }
           },
@@ -36550,11 +36671,11 @@
           "description": "The prompt tip's position. top/bottom",
           "sourceRange": {
             "start": {
-              "line": 307,
+              "line": 308,
               "column": 6
             },
             "end": {
-              "line": 310,
+              "line": 311,
               "column": 7
             }
           },
@@ -36566,11 +36687,11 @@
           "description": "The text mode display requires readonly=true to take effect",
           "sourceRange": {
             "start": {
-              "line": 317,
+              "line": 318,
               "column": 6
             },
             "end": {
-              "line": 320,
+              "line": 321,
               "column": 7
             }
           },
@@ -36582,11 +36703,11 @@
           "description": "The connector to connect labels when the isView=true, eg: \"苹果，香蕉，梨\"",
           "sourceRange": {
             "start": {
-              "line": 326,
+              "line": 327,
               "column": 6
             },
             "end": {
-              "line": 329,
+              "line": 330,
               "column": 7
             }
           },
@@ -36598,11 +36719,11 @@
           "description": "multiple options or not，default not",
           "sourceRange": {
             "start": {
-              "line": 335,
+              "line": 336,
               "column": 6
             },
             "end": {
-              "line": 338,
+              "line": 339,
               "column": 7
             }
           },
@@ -36614,11 +36735,11 @@
           "description": "Whether to display the search box",
           "sourceRange": {
             "start": {
-              "line": 344,
+              "line": 345,
               "column": 6
             },
             "end": {
-              "line": 347,
+              "line": 348,
               "column": 7
             }
           },
@@ -36627,14 +36748,14 @@
         },
         {
           "name": "show-all",
-          "description": "",
+          "description": "输入框是否展开全部，默认展开全部",
           "sourceRange": {
             "start": {
-              "line": 348,
+              "line": 352,
               "column": 6
             },
             "end": {
-              "line": 352,
+              "line": 356,
               "column": 7
             }
           },
@@ -36646,11 +36767,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 353,
+              "line": 357,
               "column": 6
             },
             "end": {
-              "line": 357,
+              "line": 361,
               "column": 7
             }
           },
@@ -46440,16 +46561,60 @@
               ]
             },
             {
+              "name": "isAllTrue",
+              "description": "",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 218,
+                  "column": 2
+                },
+                "end": {
+                  "line": 221,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "args",
+                  "rest": true
+                }
+              ]
+            },
+            {
+              "name": "isAllFalse",
+              "description": "",
+              "privacy": "public",
+              "sourceRange": {
+                "start": {
+                  "line": 223,
+                  "column": 2
+                },
+                "end": {
+                  "line": 226,
+                  "column": 3
+                }
+              },
+              "metadata": {},
+              "params": [
+                {
+                  "name": "args",
+                  "rest": true
+                }
+              ]
+            },
+            {
               "name": "isExistTruthy",
               "description": "check if there's a truthy in the giving args",
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 222,
+                  "line": 232,
                   "column": 2
                 },
                 "end": {
-                  "line": 224,
+                  "line": 234,
                   "column": 3
                 }
               },
@@ -46467,11 +46632,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 230,
+                  "line": 240,
                   "column": 2
                 },
                 "end": {
-                  "line": 235,
+                  "line": 245,
                   "column": 3
                 }
               },
@@ -46492,11 +46657,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 241,
+                  "line": 251,
                   "column": 2
                 },
                 "end": {
-                  "line": 243,
+                  "line": 253,
                   "column": 3
                 }
               },
@@ -46517,11 +46682,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 249,
+                  "line": 259,
                   "column": 2
                 },
                 "end": {
-                  "line": 261,
+                  "line": 271,
                   "column": 3
                 }
               },
@@ -46541,11 +46706,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 269,
+                  "line": 279,
                   "column": 2
                 },
                 "end": {
-                  "line": 284,
+                  "line": 294,
                   "column": 3
                 }
               },
@@ -46572,11 +46737,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 286,
+                  "line": 296,
                   "column": 2
                 },
                 "end": {
-                  "line": 294,
+                  "line": 304,
                   "column": 3
                 }
               },
@@ -46599,11 +46764,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 299,
+                  "line": 309,
                   "column": 2
                 },
                 "end": {
-                  "line": 313,
+                  "line": 323,
                   "column": 3
                 }
               },
@@ -46623,11 +46788,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 317,
+                  "line": 327,
                   "column": 2
                 },
                 "end": {
-                  "line": 324,
+                  "line": 334,
                   "column": 3
                 }
               },
@@ -46647,11 +46812,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 329,
+                  "line": 339,
                   "column": 2
                 },
                 "end": {
-                  "line": 340,
+                  "line": 350,
                   "column": 3
                 }
               },
@@ -46667,11 +46832,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 341,
+                  "line": 351,
                   "column": 2
                 },
                 "end": {
-                  "line": 343,
+                  "line": 353,
                   "column": 3
                 }
               },
@@ -46687,11 +46852,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 347,
+                  "line": 357,
                   "column": 2
                 },
                 "end": {
-                  "line": 349,
+                  "line": 359,
                   "column": 3
                 }
               },
@@ -46707,11 +46872,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 351,
+                  "line": 361,
                   "column": 2
                 },
                 "end": {
-                  "line": 353,
+                  "line": 363,
                   "column": 3
                 }
               },
@@ -46731,11 +46896,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 355,
+                  "line": 365,
                   "column": 2
                 },
                 "end": {
-                  "line": 374,
+                  "line": 384,
                   "column": 3
                 }
               },
@@ -46752,11 +46917,11 @@
               "privacy": "protected",
               "sourceRange": {
                 "start": {
-                  "line": 376,
+                  "line": 386,
                   "column": 2
                 },
                 "end": {
-                  "line": 395,
+                  "line": 405,
                   "column": 3
                 }
               },
@@ -46773,11 +46938,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 396,
+                  "line": 406,
                   "column": 2
                 },
                 "end": {
-                  "line": 398,
+                  "line": 408,
                   "column": 3
                 }
               },
@@ -46801,11 +46966,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 411,
+                  "line": 421,
                   "column": 2
                 },
                 "end": {
-                  "line": 427,
+                  "line": 437,
                   "column": 3
                 }
               },
@@ -46834,11 +46999,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 439,
+                  "line": 449,
                   "column": 2
                 },
                 "end": {
-                  "line": 459,
+                  "line": 469,
                   "column": 3
                 }
               },
@@ -46858,11 +47023,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 467,
+                  "line": 477,
                   "column": 2
                 },
                 "end": {
-                  "line": 469,
+                  "line": 479,
                   "column": 3
                 }
               },
@@ -46878,11 +47043,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 477,
+                  "line": 487,
                   "column": 2
                 },
                 "end": {
-                  "line": 481,
+                  "line": 491,
                   "column": 3
                 }
               },
@@ -46910,11 +47075,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 489,
+                  "line": 499,
                   "column": 2
                 },
                 "end": {
-                  "line": 493,
+                  "line": 503,
                   "column": 3
                 }
               },
@@ -46940,11 +47105,11 @@
               "privacy": "public",
               "sourceRange": {
                 "start": {
-                  "line": 501,
+                  "line": 511,
                   "column": 2
                 },
                 "end": {
-                  "line": 502,
+                  "line": 512,
                   "column": 3
                 }
               },
@@ -46964,7 +47129,7 @@
               "column": 13
             },
             "end": {
-              "line": 503,
+              "line": 513,
               "column": 1
             }
           },

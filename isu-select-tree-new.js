@@ -160,8 +160,9 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
             </template>
           </div>
         <isu-iron-fit id="newtree-collapse"  auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
-              <isu-tree id="tree" data="{{data}}" data-set="{{dataSet}}" selected-items="{{selectedItems}}" value="{{value}}" attr-for-value="[[attrForValue]]"
+              <isu-tree id="tree" data="{{data}}" data-set="{{dataSet}}" selected-items="{{selectedItems}}" value="{{value}}" 
                         filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}"  init-filter-value="[[initFilterValue]]"
+                        attr-for-value="[[attrForValue]]" attr-for-label="[[attrForLabel]]"
                         only-select-level="[[onlySelectLevel]]" filterFn="[[filterFn]]"
                         multi="[[multi]]" show-search-input="[[showSearchInput]]" default-expand-all search-word="{{searchWord}}" 
                         ></isu-tree>
@@ -410,7 +411,11 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
   async _srcChanged (src) {
     if (!src) return
     const data = await this.query({ url: src, data: {} }, { showLoading: false })
-    this.set('data', data)
+    if (Array.isArray(data)) {
+      this.set('data', data)
+    } else {
+      this.set('data', [data])
+    }
   }
 
   _isView (isView, readonly) {
