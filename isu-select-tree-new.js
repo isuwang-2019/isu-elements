@@ -163,7 +163,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
               <isu-tree id="tree" data="{{data}}" data-set="{{dataSet}}" selected-items="{{selectedItems}}" value="{{value}}" 
                         filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}"  init-filter-value="[[initFilterValue]]"
                         attr-for-value="[[attrForValue]]" attr-for-label="[[attrForLabel]]"
-                        only-select-level="[[onlySelectLevel]]" filterFn="[[filterFn]]"
+                        only-select-level="[[onlySelectLevel]]" filter-fn="[[filterFn]]"
                         multi="[[multi]]" show-search-input="[[showSearchInput]]" default-expand-all search-word="{{searchWord}}" 
                         ></isu-tree>
         </isu-iron-fit>

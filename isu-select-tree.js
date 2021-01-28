@@ -110,7 +110,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
         </div>
         <isu-iron-fit id="collapse-tree" auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
           <isu-tree data="{{data}}" selected-items="{{selectedItems}}" value="{{value}}" 
-                filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}" 
+                filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}"  filter-fn="[[filterFn]]"
                 attr-for-value="[[attrForValue]]" attr-for-label="[[attrForLabel]]"
                 show-radio="[[showRadio]]" search-word="{{searchWord}}"  show-search-input="[[showSearchInput]]" default-expand-all></isu-tree>
         </isu-iron-fit>
