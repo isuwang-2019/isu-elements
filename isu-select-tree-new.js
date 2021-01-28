@@ -347,7 +347,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
         value: false
       },
       /**
-       * 输入框是否展开全部，默认展开全部
+       * 输入框是否因为显示数量太多被撑开展示全部，默认展示全部
        * */
       showAll: {
         type: Boolean,
