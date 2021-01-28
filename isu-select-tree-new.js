@@ -346,12 +346,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
         type: Boolean,
         value: false
       },
-      /**
-       * The filter level that need to be showed in the input box. eg: '2,3'
-       * */
-      onlySelectLevel: {
-        type: String
-      },
       showAll: {
         type: Boolean,
         value: true,
