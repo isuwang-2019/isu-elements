@@ -216,6 +216,16 @@ export const BaseBehavior = {
     return !!val
   },
 
+  isAllTrue (...args) {
+    const [first, ...rest] = args
+    return rest.length === 0 ? this.toBoolean(first) : (this.toBoolean(first) && this.isAllTrue(...rest))
+  },
+
+  isAllFalse (...args) {
+    const [first, ...rest] = args
+    return rest.length === 0 ? !this.toBoolean(first) : (!this.toBoolean(first) && this.isAllFalse(...rest))
+  },
+
   /**
    * check if there's a truthy in the giving args
    * @param {*} val

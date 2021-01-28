@@ -91,8 +91,8 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
               disabled="{{ data.disabled }}" 
               on-change="__checkedChangeHandler"
               on-click="__checkedClickedHandler"
-              value="[[ getValueByKey(item, attrForValue) ]]">
-                [[ getValueByKey(item, attrForLabel) ]]
+              value="[[ getValueByKey(data, attrForValue) ]]">
+                [[ getValueByKey(data, attrForLabel) ]]
              </paper-checkbox>
           </template>
           <!--单选框-->
@@ -102,13 +102,15 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
               checked="{{ data.checked }}" 
               disabled="{{ data.disabled }}" 
               on-click="__checkedRadioClickedHandler"
-              value="[[ getValueByKey(item, attrForValue) ]]">
-                [[ getValueByKey(item, attrForLabel) ]]
+              value="[[ getValueByKey(data, attrForValue) ]]">
+                [[ getValueByKey(data, attrForLabel) ]]
              </paper-radio-button>
           </template>
           <!--可自定义部分-->
           <slot name="before-label"></slot>
-          <span class$="ellipsis [[orElse(multi, showRadio, 'pointer')]]">[[data.label]]</span>
+          <template is="dom-if" if="[[isAllFalse(showRadio, multi)]]">
+            <span class="ellipsis pointer">[[ getValueByKey(data, attrForLabel) ]]</span>
+          </template>
           <!--可自定义部分-->
           <slot name="after-label"></slot>
         </div>
@@ -121,6 +123,8 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
             default-expand-all="[[defaultExpandAll]]"
             indent="[[indent]]"
             selected-items="[[selectedItems]]"
+            attr-for-value="[[attrForValue]]"
+            attr-for-label="[[attrForLabel]]"
             hidden="[[!isShow]]"
           >
            <slot name="before-label"></slot>
@@ -155,6 +159,10 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       attrForValue: {
         type: String,
         value: 'id'
+      },
+      attrForLabel: {
+        type: String,
+        value: 'label'
       },
       /**
        * The angle at which a triangle rotates
@@ -451,7 +459,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (this.multi) { // 多选时候
       const isIndeterminate = this.queryCurNodeIsIndeterminate()
       if (!isIndeterminate) {
-        const children = this.data.children || []
+        const children = (this.data && this.data.children) || []
         const flag1 = children.length > 0 && children.every(item => item.checked) // 1、存在子节点，所有的子节点都是选中状态，则为选中状态
         const flag2 = children.length === 0 && (selectedItems || []).findIndex(item => item[this.attrForValue] === this.data[this.attrForValue]) > -1 // 2、不存在子节点，且当前节点在选中节点列表中
         isChecked = flag1 || flag2

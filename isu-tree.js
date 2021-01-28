@@ -88,6 +88,7 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
             default-expand-all="[[defaultExpandAll]]" 
             indent="[[indent]]"
             attr-for-value="[[attrForValue]]"
+            attr-for-label="[[attrForLabel]]"
             selected-items="[[selectedItems]]"
           >
           <div slot="before-label">
@@ -136,6 +137,10 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       attrForValue: {
         type: String,
         value: 'id'
+      },
+      attrForLabel: {
+        type: String,
+        value: 'label'
       },
       /**
        * Whether to require a query input box or not
