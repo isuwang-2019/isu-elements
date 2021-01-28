@@ -1,5 +1,5 @@
-import '@polymer/polymer/polymer-legacy';
-import {html} from "@polymer/polymer";
+import '@polymer/polymer/polymer-legacy'
+import { html } from '@polymer/polymer'
 
 const template = html`
   <dom-module id="isu-tree-shared-styles">
@@ -7,9 +7,9 @@ const template = html`
     <style>
       :host {
         --isu-ui-bg: linear-gradient(315deg, var(--isu-ui-color_lightblue)  0%, var(--isu-ui-color_skyblue) 100%);
-        --isu-ui-red: linear-gradient(315deg, #f9a7c3 0%, var(--isu-ui-color_pink) 100%);
-        --isu-ui-green: linear-gradient(315deg, #70dab3 0%, #199e30 100%);
-        --isu-ui-orange: linear-gradient(315deg, #f9daac  0%, #fdb03d 100%);
+        --isu-ui-red: #D9001B;
+        --isu-ui-green: #31AFA7;
+        --isu-ui-orange: #F98F33;
         --isu-ui-border-radius: 4px;
         --isu-ui-color_yellow: #fdb03d;
         --isu-ui-color_pink: #e91d62;
@@ -61,7 +61,6 @@ const template = html`
     </style>
   </template>
   </dom-module>
-`;
-template.setAttribute("style", 'display: none;');
-document.head.appendChild(template.content);
-
+`
+template.setAttribute('style', 'display: none;')
+document.head.appendChild(template.content)
