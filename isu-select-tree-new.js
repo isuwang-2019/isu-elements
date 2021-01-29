@@ -135,6 +135,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
           :host([show-all]) #tag-content {
             height: auto;
             min-height: 24px
+            @apply --isu-select-tag-content;
           }
           .view-text {
              @apply --isu-view-text

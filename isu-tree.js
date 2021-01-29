@@ -299,11 +299,13 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       return
     }
     const attrForChild = this.attrForChild || 'children'
+    const attrForValue = this.attrForValue || 'id'
     const dataSet = []
     const selectedItems = []
-    const __init = (arr, level = 1) => {
+    const __init = (arr, level = 1, parent) => {
       arr.forEach(item => {
         item.children = item[attrForChild]
+        item.parent = parent
         item.level = level
         item.visible = true
         if (item.checked) {
@@ -312,7 +314,7 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
           item.checked = false
         }
         dataSet.push(item)
-        __init(item[attrForChild] || [], level + 1)
+        __init(item[attrForChild] || [], level + 1, item[attrForValue])
       })
     }
     __init(data)
