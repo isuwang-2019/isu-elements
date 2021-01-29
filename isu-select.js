@@ -530,6 +530,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       textValue: {
         type: String,
+        computed: '__textValueComputed(selectedValues.splices)',
         notify: true
       }
     }
@@ -654,11 +655,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _selectedValuesChanged () {
     if (this.items && this.items.length) {
       if (this.selectedValues.length > 0) {
-        this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(',')
-        this.set('textValue', this.getViewLabels(this.selectedValues, this.attrForLabel, this.joinConnector))
+        const joinConnector = this.joinConnector || ','
+        this.value = this.selectedValues.map(selected => selected[this.attrForValue]).join(joinConnector)
       } else {
         this.value = ''
-        this.set('textValue', '')
       }
       if (this.selectedValues.length !== 0) {
         this.closeCollapse()
@@ -689,24 +689,24 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _updatePressed (event) {
     let cursorIndex = event.target.dataset.cursorIndex
     switch (event.key) {
-      case 'ArrowLeft':
-        cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
-        break
-      case 'ArrowRight':
-        const max = this.selectedValues.length - 1
-        cursorIndex = cursorIndex < max ? ++cursorIndex : max
-        break
-      case 'Backspace':
-        if (cursorIndex >= 0) {
-          this.splice('selectedValues', cursorIndex, 1)
+    case 'ArrowLeft':
+      cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
+      break
+    case 'ArrowRight':
+      const max = this.selectedValues.length - 1
+      cursorIndex = cursorIndex < max ? ++cursorIndex : max
+      break
+    case 'Backspace':
+      if (cursorIndex >= 0) {
+        this.splice('selectedValues', cursorIndex, 1)
+      }
+      if (!this.keyword || this.keyword.length === 0) {
+        if (this.selectedValues) { // 存在数据才抛出,解决新增时候数据为空时退格Array.length出错问题
+          this.pop('selectedValues')
         }
-        if (!this.keyword || this.keyword.length === 0) {
-          if (this.selectedValues) { // 存在数据才抛出,解决新增时候数据为空时退格Array.length出错问题
-            this.pop('selectedValues')
-          }
-        }
-        cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
-        break
+      }
+      cursorIndex = cursorIndex > 0 ? --cursorIndex : -1
+      break
     }
   }
 
@@ -771,6 +771,13 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _permissionChange (permission) {
     this.set('hidden', !permission)
+  }
+
+  __textValueComputed () {
+    const selectedValues = this.selectedValues || []
+    const joinConnector = this.joinConnector || ','
+    const textValue = selectedValues.map(item => item[this.attrForLabel]).join(joinConnector)
+    return textValue
   }
 
   /**

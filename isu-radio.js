@@ -203,6 +203,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       textValue: {
         type: String,
+        computed: '__textValueComputed(value, items)',
         notify: true
       }
     }
@@ -219,26 +220,32 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _requiredChanged (value, required, items = []) {
-    if (required && items.length > 0 && value == undefined) {
+    if (required && items.length > 0 && (value === undefined || value === null || value === '')) {
       // 如果必填， 默认选中第一项
       this.value = items[0][this.attrForValue]
     }
-    if (value && items.length > 0) {
-      this.set('textValue', items.filter(e => e.value == value)[0].label)
-    } else {
-      this.set('textValue', '')
+  }
+
+  __textValueComputed (value, items) {
+    if (!value || !items || items.length === 0) {
+      return ''
     }
+    const attrForValue = this.attrForValue || 'value'
+    const attrForLabel = this.attrForLabel || 'label'
+    const target = items.find(item => item[attrForValue] === value)
+    return target && target[attrForLabel]
   }
 
   _permissionChange (permission) {
     this.set('hidden', !permission)
   }
 
-  itemSelected(e) {
+  itemSelected (e) {
+    const item = e.model.item
     this.dispatchEvent(new CustomEvent('radio-selected'), {
       composed: true,
       bubbles: true,
-      detail: this.value
+      detail: item[this.attrForValue]
     })
   }
 
