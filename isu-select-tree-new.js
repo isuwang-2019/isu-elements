@@ -45,7 +45,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
             font-size: var(--isu-ui-font-size);
             position: relative;
             box-sizing: border-box;
-            width: var(--isu-select-tree-new-width, 300px);
+            width: var(--isu-select-tree-new-width, 320px);
           }
           
           :host([hidden]) {

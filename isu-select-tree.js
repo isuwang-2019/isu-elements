@@ -45,7 +45,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
           position: relative;
-          width: var(--isu-select-tree-width, 300px);
+          width: var(--isu-select-tree-width, 320px);
           box-sizing: border-box;
         }
   
@@ -72,7 +72,6 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
             min-width: 0px;
           }
         .input-div {
-          width: 210px;
           height: 24px;
           line-height: 24px;
           flex: 1;

@@ -242,11 +242,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   itemSelected (e) {
     const item = e.model.item
-    this.dispatchEvent(new CustomEvent('radio-selected'), {
-      composed: true,
-      bubbles: true,
-      detail: item[this.attrForValue]
-    })
+    this.dispatchEvent(new CustomEvent('radio-selected', { bubbles: true, composed: true, detail: item[this.attrForValue] }))
   }
 
   /**
