@@ -328,7 +328,7 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (!this.dataSet || this.dataSet.length === 0) {
       return
     }
-    value = value || ''
+    value = (value && `${value}`) || '' // 将value强制转为string
     const attrForValue = this.attrForValue || 'id'
     const valueItems = value.split(',')
     const selectedItems = this.selectedItems || []
