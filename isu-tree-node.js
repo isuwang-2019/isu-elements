@@ -92,7 +92,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
               on-change="__checkedChangeHandler"
               on-click="__checkedClickedHandler"
               value="[[ getValueByKey(data, attrForValue) ]]">
-                [[ getValueByKey(data, attrForLabel) ]]
+                <span class="ellipsis">[[ getValueByKey(data, attrForLabel) ]]</span>
              </paper-checkbox>
           </template>
           <!--单选框-->
@@ -103,7 +103,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
               disabled="{{ data.disabled }}" 
               on-click="__checkedRadioClickedHandler"
               value="[[ getValueByKey(data, attrForValue) ]]">
-                [[ getValueByKey(data, attrForLabel) ]]
+                <span class="ellipsis">[[ getValueByKey(data, attrForLabel) ]]</span>
              </paper-radio-button>
           </template>
           <!--可自定义部分-->
@@ -306,10 +306,12 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _highlightedLabel (searchWord) {
+    if (searchWord === null || searchWord === undefined) return
     const eles = this.root.querySelectorAll('.ellipsis')
     if (!searchWord) {
       Array.from(eles).forEach(e => {
-        e.innerHTML = this.data.label
+        const label = this.data[this.attrForLabel || 'label']
+        e.innerHTML = label
       })
     } else {
       Array.from(eles).forEach(e => {

@@ -104,7 +104,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
             </template>
             <template is="dom-if" if="[[!isArrayEmpty(selectedItems)]]">
                 <template is="dom-repeat" items="[[selectedItems]]">
-                    [[item.label]]
+                    [[getValueByKey(item, attrForLabel)]]
                 </template>
             </template>
         </div>
