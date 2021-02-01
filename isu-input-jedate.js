@@ -103,7 +103,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
         content: "*";
         color: red;
         position: absolute;
-        left: -10px;
+        left: -8px;
         line-height: inherit;
         @apply --isu-required
       }
