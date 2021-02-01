@@ -7,9 +7,9 @@ const template = html`
     <style>
       :host {
         --isu-ui-bg: linear-gradient(315deg, var(--isu-ui-color_lightblue)  0%, var(--isu-ui-color_skyblue) 100%);
-        --isu-ui-red: linear-gradient(315deg, #f9a7c3 0%, var(--isu-ui-color_pink) 100%);
-        --isu-ui-green: linear-gradient(315deg, #70dab3 0%, #199e30 100%);
-        --isu-ui-orange: linear-gradient(315deg, #f9daac  0%, #fdb03d 100%);
+        --isu-ui-red: #D9001B;
+        --isu-ui-green: #31AFA7;
+        --isu-ui-orange: #F98F33;
         --isu-ui-border-radius: 4px;
         --isu-ui-color_yellow: #fdb03d;
         --isu-ui-color_pink: #e91d62;
@@ -98,9 +98,7 @@ const template = html`
       :host .prompt-tip::before {
         position: absolute;
         content: '';
-        border: 11px solid transparent;
-        border-right: 14px solid;
-        border-right-color: var(--isu-ui-color_lightblue);
+        border: 11px solid transparent;border-right: 14px var(--isu-ui-color_lightblue);
         left: -18px;
       }
       
@@ -109,13 +107,15 @@ const template = html`
       }
       
       .isu-label::after{
+        content: ' :';
+        position: absolute;
+        right: -5px;
         @apply --isu-label--after;
       }
       .isu-label {
+        position: relative;
         margin-right: 13px;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         text-align: right;
         width: var(--isu-label-width, 120px);
         @apply --isu-label;
@@ -125,12 +125,6 @@ const template = html`
           overflow: hidden;
           -o-text-overflow: ellipsis;
           text-overflow: ellipsis;
-      }
-      :host .comma-before::before {
-        content: " :";
-        position: absolute;
-        left: -13px;
-        line-height: inherit;
       }
       /*字体大小*/
       :host .x-small {
