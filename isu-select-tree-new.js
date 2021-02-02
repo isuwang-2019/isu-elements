@@ -142,7 +142,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
           }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div class$="isu-label [[fontSize]]">[[label]]</div>
+         <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
       </template>
       
       <div id="select__container" hidden="[[_isView(isView, readonly)]]" class$="[[fontSize]]">

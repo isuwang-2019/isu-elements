@@ -98,7 +98,9 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
         }
         
       </style>
-      <div class$="isu-label [[fontSize]]">[[label]]</div>
+      <template is="dom-if" if="[[ toBoolean(label) ]]">
+         <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+      </template>
       <div id="checkbox-container" class$="checkbox-container [[fontSize]]">
         <div class="checkboxes">
            <template is="dom-repeat" items="[[ _items ]]" index-as="index">
