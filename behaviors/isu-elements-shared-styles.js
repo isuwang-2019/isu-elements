@@ -100,6 +100,7 @@ const template = html`
       }
       .isu-label {
         position: relative;
+        display: inline-block;
         margin-right: 13px;
         white-space: nowrap;
         text-align: right;
