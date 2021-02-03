@@ -302,9 +302,9 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
       /**
        * 判断是否用正则匹配校验输入
        */
-      preventInvalidInput:{
-        type:Boolean,
-        value:false
+      preventInvalidInput: {
+        type: Boolean,
+        value: false
       },
       /**
        * Value of the input.
@@ -478,7 +478,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
     let valid = this.root.querySelector('#input').validate()
 
     if (this.required) {
-      valid = valid && (this.value != undefined && this.value !== '')
+      valid = valid && (this.value !== undefined && this.value !== null && this.value !== '')
     }
 
     if (this._patternRegExp && this.value) {

@@ -94,11 +94,8 @@ const template = html`
       :host .prompt-tip-icon {
         width: 20px;
       }
-      .isu-label::after{
-        content: ' :';
-        position: absolute;
-        right: -5px;
-        @apply --isu-label--after;
+      :host .isu-label-div {
+        display: flex;
       }
       .isu-label {
         position: relative;
@@ -110,6 +107,15 @@ const template = html`
         text-align: right;
         width: var(--isu-label-width, 120px);
         @apply --isu-label;
+      }
+      .isu-label::after{
+        content: ' :';
+        position: absolute;
+        right: -5px;
+        @apply --isu-label--after;
+      }
+      :host .isu-label-after-extension::before {
+        @apply --isu-label-after-extension
       }
       .ellipsis {
           white-space: nowrap;
@@ -132,12 +138,6 @@ const template = html`
       }
       :host .larger {
         font-size: 18px
-      }
-      :host .isu-label-after-extension::before {
-        @apply --isu-label-after-extension
-      }
-      :host .isu-label-div {
-        display: flex;
       }
     </style>
   </template>
