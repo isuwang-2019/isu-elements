@@ -6,7 +6,6 @@ import '@polymer/iron-icons/social-icons'
 import '@polymer/iron-selector/iron-selector'
 import '@polymer/iron-input/iron-input'
 import { BaseBehavior } from './behaviors/base-behavior.js'
-
 import './behaviors/isu-elements-shared-styles.js'
 import { PinyinUtil } from './utils/pinyinUtil'
 import { CacheSearchUtil } from './utils/cacheSearchUtil'
@@ -185,14 +184,6 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       #select-collapse[data-collapse-open] {
         max-height: 300px;
       }
-      
-      /*#select-collapse[data-collapse-open-top] {*/
-        /*top: 100%;*/
-      /*}*/
-      
-      /*#select-collapse[data-collapse-open-bottom] {*/
-        /*bottom: 100%;*/
-      /*}*/
 
       .selector-panel {
         display: block;
@@ -267,7 +258,6 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <template is="dom-if" if="[[ toBoolean(label) ]]">
        <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
     </template>
-    
     <div id="select__container" class$="[[fontSize]]">
       <div class="select__container__viewer" on-click="_onInputClick">
         <div class="tags__container">

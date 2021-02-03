@@ -72,7 +72,6 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           border-color: var(--isu-ui-color_pink);
         }
   
-  
         textarea::-webkit-input-placeholder {
           color: #999;
           @apply --isu-textarea-placeholder;
@@ -104,12 +103,10 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           height: var(--isu-textarea-height, 34px);
           line-height: var(--isu-textarea-height, 34px);
        }
-  
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
          <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
       </template>
-      
       <div id="textarea-wrapper" class$="[[fontSize]]">
         <textarea id="textarea" value="{{value::input}}" aria-label$="[[label]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]"  cols$="[[cols]]"
         inputmode$="[[inputmode]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" required$="[[required]]" disabled$="[[disabled]]" rows$="[[rows]]" 
@@ -181,7 +178,6 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
         type: Boolean,
         value: false
       },
-
       /**
        * Bound to the textarea's `inputmode` attribute.
        * @type {string}
@@ -189,7 +185,6 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
       inputmode: {
         type: String
       },
-
       /**
        * Bound to the textarea's `placeholder` attribute.
        * @type {string}
@@ -197,7 +192,6 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
       placeholder: {
         type: String
       },
-
       /**
        * Bound to the textarea's `readonly` attribute.
        * @type {boolean}
