@@ -42,7 +42,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           width: var(--isu-textarea-width, 400px);
           position: relative;
           background: white;
-          height: var(--isu-textarea-height, 34px);
+          height: var(--isu-textarea-height, var(--isu-default-line-height, 34px));
         }
   
         #textarea-wrapper {
@@ -107,7 +107,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
   
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+         <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
       </template>
       
       <div id="textarea-wrapper" class$="[[fontSize]]">

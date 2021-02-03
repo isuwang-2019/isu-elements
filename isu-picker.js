@@ -61,8 +61,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <style include="isu-elements-shared-styles">
         :host {
           display: flex;
-          height: var(--isu-picker-height, 34px);
-          line-height: var(--isu-picker-height, 34px);
+          height: var(--isu-picker-height, var(--isu-default-line-height, 34px));
+          line-height: var(--isu-picker-height,var(--isu-default-line-height, 34px));
           width: var(--isu-picker-width, 300px);
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
@@ -284,7 +284,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
        }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-        <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+        <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
       </template>
       <div class$="input-wrap [[fontSize]]" id="select__container">
         <div class="input-container">

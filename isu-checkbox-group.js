@@ -36,7 +36,7 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
           display: flex;
           flex-wrap: nowrap;
           position: relative;
-          line-height: var(--isu-checkbox-group-height, 34px);
+          line-height: var(--isu-checkbox-group-height, var(--isu-default-line-height, 34px));
           font-family: var(--isu-ui-font-family), sans-serif;
           font-size: var(--isu-ui-font-size);
         }
@@ -99,7 +99,7 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
         
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+         <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
       </template>
       <div id="checkbox-container" class$="checkbox-container [[fontSize]]">
         <div class="checkboxes">

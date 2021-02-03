@@ -113,7 +113,7 @@ export class IsuUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBe
 </style>
   <div class$="toolbar [[fontSize]]">
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+       <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
     </template>
     <isu-button class$="choose-file [[fontSize]]" title="点击选择文件" on-click="_triggerChooseFile">选择文件</isu-button>
     <template is="dom-if" if="{{isUpload}}">

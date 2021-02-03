@@ -40,7 +40,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       <style include="isu-elements-shared-styles">
           :host {
             display: flex;
-            line-height: var(--isu-select-tree-new-height, 34px);
+            line-height: var(--isu-select-tree-new-height, var(--isu-default-line-height, 34px));
             font-family: var(--isu-ui-font-family), sans-serif;
             font-size: var(--isu-ui-font-size);
             position: relative;
@@ -74,12 +74,12 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
           }
 
           .input-div {
+            line-height: calc(var(--isu-select-tree-new-height, var(--isu-default-line-height, 34px)) - 2px - 4px);
             height: 24px;
-            line-height: 24px;
             flex: 1;
             font-family: 'Microsoft Yahei', sans-serif;
             font-size: inherit;
-            padding: 4px 8px;
+            padding: 2px 8px;
             min-width: inherit;
             background-color: #fff;
             border: 1px solid #ccc;
@@ -137,7 +137,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
           }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+         <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
       </template>
       
       <div id="select__container" hidden="[[isAllTrue(isView, readonly)]]" class$="[[fontSize]]">

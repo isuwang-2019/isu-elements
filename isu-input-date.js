@@ -41,8 +41,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host {
         display: flex;
         width: var(--isu-input-date-width, 380px);
-        height: var(--isu-input-date-height, 34px);
-        line-height: var(--isu-input-date-height, 34px);
+        height: var(--isu-input-date-height, var(--isu-default-line-height, 34px));
+        line-height: var(--isu-input-date-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
       }
@@ -316,7 +316,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+       <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
     </template>
     <div id="input__date" class$="input__container [[fontSize]]" on-click="openDialog">
       <iron-icon class="date-range" icon=icons:date-range></iron-icon>

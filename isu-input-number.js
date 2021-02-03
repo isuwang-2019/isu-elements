@@ -53,8 +53,8 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
         font-size: var(--isu-ui-font-size);
         border-radius: 4px;
         outline: none;
-        line-height: var(--isu-input-number-height, 34px);
-        height: var(--isu-input-number-height, 34px);
+        line-height: var(--isu-input-number-height, var(--isu-default-line-height, 34px));
+        height: var(--isu-input-number-height, var(--isu-default-line-height, 34px));
       }
       .box {
          display: inline-block;
@@ -98,7 +98,7 @@ class IsuInputNumber extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+       <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
     </template>
     <button id="removeButton" class$="box icon-box [[fontSize]]" disabled="[[disabled]]" data-args="[[step]]" on-click="minus">
       <iron-icon class="icon" icon="icons:remove"></iron-icon>

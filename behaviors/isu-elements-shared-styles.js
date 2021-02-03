@@ -18,6 +18,8 @@ const template = html`
         --isu-ui-color_lightblue: #8FCDFF;
         --isu-ui-font-family: 'Microsoft YaHei';
         --isu-ui-font-size: 14px;
+        --isu-default-line-height: 34px;--isu-select-tree-new-height
+        line-height: var(--isu-default-line-height);
       }
       :host([hidden]) {
         display: none;
@@ -103,8 +105,8 @@ const template = html`
         display: inline-block;
         margin-right: 13px;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        /*overflow: hidden;*/
+        /*text-overflow: ellipsis;*/
         text-align: right;
         width: var(--isu-label-width, 120px);
         @apply --isu-label;
@@ -131,8 +133,11 @@ const template = html`
       :host .larger {
         font-size: 18px
       }
-      :host .isu-label-before::before {
-        @apply --isu-label-before
+      :host .isu-label-after-extension::before {
+        @apply --isu-label-after-extension
+      }
+      :host .isu-label-div {
+        display: flex;
       }
     </style>
   </template>

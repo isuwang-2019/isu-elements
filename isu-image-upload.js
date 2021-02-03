@@ -165,7 +165,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
 
     <div id="main-container" class$="[[fontSize]]">
        <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+         <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
       </template>
       
       <div id="inner-container">

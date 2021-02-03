@@ -36,8 +36,8 @@ class IsuMask extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host {
         display: flex;
         width: var(--isu-mask-width, 300px);
-        height: var(--isu-mask-height, 34px);
-        line-height: var(--isu-mask-height, 34px);
+        height: var(--isu-mask-height, var(--isu-default-line-height, 34px));
+        line-height: var(--isu-mask-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
       }
@@ -173,7 +173,7 @@ class IsuMask extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </style>
     
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+       <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
     </template>
 
     <div class$="mask__container [[fontSize]]">

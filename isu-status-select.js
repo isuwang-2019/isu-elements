@@ -68,7 +68,7 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       </style>
       <div class="status-select-content">
         <template is="dom-if" if="[[ toBoolean(label) ]]">
-           <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+           <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
         </template>
         <iron-selector selected="{{value}}" attr-for-selected="statusItem">
             <template is="dom-repeat" items="[[items]]">

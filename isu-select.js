@@ -55,8 +55,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host {
         display: flex;
         width: var(--isu-select-width, 300px);
-        height: var(--isu-select-height, 34px);
-        line-height: var(--isu-select-height, 34px);
+        height: var(--isu-select-height, var(--isu-default-line-height, 34px));
+        line-height: var(--isu-select-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
         position: relative;
@@ -265,7 +265,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </style>
     
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+       <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
     </template>
     
     <div id="select__container" class$="[[fontSize]]">

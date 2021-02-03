@@ -60,8 +60,8 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       :host {
         display: flex;
         width: var(--isu-input-jedate-width, 300px);
-        height: var(--isu-input-jedate-height, 34px);
-        line-height: var(--isu-input-jedate-height, 34px);
+        height: var(--isu-input-jedate-height, var(--isu-default-line-height, 34px));
+        line-height: var(--isu-input-jedate-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
       }
@@ -115,7 +115,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
       }
     </style>
     <template is="dom-if" if="[[ toBoolean(label) ]]">
-       <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+       <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
     </template>
     <div class$="input__container [[fontSize]]" id="input__jedate">
        <div class="jeinpbox"><input type="text" id$="[[id]]" class$="jeinput [[fontSize]]" readonly$="[[readonly]]" placeholder$="[[placeholder]]" value$="{{value}}"></div>

@@ -29,30 +29,27 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
-        display: inline-block;
-        height: 34px;
-        line-height: 32px;
+        display: flex;
+        height: var(--isu-radio-height, var(--isu-default-line-height, 34px));
+        line-height: var(--isu-radio-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
+        box-sizing: border-box;
       }
 
       :host([hidden]) {
         display: none;
       }
 
-      .radio-wrapper {
-        display: flex;
-      }
-
       .candidate-wrapper {
-        display: inline-block;
+        display: flex;
         position: relative;
+        flex: 1;
       }
 
       .candidate-items {
         display: flex;
         flex-wrap: nowrap;
-        vertical-align: middle;
       }
       
       :host([required]) .candidate-wrapper::before {
@@ -76,7 +73,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       .candidate__item {
         height: inherit;
-        line-height: inherit;
+        line-height: calc(var(--isu-radio-height, var(--isu-default-line-height, 34px)) - 2px);
         padding: 0 10px;
         font-size: inherit;
         cursor: pointer;
@@ -98,12 +95,11 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
 
     </style>
-    <div class$="radio-wrapper [[fontSize]]">
       <template is="dom-if" if="[[ toBoolean(label) ]]">
-         <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
+         <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
       </template>
       
-      <div class="candidate-wrapper">
+      <div class$="candidate-wrapper [[fontSize]]">
         <iron-selector class="candidate-items" selected="{{value}}" attr-for-selected="radio-item">
           <template is="dom-repeat" items="[[items]]">
             <span class="candidate__item" radio-item="[[ getValueByKey(item, attrForValue) ]]" on-tap="itemSelected">
@@ -112,9 +108,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
           </template>
         </iron-selector>
         <div class="mask"></div>
-        
       </div>
-    </div>
 `
   }
 

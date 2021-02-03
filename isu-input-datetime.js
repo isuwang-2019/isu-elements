@@ -36,10 +36,10 @@ class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) 
       :host {
         display: flex;
         width: var(--isu-input-datetime-width, 300px);
-        height: var(--isu-input-datetime-height, 34px);
+        height: var(--isu-input-datetime-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);
-        line-height: var(--isu-input-datetime-height, 34px);
+        line-height: var(--isu-input-datetime-height, var(--isu-default-line-height, 34px));
       }
 
       #input {
