@@ -59,7 +59,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: var(--isu-input-jedate-width, 300px);
+        width: var(--isu-input-jedate-width, 320px);
         height: var(--isu-input-jedate-height, var(--isu-default-line-height, 34px));
         line-height: var(--isu-input-jedate-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;

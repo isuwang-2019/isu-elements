@@ -5,7 +5,7 @@ import './isu-elements-shared-styles'
 const template = html`
   <dom-module id="isu-tree-shared-styles">
   <template>
-    <style include="base-style">
+    <style include="isu-elements-shared-styles">
       .dht-tree-main {
         position: relative;
       }

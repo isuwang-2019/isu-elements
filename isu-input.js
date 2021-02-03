@@ -30,7 +30,7 @@ import './behaviors/isu-elements-shared-styles.js'
  * |`--isu-input-label` | Mixin applied to the label of input | {}
  * |`--isu-input` | Mixin applied to the input | {}
  * |`--isu-input-unit` | Mixin applied to unit of the input value | {}
- * |`--isu-input-width` | The width of the isu-input | 300px
+ * |`--isu-input-width` | The width of the isu-input | 320px
  *
  *
  * @customElement

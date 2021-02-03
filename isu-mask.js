@@ -23,7 +23,7 @@ import './isu-input.js'
  * |Custom property | Description | Default|
  * |----------------|-------------|----------|
  * |`--isu-mask-label` | Mixin applied to the label of mask | {}
- * |`--isu-mask-width` | The width of the isu-mask| 300px
+ * |`--isu-mask-width` | The width of the isu-mask| 320px
  *
  * @customElement
  * @polymer
@@ -35,7 +35,7 @@ class IsuMask extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: var(--isu-mask-width, 300px);
+        width: var(--isu-mask-width, 320px);
         height: var(--isu-mask-height, var(--isu-default-line-height, 34px));
         line-height: var(--isu-mask-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;

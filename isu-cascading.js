@@ -31,6 +31,7 @@ class IsuCascading extends mixinBehaviors([BaseBehavior], PolymerElement) {
           display: flex;
           height: var(--isu-cascading-height, var(--isu-default-line-height, 34px));
           line-height: var(--isu-cascading-height, var(--isu-default-line-height, 34px));
+          width: var(--isu-cascading-width, 320px);
           min-width: 200px;
         }
         

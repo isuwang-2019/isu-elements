@@ -38,7 +38,7 @@ import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
 
  |Custom property | Description | Default|
  |----------------|-------------|----------|
- |`--isu-picker-width` | The width of the picker | 300px
+ |`--isu-picker-width` | The width of the picker | 320px
  |`--isu-ui-font-family` | The font family of the picker | Microsoft YaHei
  |`--isu-ui-font-size` | The font size of the picker | 14px
  |`--isu-ui-bg` | The basic color of the selected tags,collapse tr`s color when hover tr | linear-gradient(315deg, var(--isu-ui-color_lightblue)  0%, var(--isu-ui-color_skyblue) 100%)
@@ -169,10 +169,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           visibility: visible;
           opacity: 1;
           /*transition: all 150ms ease-in;*/
-          
-          /*width: 300px;*/
-          
-  
           @apply --isu-picker-dropdown;
         }
   

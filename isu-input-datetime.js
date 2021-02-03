@@ -22,7 +22,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
  * |Custom property | Description | Default|
  * |----------------|-------------|----------|
  * |`--isu-input-datetime-label` | Mixin applied to the label of input | {}
- * |`--isu-input-datetime-width` | The width of the isu-input-datetime | 300px
+ * |`--isu-input-datetime-width` | The width of the isu-input-datetime | 320px
  *
  * @customElement
  * @polymer
@@ -35,7 +35,7 @@ class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) 
     <style>
       :host {
         display: flex;
-        width: var(--isu-input-datetime-width, 300px);
+        width: var(--isu-input-datetime-width, 320px);
         height: var(--isu-input-datetime-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;
         font-size: var(--isu-ui-font-size);

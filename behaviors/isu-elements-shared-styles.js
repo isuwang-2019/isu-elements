@@ -138,6 +138,7 @@ const template = html`
       }
       :host .isu-label-div {
         display: flex;
+        position: relative;
       }
     </style>
   </template>
