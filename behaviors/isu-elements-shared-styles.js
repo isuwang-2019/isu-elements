@@ -6,7 +6,7 @@ const template = html`
   <template>
     <style>
       :host {
-        --isu-ui-bg: linear-gradient(315deg, var(--isu-ui-color_lightblue)  0%, var(--isu-ui-color_skyblue) 100%);
+        --isu-ui-bg: #0197D7;
         --isu-ui-red: #D9001B;
         --isu-ui-green: #31AFA7;
         --isu-ui-orange: #F98F33;
@@ -103,6 +103,8 @@ const template = html`
         display: inline-block;
         margin-right: 13px;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         text-align: right;
         width: var(--isu-label-width, 120px);
         @apply --isu-label;

@@ -47,11 +47,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
             box-sizing: border-box;
             width: var(--isu-select-tree-new-width, 320px);
           }
-          
-          :host([hidden]) {
-            display: none !important;
-          }
-    
           #newtree-collapse {
             position: absolute;
             z-index: 999;
@@ -145,7 +140,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
          <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
       </template>
       
-      <div id="select__container" hidden="[[_isView(isView, readonly)]]" class$="[[fontSize]]">
+      <div id="select__container" hidden="[[isAllTrue(isView, readonly)]]" class$="[[fontSize]]">
         <div id="tag-content" tabindex="0" on-focus="_inputFocus" class="input-div">
             <template is="dom-if" if="[[isArrayEmpty(filterSelectedItems)]]">
                 <span class="placeholder">[[placeholder]]</span>
@@ -160,7 +155,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
                 </template>
             </template>
           </div>
-        <isu-iron-fit id="newtree-collapse"  auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
+        <isu-iron-fit id="newtree-collapse"  auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden="[[!isShowCollapse]]">
               <isu-tree id="tree" data="{{data}}" data-set="{{dataSet}}" selected-items="{{selectedItems}}" value="{{value}}" 
                         filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}"  init-filter-value="[[initFilterValue]]"
                         attr-for-value="[[attrForValue]]" attr-for-label="[[attrForLabel]]"
@@ -175,7 +170,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
           </div>
         </div>
       </div>
-      <template is="dom-if" if="[[_isView(isView, readonly)]]">
+      <template is="dom-if" if="[[isAllTrue(isView, readonly)]]">
         <div class$="view-text [[fontSize]]">
            <span>[[textValue]]</span>
         </div>
@@ -360,6 +355,13 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
         type: String,
         notify: true,
         computed: '_textValueComputed(selectedItems, filterSelectedItems)'
+      },
+      /**
+       * 是否显示选择树面板，默认不显示
+       */
+      isShowCollapse: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -386,20 +388,22 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       const composedPath = e.composedPath()
       if (!composedPath.some(item => item.tagName === 'ISU-SELECT-TREE-NEW')) {
         self.set('searchWord', null)
-        self._displayCollapse(false)
+        // self._displayCollapse(false)
+        this.set('isShowCollapse', false)
       }
     })
   }
 
   _inputFocus () {
     if (!this.readonly) {
-      this._displayCollapse(true)
+      // this._displayCollapse(true)
+      this.set('isShowCollapse', true)
     }
   }
 
-  _displayCollapse (display) {
-    this.$['newtree-collapse'].hidden = !display
-  }
+  // _displayCollapse (display) {
+  //   this.$['newtree-collapse'].hidden = !display
+  // }
 
   /**
    * Validate, true if the select is set to be required and this.selectedValues.length > 0, or else false.
@@ -417,10 +421,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
     } else {
       this.set('data', [data])
     }
-  }
-
-  _isView (isView, readonly) {
-    return isView && readonly
   }
 
   _textValueComputed (selectedItems, filterSelectedItems) {

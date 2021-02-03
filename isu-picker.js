@@ -9,6 +9,8 @@ import './behaviors/isu-elements-shared-styles.js'
 import { IsuFetch } from './isu-fetch'
 import { CacheSearchUtil } from './utils/cacheSearchUtil'
 import { PinyinUtil } from './utils/pinyinUtil'
+import './isu-iron-fit'
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
 
 /**
 
@@ -53,9 +55,6 @@ import { PinyinUtil } from './utils/pinyinUtil'
  * @polymer
  * @demo demo/isu-picker/index.html
  */
-import './isu-iron-fit'
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
-
 class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template () {
     return html`
@@ -287,9 +286,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <template is="dom-if" if="[[ toBoolean(label) ]]">
         <div style="position: relative"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-before"></span></div>
       </template>
-      
-     
-          
       <div class$="input-wrap [[fontSize]]" id="select__container">
         <div class="input-container">
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
