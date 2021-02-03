@@ -131,11 +131,9 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
         margin: auto;
       }
     </style>
-
     <isu-dialog id="dialog" modal="[[ isOneOf(type, 'confirm', 'prompt') ]]" no-cancel-on-outside-click title="[[orElse(title, config.title)]]">
-      
       <div id="tip" class="tip">
-        <template is="dom-if" if="[[ isEqual(type, 'success') ]]">
+          <template is="dom-if" if="[[ isEqual(type, 'success') ]]">
             <iron-icon class="tip-icon" icon="icons:check-circle"></iron-icon>
           </template>
           <template is="dom-if" if="[[ isEqual(type, 'warn') ]]">

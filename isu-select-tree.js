@@ -10,7 +10,6 @@ import './behaviors/isu-elements-shared-styles.js'
 import './isu-tree.js'
 import './isu-iron-fit.js'
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom'
-
 /**
 
  Example:
@@ -95,7 +94,6 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
       <template is="dom-if" if="[[ toBoolean(label) ]]">
          <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
       </template>
-      
       <div id="select__container" class$="[[fontSize]]">
         <div id="keywordInput" tabindex="0" on-focus="_inputFocus" class$="input-div [[getPlaceholderClass(selectedItems)]]">
             <template is="dom-if" if="[[isArrayEmpty(selectedItems)]]">
