@@ -40,7 +40,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     <style include="isu-elements-shared-styles">
       :host {
         display: flex;
-        width: var(--isu-input-date-width, 380px);
+        width: var(--isu-input-date-width, 320px);
         height: var(--isu-input-date-height, var(--isu-default-line-height, 34px));
         line-height: var(--isu-input-date-height, var(--isu-default-line-height, 34px));
         font-family: var(--isu-ui-font-family), sans-serif;
