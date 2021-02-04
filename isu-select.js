@@ -9,6 +9,8 @@ import { BaseBehavior } from './behaviors/base-behavior.js'
 import './behaviors/isu-elements-shared-styles.js'
 import { PinyinUtil } from './utils/pinyinUtil'
 import { CacheSearchUtil } from './utils/cacheSearchUtil'
+import './isu-iron-fit'
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom'
 
 /**
  * `isu-select`
@@ -66,7 +68,6 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       #select__container {
         flex: 1;
         display: flex;
-        /*height: inherit;*/
         border: 1px solid #CCC;
         border-radius: 4px;
         position: relative;
@@ -83,6 +84,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .select__container__viewer {
         flex: 1;
         display: flex;
+        width: 100%;
         flex-wrap: nowrap;
       }
 
@@ -168,7 +170,6 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         overflow-y: auto;
         z-index: 99;
         margin-top: 1px;
-
         text-align: left;
         background-color: #fff;
         -moz-border-radius: 4px;
@@ -180,6 +181,15 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         background-clip: padding-box;
         @apply --isu-select-dropdown;
       }
+      #select-collapse-fit {
+          border: 1px solid lightgray;
+          border-radius: 4px;
+      }
+      #select-collapse-fit[hidden] {
+          visibility: hidden;
+          height: 0;
+          opacity: 0;
+        }
 
       #select-collapse[data-collapse-open] {
         max-height: 300px;
@@ -188,6 +198,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .selector-panel {
         display: block;
         padding: 5px;
+        max-height: min-content !important;
       }
 
       .candidate-item {
@@ -259,7 +270,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
        <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
     </template>
     <div id="select__container" class$="[[fontSize]]">
-      <div class="select__container__viewer" on-click="_onInputClick">
+      <div class="select__container__viewer" on-click="_onInputClick" id="select-container-viewer">
         <div class="tags__container">
           <div id="placeholder">[[placeholder]]</div>
           <div id="tag-content">
@@ -277,16 +288,17 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
         <iron-icon id="caret" icon="icons:expand-more"></iron-icon>
       </div>
-
       <div id="select-collapse" on-click="__focusOnLast">
-        <iron-selector class="selector-panel" multi="[[ multi ]]" selected="{{ selectedItem }}" selected-values="{{ selectedValues }}" attr-for-selected="candidate-item">
-          <template is="dom-repeat" items="[[_displayItems]]">
-            <div class="candidate-item" candidate-item="{{item}}" title="[[getValueByKey(item, attrForLabel)]]">
-              [[getValueByKey(item, attrForLabel)]]
-            </div>
-          </template>
-        </iron-selector>
-      </div>
+        <isu-iron-fit id="select-collapse-fit" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>
+              <iron-selector class="selector-panel" multi="[[ multi ]]" selected="{{ selectedItem }}" selected-values="{{ selectedValues }}" attr-for-selected="candidate-item">
+                <template is="dom-repeat" items="[[_displayItems]]">
+                  <div class="candidate-item" candidate-item="{{item}}" title="[[getValueByKey(item, attrForLabel)]]">
+                    [[getValueByKey(item, attrForLabel)]]
+                  </div>
+                </template>
+              </iron-selector>
+        </isu-iron-fit>
+       </div>
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
         <div class="prompt-tip">
           <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
@@ -547,13 +559,16 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.addEventListener('blur', e => {
       setTimeout(this.closeCollapse.bind(this), 150)
     })
-    let parent = this.offsetParent
-    while (parent) {
-      parent.addEventListener('scroll', e => {
-        this.refreshElemPos()
-      })
-      parent = parent.offsetParent
-    }
+    // let parent = this.offsetParent
+    // while (parent) {
+    //   parent.addEventListener('scroll', e => {
+    //     this.refreshElemPos()
+    //   })
+    //   parent = parent.offsetParent
+    // }
+    const target = dom(this.$['select-collapse-fit']).rootTarget
+    const myFit = this.$['select-collapse-fit']
+    myFit.positionTarget = target || this.$['select-container-viewer']
   }
 
   __focusOnKeywordInput (e) {
@@ -566,7 +581,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   _onInputClick (e) {
     if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
-    this.refreshElemPos()
+    // this.refreshElemPos()
     const classList = e.target.classList
     if (classList.contains('tag-deleter') || classList.contains('tag-cursor')) {
       return
@@ -590,6 +605,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
     items.forEach(item => this._cacheSearchUtil.addCacheItem(item, this._loadPinyinKeys(item, this.fieldsForIndex)))
     this._displayItems = items
+    setTimeout(this.$['select-collapse-fit'].fixPosition.bind(this.$['select-collapse-fit']), 0)
   }
 
   _valueChanged (value) {
@@ -723,6 +739,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   closeCollapse () {
     this.$['select-collapse'].removeAttribute('data-collapse-open')
+    this.$['select-collapse-fit'].hidden = true
     this.$.keywordInput.style.display = 'none'
     this.keyword = ''
     this.opened = false
@@ -734,7 +751,10 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
   toggleCollapse () {
     if (this.$['select-collapse'].hasAttribute('data-collapse-open')) {
       this.closeCollapse()
+      this.$['select-collapse-fit'].hidden = true
     } else {
+      this.$['select-collapse-fit'].hidden = false
+      setTimeout(this.$['select-collapse-fit'].fixPosition.bind(this.$['select-collapse-fit']), 0)
       this.openCollapse()
     }
   }
