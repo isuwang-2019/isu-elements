@@ -18,7 +18,7 @@ const template = html`
         --isu-ui-color_lightblue: #8FCDFF;
         --isu-ui-font-family: 'Microsoft YaHei';
         --isu-ui-font-size: 14px;
-        --isu-default-line-height: 34px;--isu-select-tree-new-height
+        --isu-default-line-height: 34px;
         line-height: var(--isu-default-line-height);
       }
       :host([hidden]) {
