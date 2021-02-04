@@ -323,12 +323,12 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <template is="dom-if" if="[[ isOneOf(type, 'dateRange', 'datetimeRange') ]]">
         <div class="item-date">
           <template is="dom-if" if="[[ !isExistTruthy(startDate, startTimestamp) ]]"><span>开始日期</span></template>
-          <template is="dom-if" if="[[ isExistTruthy(startDate, startTimestamp) ]]">{{startDate}}</template>
+          <template is="dom-if" if="[[ isExistTruthy(startDate, startTimestamp) ]]">[[startDate]]</template>
         </div>
         <div class="separator">至</div>
         <div class="item-date">
           <template is="dom-if" if="[[ !isExistTruthy(endDate, endTimestamp) ]]"><span>结束日期</span></template>
-          <template is="dom-if" if="[[ isExistTruthy(endDate, endTimestamp) ]]">{{endDate}}</template>
+          <template is="dom-if" if="[[ isExistTruthy(endDate, endTimestamp) ]]">[[endDate]]</template>
         </div>
       </template>
       <template is="dom-if" if="[[ !isOneOf(type, 'dateRange', 'datetimeRange') ]]">
@@ -410,7 +410,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     </isu-iron-fit>
     <template is="dom-if" if="[[_isView(isView, readonly)]]">
       <div class$="view-text [[fontSize]]">
-         <span>{{value}}</span>
+         <span>[[value]]</span>
       </div>
     </template>
 `
@@ -424,7 +424,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       value: {
         type: String,
-        notify: true
+        notify: true,
+        value: ''
       },
       /**
        * The timestamp of the date selected.
@@ -504,7 +505,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       startDate: {
         type: String,
-        notify: true
+        notify: true,
+        value: ''
       },
       startTimestamp: {
         type: Number,
@@ -512,7 +514,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       endDate: {
         type: String,
-        notify: true
+        notify: true,
+        value: ''
       },
       endTimestamp: {
         type: Number,
