@@ -108,7 +108,8 @@ const template = html`
         /*overflow: hidden;*/
         /*text-overflow: ellipsis;*/
         text-align: right;
-        width: var(--isu-label-width, 120px);
+        min-width: var(--isu-label-width, 120px);
+        width: var(--isu-label-width, auto);
         @apply --isu-label;
       }
       .ellipsis {
