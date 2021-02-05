@@ -424,8 +424,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
        */
       value: {
         type: String,
-        notify: true,
-        value: ''
+        notify: true
       },
       /**
        * The timestamp of the date selected.
@@ -505,8 +504,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       startDate: {
         type: String,
-        notify: true,
-        value: ''
+        notify: true
       },
       startTimestamp: {
         type: Number,
@@ -514,8 +512,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       },
       endDate: {
         type: String,
-        notify: true,
-        value: ''
+        notify: true
       },
       endTimestamp: {
         type: Number,
