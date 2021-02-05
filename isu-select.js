@@ -259,7 +259,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
       
       :host([show-all]) {
-        height: auto
+        height: auto;
+        min-height: var(--isu-select-height, var(--isu-default-line-height, 34px));
       }
       .view-text {
          @apply --isu-view-text
