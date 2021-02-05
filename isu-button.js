@@ -97,7 +97,7 @@ class IsuButton extends mixinBehaviors([PaperButtonBehavior, BaseBehavior], Poly
         touch-action: manipulation;
         cursor: pointer;
         white-space: nowrap;
-        line-height: 1.42857143;
+        line-height: calc(var(--isu-button-height, 34px) - 12px);
         border-radius: inherit;
         min-width: 0;
         font-size: inherit;

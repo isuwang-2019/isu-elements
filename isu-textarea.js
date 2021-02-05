@@ -62,7 +62,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           color: inherit;
           font-size: inherit;
           font-family: inherit;
-          line-height: inherit;
+          line-height: initial;
           text-align: inherit;
   
           @apply --isu-textarea;
