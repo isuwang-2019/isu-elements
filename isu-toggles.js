@@ -20,6 +20,15 @@ class IsuToggles extends mixinBehaviors([BaseBehavior], PolymerElement) {
   static get template () {
     return html`
       <style include="isu-elements-shared-styles">
+        :host {
+          display: flex;
+          align-items: center;
+          height: var(--isu-toggle-height, var(--isu-default-line-height, 34px));
+          line-height: var(--isu-toggle-height,var(--isu-default-line-height, 34px));
+          width: var(--isu-toggle-width, 320px);
+          font-family: var(--isu-ui-font-family), sans-serif;
+          font-size: var(--isu-ui-font-size);
+        }
         div.switcher label {
           padding: 0;
           cursor: pointer;
@@ -85,11 +94,11 @@ class IsuToggles extends mixinBehaviors([BaseBehavior], PolymerElement) {
         }
 
       </style>
+      <template is="dom-if" if="[[ toBoolean(label) ]]">
+        <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
+      </template>
       <div class$="switcher [[fontSize]]">
         <label>
-          <template is="dom-if" if="[[ toBoolean(label) ]]">
-             <div class="isu-label">[[label]]</div>
-          </template>
           <template is="dom-if" if="[[prefixLabel]]">
             <div class="prefix-label">[[prefixLabel]]</div>
           </template>
