@@ -77,26 +77,29 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <template is="dom-if" if="[[showSearchInput]]">
           <isu-input id="tree-search-input" type="text" value="{{searchWord}}"></isu-input>
         </template>
-        <template is="dom-repeat" items="[[data]]" index-as="index" initial-count="5">
-          <isu-tree-node 
-            data="{{item}}"
-            multi="[[multi]]" 
-            show-radio="[[showRadio]]" 
-            search-word="[[searchWord]]"
-            is-first="[[_isFirst(index)]]"
-            accordion="[[accordion]]" 
-            default-expand-all="[[defaultExpandAll]]" 
-            indent="[[indent]]"
-            attr-for-value="[[attrForValue]]"
-            attr-for-label="[[attrForLabel]]"
-            selected-items="[[selectedItems]]"
-          >
-          <div slot="before-label">
-            <slot name="before-label">
-            </slot>
-          </div>
-          </isu-tree-node>
+        <template is="dom-if" if="[[isRenderNodes]]">
+            <template is="dom-repeat" items="[[data]]" index-as="index" initial-count="5">
+              <isu-tree-node 
+                data="{{item}}"
+                multi="[[multi]]" 
+                show-radio="[[showRadio]]" 
+                search-word="[[searchWord]]"
+                is-first="[[_isFirst(index)]]"
+                accordion="[[accordion]]" 
+                default-expand-all="[[defaultExpandAll]]" 
+                indent="[[indent]]"
+                attr-for-value="[[attrForValue]]"
+                attr-for-label="[[attrForLabel]]"
+                selected-items="[[selectedItems]]"
+              >
+              <div slot="before-label">
+                <slot name="before-label">
+                </slot>
+              </div>
+              </isu-tree-node>
+            </template>
         </template>
+        
 `
   }
 
@@ -273,6 +276,15 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       searchWord: {
         type: String,
         notify: true
+      },
+      /**
+       * 是否渲染树节点，默认为true
+       * 设置为false时候，树节点不进行渲染，
+       * isu-select-tree-new 通过该属性，控制树的渲染
+       */
+      isRenderNodes: {
+        type: Boolean,
+        value: true
       }
 
     }

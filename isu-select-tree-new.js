@@ -161,6 +161,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
                         attr-for-value="[[attrForValue]]" attr-for-label="[[attrForLabel]]"
                         only-select-level="[[onlySelectLevel]]" filter-fn="[[filterFn]]"
                         multi="[[multi]]" show-search-input="[[showSearchInput]]" default-expand-all search-word="{{searchWord}}" 
+                        is-render-nodes="[[isShowCollapse]]"
                         ></isu-tree>
         </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
