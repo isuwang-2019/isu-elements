@@ -33,6 +33,7 @@ class IsuToggles extends mixinBehaviors([BaseBehavior], PolymerElement) {
           padding: 0;
           cursor: pointer;
           display: flex;
+          align-items: center;
         }
         
         div.switcher label input {
