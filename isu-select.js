@@ -159,23 +159,31 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
 
       #select-collapse {
-        max-height: 300px;
-        background-color: #fff;
-        -moz-border-radius: 4px;
-        -webkit-border-radius: 4px;
-        border-radius: 4px;
-        -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        background-clip: padding-box;
+        margin-top: 1px;
         overflow: auto;
         @apply --isu-select-dropdown;
+      }
+      #select-collapse-fit {
+          max-height: 300px;
+          background-color: #fff;
+          -moz-border-radius: 4px;
+          -webkit-border-radius: 4px;
+          border-radius: 4px;
+          -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          background-clip: padding-box;
+          z-index: 99;
       }
       #select-collapse-fit[hidden] {
           visibility: hidden;
           height: 0;
           opacity: 0;
         }
+
+      #select-collapse[data-collapse-open] {
+        /*max-height: 300px;*/
+      }
 
       .selector-panel {
         display: block;
@@ -272,7 +280,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <iron-icon id="caret" icon="icons:expand-more"></iron-icon>
       </div>
       <isu-iron-fit id="select-collapse-fit" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>
-          <div id="select-collapse" on-click="__focusOnLast">
+      <div id="select-collapse" on-click="__focusOnLast">
+        
               <iron-selector class="selector-panel" multi="[[ multi ]]" selected="{{ selectedItem }}" selected-values="{{ selectedValues }}" attr-for-selected="candidate-item">
                 <template is="dom-repeat" items="[[_displayItems]]">
                   <div class="candidate-item" candidate-item="{{item}}" title="[[getValueByKey(item, attrForLabel)]]">
@@ -280,7 +289,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
                   </div>
                 </template>
               </iron-selector>
-           </div>
+        
+       </div>
        </isu-iron-fit>
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
         <div class="prompt-tip">
