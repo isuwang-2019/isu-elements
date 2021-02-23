@@ -159,31 +159,33 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
 
       #select-collapse {
-        -webkit-transition: max-height 200ms ease-in;
-        -moz-transition: max-height 200ms ease-in;
-        -ms-transition: max-height 200ms ease-in;
-        -o-transition: max-height 200ms ease-in;
-        transition: max-height 200ms ease-in;
-
+        width: 100%;
         max-height: 0;
         position: absolute;
         overflow-y: auto;
         z-index: 99;
         margin-top: 1px;
         text-align: left;
-        background-color: #fff;
-        -moz-border-radius: 4px;
-        -webkit-border-radius: 4px;
-        border-radius: 4px;
-        -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        background-clip: padding-box;
         @apply --isu-select-dropdown;
       }
       #select-collapse-fit {
-          border: 1px solid lightgray;
+          max-height: 300px;
+          overflow-y: hidden;
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          overflow-x: hidden;
+          margin-top: 1px;
+          z-index: 99;
+          background-color: #fff;
+          -moz-border-radius: 4px;
+          -webkit-border-radius: 4px;
           border-radius: 4px;
+          -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          background-clip: padding-box;
       }
       #select-collapse-fit[hidden] {
           visibility: hidden;
@@ -289,8 +291,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
         <iron-icon id="caret" icon="icons:expand-more"></iron-icon>
       </div>
-      <div id="select-collapse" on-click="__focusOnLast">
-        <isu-iron-fit id="select-collapse-fit" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>
+      <isu-iron-fit id="select-collapse-fit" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>
+          <div id="select-collapse" on-click="__focusOnLast">
               <iron-selector class="selector-panel" multi="[[ multi ]]" selected="{{ selectedItem }}" selected-values="{{ selectedValues }}" attr-for-selected="candidate-item">
                 <template is="dom-repeat" items="[[_displayItems]]">
                   <div class="candidate-item" candidate-item="{{item}}" title="[[getValueByKey(item, attrForLabel)]]">
@@ -298,8 +300,8 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
                   </div>
                 </template>
               </iron-selector>
-        </isu-iron-fit>
-       </div>
+           </div>
+       </isu-iron-fit>
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
         <div class="prompt-tip">
           <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>

@@ -250,6 +250,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .item-day {
         margin: 5px 0;
         cursor: pointer;
+        line-height: 30px;
       }
       
       .item-day:hover {
