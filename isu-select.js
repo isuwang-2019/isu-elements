@@ -159,43 +159,23 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
 
       #select-collapse {
-        width: 100%;
-        max-height: 0;
-        position: absolute;
-        overflow-y: auto;
-        z-index: 99;
-        margin-top: 1px;
-        text-align: left;
+        max-height: 300px;
+        background-color: #fff;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+        overflow: auto;
         @apply --isu-select-dropdown;
-      }
-      #select-collapse-fit {
-          max-height: 300px;
-          overflow-y: hidden;
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          overflow-x: hidden;
-          margin-top: 1px;
-          z-index: 99;
-          background-color: #fff;
-          -moz-border-radius: 4px;
-          -webkit-border-radius: 4px;
-          border-radius: 4px;
-          -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-          -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-          background-clip: padding-box;
       }
       #select-collapse-fit[hidden] {
           visibility: hidden;
           height: 0;
           opacity: 0;
         }
-
-      #select-collapse[data-collapse-open] {
-        max-height: 300px;
-      }
 
       .selector-panel {
         display: block;
