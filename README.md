@@ -1,5 +1,6 @@
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/isuwang/isu-elements)
 # \<isu-elements\>
+A basic component library developed based on Polymer3
 A series of container elements to quickly build web apps
 
 ### Usage
