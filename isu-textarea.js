@@ -42,7 +42,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           width: var(--isu-textarea-width, 400px);
           position: relative;
           background: white;
-          height: var(--isu-textarea-height, var(--isu-default-line-height, 34px));
+          min-height: var(--isu-textarea-height, var(--isu-default-line-height, 34px));
         }
   
         #textarea-wrapper {
