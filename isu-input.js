@@ -52,7 +52,6 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
       :host .input__container {
         flex: 1;
-        display: flex;
         line-height: inherit;
         min-width: 0;
         position: relative;
@@ -65,8 +64,11 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
       :host([readonly]) .input__container {
         pointer-events: none;
-        /*opacity: 0.7;*/
         cursor: no-drop;
+      }
+       :host([is-view]) .input__container {
+        pointer-events: visible;
+        cursor: auto;
       }
 
       #input {
@@ -257,7 +259,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
           
       </div>
     <template is="dom-if" if="[[_isView(isView,readonly)]]">
-      <div class="input__container input__container__view ellipsis" title="[[value]]">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
+      <div class="input__container input__container__view ellipsis" title="[[prefixUnit]] [[value]] [[suffixUnit]]">[[prefixUnit]] [[value]] [[suffixUnit]]</div>
     </template>
     
 `
