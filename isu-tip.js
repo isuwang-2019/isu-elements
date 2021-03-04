@@ -311,10 +311,11 @@ class IsuTip extends mixinBehaviors([BaseBehavior], PolymerElement) {
   /**
    * Confirm handler
    */
-  _confirm () {
-    this.close()
+  async _confirm () {
     const cbParam = this.type === 'prompt' ? { remark: this.remark } : null
-    this.isFunction(this._confirmCallback) && this._confirmCallback(cbParam)
+    const callbackResult = this.isFunction(this._confirmCallback) && await this._confirmCallback(cbParam)
+    if (this.type === 'prompt' && callbackResult === false) return
+    this.close()
   }
 
   /**
