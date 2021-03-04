@@ -170,7 +170,7 @@ class IsuButton extends mixinBehaviors([PaperButtonBehavior, BaseBehavior], Poly
      }
     </style>
     <template is="dom-if" if="[[permission]]">
-        <paper-button part="btn" class$="btn [[fontSize]]" disabled="[[disabled]]" noink>
+        <paper-button class$="btn [[fontSize]]" part="btn" disabled="[[disabled]]" noink>
           <slot></slot>
         </paper-button>
     </template>
