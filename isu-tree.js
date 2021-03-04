@@ -352,7 +352,9 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _dataSetChanged (dataSet) {
-    this.__valueChanged(this.value)
+    if (this.value) {
+      this.__valueChanged(this.value)
+    }
   }
 
   __selectedItemsChanged (selectedItems) {
@@ -375,7 +377,9 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   __filterValueComputed (filterSelectedItems) {
     const attrForValue = this.attrForValue || 'id'
-    return filterSelectedItems && filterSelectedItems.map(item => item[attrForValue]).join(',')
+    if (this.dataSet) {
+      return filterSelectedItems && filterSelectedItems.map(item => item[attrForValue]).join(',')
+    }
   }
 
   connectedCallback () {
