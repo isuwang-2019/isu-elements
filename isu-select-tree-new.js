@@ -112,7 +112,6 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
             padding: 0 4px;
             min-height: 22px;
             line-height: 22px;
-            /*max-width: 200px;*/
     
             display: flex;
             word-break: break-all;
@@ -126,6 +125,18 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
             text-overflow: ellipsis;
             white-space: normal;
             @apply --isu-select-tag-name;
+          }
+          .tag-deleter {
+            margin-left: 2px;
+            width: 18px;
+            color: #fff;
+            cursor: pointer;
+            --iron-icon-height: auto;
+            @apply --isu-select-tag-deleter;
+          }
+    
+          .tag-deleter:hover {
+            color: var(--isu-ui-red);
           }
           :host([show-all]) #tag-content {
             height: auto;
@@ -141,7 +152,7 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       </template>
       
       <div id="select__container" hidden="[[isAllTrue(isView, readonly)]]" class$="[[fontSize]]">
-        <div id="tag-content" tabindex="0" on-focus="_inputFocus" class="input-div">
+        <div id="tag-content" tabindex="0" on-click="_inputFocus" class="input-div">
             <template is="dom-if" if="[[isArrayEmpty(filterSelectedItems)]]">
                 <span class="placeholder">[[placeholder]]</span>
             </template>
@@ -149,7 +160,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
                 <template is="dom-repeat" items="[[ filterSelectedItems ]]">
                   <div class="tag">
                     <div class="tag-name" title="[[getValueByKey(item, attrForLabel)]]">
-                      [[getValueByKey(item, attrForLabel)]]
+                      <span>[[getValueByKey(item, attrForLabel)]]</span>
+                      <span>
+                        <iron-icon class="tag-deleter" icon="icons:clear" data-args="[[ getValueByKey(item, attrForValue) ]]" on-click="_deleteTag"></iron-icon>
+                      </span>
                     </div>
                   </div>
                 </template>
@@ -426,6 +440,13 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
 
   _textValueComputed (selectedItems, filterSelectedItems) {
     return (this.filterFn && this.isFunction(this.filterFn)) || !!this.onlySelectLevel ? (filterSelectedItems || []).map(item => item[this.attrForLabel]).join(this.joinConnector) : (selectedItems || []).map(item => item[this.attrForLabel]).join(this.joinConnector)
+  }
+
+  _deleteTag (e) {
+    e.stopPropagation()
+    const curItem = e.model.item
+    const newSelectedItems = this.selectedItems.filter(item => item !== curItem)
+    this.set('selectedItems', newSelectedItems)
   }
 }
 
