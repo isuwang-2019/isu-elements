@@ -131,8 +131,9 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
             width: 18px;
             color: #fff;
             cursor: pointer;
+            display: inline-block;
             --iron-icon-height: auto;
-            @apply --isu-select-tag-deleter;
+            @apply --isu-select-tree-tag-deleter;
           }
     
           .tag-deleter:hover {
