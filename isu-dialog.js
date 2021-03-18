@@ -259,7 +259,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
      */
     this.addEventListener('iron-overlay-closed', e => {
       // ignore 'iron-overlay-closed' event fired by other element
-      if (e.path[0] != this.$.dialog) return
+      if (e.path[0] !== this.$.dialog) return
       e.stopPropagation()
       /**
        * @event isu-dialog-closed
@@ -299,11 +299,11 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.style.display = 'none'
     this.$.dialog.close()
     if (this.lockScroll) document.body.style['overflow-y'] = 'auto'
-    if(this.closeRemoveEle) this.remove()
+    if (this.closeRemoveEle) this.remove()
   }
 
   openedChanged (newVal, oldVal) {
-    if(oldVal === undefined) return
+    if (oldVal === undefined) return
     if (!newVal) this.close()
   }
 
