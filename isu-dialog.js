@@ -108,7 +108,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
         @apply --isu-dialog-title;
       }
       
-      :host([modal]) .backdrop {
+      :host .backdrop {
         display: block;
         position: fixed;
         top: 0;
