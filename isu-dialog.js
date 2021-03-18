@@ -128,14 +128,14 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       opened="{{opened}}"
       no-cancel-on-outside-click="[[noCancelOnOutsideClick]]">
       
-      <div class="close-dialog" on-tap="close">
+      <div class="close-dialog" part="close-dialog" on-tap="close">
         <iron-icon icon="icons:close" class="close-icon"></iron-icon>
       </div>
       
       <template is="dom-if" if="[[ toBoolean(title) ]]">
-        <div class="title">[[title]]</div>
+        <div class="title" part="title">[[title]]</div>
       </template>
-      <div class="scrollable-container">
+      <div class="scrollable-container" part="scrollable-container">
         <slot></slot>
       </div>
     </paper-dialog>
