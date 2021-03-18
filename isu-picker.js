@@ -826,12 +826,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           })
           let candidateItems = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || []
           const _displayItems = candidateItems
-          candidateItems = candidateItems.filter(i => (this.items || []).every(old => old[this.attrForValue] != i[this.attrForValue]))
+          this._displayItems = _displayItems.slice(0, this.displayItemsLength || 10)
+          candidateItems = candidateItems.filter(i => (this.items || []).every(old => old[this.attrForValue] !== i[this.attrForValue]))
           if (candidateItems.length > 0) {
             // _displayItems will reset when items changed.
             this.items = candidateItems.concat(this.items)
-          } else {
-            this._displayItems = _displayItems.slice(0, this.displayItemsLength || 10)
           }
         } catch (err) {
           console.error(err)
