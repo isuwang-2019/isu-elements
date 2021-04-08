@@ -299,7 +299,9 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.style.display = 'none'
     this.$.dialog.close()
     if (this.lockScroll) document.body.style['overflow-y'] = 'auto'
-    if (this.closeRemoveEle) this.remove()
+    setTimeout(() => {
+      if (this.closeRemoveEle) this.remove()
+    }, 0)
   }
 
   openedChanged (newVal, oldVal) {

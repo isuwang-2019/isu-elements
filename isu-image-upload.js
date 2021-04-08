@@ -100,8 +100,8 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
       #viewer-dialog {
         display: flex;
         overflow: hidden;
-        width: 90%;
-        height: 90%;
+        width: 100%;
+        height: 100%;
         padding: 0;
       }
 
@@ -114,6 +114,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
         padding: 0;
         width: 100%;
         height: 100%;
+        background: #717171;
       }
       #viewer-img img{
         width: auto;
