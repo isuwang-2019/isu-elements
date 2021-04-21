@@ -74,7 +74,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           flex: 1;
           position: relative;
           display: flex;
-          min-width: 0px;
+          min-width: 0;
         }
   
         .input-container {
@@ -287,11 +287,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
             <div id="placeholder">[[placeholder]]</div>
             <template is="dom-repeat" items="[[ selectedValues ]]">
-              <span class="tag">
+              <span class="tag" on-click="_stopPropagation">
                   <span class="tag-name" title="[[ getValueByKey(item, attrForLabel) ]]">
                     [[ __calcTagName(item) ]]
                   </span>
-                  <iron-icon class="tag-deleter" icon="icons:clear" data-args="[[ getValueByKey(item, attrForValue) ]]" on-click="_deleteTag"></iron-icon>
+                  <iron-icon class="tag-deleter" icon="icons:clear" on-click="_deleteTag"></iron-icon>
               </span>
             </template>
             <input id="keywordInput" value="{{ _userInputKeyword::input }}" autocomplete="off" on-focus="__inputFocus">
@@ -720,10 +720,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   __calcTagName (item) {
-    if (Function.prototype.isPrototypeOf(this.attrForLabel)) {
-      return this.attrForLabel.call(this, item)
+    const attrForLabel = this.attrForLabel
+    if (this.isFunction(attrForLabel)) {
+      return attrForLabel.call(this, item)
     }
-    return this.getValueByKey(item, this.attrForLabel)
+    return this.getValueByKey(item, attrForLabel)
   }
 
   _mkRequest (url, data) {
@@ -1068,8 +1069,9 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * 删除Tag项，事件处理函数
    */
   _deleteTag (e) {
-    const value = e.target.dataArgs
-    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] == value)
+    const item = e.model.item
+    const value = this.getValueByKey(item, this.attrForValue)
+    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] === value)
     this.splice('selectedValues', ind, 1)
     if (!this.multi || (this.multi && this.selectedValues.length === 0)) this._userInputKeyword = ''
   }
@@ -1120,6 +1122,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _permissionChange (permission) {
     this.set('hidden', !permission)
+  }
+
+  _stopPropagation (e) {
+    e.stopPropagation()
   }
 
   clear (e) {
