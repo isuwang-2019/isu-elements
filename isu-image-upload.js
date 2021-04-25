@@ -207,7 +207,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
         <div class="mask"></div>
       </div>
     </div>
-    <paper-dialog id="viewer-dialog" on-click="closeViewZoom">
+    <paper-dialog id="viewer-dialog" on-click="closeViewZoom" opened="{{_isOpened}}">
         <div class="icons">
           <iron-icon icon="icons:zoom-out" data-args="zoomOut" on-click="handleActions"></iron-icon>
           <iron-icon icon="icons:zoom-in" data-args="zoomIn" on-click="handleActions"></iron-icon>
@@ -340,6 +340,9 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
       modeIcon: {
         type: String,
         value: 'icons:fullscreen'
+      },
+      _isOpened: {
+        type: Boolean
       }
     }
   }
@@ -350,7 +353,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
 
   static get observers () {
     return [
-      '__srcChanged(src)', '_transformChanged(transform.*)'
+      '__srcChanged(src)', '_transformChanged(transform.*)', '__isOpenedChanged(_isOpened)'
     ]
   }
 
@@ -375,6 +378,12 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
     ele.addEventListener('dragover', dragHandler, false)
     ele.addEventListener('drop', dragHandler, false)
     ele.addEventListener('paste', dragHandler, false)
+  }
+
+  __isOpenedChanged (_isOpened) {
+    if (_isOpened === false) {
+      document.body.style['overflow-y'] = 'auto'
+    }
   }
 
   __isEdit (type) {
