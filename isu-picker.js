@@ -287,7 +287,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
             <div id="placeholder">[[placeholder]]</div>
             <template is="dom-repeat" items="[[ selectedValues ]]">
-              <span class="tag" on-click="_stopPropagation">
+              <span class="tag">
                   <span class="tag-name" title="[[ getValueByKey(item, attrForLabel) ]]">
                     [[ __calcTagName(item) ]]
                   </span>
@@ -932,18 +932,18 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @private
    */
   _switchFocusItemAt (index) {
-    setTimeout(() => {
-      const maxIndex = (this._displayItems || []).length
-      const newIndex = (maxIndex + index) % maxIndex
-      // this.root.querySelectorAll("tr.candidate-item--focus")
-      //   .forEach(e => e.classList.remove('candidate-item--focus'));
-      //
-      // const newFocusItem = this.root.querySelector(`#candidate-item__${newIndex}`);
-      // if (newFocusItem != null) {
-      //   newFocusItem.classList.add('candidate-item--focus');
-      //   this.__focusIndex = newIndex;
-      // }
-    }, 0)
+    // setTimeout(() => {
+    //   const maxIndex = (this._displayItems || []).length
+    //   const newIndex = (maxIndex + index) % maxIndex
+    // this.root.querySelectorAll("tr.candidate-item--focus")
+    //   .forEach(e => e.classList.remove('candidate-item--focus'));
+    //
+    // const newFocusItem = this.root.querySelector(`#candidate-item__${newIndex}`);
+    // if (newFocusItem != null) {
+    //   newFocusItem.classList.add('candidate-item--focus');
+    //   this.__focusIndex = newIndex;
+    // }
+    // }, 0)
   }
 
   _isPickerCollapseHidden () {
@@ -1122,10 +1122,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _permissionChange (permission) {
     this.set('hidden', !permission)
-  }
-
-  _stopPropagation (e) {
-    e.stopPropagation()
   }
 
   clear (e) {
