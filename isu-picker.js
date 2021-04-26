@@ -11,6 +11,7 @@ import { CacheSearchUtil } from './utils/cacheSearchUtil'
 import { PinyinUtil } from './utils/pinyinUtil'
 import './isu-iron-fit'
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
+import { TipBehavior } from './behaviors/tip-behavior'
 
 /**
 
@@ -55,7 +56,7 @@ import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
  * @polymer
  * @demo demo/isu-picker/index.html
  */
-class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
+class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerElement) {
   static get template () {
     return html`
       <style include="isu-elements-shared-styles">
@@ -286,8 +287,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <div class="input-container">
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
             <div id="placeholder">[[placeholder]]</div>
-            <template is="dom-repeat" items="[[ selectedValues ]]">
-              <span class="tag">
+            <template is="dom-repeat" items="[[ selectedValues ]]" index-as="index">
+              <span class="tag" data-args="[[ __calcTagName(item) ]]" on-contextmenu="_contextMenuHandler">
                   <span class="tag-name" title="[[ getValueByKey(item, attrForLabel) ]]">
                     [[ __calcTagName(item) ]]
                   </span>
@@ -712,6 +713,18 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     const target = dom(this.$['picker-collapse']).rootTarget
     const myFit = this.$['picker-collapse']
     myFit.positionTarget = target || this.$['tags-input']
+  }
+
+  _contextMenuHandler (e) {
+    e.preventDefault()
+    const text = e.currentTarget.dataArgs
+    const oInput = document.createElement('input')
+    oInput.value = text
+    document.body.appendChild(oInput)
+    oInput.select() // 选择对象
+    document.execCommand('Copy') // 执行浏览器复制命令
+    oInput.style.display = 'none'
+    this.isuTip.success('复制成功', 1000)
   }
 
   getViewLabels (items = [], attrForLabel, connector) {
