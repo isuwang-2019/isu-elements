@@ -329,9 +329,12 @@ export const BaseBehavior = {
     this.async(() => {
       const loadingDiv = (ele || document.body).querySelector('#isu-loading')
       if (loadingDiv) {
-        loadingDiv.opened = false
+        this.debounce('_hideLoading', this._hideLoading.bind(this, loadingDiv), 400)
       }
     }, 0)
+  },
+  _hideLoading (loadingDiv) {
+    loadingDiv.opened = false
   },
 
   /**
