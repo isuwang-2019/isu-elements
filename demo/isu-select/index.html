@@ -75,12 +75,13 @@
   <demo-snippet>
     <template>
       <isu-select id="select2" label="球员" placeholder="选择球员" readonly="" value="1"></isu-select>
-      <isu-select id="select2" label="文本模式" placeholder="选择球员" readonly="" is-view value="1"></isu-select>
+      <isu-select id="selectMode" label="文本模式" multi show-all placeholder="选择球员" readonly is-view value="1,2,3,4,5,6,13"></isu-select>
       <isu-select id="select3" label="球员" placeholder="选择球员" required="" multi=""></isu-select>
       <isu-select id="selectLimit" label="球员" placeholder="选择球员" required="" multi show-all multi-limit="4"></isu-select>
       <script>
         select2.items = items;
         select3.items = items;
+        selectMode.items = items;
         selectLimit.items = items;
       </script>
     </template>
