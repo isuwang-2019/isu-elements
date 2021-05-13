@@ -11,6 +11,7 @@ import { CacheSearchUtil } from './utils/cacheSearchUtil'
 import { PinyinUtil } from './utils/pinyinUtil'
 import './isu-iron-fit'
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
+import { TipBehavior } from './behaviors/tip-behavior'
 
 /**
 
@@ -55,7 +56,7 @@ import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
  * @polymer
  * @demo demo/isu-picker/index.html
  */
-class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
+class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerElement) {
   static get template () {
     return html`
       <style include="isu-elements-shared-styles">
@@ -74,7 +75,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
           flex: 1;
           position: relative;
           display: flex;
-          min-width: 0px;
+          min-width: 0;
         }
   
         .input-container {
@@ -286,12 +287,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <div class="input-container">
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
             <div id="placeholder">[[placeholder]]</div>
-            <template is="dom-repeat" items="[[ selectedValues ]]">
-              <span class="tag">
+            <template is="dom-repeat" items="[[ selectedValues ]]" index-as="index">
+              <span class="tag" data-args="[[ __calcTagName(item) ]]" on-contextmenu="_contextMenuHandler">
                   <span class="tag-name" title="[[ getValueByKey(item, attrForLabel) ]]">
                     [[ __calcTagName(item) ]]
                   </span>
-                  <iron-icon class="tag-deleter" icon="icons:clear" data-args="[[ getValueByKey(item, attrForValue) ]]" on-click="_deleteTag"></iron-icon>
+                  <iron-icon class="tag-deleter" icon="icons:clear" on-click="_deleteTag"></iron-icon>
               </span>
             </template>
             <input id="keywordInput" value="{{ _userInputKeyword::input }}" autocomplete="off" on-focus="__inputFocus">
@@ -714,16 +715,29 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
     myFit.positionTarget = target || this.$['tags-input']
   }
 
+  _contextMenuHandler (e) {
+    e.preventDefault()
+    const text = e.currentTarget.dataArgs
+    const oInput = document.createElement('input')
+    oInput.value = text
+    document.body.appendChild(oInput)
+    oInput.select() // 选择对象
+    document.execCommand('Copy') // 执行浏览器复制命令
+    oInput.style.display = 'none'
+    this.isuTip.success('复制成功', 1000)
+  }
+
   getViewLabels (items = [], attrForLabel, connector) {
     const labels = items.map(item => this.__calcTagName(item))
     return labels.join(connector)
   }
 
   __calcTagName (item) {
-    if (Function.prototype.isPrototypeOf(this.attrForLabel)) {
-      return this.attrForLabel.call(this, item)
+    const attrForLabel = this.attrForLabel
+    if (this.isFunction(attrForLabel)) {
+      return attrForLabel.call(this, item)
     }
-    return this.getValueByKey(item, this.attrForLabel)
+    return this.getValueByKey(item, attrForLabel)
   }
 
   _mkRequest (url, data) {
@@ -931,18 +945,18 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @private
    */
   _switchFocusItemAt (index) {
-    setTimeout(() => {
-      const maxIndex = (this._displayItems || []).length
-      const newIndex = (maxIndex + index) % maxIndex
-      // this.root.querySelectorAll("tr.candidate-item--focus")
-      //   .forEach(e => e.classList.remove('candidate-item--focus'));
-      //
-      // const newFocusItem = this.root.querySelector(`#candidate-item__${newIndex}`);
-      // if (newFocusItem != null) {
-      //   newFocusItem.classList.add('candidate-item--focus');
-      //   this.__focusIndex = newIndex;
-      // }
-    }, 0)
+    // setTimeout(() => {
+    //   const maxIndex = (this._displayItems || []).length
+    //   const newIndex = (maxIndex + index) % maxIndex
+    // this.root.querySelectorAll("tr.candidate-item--focus")
+    //   .forEach(e => e.classList.remove('candidate-item--focus'));
+    //
+    // const newFocusItem = this.root.querySelector(`#candidate-item__${newIndex}`);
+    // if (newFocusItem != null) {
+    //   newFocusItem.classList.add('candidate-item--focus');
+    //   this.__focusIndex = newIndex;
+    // }
+    // }, 0)
   }
 
   _isPickerCollapseHidden () {
@@ -1068,8 +1082,9 @@ class IsuPicker extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * 删除Tag项，事件处理函数
    */
   _deleteTag (e) {
-    const value = e.target.dataArgs
-    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] == value)
+    const item = e.model.item
+    const value = this.getValueByKey(item, this.attrForValue)
+    const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] === value)
     this.splice('selectedValues', ind, 1)
     if (!this.multi || (this.multi && this.selectedValues.length === 0)) this._userInputKeyword = ''
   }

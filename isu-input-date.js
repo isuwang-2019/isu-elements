@@ -9,6 +9,7 @@ import '@polymer/iron-icon'
 import '@polymer/iron-icons'
 import './isu-select'
 import './isu-iron-fit'
+import { FormatBehavior } from './behaviors/format-behavior'
 
 /**
  * `isu-input-date`
@@ -275,6 +276,10 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .select-item {
         background-color: var(--isu-ui-color_skyblue);
         color: #fff;
+        border-radius: 20px;
+      }
+      .today-item {
+        border: 1px solid var(--isu-ui-color_skyblue);
         border-radius: 20px;
       }
       
@@ -713,6 +718,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
   * */
   selectDate (item) {
     let classStr = item.select ? 'select-item' : ''
+    classStr += item.isToday ? ' today-item' : ''
     classStr += this.startDate && item.position === 'start' ? ' select-start' : ''
     classStr += this.endDate && item.position === 'end' ? ' select-end' : ''
     return classStr
@@ -789,10 +795,12 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       const startObj = new Date(this.year, this.month - 1, i + 1) - 1
       const currMonth = i > 0 && i <= totalDays
       const select = !this.rangeList.includes(this.type) ? obj.getDate() === this.date && this.value && currMonth : (this.startDate && startDate <= startObj && this.endDate && endDate >= obj)
+      const isToday = FormatBehavior.formatDate(obj, 'YYYY-MM-DD') === FormatBehavior.formatDate(+new Date(), 'YYYY-MM-DD')
       days.push({
         date: obj.getDate(),
         currMonth,
         select,
+        isToday,
         disabled: minTimestamp > obj.getTime() || maxTimestamp < obj.getTime()
       })
     }

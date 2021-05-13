@@ -103,6 +103,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
         width: 100%;
         height: 100%;
         padding: 0;
+        justify-content: center;
       }
 
       #viewer-img {
@@ -115,6 +116,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
         width: 100%;
         height: 100%;
         background: #717171;
+        user-select: none;
       }
       #viewer-img img{
         width: auto;
@@ -160,8 +162,26 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
         width: var(--isu-image-upload-width, 170px);
         height: var(--isu-image-upload-height, 218px);
       }
-      
-      
+      .mirrorRotateLevel {
+        transform: rotateY(180deg);   /* 水平镜像翻转 */
+      }
+      .icons {
+        position: absolute;
+        bottom: 30px;
+        display: flex;
+        width: 210px;
+        height: 45px;
+        border-radius: 25px;
+        justify-content: center;
+        align-items: center;
+        background-color: #555555;
+        opacity: 0.5;
+        z-index: 2;
+      }
+      .icons iron-icon {
+        color: white;
+        width: 25%;
+      }
     </style>
 
     <div id="main-container" class$="[[fontSize]]">
@@ -187,8 +207,15 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
         <div class="mask"></div>
       </div>
     </div>
-    <paper-dialog id="viewer-dialog" on-click="closeViewZoom">
-      <div id="viewer-img"><img src$="[[src]]" alt=""></div>
+    <paper-dialog id="viewer-dialog" on-click="closeViewZoom" opened="{{_isOpened}}">
+        <div class="icons">
+          <iron-icon icon="icons:zoom-out" data-args="zoomOut" on-click="handleActions"></iron-icon>
+          <iron-icon icon="icons:zoom-in" data-args="zoomIn" on-click="handleActions"></iron-icon>
+          <iron-icon icon$="[[modeIcon]]" on-click="toggleMode"></iron-icon>
+          <iron-icon icon="icons:refresh" data-args="anticlocelise" on-click="handleActions"></iron-icon>
+          <iron-icon class="mirrorRotateLevel" icon="icons:refresh" data-args="clocelise" on-click="handleActions"></iron-icon>
+        </div>
+        <div id="viewer-img"><img src$="[[src]]" style$="[[imgStyle]]" on-click="imgHandle" on-mousedown="handleMouseDown"></div>
     </paper-dialog>
 `
   }
@@ -293,6 +320,29 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
       handleAs: {
         type: String,
         value: 'json'
+      },
+      transform: {
+        type: Object,
+        value () {
+          return {
+            scale: 1,
+            deg: 0,
+            offsetX: 0,
+            offsetY: 0,
+            mode: '',
+            enableTransition: false
+          }
+        }
+      },
+      imgStyle: {
+        type: String
+      },
+      modeIcon: {
+        type: String,
+        value: 'icons:fullscreen'
+      },
+      _isOpened: {
+        type: Boolean
       }
     }
   }
@@ -303,7 +353,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
 
   static get observers () {
     return [
-      '__srcChanged(src)'
+      '__srcChanged(src)', '_transformChanged(transform.*)', '__isOpenedChanged(_isOpened)'
     ]
   }
 
@@ -328,6 +378,12 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
     ele.addEventListener('dragover', dragHandler, false)
     ele.addEventListener('drop', dragHandler, false)
     ele.addEventListener('paste', dragHandler, false)
+  }
+
+  __isOpenedChanged (_isOpened) {
+    if (_isOpened === false) {
+      document.body.style['overflow-y'] = 'auto'
+    }
   }
 
   __isEdit (type) {
@@ -420,6 +476,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
   openViewZoom () {
     if (this.src) {
       this.$['viewer-dialog'].open()
+      this.deviceSupportInstall()
     }
   }
 
@@ -428,6 +485,137 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
    */
   closeViewZoom () {
     this.$['viewer-dialog'].close()
+    this.deviceSupportUninstall()
+  }
+
+  _transformChanged () {
+    const { scale, deg, offsetX, offsetY, enableTransition, mode } = this.transform
+    const imgStyle = `
+      transform: scale(${scale}) rotate(${deg}deg);
+      transition: ${enableTransition ? 'transform .3s' : ''};
+      margin-left: ${offsetX}px;
+      margin-top: ${offsetY}px;
+      height: ${mode === 'fullscreen' ? '100%' : 'auto'}
+    `
+    this.set('imgStyle', imgStyle)
+  }
+
+  handleActions (e) {
+    e.stopPropagation()
+    const action = e.target.dataset.args
+    this._handleActions(action)
+  }
+
+  _handleActions (action, options) {
+    const { rotate, deg, enableTransition } = {
+      rotate: 0.2,
+      deg: 90,
+      enableTransition: true,
+      ...options
+    }
+    switch (action) {
+    case 'zoomOut':
+      if (this.transform.scale > 0.2) {
+        this.set('transform.scale', parseFloat(+this.transform.scale - rotate).toFixed(3))
+      }
+      break
+    case 'zoomIn':
+      this.set('transform.scale', parseFloat(+this.transform.scale + rotate).toFixed(3))
+      break
+    case 'anticlocelise':
+      this.set('transform.deg', +this.transform.deg + deg)
+      break
+    case 'clocelise':
+      this.set('transform.deg', +this.transform.deg - deg)
+      break
+    }
+    this.set('transform.enableTransition', enableTransition)
+  }
+
+  toggleMode (e) {
+    e.stopPropagation()
+    const mode = this.transform.mode === 'fullscreen' ? '' : 'fullscreen'
+    this.reset()
+    this.set('transform.mode', mode)
+    this.set('modeIcon', mode === 'fullscreen' ? 'icons:reply' : 'icons:fullscreen')
+  }
+
+  imgHandle (e) {
+    e.stopPropagation()
+  }
+
+  reset () {
+    this.transform = {
+      scale: 1,
+      deg: 0,
+      offsetX: 0,
+      offsetY: 0,
+      enableTransition: false
+    }
+  }
+
+  deviceSupportInstall () {
+    this._keyDownHandler = e => {
+      e.stopPropagation()
+      const keyCode = e.key
+      switch (keyCode) {
+      // ESC
+      case 'Escape':
+        this.closeViewZoom()
+        break
+      // UP_ARROW
+      case 'ArrowUp':
+        this._handleActions('zoomIn')
+        break
+      // DOWN_ARROW
+      case 'ArrowDown':
+        this._handleActions('zoomOut')
+      }
+    }
+    this._mouseWheel = e => {
+      e.stopPropagation()
+      const delta = e.wheelDelta ? e.wheelDelta : -e.detail
+      if (delta > 0) {
+        this._handleActions('zoomIn', {
+          rotate: 0.015,
+          enableTransition: false
+        })
+      } else {
+        this._handleActions('zoomOut', {
+          rotate: 0.015,
+          enableTransition: false
+        })
+      }
+    }
+    const dialogEle = this.$['viewer-dialog']
+    dialogEle.addEventListener('keydown', this._keyDownHandler, false)
+    dialogEle.addEventListener('mousewheel', this._mouseWheel, false)
+    document.body.style['overflow-y'] = 'hidden'
+  }
+
+  deviceSupportUninstall () {
+    this.removeEventListener('keydown', this._keyDownHandler, false)
+    this.removeEventListener('mousewheel', this._mouseWheel, false)
+    this._keyDownHandler = null
+    this._mouseWheel = null
+    document.body.style['overflow-y'] = 'auto'
+  }
+
+  handleMouseDown (e) {
+    if (e.button !== 0) return
+    const { offsetX, offsetY } = this.transform
+    const startX = e.pageX
+    const startY = e.pageY
+    const _dragHandler = ev => {
+      this.set('transform.offsetX', offsetX + ev.pageX - startX)
+      this.set('transform.offsetY', offsetY + ev.pageY - startY)
+    }
+    const imgEle = this.$['viewer-img']
+    imgEle.addEventListener('mousemove', _dragHandler)
+    imgEle.addEventListener('mouseup', () => {
+      imgEle.removeEventListener('mousemove', _dragHandler)
+    })
+    e.preventDefault()
   }
 
   /**
