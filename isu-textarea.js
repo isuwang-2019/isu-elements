@@ -98,6 +98,9 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
        .view-text pre {
           margin: 0;
           font-family: "Microsoft YaHei";
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          @apply --isu-textarea-view-text-pre
        }
        .isu-label {
           height: var(--isu-textarea-height, 34px);
