@@ -100,6 +100,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
           font-family: "Microsoft YaHei";
           white-space: pre-wrap;
           word-wrap: break-word;
+          word-break: break-all;
           @apply --isu-textarea-view-text-pre
        }
        .isu-label {
