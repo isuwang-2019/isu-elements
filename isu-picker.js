@@ -768,51 +768,28 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
 
   async _queryByKeywordUrlChanged (queryByKeywordUrl) {
     if (!queryByKeywordUrl) return
-    const requestObj = this.fetchParam
-    const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, '')
-    const request = this._mkRequest(queryByKeywordUrl, req)
-    try {
-      const data = await this._fetchUtil.fetchIt(request).then(res => {
-        return res.text().then(text => {
-          return text ? JSON.parse(text) : {}
-        })
-      })
-      const items = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || []
-      this.value ? await this._getSelectedForItems(items) : this.items = items
-    } catch (error) {
-      console.error(error)
-    }
+    this.debounce('__debounceFetchByKeyword', this.fetchByKeyword, 250)
   }
 
   async _getSelectedForItems (itemsArr) {
     try {
-      const requestObj = this.fetchParam
-      const req = this.setValueByPath(this.mkObject(this.valuePath, requestObj), this.valuePath, this.value ? `${this.value}` : '')
-      const request = this._mkRequest(this.queryByValueUrl, req)
-      let data = await this._fetchUtil.fetchIt(request).then(res => {
-        return res.text().then(text => {
-          return text ? JSON.parse(text) : []
-        })
-      })
+      const selectedItems = await this.fetchSelectedItems()
       const items = itemsArr || []
-      if (this.resultPath) {
-        data = this.getValueByPath(data, this.resultPath, [])
-      }
       // 判断是否有交集
-      const flag = data.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`)).length > 0
-      const addItems = items.filter(d => !items.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
-      this.items = flag ? data.concat(addItems) : items
+      const flag = items.filter(d => selectedItems.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`)).length > 0
+      const addItems = items.filter(d => !selectedItems.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
+      this.items = flag ? selectedItems.concat(addItems) : items
     } catch (e) {
       console.error(e)
     }
   }
 
-  _itemsChanged (items = []) {
+  async _itemsChanged (items = []) {
     this._displayItems = items.slice(0, this.displayItemsLength || 10)
     // 初始化一次选中项
-    if (this.value !== undefined && this.value !== null) {
+    if (this.value !== undefined && this.value !== null && this.value !== '') {
       if (!this.zeroIsValue && this.value === 0) return
-      this._valueChanged(this.value)
+      await this._valueChanged(this.value)
     }
     // 清空缓存插件的缓存
     this._cacheSearchUtil.resetCache()
@@ -824,40 +801,58 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
     if (this._userInputKeyword.length > 0) {
       this.displayCollapse(true)
     }
-
-    const matched = this._cacheSearchUtil.search(this._userInputKeyword, ' ')
-    if (this.queryByKeywordUrl) {
-      const __fetchByKeyword = async () => {
-        try {
-          const requestObj = this.fetchParam
-          const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this._userInputKeyword)
-          const request = this._mkRequest(this.queryByKeywordUrl, req)
-          const data = await this._fetchUtil.fetchIt(request).then(res => {
-            return res.json().catch(err => {
-              console.warn(`'${err}' happened, but no big deal!`)
-              return []
-            })
-          })
-          const candidateItems = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || []
-          const _displayItems = candidateItems
-          this._displayItems = _displayItems.slice(0, this.displayItemsLength || 10)
-          this.items = candidateItems
-          // candidateItems = candidateItems.filter(i => (this.items || []).every(old => old[this.attrForValue] !== i[this.attrForValue]))
-          // if (candidateItems.length > 0) {
-          //   // _displayItems will reset when items changed.
-          //   this.items = candidateItems.concat(this.items)
-          // }
-        } catch (err) {
-          console.error(err)
-        }
-        setTimeout(this.$['picker-collapse'].fixPosition.bind(this.$['picker-collapse']), 0)
-      }
-      this.debounce('__debounceFetchByKeyword', __fetchByKeyword, 500)
-    } else {
-      this._displayItems = matched.slice(0, this.displayItemsLength || 10)
-      this._switchFocusItemAt(0)
-    }
+    this.debounce('__debounceFetchByKeyword', this.fetchByKeyword, 250)
     this._displayPlaceholder()
+  }
+
+  /**
+   * query by Keyword
+   * @return {Promise<void>}
+   * @private
+   */
+  async fetchByKeyword () {
+    try {
+      if (this.queryByKeywordUrl) {
+        const requestObj = this.fetchParam
+        const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this._userInputKeyword)
+        const request = this._mkRequest(this.queryByKeywordUrl, req)
+        const data = await this._fetchUtil.fetchIt(request).then(res => {
+          return res.json().catch(err => {
+            console.warn(`'${err}' happened, but no big deal!`)
+            return []
+          })
+        })
+        const candidateItems = this.resultPath ? this.getValueByPath(data, this.resultPath, []) : data || []
+        const _displayItems = candidateItems
+        this._displayItems = _displayItems.slice(0, this.displayItemsLength || 10)
+        this.items = candidateItems
+      } else {
+        const matched = this._cacheSearchUtil.search(this._userInputKeyword, ' ')
+        this._displayItems = matched.slice(0, this.displayItemsLength || 10)
+        // this._switchFocusItemAt(0)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  async fetchSelectedItems () {
+    if (this.valuePath) {
+      const req = this.setValueByPath(this.mkObject(this.valuePath, this.fetchParam), this.valuePath, this.value ? `${this.value}` : '')
+      const request = this._mkRequest(this.queryByValueUrl, req)
+      const selectedItems = await this._fetchUtil.fetchIt(request).then(res => {
+        return res.text().then(text => {
+          return text ? JSON.parse(text) : []
+        })
+      }).then(data => {
+        if (this.resultPath) {
+          return this.getValueByPath(data, this.resultPath, [])
+        }
+        return data
+      })
+      return selectedItems
+    }
+    return []
   }
 
   _selectedValuesChanged () {
@@ -880,21 +875,19 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
       const flatValues = [...(new Set(String(value).split(',')))]
       const selectedValues = this.selectedValues || []
       const dirty = selectedValues.map(selected => selected[this.attrForValue]).join(',')
-      // this.set('_userInputKeyword', '')
 
-      if (value && this.queryByKeywordUrl && !this.multi) {
-        const _selectedItem = this.items.filter(item => item[this.attrForValue] == value)
-
+      if (value && this.queryByKeywordUrl && !this.multi) { // 单选
+        const _selectedItem = this.items.filter(item => `${item[this.attrForValue]}` === `${value}`)
         if (!_selectedItem.length) {
-          this._getSelectedForItems(this.items)
+          await this._getSelectedForItems(this.items)
           return
         }
       }
 
       if (dirty !== value) {
-        const addSelectedItemTemp = selectedValues.filter(selectedItem => this.items.find(item => item[this.attrForValue] == selectedItem[this.attrForValue]))
+        const addSelectedItemTemp = selectedValues.filter(selectedItem => this.items.find(item => `${item[this.attrForValue]}` === `${selectedItem[this.attrForValue]}`))
         const tmp = [...addSelectedItemTemp, ...this.items]
-        const selectedValuesTemp = flatValues.map(val => tmp.find(item => item[this.attrForValue] == val))
+        const selectedValuesTemp = flatValues.map(val => tmp.find(item => `${item[this.attrForValue]}` === `${val}`))
           .filter(selected => !!selected)
         if (selectedValuesTemp.length > 0 && selectedValuesTemp.length !== flatValues.length) {
           await this._getSelectedForItems([...tmp])
@@ -969,9 +962,9 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
     this.__focusOnKeywordInput()
   }
 
-  __inputFocus () {
+  async __inputFocus () {
     if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
-
+    // await this.fetchByKeyword()
     this.displayCollapse(true)
     // this._switchFocusItemAt(0);
   }

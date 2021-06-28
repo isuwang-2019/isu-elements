@@ -250,7 +250,7 @@ export const BaseBehavior = {
    * @return {boolean}
    */
   isArrayEmpty (arr = []) {
-    return arr && arr.length === 0
+    return !arr || (arr && arr.length === 0)
   },
   /**
    * 判断是否空对象, []、{}、null、undefined、'' 皆为空对象，特殊的，function和0、'0'不属于空对象
