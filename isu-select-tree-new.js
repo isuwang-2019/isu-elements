@@ -404,22 +404,28 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
       const composedPath = e.composedPath()
       if (!composedPath.some(item => item.tagName === 'ISU-SELECT-TREE-NEW')) {
         self.set('searchWord', null)
-        // self._displayCollapse(false)
-        this.set('isShowCollapse', false)
+        self._displayCollapse(false)
       }
+    })
+    this.addEventListener('select-tree-close-collapse', e => {
+      self._displayCollapse(false)
     })
   }
 
   _inputFocus () {
     if (!this.readonly) {
-      // this._displayCollapse(true)
-      this.set('isShowCollapse', true)
+      this._displayCollapse(true)
     }
   }
 
-  // _displayCollapse (display) {
-  //   this.$['newtree-collapse'].hidden = !display
-  // }
+  /**
+   * Whether to display the selection panel
+   * @param display
+   * @private
+   */
+  _displayCollapse (display) {
+    this.set('isShowCollapse', display)
+  }
 
   /**
    * Validate, true if the select is set to be required and this.selectedValues.length > 0, or else false.

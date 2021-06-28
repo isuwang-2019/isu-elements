@@ -355,6 +355,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _clickCheckOnClickNode () {
     if (this.multi || this.showRadio) return
     this.dispatchEvent(new CustomEvent('single-checked-changed', { detail: { data: this.data }, bubbles: true, composed: true }))
+    this.dispatchEvent(new CustomEvent('select-tree-close-collapse', { detail: { data: true }, bubbles: true, composed: true }))
   }
 
   showNode (e) {
