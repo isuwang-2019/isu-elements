@@ -814,7 +814,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
     try {
       if (this.queryByKeywordUrl) {
         const requestObj = this.fetchParam
-        const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this._userInputKeyword)
+        const req = this.setValueByPath(this.mkObject(this.keywordPath, requestObj), this.keywordPath, this._userInputKeyword || '')
         const request = this._mkRequest(this.queryByKeywordUrl, req)
         const data = await this._fetchUtil.fetchIt(request).then(res => {
           return res.json().catch(err => {
