@@ -779,6 +779,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
       const flag = items.filter(d => selectedItems.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`)).length > 0
       const addItems = items.filter(d => !selectedItems.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
       this.items = flag ? selectedItems.concat(addItems) : items
+      return selectedItems
     } catch (e) {
       console.error(e)
     }
@@ -879,18 +880,20 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
       if (value && this.queryByKeywordUrl && !this.multi) { // 单选
         const _selectedItem = this.items.filter(item => `${item[this.attrForValue]}` === `${value}`)
         if (!_selectedItem.length) {
-          await this._getSelectedForItems(this.items)
+          const newSelectedValues = await this._getSelectedForItems(this.items)
+          this.selectedValues = newSelectedValues
           return
         }
       }
 
       if (dirty !== value) {
-        const addSelectedItemTemp = selectedValues.filter(selectedItem => this.items.find(item => `${item[this.attrForValue]}` === `${selectedItem[this.attrForValue]}`))
-        const tmp = [...addSelectedItemTemp, ...this.items]
+        const addSelectedItemTemp = selectedValues.filter(selectedItem => !this.items.find(item => `${item[this.attrForValue]}` === `${selectedItem[this.attrForValue]}`))
+        const tmp = Array.from(new Set([...addSelectedItemTemp, ...this.items]))
         const selectedValuesTemp = flatValues.map(val => tmp.find(item => `${item[this.attrForValue]}` === `${val}`))
           .filter(selected => !!selected)
         if (selectedValuesTemp.length > 0 && selectedValuesTemp.length !== flatValues.length) {
-          await this._getSelectedForItems([...tmp])
+          const newSelectedValues = await this._getSelectedForItems([...tmp])
+          this.selectedValues = newSelectedValues
         } else {
           this.selectedValues = selectedValuesTemp
         }
@@ -1115,7 +1118,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
    * @return {boolean}
    */
   validate () {
-    return this.required ? (this.selectedValues && this.selectedValues.length > 0) : true
+    return this.required ? !!this.value : true
   }
 
   __isViewChanged (isView, readonly) {
