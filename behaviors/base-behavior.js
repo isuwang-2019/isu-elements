@@ -141,6 +141,7 @@ export const BaseBehavior = {
         return JSON.parse(val)
       }
     } catch (e) {
+      console.log(e)
     }
 
     return val

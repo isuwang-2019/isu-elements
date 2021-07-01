@@ -286,7 +286,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
       <div class$="input-wrap [[fontSize]]" id="select__container">
         <div class="input-container">
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
-            <div id="placeholder">[[placeholder]]</div>
+            <div id="placeholder" hidden="[[isExistTruthy(value, _userInputKeyword)]]">[[placeholder]]</div>
             <template is="dom-repeat" items="[[ selectedValues ]]" index-as="index">
               <span class="tag" data-args="[[ __calcTagName(item) ]]" on-contextmenu="_contextMenuHandler">
                   <span class="tag-name" title="[[ getValueByKey(item, attrForLabel) ]]">
@@ -803,7 +803,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
       this.displayCollapse(true)
     }
     this.debounce('__debounceFetchByKeyword', this.fetchByKeyword, 250)
-    this._displayPlaceholder()
   }
 
   /**
@@ -899,14 +898,9 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
         }
       }
 
-      this._displayPlaceholder()
     }
 
     this.getInvalidAttribute(value)
-  }
-
-  _displayPlaceholder () {
-    this.$.placeholder.hidden = this.value || this._userInputKeyword
   }
 
   _selectItemAt (index) {
