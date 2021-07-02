@@ -773,13 +773,13 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
 
   async _getSelectedForItems (itemsArr) {
     try {
-      const selectedItems = await this.fetchSelectedItems()
+      const selectedValues = await this.fetchSelectedValues()
       const items = itemsArr || []
       // 判断是否有交集
-      const flag = items.filter(d => selectedItems.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`)).length > 0
-      const addItems = items.filter(d => !selectedItems.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
-      this.items = flag ? selectedItems.concat(addItems) : items
-      return selectedItems
+      const flag = items.filter(d => selectedValues.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`)).length > 0
+      const addItems = items.filter(d => !selectedValues.find(i => `${i[this.attrForValue]}` === `${d[this.attrForValue]}`))
+      this.items = flag ? selectedValues.concat(addItems) : items
+      return selectedValues
     } catch (e) {
       console.error(e)
     }
@@ -836,28 +836,28 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
     }
   }
 
-  async fetchSelectedItems () {
-    if (this.valuePath) {
-      const req = this.setValueByPath(this.mkObject(this.valuePath, this.fetchParam), this.valuePath, this.value ? `${this.value}` : '')
-      const request = this._mkRequest(this.queryByValueUrl, req)
-      const selectedItems = await this._fetchUtil.fetchIt(request).then(res => {
+  async fetchSelectedValues () {
+    const { queryByValueUrl, valuePath, value, resultPath, fetchParam } = this
+    if (valuePath && value) {
+      const req = this.setValueByPath(this.mkObject(valuePath, fetchParam), valuePath, value ? `${value}` : '')
+      const request = this._mkRequest(queryByValueUrl, req)
+      const selectedValues = await this._fetchUtil.fetchIt(request).then(res => {
         return res.text().then(text => {
           return text ? JSON.parse(text) : []
         })
       }).then(data => {
-        if (this.resultPath) {
-          return this.getValueByPath(data, this.resultPath, [])
-        }
-        return data
+        return resultPath ? this.getValueByPath(data, resultPath, []) : data
       })
-      return selectedItems
+      return selectedValues
     }
     return []
   }
 
   _selectedValuesChanged () {
+    const { attrForValue } = this
     if (this.selectedValues.length > 0) {
-      this.value = this.selectedValues.map(selected => selected[this.attrForValue]).filter(item => !this.isEmptyObject(item)).join(',')
+      // value去重
+      this.value = Array.from(new Set(this.selectedValues.map(selected => selected[attrForValue]).filter(item => !this.isEmptyObject(item)))).join(',')
       this.selectedItem = this.selectedValues[this.selectedValues.length - 1]
     } else {
       this.value = ''
@@ -870,34 +870,25 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
    * value属性变化监听函数
    */
   async _valueChanged (value) {
+    const { attrForValue } = this
     // 本地模式，或远程数据已经就位
     if (this.items && this.items.length) {
       const flatValues = [...(new Set(String(value).split(',')))]
       const selectedValues = this.selectedValues || []
-      const dirty = selectedValues.map(selected => selected[this.attrForValue]).join(',')
-
-      if (value && this.queryByKeywordUrl && !this.multi) { // 单选
-        const _selectedItem = this.items.filter(item => `${item[this.attrForValue]}` === `${value}`)
-        if (!_selectedItem.length) {
-          const newSelectedValues = await this._getSelectedForItems(this.items)
-          this.selectedValues = newSelectedValues
-          return
-        }
-      }
-
+      const dirty = selectedValues.map(selected => selected[attrForValue]).join(',')
       if (dirty !== value) {
-        const addSelectedItemTemp = selectedValues.filter(selectedItem => !this.items.find(item => `${item[this.attrForValue]}` === `${selectedItem[this.attrForValue]}`))
-        const tmp = Array.from(new Set([...addSelectedItemTemp, ...this.items]))
-        const selectedValuesTemp = flatValues.map(val => tmp.find(item => `${item[this.attrForValue]}` === `${val}`))
+        // 判断是否有交集
+        const addSelectedItemTemp = selectedValues.filter(selectedItem => !this.items.find(item => `${item[attrForValue]}` === `${selectedItem[attrForValue]}`))
+        const itemsTemp = Array.from(new Set([...addSelectedItemTemp, ...this.items]))
+        const selectedValuesTemp = flatValues.map(val => itemsTemp.find(item => `${item[attrForValue]}` === `${val}`))
           .filter(selected => !!selected)
-        if (selectedValuesTemp.length > 0 && selectedValuesTemp.length !== flatValues.length) {
-          const newSelectedValues = await this._getSelectedForItems([...tmp])
+        if (selectedValuesTemp.length !== flatValues.length) {
+          const newSelectedValues = await this._getSelectedForItems([...itemsTemp])
           this.selectedValues = newSelectedValues
         } else {
           this.selectedValues = selectedValuesTemp
         }
       }
-
     }
 
     this.getInvalidAttribute(value)
