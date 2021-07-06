@@ -831,6 +831,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
         this._displayItems = matched.slice(0, this.displayItemsLength || 10)
         // this._switchFocusItemAt(0)
       }
+      setTimeout(this.$['picker-collapse'].fixPosition.bind(this.$['picker-collapse']), 0)
     } catch (err) {
       console.error(err)
     }
