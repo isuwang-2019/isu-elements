@@ -92,7 +92,8 @@ class IsuLoading extends mixinBehaviors([IronOverlayBehavior], PolymerElement) {
        * 遮罩背景色
        * */
       background: {
-        type: String
+        type: String,
+        value: 'rgba(0, 0, 0, 0.6)'
       },
       /**
        * 加载文案
@@ -120,7 +121,7 @@ class IsuLoading extends mixinBehaviors([IronOverlayBehavior], PolymerElement) {
   }
 
   _backgroundChanged (background) {
-    if (background) document.querySelector('isu-loading').style.backgroundColor = background
+    if (background && document.querySelector('isu-loading')) document.querySelector('isu-loading').style.backgroundColor = background
   }
 
   _targetChanged (target) {

@@ -338,7 +338,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
     const self = this
     const { children } = data
     const searchWordRegExp = new RegExp(`(${searchWord})`, 'gi')
-    const selfVisible = searchWordRegExp.test(data.label)
+    const selfVisible = searchWordRegExp.test(data[this.attrForLabel] || data.label)
     const childVisilbe = (children || []).some(childrenData => {
       return self.filterNode(searchWord, childrenData)
     })
@@ -355,6 +355,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   _clickCheckOnClickNode () {
     if (this.multi || this.showRadio) return
     this.dispatchEvent(new CustomEvent('single-checked-changed', { detail: { data: this.data }, bubbles: true, composed: true }))
+    this.dispatchEvent(new CustomEvent('select-tree-close-collapse', { detail: { data: true }, bubbles: true, composed: true }))
   }
 
   showNode (e) {

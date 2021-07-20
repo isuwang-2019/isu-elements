@@ -141,6 +141,7 @@ export const BaseBehavior = {
         return JSON.parse(val)
       }
     } catch (e) {
+      console.log(e)
     }
 
     return val
@@ -250,7 +251,7 @@ export const BaseBehavior = {
    * @return {boolean}
    */
   isArrayEmpty (arr = []) {
-    return arr && arr.length === 0
+    return !arr || (arr && arr.length === 0)
   },
   /**
    * 判断是否空对象, []、{}、null、undefined、'' 皆为空对象，特殊的，function和0、'0'不属于空对象
@@ -329,9 +330,12 @@ export const BaseBehavior = {
     this.async(() => {
       const loadingDiv = (ele || document.body).querySelector('#isu-loading')
       if (loadingDiv) {
-        loadingDiv.opened = false
+        this.debounce('_hideLoading', this._hideLoading.bind(this, loadingDiv), 400)
       }
     }, 0)
+  },
+  _hideLoading (loadingDiv) {
+    loadingDiv.opened = false
   },
 
   /**

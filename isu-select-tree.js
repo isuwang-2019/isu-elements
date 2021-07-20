@@ -105,11 +105,13 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
                 </template>
             </template>
         </div>
-        <isu-iron-fit id="collapse-tree" auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden>
+        <isu-iron-fit id="collapse-tree" auto-fit-on-attach vertical-align="auto" horizontal-align="auto" no-overlap dynamic-align hidden="[[!isShowCollapse]]">
           <isu-tree data="{{data}}" selected-items="{{selectedItems}}" value="{{value}}" 
                 filter-selected-items="{{filterSelectedItems}}" filter-value="{{filterValue}}"  filter-fn="[[filterFn]]"
                 attr-for-value="[[attrForValue]]" attr-for-label="[[attrForLabel]]"
-                show-radio="[[showRadio]]" search-word="{{searchWord}}"  show-search-input="[[showSearchInput]]" default-expand-all></isu-tree>
+                show-radio="[[showRadio]]" search-word="{{searchWord}}"  show-search-input="[[showSearchInput]]" 
+                is-render-nodes="[[isShowCollapse]]"
+                default-expand-all></isu-tree>
         </isu-iron-fit>
         <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
@@ -256,6 +258,13 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
         type: String,
         notify: true,
         computed: '_textValueComputed(selectedItems, filterSelectedItems)'
+      },
+      /**
+       * 是否显示选择树面板，默认不显示
+       */
+      isShowCollapse: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -294,6 +303,9 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
         this.$.keywordInput.focus()
       }
     })
+    this.addEventListener('select-tree-close-collapse', e => {
+      self._displayCollapse(false)
+    })
   }
 
   _inputFocus () {
@@ -301,7 +313,7 @@ class IsuSelectTree extends mixinBehaviors([BaseBehavior, AjaxBehavior], Polymer
   }
 
   _displayCollapse (display) {
-    this.$['collapse-tree'].hidden = !display
+    this.set('isShowCollapse', display)
   }
 
   /**

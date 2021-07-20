@@ -184,7 +184,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       
     </style>
     <div class$="relative [[fontSize]]" >
-       <isu-button on-click="_onButtonClick"  id="group-button" class="trigger select-button"   disabled="[[disabled]]" type="[[type]]">
+       <isu-button on-click="_onButtonClick"  id="group-button" class="trigger select-button" exportparts="btn" disabled="[[disabled]]" type="[[type]]">
           <div class="trigger__label select-button">[[ label ]]</div>
           <iron-icon class="trigger__icon select-button" icon="icons:expand-more"></iron-icon>
        </isu-button>
