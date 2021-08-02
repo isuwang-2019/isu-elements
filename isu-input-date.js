@@ -574,7 +574,8 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       '_endDateChanged(endDate)',
       '_startTimestampChanged(startTimestamp)',
       '_endTimestampChanged(endTimestamp)',
-      '_minmaxChanged(min, max)',
+      '_minChanged(min)',
+      '_maxChanged(max)',
       'getInvalidAttribute(required, min, max, value)',
       '__isViewChanged(isView,readonly)'
     ]
@@ -612,7 +613,11 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     this.getDayList()
   }
 
-  _minmaxChanged () {
+  _minChanged () {
+    this.getInvalidAttribute()
+  }
+
+  _maxChanged () {
     this.getInvalidAttribute()
   }
 
@@ -621,12 +626,12 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
    * @private
    */
   _timestampChanged (time) {
+    this.getInvalidAttribute()
     if (!time) {
       if (!this.rangeList.includes(this.type)) this.set('value', undefined)
       return
     }
     const value = this._getTimestampToDate(time)
-
     if (this.type === 'datetime') this.getTimeList(value, 'start')
     this.set('value', value)
   }
@@ -644,6 +649,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _startDateChanged (startDate) {
+    this.getInvalidAttribute()
     if (!startDate) return
     this.getTimeList(startDate, 'start')
     const time = new Date(`${startDate}${this.type.includes('time') ? '' : ' 00:00:00'}`).getTime()
@@ -660,6 +666,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _startTimestampChanged (startTimestamp) {
+    this.getInvalidAttribute()
     if (!startTimestamp) {
       this.set('startDate', undefined)
       return
