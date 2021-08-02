@@ -279,6 +279,13 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
         .view-text {
           @apply --isu-view-text
        }
+       .module-tip {
+         color: rgb(199, 14, 119);
+         text-align: center;
+         border-bottom: 1px dashed #ddd;
+         padding: 6px 20px;
+         line-height: 17px;
+       }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
         <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
@@ -308,6 +315,11 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
         <isu-iron-fit id="picker-collapse" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>
           <table class="collapse-content__table">
             <thead>
+            <template is="dom-if" if="[[showModuleTip]]">
+              <tr>
+                  <th class="module-tip" part="module-tip" colspan$="[[ colspanComputed(enableHotkey, pickerMeta)]]">[[moduleTipMsg]]</th>
+              </tr>
+            </template>
             <tr>
               <template is="dom-repeat" items="[[pickerMeta]]">
                 <th class="collapse-table__cell">[[item.label]]</th>
@@ -674,6 +686,14 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
       displayItemsLength: {
         type: Number,
         value: 10
+      },
+      showModuleTip: {
+        type: Boolean,
+        value: false
+      },
+      moduleTipMsg: {
+        type: String,
+        value: '支持全拼、简拼搜索，空格分词'
       }
     }
   }
@@ -1117,6 +1137,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
 
   _permissionChange (permission) {
     this.set('hidden', !permission)
+  }
+
+  colspanComputed (enableHotkey, pickerMeta) {
+    return enableHotkey ? this.getArrayLength(pickerMeta) + 1 : this.getArrayLength(pickerMeta)
   }
 
   clear (e) {

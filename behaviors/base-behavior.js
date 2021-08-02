@@ -508,6 +508,15 @@ export const BaseBehavior = {
   },
 
   /**
+   *
+   * @param arr
+   * @return {number}
+   */
+  getArrayLength (arr = []) {
+    return this.isArrayEmpty(arr) ? 0 : arr.length
+  },
+
+  /**
    * check the validate, override by the child component
    *
    * @param
