@@ -25,7 +25,7 @@ class IsuLoading extends mixinBehaviors([IronOverlayBehavior], PolymerElement) {
     return html`
     <style include="isu-elements-shared-styles">
       :host {
-        position: fixed;
+        /*position: fixed;*/
         top: 0;
         left: 0;
         background: white;
@@ -93,7 +93,7 @@ class IsuLoading extends mixinBehaviors([IronOverlayBehavior], PolymerElement) {
        * */
       background: {
         type: String,
-        value: 'rgba(0, 0, 0, 0.6)'
+        value: 'rgba(0, 0, 0, 0.2)'
       },
       /**
        * 加载文案
