@@ -161,7 +161,7 @@ class IsuInputDatetime extends mixinBehaviors([FormatBehavior], PolymerElement) 
       return
     }
     const date = new Date(timestamp)
-    this.set('value', this.formatDate(date, 'yyyy-MM-ddTHH:mm'))
+    this.set('value', this.formatDate(date, 'YYYY-MM-DDThh:mm'))
   }
 
   /**
