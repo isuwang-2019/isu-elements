@@ -118,7 +118,7 @@ class IsuInputJedate extends mixinBehaviors([BaseBehavior, FormatBehavior], Poly
        <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
     </template>
     <div class$="input__container [[fontSize]]" id="input__jedate">
-       <div class="jeinpbox"><input type="text" id$="[[id]]" class$="jeinput [[fontSize]]" readonly$="[[readonly]]" placeholder$="[[placeholder]]" value$="{{value}}"></div>
+       <div class="jeinpbox"><input type="text" id$="[[id]]" class$="jeinput [[fontSize]]" readonly$="[[readonly]]" placeholder$="[[placeholder]]" value="{{ value::input }}"></div>
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
           <div class="prompt-tip">
             <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
