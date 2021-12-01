@@ -648,6 +648,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   _keywordChanged (keyword) {
     this._displayItems = this._cacheSearchUtil.search(this.keyword, ' ')
+    setTimeout(this.$['select-collapse-fit'].fixPosition.bind(this.$['select-collapse-fit']), 0)
     this._displayPlaceholder()
   }
 
