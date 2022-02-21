@@ -177,7 +177,7 @@ class IsuPaperTabs extends mixinBehaviors([], PolymerElement) {
             hide-scroll-buttons="[[hideScrollButtons]]" disable-drag="[[disableDrag]]">
                 <template is="dom-repeat" items="[[tabList]]">
                     <template is="dom-if" if="[[item.permission]]">
-                        <paper-tab name="[[__getForSelectedName(item, attrForSelected)]]" disabled="[[item.disabled]]">
+                        <paper-tab name="[[__getForSelectedName(item, attrForSelected)]]" disabled="[[item.disabled]]" part="paper-tab">
                             <template is="dom-if" if="[[item.iconName]]">
                                 <iron-icon icon="[[item.iconName]]" class="paper-tab-iron-icon"></iron-icon>             
                             </template>
