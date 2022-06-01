@@ -141,6 +141,12 @@ const template = html`
         display: flex;
         position: relative;
       }
+      :host .isu-label-div::after {
+          @apply --isu-label-div-after
+      }
+      :host .isu-label-div::before {
+          @apply --isu-label-div-before
+      }
     </style>
   </template>
   </dom-module>

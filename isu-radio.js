@@ -92,6 +92,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .candidate__item.iron-selected {
         background: var(--isu-ui-bg);
         color: #fff;
+        @apply --isu-radio-candidate__item-selected
       }
 
     </style>
