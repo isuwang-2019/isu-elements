@@ -873,7 +873,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
   async _valueChanged (value) {
     const { attrForValue } = this
     // 本地模式，或远程数据已经就位
-    if (this.items && this.items.length) {
+    if (this.items && Array.isArray(this.items)) {
       const flatValues = [...(new Set(String(value).split(',')))]
       const selectedValues = this.selectedValues || []
       const dirty = selectedValues.map(selected => selected[attrForValue]).join(',')
