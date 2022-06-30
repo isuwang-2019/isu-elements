@@ -139,8 +139,10 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <slot></slot>
       </div>
     </paper-dialog>
-    
-    <div class="backdrop"></div>
+
+    <template is="dom-if" if="[[showBackdrop]]">
+        <div class="backdrop"></div>
+    </template>
 `
   }
 
@@ -234,6 +236,13 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       closeRemoveEle: {
         type: Boolean,
         value: false
+      },
+      /**
+       * 是否显示遮罩层，默认显示，为false时候显示，
+       */
+      showBackdrop: {
+        type: Boolean,
+        value: true
       }
     }
   }
