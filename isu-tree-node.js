@@ -41,19 +41,20 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       paper-checkbox.half::after {
         content: '-';
         display:inline-block;
-        font-size: 30px;
+        font-size: 26px;
         font-weight: bold;
         width: 24px;
         height: 24px;
         color: white;
         position: absolute;
-        top: 8px;
+        top: 8.5px;
         left: 4px;
         @apply --paper-checkbox-half-after
-        
+
       }
       .trigger__icon {
         color: #B1B6BF;
+        @apply --trigger-icon-color
       }
       .pitch-on {
         background: #FCE9BB;
