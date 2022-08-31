@@ -72,6 +72,7 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
               position: sticky; /* 其他浏览器 */
               top: 0px;
               z-index: 100;
+             @apply --tree-search-input
           }
        </style>
         <template is="dom-if" if="[[showSearchInput]]">
@@ -91,6 +92,7 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
                 attr-for-value="[[attrForValue]]"
                 attr-for-label="[[attrForLabel]]"
                 selected-items="[[selectedItems]]"
+                icon="[[icon]]"
               >
               <div slot="before-label">
                 <slot name="before-label">
@@ -285,8 +287,11 @@ class IsuTree extends mixinBehaviors([BaseBehavior], PolymerElement) {
       isRenderNodes: {
         type: Boolean,
         value: true
+      },
+      icon: {
+        type: String,
+        value: 'icons:arrow-drop-down'
       }
-
     }
   }
 

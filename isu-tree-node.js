@@ -77,7 +77,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
         <div class$="dht-tree-node-content [[pitchOn]]" style$="[[_getIndentStyle(data.level, indent)]]" on-click="_clickCheckOnClickNode">
           <!--箭头-->
           <template is="dom-if" if="[[data.children.length]]">
-            <iron-icon class="trigger__icon" icon="icons:arrow-drop-down" style$="[[_getRotateStyle(rotate)]]" on-click="showNode"></iron-icon>
+            <iron-icon class="trigger__icon" icon="[[icon]]"  style$="[[_getRotateStyle(rotate)]]" on-click="showNode"></iron-icon>
           </template>
           <!--没有子元素的时候箭头用空span代替-->
           <template is="dom-if" if="[[!data.children.length]]">
@@ -126,6 +126,7 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
             attr-for-value="[[attrForValue]]"
             attr-for-label="[[attrForLabel]]"
             hidden="[[!isShow]]"
+            icon="[[icon]]"
           >
            <slot name="before-label"></slot>
           </isu-tree-node>
@@ -251,6 +252,10 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
       pitchOn: {
         type: String,
         computed: '__pitchOn(multi, showRadio, selectedItems)'
+      },
+      icon: {
+        type: String,
+        value: 'icons:arrow-drop-down'
       }
     }
   }
@@ -392,7 +397,8 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
 
   __checkedChangeHandler (e) {
     e.stopPropagation()
-    const isChecked = e.target.checked
+    // fix 注意假的checked 其实是半选的状态
+    const isChecked = e.target.checked && !this.data.indeterminate
     setTimeout(() => {
       if (this.multi) { // 如果是多选状态
         this.dispatchEvent(new CustomEvent('multiple-checked-changed', { detail: { data: this.data, isChecked: isChecked }, bubbles: true, composed: true }))
@@ -411,7 +417,8 @@ class IsuTreeNode extends mixinBehaviors([BaseBehavior], PolymerElement) {
   __checkedClickedHandler (e) {
     e.stopPropagation()
     if (this.multi) { // 如果是多选状态
-      const isChecked = e.target.checked
+      // fix 注意假的checked 其实是半选的状态
+      const isChecked = e.target.checked && !this.data.indeterminate
       this.dispatchEvent(new CustomEvent('multiple-click-checked-changed', { detail: { data: this.data, isChecked: isChecked }, bubbles: true, composed: true }))
     }
   }
