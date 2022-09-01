@@ -53,7 +53,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
         display: none;
         align-items: center;
         justify-content: center;
-        z-index: 99;
+        z-index: 101;
       }
 
       #dialog {
