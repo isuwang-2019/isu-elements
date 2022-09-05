@@ -19,6 +19,7 @@ const template = html`
         align-items: center;
         height: 25px;
         overflow: hidden;
+        margin-right: 18px;
       }
       .dht-tree-twig-one .dht-tree-node-content:hover,
       .dht-tree-twig-one .dht-tree-node-content:active {
