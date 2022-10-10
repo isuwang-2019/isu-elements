@@ -896,6 +896,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     if (!this.rangeList.includes(this.type) && !item.currMonth) {
       item.date >= 24 ? this.monthMinus() : this.monthAdd()
     }
+    this.dispatchEvent(new CustomEvent('select-day-changed', { detail: { value: this.value, timestamp: this.timestamp }, bubbles: true, composed: true }))
     this.$.dateBox.hidden = true
   }
 
@@ -934,6 +935,7 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
     // const timestamp = new Date(this.year, this.month - 1, this.date).getTime();
     const transientDate = this._getTimestampTo(new Date(this.year, this.month - 1, this.date))
     this.setTimestamp(transientDate)
+    this.dispatchEvent(new CustomEvent('select-day-changed', { detail: { value: this.value, timestamp: this.timestamp }, bubbles: true, composed: true }))
   }
 
   // 赋值
