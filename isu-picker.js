@@ -972,8 +972,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
 
   _selectCollapseItem (event) {
     event.stopPropagation()
-    this.dispatchEvent(new CustomEvent('picker-selected-item', { bubbles: true, composed: true }))
     this._selectItem(event.model.row)
+    this.dispatchEvent(new CustomEvent('picker-selected-item', { detail: event.model.row, bubbles: true, composed: true }))
     this.displayCollapse(false)
     this.blur()
   }
