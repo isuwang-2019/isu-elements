@@ -69,6 +69,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       .candidate__item:last-of-type {
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
+        @apply --isu-last-of-type-candidate__item
       }
 
       .candidate__item {

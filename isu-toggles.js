@@ -69,6 +69,7 @@ class IsuToggles extends mixinBehaviors([BaseBehavior], PolymerElement) {
           border-radius: 50%;
           transition: all 0.3s ease-in-out;
           left: 8%;
+          @apply --isu-toggles-switcher
         }
 
         div.switcher label .isu-toggles{
@@ -87,6 +88,7 @@ class IsuToggles extends mixinBehaviors([BaseBehavior], PolymerElement) {
         div.switcher  input:checked + span small {
           left: 42%;
           background: #fff;
+          @apply --isu-toggles-checked-switcher
         }
 
         div.switcher label input:disabled + span, div.switcher label input:disabled + span + small {
