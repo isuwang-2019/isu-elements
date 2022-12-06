@@ -140,6 +140,7 @@ const template = html`
       :host .isu-label-div {
         display: flex;
         position: relative;
+          @apply --isu-label-div
       }
       :host .isu-label-div::after {
           @apply --isu-label-div-after
