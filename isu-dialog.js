@@ -268,7 +268,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
      */
     this.addEventListener('iron-overlay-closed', e => {
       // ignore 'iron-overlay-closed' event fired by other element
-      if (e.path[0] !== this.$.dialog) return
+      if (((e.composedPath && e.composedPath()[0]) || e.path[0]) !== this.$.dialog) return
       e.stopPropagation()
       /**
        * @event isu-dialog-closed
