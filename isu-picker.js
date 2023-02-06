@@ -239,6 +239,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
           padding: 0 6px;
           overflow: hidden;
           white-space: nowrap;
+          text-align: left;
         }
   
         :host([required]) .input-wrap::before {
