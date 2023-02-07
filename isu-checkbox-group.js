@@ -124,7 +124,7 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
           <iron-icon class="prompt-tip-icon" icon="social:sentiment-very-dissatisfied"></iron-icon>
           [[prompt]]
         </div>
-        <div class="mask"></div>
+        <div class="mask" part="mask"></div>
       </div>
     `
   }

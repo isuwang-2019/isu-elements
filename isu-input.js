@@ -255,7 +255,7 @@ class IsuInput extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </div>
       </div>
       <!--add mask when the componet is disabled or readonly-->
-      <div class="mask"></div>
+      <div class="mask" part="mask"></div>
           
       </div>
     <template is="dom-if" if="[[_isView(isView,readonly)]]">

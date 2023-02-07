@@ -303,7 +303,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
               </template>
             </div>
           </div> <!-- class=tags-input -->
-          <div class="mask"></div>
+          <div class="mask" part="mask"></div>
         </div>
   
         <isu-iron-fit id="picker-collapse" hidden auto-fit-on-attach vertical-align="auto" horizontal-align="auto" class="selected" no-overlap dynamic-align>

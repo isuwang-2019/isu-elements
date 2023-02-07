@@ -298,7 +298,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
           [[prompt]]
         </div>
       </div>
-      <div class="mask"></div>
+      <div class="mask" part="mask"></div>
     </div>
     <template is="dom-if" if="[[_isView(isView, readonly)]]">
       <div class$="view-text [[fontSize]]">

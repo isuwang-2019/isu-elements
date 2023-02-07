@@ -204,7 +204,7 @@ class IsuImageUpload extends mixinBehaviors([BaseBehavior, TipBehavior, AjaxBeha
             <isu-button class$="isu-button-view [[fontSize]]" on-click="openViewZoom">查看大图</isu-button>
           </template>
         </div>
-        <div class="mask"></div>
+        <div class="mask" part="mask"></div>
       </div>
     </div>
     <paper-dialog id="viewer-dialog" on-click="closeViewZoom" opened="{{_isOpened}}">

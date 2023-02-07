@@ -109,7 +109,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
             </span>
           </template>
         </iron-selector>
-        <div class="mask"></div>
+        <div class="mask" part="mask"></div>
       </div>
 `
   }

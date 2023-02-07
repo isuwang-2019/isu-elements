@@ -33,6 +33,7 @@ const template = html`
         left: -1px;
         background-color: rgba(255, 255, 255, 0.3);
         z-index: 10;
+        @apply --isu-mask;
       }
       :host([data-invalid]) .prompt-tip__container[data-prompt]:not([data-prompt=""]) {
         transform: translateX(5px);

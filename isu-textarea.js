@@ -115,7 +115,7 @@ class IsuTextarea extends mixinBehaviors(BaseBehavior, PolymerElement) {
         <textarea id="textarea" value="{{value::input}}" aria-label$="[[label]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]"  cols$="[[cols]]"
         inputmode$="[[inputmode]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" required$="[[required]]" disabled$="[[disabled]]" rows$="[[rows]]" 
         minlength$="[[minlength]]" maxlength$="[[maxlength]]"></textarea>
-        <div class="mask"></div>
+        <div class="mask" part="mask"></div>
       </div>
       <div class="prompt-tip__container" data-prompt$="[[prompt]]">
         <div class="prompt-tip">
