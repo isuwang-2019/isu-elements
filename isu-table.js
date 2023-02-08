@@ -619,24 +619,33 @@ class IsuTable extends mixinBehaviors([BaseBehavior, AjaxBehavior], PolymerEleme
 
   __openExpanderHandler (e) {
     e.stopPropagation()
-    const { path: [icon], model: { rowIndex } } = e
+    const { model: { rowIndex } } = e
+    const path = e.path || e.composedPath()
+    const [icon] = path
     this.__shareOpenExpanderHandler(icon, rowIndex, `#row_${rowIndex}`)
   }
 
-  __operateTableRow ({ path: [icon], model: { rowIndex } }) {
+  __operateTableRow (e) {
+    const { model: { rowIndex } } = e
     if (this.expandOnClickRow) {
       const expansion = this.shadowRoot.querySelector(`#row_${rowIndex}`).parentElement
       this.toggleClass(expansion, 'row__expansion-hidden')
     }
   }
 
-  __openExpanderHandlerFixed ({ path: [icon], model: { rowIndex } }) {
+  __openExpanderHandlerFixed (e) {
+    const { model: { rowIndex } } = e
+    const path = e.path || e.composedPath()
+    const [icon] = path
     this.__shareOpenExpanderHandler(icon, rowIndex, `#row_${rowIndex}`)
     if (this.__tableFixed.length) this.__shareOpenExpanderHandler(icon, rowIndex, `#fixed_row_${rowIndex}`)
     if (this.__tableFixedRight.length) this.__shareOpenExpanderHandler(icon, rowIndex, `#fixed_right_row_${rowIndex}`)
   }
 
-  __openExpanderHandlerFixedRight ({ path: [icon], model: { rowIndex } }) {
+  __openExpanderHandlerFixedRight (e) {
+    const { model: { rowIndex } } = e
+    const path = e.path || e.composedPath()
+    const [icon] = path
     this.__shareOpenExpanderHandler(icon, rowIndex, `#fixed_right_row_${rowIndex}`)
   }
 
