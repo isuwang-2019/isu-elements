@@ -274,10 +274,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @event isu-dialog-closed
        * Fired when the dialog closed.
        */
-      this.dispatchEvent(new CustomEvent('isu-dialog-closed'), {
-        composed: true,
-        bubbles: true
-      })
+      this.dispatchEvent(new CustomEvent('isu-dialog-closed', { bubbles: true, composed: true }))
 
       if (!this.stopAutoDismiss) {
         setTimeout(() => {
