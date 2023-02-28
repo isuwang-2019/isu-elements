@@ -33,7 +33,8 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
             display: inline-block;
         }
 
-        :host iron-selector > * {
+        :host .status {
+            display: inline-block;
             padding: 5px;
             font-size: 12px;
             cursor: pointer;
@@ -72,10 +73,10 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         </template>
         <iron-selector selected="{{value}}" attr-for-selected="statusItem">
             <template is="dom-repeat" items="[[items]]">
-                <span class="status" status-item="[[ getValueByKey(item, attrForValue) ]]" on-tap="itemSelected">
+                <span class="status" part="status" status-item="[[ getValueByKey(item, attrForValue) ]]" on-tap="itemSelected">
                     <span>[[ getValueByKey(item, attrForLabel) ]]</span>
                     <template is="dom-if" if="[[!noCount]]">
-                        (<span class="status-count">[[ getValueByKey(item, attrForCount) ]]</span>)
+                        (<span class="status-count" part="status-count">[[ getValueByKey(item, attrForCount) ]]</span>)
                     </template>
                 </span>
             </template>
