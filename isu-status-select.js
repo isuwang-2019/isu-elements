@@ -19,6 +19,7 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
     return html`
       <style include="isu-elements-shared-styles">
         :host {
+            --isu-default-line-height: normal;
             display: inline-block;
             margin-top: 5px;
         }
