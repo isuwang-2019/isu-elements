@@ -21,7 +21,6 @@ class IsuStatusSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
         :host {
             --isu-default-line-height: normal;
             display: inline-block;
-            margin-top: 5px;
         }
         :host .status-select-content{
             display: flex;
