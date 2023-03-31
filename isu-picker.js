@@ -975,8 +975,19 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
     event.stopPropagation()
     this._selectItem(event.model.row)
     this.dispatchEvent(new CustomEvent('picker-selected-item', { detail: event.model.row, bubbles: true, composed: true }))
+    this._fireValueSelectedChanged()
     this.displayCollapse(false)
     this.blur()
+  }
+
+  /**
+   * 人为选择修改value触发
+   * @private
+   */
+  _fireValueSelectedChanged () {
+    this.debounce('valuesSelectedChanged', () => {
+      this.dispatchEvent(new CustomEvent('value-selected-changed', { detail: this.value, bubbles: true, composed: true }))
+    }, 10)
   }
 
   /**
@@ -1059,6 +1070,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
   deleteLastTag () {
     if (this.selectedValues && this.selectedValues.length > 0) {
       this.pop('selectedValues')
+      this._fireValueSelectedChanged()
     }
   }
 
@@ -1070,6 +1082,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
     const value = this.getValueByKey(item, this.attrForValue)
     const ind = this.selectedValues.findIndex(selected => selected[this.attrForValue] === value)
     this.splice('selectedValues', ind, 1)
+    this._fireValueSelectedChanged()
     if (!this.multi || (this.multi && this.selectedValues.length === 0)) this._userInputKeyword = ''
   }
 
