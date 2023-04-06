@@ -105,7 +105,7 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
         <div class="checkboxes">
            <template is="dom-repeat" items="[[ _items ]]" index-as="index">
             <div class="inline-block">
-              <paper-checkbox noink class="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
+              <paper-checkbox noink class="checkbox-item" part="checkbox-item" checked="{{ item.checked }}" disabled="{{ item.disabled }}" on-change="__checkedChangeHandler" value="[[ getValueByKey(item, attrForValue) ]]">
                 [[ getValueByKey(item, attrForLabel) ]]
               </paper-checkbox>
               <template is="dom-if" if="[[readonly]]">
