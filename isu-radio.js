@@ -104,7 +104,7 @@ class IsuRadio extends mixinBehaviors([BaseBehavior], PolymerElement) {
       <div class$="candidate-wrapper [[fontSize]]">
         <iron-selector class="candidate-items" selected="{{value}}" attr-for-selected="radio-item">
           <template is="dom-repeat" items="[[items]]">
-            <span class="candidate__item" radio-item="[[ getValueByKey(item, attrForValue) ]]" on-tap="itemSelected">
+            <span class="candidate__item" part="radio-item" radio-item="[[ getValueByKey(item, attrForValue) ]]" on-tap="itemSelected">
               [[ getValueByKey(item, attrForLabel) ]]
             </span>
           </template>

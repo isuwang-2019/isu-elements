@@ -87,11 +87,13 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
       :host([type='dateRange']) .input__container {
         min-width: 300px;
         box-sizing: border-box;
+        @apply --isu-input-dateRange
       }
       
       :host([type='datetimeRange']) .input__container {
         min-width: 360px;
         box-sizing: border-box;
+        @apply --isu-input-datetimeRange
       }
       
       
