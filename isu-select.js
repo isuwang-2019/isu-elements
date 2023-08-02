@@ -574,6 +574,7 @@ class IsuSelect extends mixinBehaviors([BaseBehavior], PolymerElement) {
    */
   _onInputClick (e) {
     if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
+    this.dispatchEvent(new CustomEvent('isu-select-click', { bubbles: true, composed: true }))
     // this.refreshElemPos()
     const classList = e.target.classList
     if (classList.contains('tag-deleter') || classList.contains('tag-cursor')) {
