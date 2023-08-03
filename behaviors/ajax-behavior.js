@@ -31,6 +31,7 @@ const AjaxBehaviorImpl = {
    *      2. string：请求url
    *      3: Object： 对象结构要求 { url , data, handleAs}
    *          url：必填项
+   *          apiModule: 可选(api所属服务)
    *          data：可选
    *          handleAs：string, 可选，默认值是"json"， 取值范围: text|json|blob|formData|arrayBuffers
    *
@@ -41,6 +42,7 @@ const AjaxBehaviorImpl = {
    */
   query (input, loadConfig = { showLoading: true, type: 'loading' }) {
     let url
+    let apiModule
     let data = {}
     let handleAs = 'json'
 
@@ -50,12 +52,15 @@ const AjaxBehaviorImpl = {
       ({
         url = this.throwNotFoundError('url'),
         data = {},
+        apiModule = '',
         handleAs = 'json'
       } = input)
     } else {
       url = String(input)
     }
-
+    if (apiModule) {
+      url = `/${apiModule}${url}`
+    }
     return this.__get(handleAs, { url, data }, loadConfig)
   },
 
@@ -99,6 +104,7 @@ const AjaxBehaviorImpl = {
    *      2. string：请求url
    *      3: Object： 对象结构要求 { url , data, handleAs, sendAsJson}
    *          url：必填项
+   *          apiModule: 可选(api所属服务)
    *          data：可选
    *          handleAs：string, 可选，默认值是"json"， 取值范围: text|json|blob|formData|arrayBuffer
    *          sendAsJson：boolean 可选，默认值是false
@@ -108,6 +114,7 @@ const AjaxBehaviorImpl = {
    */
   post (input, loadConfig = { showLoading: true, type: 'loading' }) {
     let url
+    let apiModule
     let data = {}
     let handleAs = 'json'
     let sendAsJson = false
@@ -119,12 +126,15 @@ const AjaxBehaviorImpl = {
         url = this.throwNotFoundError('url'),
         data = {},
         handleAs = 'json',
+        apiModule = '',
         sendAsJson = false
       } = input)
     } else {
       url = String(input)
     }
-
+    if (apiModule) {
+      url = `/${apiModule}${url}`
+    }
     return this.__post(handleAs, { url, data, sendAsJson }, loadConfig)
   },
 
@@ -155,6 +165,7 @@ const AjaxBehaviorImpl = {
    *      2. string：请求url
    *      3: Object： 对象结构要求 { url , data, handleAs}
    *          url：必填项
+   *          apiModule: 可选(api所属服务)
    *          data：可选
    *          handleAs：string, 可选，默认值是"json"， 取值范围: text|json|blob|formData|arrayBuffers
    *
@@ -163,6 +174,7 @@ const AjaxBehaviorImpl = {
    */
   delete (input, loadConfig = { showLoading: true, type: 'loading' }) {
     let url
+    let apiModule
     let data = {}
     let handleAs = 'json'
 
@@ -171,13 +183,16 @@ const AjaxBehaviorImpl = {
     } else if (Object.prototype.isPrototypeOf(input)) {
       ({
         url = this.throwNotFoundError('url'),
+        apiModule = '',
         data = {},
         handleAs = 'json'
       } = input)
     } else {
       url = String(input)
     }
-
+    if (apiModule) {
+      url = `/${apiModule}${url}`
+    }
     return this.__delete(handleAs, { url, data }, loadConfig)
   },
 
