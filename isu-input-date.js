@@ -639,14 +639,14 @@ class IsuInputDate extends mixinBehaviors([BaseBehavior], PolymerElement) {
   }
 
   _getTimestampToDate (timestamp) {
-    const date = new Date(timestamp)
+    const date = new Date(Number(timestamp))
     let value = this._getTimestampTo(timestamp)
     if (this.type.includes('time')) value += ` ${this.getTime(date)}`
     return value
   }
 
   _getTimestampTo (timestamp) {
-    const date = new Date(timestamp)
+    const date = new Date(Number(timestamp))
     return `${date.getFullYear()}-${this._preReplenish(date.getMonth() + 1, 2, '0')}-${this._preReplenish(date.getDate(), 2, '0')}`
   }
 
