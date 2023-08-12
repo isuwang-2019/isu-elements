@@ -221,7 +221,8 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
        * @default default
        */
       type: {
-        type: String
+        type: String,
+        reflectToAttribute: true
       },
       /**
        * Label of the action group.
