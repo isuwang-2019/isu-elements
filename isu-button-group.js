@@ -66,7 +66,7 @@ class IsuButtonGroup extends mixinBehaviors([BaseBehavior], PolymerElement) {
       }
       
       .trigger__label {
-        flex: 1;
+          @apply --isu-button-group-trigger__label;
       }
       
       :host([divided]) .trigger__label::after {
