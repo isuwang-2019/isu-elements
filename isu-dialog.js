@@ -128,7 +128,7 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
       opened="{{opened}}"
       no-cancel-on-outside-click="[[noCancelOnOutsideClick]]">
       
-      <div class="close-dialog" part="close-dialog" on-tap="close">
+      <div class="close-dialog" part="close-dialog" on-tap="closeDialog">
         <iron-icon icon="icons:close" class="close-icon"></iron-icon>
       </div>
       
@@ -286,7 +286,12 @@ class IsuDialog extends mixinBehaviors([BaseBehavior], PolymerElement) {
     /**
      * @listens isu-dialog-dismiss
      */
-    this.addEventListener('isu-dialog-dismiss', this.close)
+    this.addEventListener('isu-dialog-dismiss', this.closeDialog)
+  }
+
+  closeDialog () {
+    this.dispatchEvent(new CustomEvent('isu-dialog-closed', { bubbles: true, composed: true }))
+    this.close()
   }
 
   /**
