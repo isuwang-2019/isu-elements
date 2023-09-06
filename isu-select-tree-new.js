@@ -147,13 +147,16 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
           .view-text {
              @apply --isu-view-text
           }
+          .input-div.true {
+            border: 1px solid #D9001B;
+          }
       </style>
       <template is="dom-if" if="[[ toBoolean(label) ]]">
          <div class="isu-label-div"><span class$="isu-label [[fontSize]]">[[label]]</span><span class="isu-label-after-extension"></span></div>
       </template>
       
       <div id="select__container" hidden="[[isAllTrue(isView, readonly)]]" class$="[[fontSize]]">
-        <div id="tag-content" tabindex="0" on-click="_inputFocus" class="input-div">
+        <div id="tag-content" tabindex="0" on-click="_inputFocus" class$="input-div [[_isRequired(required, value)]]">
             <template is="dom-if" if="[[isArrayEmpty(filterSelectedItems)]]">
                 <span class="placeholder">[[placeholder]]</span>
             </template>
@@ -454,6 +457,10 @@ class IsuSelectTreeNew extends mixinBehaviors([BaseBehavior, AjaxBehavior], Poly
     const curItem = e.model.item
     const newSelectedItems = this.selectedItems.filter(item => item !== curItem)
     this.set('selectedItems', newSelectedItems)
+  }
+
+  _isRequired (required, value) {
+    return required ? (!value) : false
   }
 }
 
