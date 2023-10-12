@@ -265,8 +265,9 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
   }
 
   __computedInnerItems (items = [], value = '') {
-    const values = this.__parseValues(value)
-    const selectValues = value.split(',')
+    const _value = value || ''
+    const values = this.__parseValues(_value)
+    const selectValues = _value.split(',')
     const _items = items.map(item =>
       Object.assign({}, item, { checked: values.some(val => val === item[this.attrForValue] + '') }))
     if (this.min) {
