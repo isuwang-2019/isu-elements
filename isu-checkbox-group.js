@@ -305,7 +305,8 @@ class IsuCheckboxGroup extends mixinBehaviors(BaseBehavior, PolymerElement) {
    * @private
    */
   __parseValues (value = '') {
-    return value.split(',').map(val => val.trim())
+    const _value = value || ''
+    return _value.split(',').map(val => val.trim())
   }
 
   /**
