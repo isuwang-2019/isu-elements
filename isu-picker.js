@@ -675,6 +675,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
       displayItemsLength: {
         type: Number,
         value: 10
+      },
+      highlightKeyword: {
+        type: Boolean,
+        value: false
       }
     }
   }
