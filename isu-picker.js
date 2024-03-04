@@ -241,6 +241,10 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
           white-space: nowrap;
           text-align: left;
         }
+
+        .red-text {
+          color: red !important;
+        }
   
         :host([required]) .input-wrap::before {
           content: "*";
@@ -287,7 +291,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
       <div class$="input-wrap [[fontSize]]" id="select__container">
         <div class="input-container">
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
-            <div id="placeholder" hidden="[[isExistTruthy(value, _userInputKeyword)]]">[[placeholder]]</div>
+            <div id="placeholder" class$="[[isHighlightKeyword(highlightKeyword, placeholder)]]"  hidden="[[isExistTruthy(value, _userInputKeyword)]]">[[placeholder]]</div>
             <template is="dom-repeat" items="[[ selectedValues ]]" index-as="index">
               <span class="tag" data-args="[[ __calcTagName(item) ]]" on-contextmenu="_contextMenuHandler">
                   <span class="tag-name" title="[[ getValueByKey(item, attrForLabel) ]]">
@@ -680,6 +684,12 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
         type: Number,
         value: 10
       },
+      highlightKeyword: {
+        type: Boolean,
+        value () {
+          return false
+        }
+      }
     }
   }
 
@@ -959,8 +969,18 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
   async __inputFocus () {
     if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
     // await this.fetchByKeyword()
+    if (this.highlightKeyword) {
+      this.set('_userInputKeyword', this.placeholder)
+      this.set('placeholder', '')
+    }
     this.displayCollapse(true)
     // this._switchFocusItemAt(0);
+  }
+
+  isHighlightKeyword(highlightKeyword, placeholder) {
+    if (highlightKeyword && !!placeholder) {
+      return 'red-text'
+    }
   }
 
   __getElemPos (obj) {
