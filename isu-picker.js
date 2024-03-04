@@ -352,10 +352,6 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
   }
 
   static get properties () {
-    let highlightKeyword = {
-      type: Boolean,
-      value: false
-    };
     return {
       /**
        * Chinese pinyin plugin
