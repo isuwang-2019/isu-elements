@@ -291,7 +291,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
       <div class$="input-wrap [[fontSize]]" id="select__container">
         <div class="input-container">
           <div class="tags-input" on-click="__openCollapse" id="tags-input">
-            <div id="placeholder" class$="[[isHighlightKeyword(highlightKeyword, placeholder)]]"  hidden="[[isExistTruthy(value, _userInputKeyword)]]">[[placeholder]]</div>
+            <div id="placeholder" class$="[[_isHighlightKeyword(isHighlightKeyword, placeholder)]]"  hidden="[[isExistTruthy(value, _userInputKeyword)]]">[[placeholder]]</div>
             <template is="dom-repeat" items="[[ selectedValues ]]" index-as="index">
               <span class="tag" data-args="[[ __calcTagName(item) ]]" on-contextmenu="_contextMenuHandler">
                   <span class="tag-name" title="[[ getValueByKey(item, attrForLabel) ]]">
@@ -680,7 +680,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
         type: Number,
         value: 10
       },
-      highlightKeyword: {
+      isHighlightKeyword: {
         type: Boolean,
         value () {
           return false
@@ -965,7 +965,7 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
   async __inputFocus () {
     if (this.multiLimit && this.selectedValues && this.multiLimit <= this.selectedValues.length) return
     // await this.fetchByKeyword()
-    if (this.highlightKeyword) {
+    if (this.isHighlightKeyword) {
       this.set('_userInputKeyword', this.placeholder)
       this.set('placeholder', '')
     }
@@ -973,8 +973,8 @@ class IsuPicker extends mixinBehaviors([BaseBehavior, TipBehavior], PolymerEleme
     // this._switchFocusItemAt(0);
   }
 
-  isHighlightKeyword(highlightKeyword, placeholder) {
-    if (highlightKeyword && !!placeholder) {
+  _isHighlightKeyword(isHighlightKeyword, placeholder) {
+    if (isHighlightKeyword && !!placeholder) {
       return 'red-text'
     }
   }
